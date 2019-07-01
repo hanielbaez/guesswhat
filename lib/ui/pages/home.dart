@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_what/ui/widgets/charada.dart';
+import 'package:guess_what/ui/widgets/letter.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -27,7 +28,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         onPressed: () {},
       ),
-      body: Charada(),
+      body: Center(child: CustomLetter('H')),
     );
   }
 }
