@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_what/ui/widgets/charada.dart';
-import 'package:guess_what/ui/widgets/letter.dart';
+import 'package:guess_what/ui/widgets/post.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -9,7 +8,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.menu),
-          color: Colors.black,
+          color: Colors.black45,
           onPressed: () {},
         ),
         title: Text(
@@ -20,15 +19,7 @@ class HomePage extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: Colors.white,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.black,
-        ),
-        backgroundColor: Colors.white,
-        onPressed: () {},
-      ),
-      body: Center(child: CustomLetter('H')),
+      body: Center(child: Post()),
     );
   }
 }

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:video_player/video_player.dart';
 
-
-class Charada extends StatefulWidget {
+class CharadaLayaout extends StatefulWidget {
   @override
-  _CharadaState createState() => _CharadaState();
+  _CharadaLayaoutState createState() => _CharadaLayaoutState();
 }
 
-class _CharadaState extends State<Charada> {
+class _CharadaLayaoutState extends State<CharadaLayaout> {
   VideoPlayerController _videoController;
 
   @override
@@ -19,83 +18,51 @@ class _CharadaState extends State<Charada> {
       ..initialize().then((_) {
         _videoController.setLooping(true);
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
+        setState(() {
+          _videoController.play();
+        });
       });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: AlignmentDirectional.topCenter,
-      child: AspectRatio(
-        aspectRatio: 4 / 5,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                _videoController.value.isPlaying
-                    ? _videoController.pause()
-                    : _videoController.play();
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.green,
+    return Stack(
+      children: <Widget>[
+        VideoPlayer(_videoController),
+        BuildAvatarIcon(),
+      ],
+    );
+  }
+}
+
+class BuildAvatarIcon extends StatelessWidget {
+  const BuildAvatarIcon({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Colors.yellow,
               ),
-              child: Stack(
-                children: <Widget>[
-                  VideoPlayer(_videoController),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            CircleAvatar(
-                              backgroundColor: Colors.yellow,
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text(
-                              'User Name',
-                              style: TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  _videoController.value.isPlaying
-                      ? Container()
-                      : Center(
-                          child: Opacity(
-                            opacity: 0.3,
-                            child: Icon(
-                              Icons.play_arrow,
-                              color: Colors.white,
-                              size: 250.0,
-                            ),
-                          ),
-                        ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      '????????',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 50.0),
-                    ),
-                  ),
-                  
-     
-                ],
+              SizedBox(
+                width: 10.0,
               ),
-            ),
-          ),
-        ),
+              Text(
+                'User Name',
+                style: TextStyle(
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
