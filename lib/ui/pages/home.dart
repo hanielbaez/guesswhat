@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_what/ui/widgets/post.dart';
+import 'package:guess_what/ui/widgets/guess.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: Colors.white,
       ),
-      body: Center(child: Post()),
+      body: Center(child: Guess()),
     );
   }
 }
