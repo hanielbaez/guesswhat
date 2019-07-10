@@ -7,20 +7,27 @@ import 'package:video_player/video_player.dart';
 class VideoLayaout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('BUILD');
     return ChangeNotifierProvider<VideoViewModel>.value(
-      value: VideoViewModel(dbServices: Provider.of(context)),
-      child: Consumer<VideoViewModel>(builder: (context, model, child) {
-        //Init the videoController if it is NULL
-        model.videoController?.value ?? model.getVideoController();
-        return Stack(
-          children: <Widget>[
-            model.videoController != null
-                ? VideoPlayer(model.videoController)
-                : Center(child: CircularProgressIndicator()),
-            BuildAvatarIcon(),
-          ],
-        );
-      }),
+      value: VideoViewModel(
+        dbServices: Provider.of(context),
+      ),
+      child: Consumer<VideoViewModel>(
+        builder: (context, model, child) {
+          print('CONSUMER');
+          model.getVideoController();
+          return Stack(
+            children: <Widget>[
+              model.videoController != null
+                  ? VideoPlayer(model.videoController)
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    ),
+              BuildAvatarIcon(),
+            ],
+          );
+        },
+      ),
     );
   }
 }

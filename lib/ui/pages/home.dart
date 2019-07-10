@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: Colors.white,
       ),
-      body: Center(child: Guess()),
+      body: Center(child: GuessLayaout()),
     );
   }
 }

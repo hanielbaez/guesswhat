@@ -8,4 +8,6 @@ List<SingleChildCloneableWidget> providers = [
 List<SingleChildCloneableWidget> independentServices = [
   Provider.value(value: DatabaseServices())
 ];
-List<SingleChildCloneableWidget> dependentServices = [];
+List<SingleChildCloneableWidget> dependentServices = [
+  
+];
