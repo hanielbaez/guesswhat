@@ -4,30 +4,38 @@ import 'package:provider/provider.dart';
 
 import 'package:video_player/video_player.dart';
 
-class VideoLayaout extends StatelessWidget {
+class VideoLayaout extends StatefulWidget {
+  @override
+  _VideoLayaoutState createState() => _VideoLayaoutState();
+}
+
+class _VideoLayaoutState extends State<VideoLayaout> {
+  /*  @override
+  void dispose() {
+    super.dispose();
+    Consumer<VideoViewModel>(
+      builder: (context, model, child) {
+        model.dispose();
+      },
+    );
+  } */
+
   @override
   Widget build(BuildContext context) {
-    print('BUILD');
-    return ChangeNotifierProvider<VideoViewModel>.value(
-      value: VideoViewModel(
-        dbServices: Provider.of(context),
-      ),
-      child: Consumer<VideoViewModel>(
-        builder: (context, model, child) {
-          print('CONSUMER');
-          model.getVideoController();
-          return Stack(
-            children: <Widget>[
-              model.videoController != null
-                  ? VideoPlayer(model.videoController)
-                  : Center(
-                      child: CircularProgressIndicator(),
-                    ),
-              BuildAvatarIcon(),
-            ],
-          );
-        },
-      ),
+    return Consumer<VideoViewModel>(
+      builder: (context, model, child) {
+        model.getVideoController();
+        return Stack(
+          children: <Widget>[
+            model.videoController != null
+                ? VideoPlayer(model.videoController)
+                : Center(
+                    child: CircularProgressIndicator(),
+                  ),
+            BuildAvatarIcon(),
+          ],
+        );
+      },
     );
   }
 }

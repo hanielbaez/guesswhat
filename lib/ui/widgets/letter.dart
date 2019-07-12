@@ -30,12 +30,6 @@ class CustomLetter extends StatelessWidget {
             borderRadius: BorderRadius.all(
               Radius.circular(5),
             ),
-            /* boxShadow: [
-              BoxShadow(
-                color: Colors.black38,
-                offset: Offset(3, 3),
-              ),
-            ], */
           ),
           child: Text(
             item.letter,
