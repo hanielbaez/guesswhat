@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
+import 'package:guess_what/core/viewModel/letterViewModel.dart';
 
 class Item {
   Item({
@@ -13,14 +14,20 @@ class Item {
 class CustomLetter extends StatelessWidget {
   final Item item;
   final bool isSource;
-  CustomLetter(this.item, this.isSource);
+  final LettersViewModel model;
+
+  CustomLetter({this.item, this.isSource, this.model});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => SidekickTeamBuilder.of<Item>(context).move(item),
+      onTap: () {
+        // ? Aun farta poner aprueba si se seleciona la letra correcta
+        model.setItem(selectedItem: item);
+        SidekickTeamBuilder.of<Item>(context).move(item);
+      },
       child: Opacity(
         opacity: isSource ? 0.5 : 1,
-              child: Container(
+        child: Container(
           padding: EdgeInsets.all(10),
           margin: EdgeInsets.all(7),
           decoration: BoxDecoration(

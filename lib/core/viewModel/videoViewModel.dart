@@ -13,17 +13,13 @@ class VideoViewModel extends ChangeNotifier {
   Future getVideoController() async {
     if (_isNotDone) {
       videoController = VideoPlayerController.network(
-          'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
-        ..initialize().then(
-          (_) {
-            // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-            videoController.setLooping(true);
-            videoController.play();
+          'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
+      await videoController.initialize();
+      await videoController.setLooping(true);
+      await videoController.play();
 
-            _isNotDone = false;
-            notifyListeners();
-          },
-        );
+      _isNotDone = false;
+      notifyListeners();
     }
   }
 }

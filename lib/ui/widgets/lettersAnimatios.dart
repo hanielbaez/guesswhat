@@ -14,11 +14,7 @@ class LettersAnimations extends StatelessWidget {
           model.generateList(context);
           return SidekickTeamBuilder<Item>(
             animationDuration: Duration(milliseconds: 500),
-            initialSourceList: model.sourceList
-            
-            
-            
-            ,
+            initialSourceList: model.sourceList,
 
             /* <Item>[
               Item(id: 1, letter: "H"),
@@ -38,26 +34,25 @@ class LettersAnimations extends StatelessWidget {
             ], */
             builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
               return Container(
-                //color: Colors.green,
                 height: MediaQuery.of(context).size.height / 2.65,
                 child: Column(
                   children: <Widget>[
                     SizedBox(
                       height: 50.0,
                       child: Wrap(
-                        
                         children: targetBuilderDelegates
                             .map(
                               (builderDelegate) => builderDelegate.build(
-                                    context,
-                                    CustomLetter(
-                                        builderDelegate.message, false),
-                                    animationBuilder: (animation) =>
-                                        CurvedAnimation(
-                                          parent: animation,
-                                          curve: FlippedCurve(Curves.ease),
-                                        ),
-                                  ),
+                                  context,
+                                  CustomLetter(
+                                      item: builderDelegate.message,
+                                      isSource: false,
+                                      model: model),
+                                  animationBuilder: (animation) =>
+                                      CurvedAnimation(
+                                        parent: animation,
+                                        curve: FlippedCurve(Curves.ease),
+                                      )),
                             )
                             .toList(),
                       ),
@@ -72,12 +67,16 @@ class LettersAnimations extends StatelessWidget {
                             .map(
                               (builderDelegate) => builderDelegate.build(
                                     context,
-                                    CustomLetter(builderDelegate.message, true),
-                                    animationBuilder: (animation) =>
-                                        CurvedAnimation(
-                                          parent: animation,
-                                          curve: Curves.ease,
-                                        ),
+                                    CustomLetter(
+                                        item: builderDelegate.message,
+                                        isSource: true,
+                                        model: model),
+                                    animationBuilder: (animation) {
+                                      return CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.ease,
+                                      );
+                                    },
                                   ),
                             )
                             .toList(),

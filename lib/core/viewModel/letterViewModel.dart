@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:guess_what/core/services/db.dart';
 
 class LettersViewModel extends ChangeNotifier {
+  String selectedLetters = '';
   List<Item> sourceList;
   bool _done = false;
 
@@ -29,5 +30,11 @@ class LettersViewModel extends ChangeNotifier {
     sourceList = _list;
     !_done ? notifyListeners() : null;
     _done = true;
+  }
+
+  void setItem({Item selectedItem}) {
+    String _letter = selectedItem.letter;
+    selectedLetters = selectedLetters + _letter;
+    print('DEBBUG THE LETTERS ARE $selectedLetters');
   }
 }
