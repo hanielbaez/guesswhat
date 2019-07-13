@@ -1,13 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/ui/widgets/letter.dart';
 import 'package:provider/provider.dart';
 import 'package:guess_what/core/services/db.dart';
 
+//TODO: Generate random letters and fix the letter size.
+
 class LettersViewModel extends ChangeNotifier {
   List<Item> selectedItems = [];
-  List<Item> sourceList;
-  bool _done = false;
+  List<Item> sourceList = [];
 
   Future<String> fetchWord(BuildContext context) async {
     Guess _guess;
@@ -16,24 +19,42 @@ class LettersViewModel extends ChangeNotifier {
     return _guess.word;
   }
 
-  // ? This function run two time, do not know way.
-  Future<void> generateItemList(context) async {
+  Future<String> randomLetters(context) async {
+    final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    final _random = Random();
     String _word = await fetchWord(context);
 
-    List<Item> _list;
-    _list = List.generate(
-      _word.length,
-      (i) {
-        print(i);
-        return Item(
-          id: i,
-          letter: _word[i],
-        );
-      },
-    );
-    sourceList = _list;
-    !_done ? notifyListeners() : null;
-    _done = true;
+    while (_word.length < 14) {
+      _word += _abc[_random.nextInt(_abc.length)];
+    }
+
+    //Sort the string
+    List<String> _list = _word.split('');
+    _list.sort();
+    _word = _list.join();
+    print(_word);
+    return _word;
+  }
+
+  // ? This function run two time, do not know way.
+  Future<void> generateItemList(context) async {
+    if (sourceList.isEmpty) {
+      String _word = await randomLetters(context);
+
+      List<Item> _list;
+      _list = List.generate(
+        _word.length,
+        (i) {
+          print(i);
+          return Item(
+            id: i,
+            letter: _word[i],
+          );
+        },
+      );
+      sourceList = _list;
+      notifyListeners();
+    }
   }
 
   String getWord(List<Item> items) {
@@ -56,5 +77,4 @@ class LettersViewModel extends ChangeNotifier {
     int _letterID = selectedItem.id;
     selectedItems.removeWhere((item) => item.id == _letterID);
   }
-  
 }
