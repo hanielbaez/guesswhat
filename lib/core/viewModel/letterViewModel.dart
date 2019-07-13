@@ -5,36 +5,56 @@ import 'package:provider/provider.dart';
 import 'package:guess_what/core/services/db.dart';
 
 class LettersViewModel extends ChangeNotifier {
-  String selectedLetters = '';
+  List<Item> selectedItems = [];
   List<Item> sourceList;
   bool _done = false;
 
-  Future<String> getWord(BuildContext context) async {
+  Future<String> fetchWord(BuildContext context) async {
     Guess _guess;
     _guess =
         await Provider.of<DatabaseServices>(context, listen: false).getGuess();
     return _guess.word;
   }
 
-  Future<void> generateList(context) async {
-    String _word = await getWord(context);
+  // ? This function run two time, do not know way.
+  Future<void> generateItemList(context) async {
+    String _word = await fetchWord(context);
 
     List<Item> _list;
     _list = List.generate(
       _word.length,
-      (i) => Item(
-            id: i,
-            letter: _word[i],
-          ),
+      (i) {
+        print(i);
+        return Item(
+          id: i,
+          letter: _word[i],
+        );
+      },
     );
     sourceList = _list;
     !_done ? notifyListeners() : null;
     _done = true;
   }
 
-  void setItem({Item selectedItem}) {
-    String _letter = selectedItem.letter;
-    selectedLetters = selectedLetters + _letter;
-    print('DEBBUG THE LETTERS ARE $selectedLetters');
+  String getWord(List<Item> items) {
+    String _word = '';
+    items.forEach(
+      (item) {
+        _word += item.letter;
+      },
+    );
+    return _word;
   }
+
+  void setLetter({Item selectedItem}) {
+    selectedItems.add(selectedItem);
+    var _word = getWord(selectedItems);
+    print('DEBBUG THE LETTERS ARE $_word');
+  }
+
+  void deleteLetter({Item selectedItem}) {
+    int _letterID = selectedItem.id;
+    selectedItems.removeWhere((item) => item.id == _letterID);
+  }
+  
 }

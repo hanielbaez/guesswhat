@@ -21,8 +21,10 @@ class CustomLetter extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // ? Aun farta poner aprueba si se seleciona la letra correcta
-        model.setItem(selectedItem: item);
+        //Delete or add letter base on isSource
+        isSource
+            ? model.setLetter(selectedItem: item)
+            : model.deleteLetter(selectedItem: item);
         SidekickTeamBuilder.of<Item>(context).move(item);
       },
       child: Opacity(

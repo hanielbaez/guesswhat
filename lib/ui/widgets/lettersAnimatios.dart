@@ -11,7 +11,7 @@ class LettersAnimations extends StatelessWidget {
       value: LettersViewModel(),
       child: Consumer<LettersViewModel>(
         builder: (context, model, child) {
-          model.generateList(context);
+          model.generateItemList(context);
           return SidekickTeamBuilder<Item>(
             animationDuration: Duration(milliseconds: 500),
             initialSourceList: model.sourceList,
