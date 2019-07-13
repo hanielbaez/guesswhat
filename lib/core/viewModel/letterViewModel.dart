@@ -6,7 +6,6 @@ import 'package:guess_what/ui/widgets/letter.dart';
 import 'package:provider/provider.dart';
 import 'package:guess_what/core/services/db.dart';
 
-//TODO: Generate random letters and fix the letter size.
 
 class LettersViewModel extends ChangeNotifier {
   List<Item> selectedItems = [];
@@ -24,7 +23,7 @@ class LettersViewModel extends ChangeNotifier {
     final _random = Random();
     String _word = await fetchWord(context);
 
-    while (_word.length < 14) {
+    while (_word.length < 12) {
       _word += _abc[_random.nextInt(_abc.length)];
     }
 
@@ -36,7 +35,6 @@ class LettersViewModel extends ChangeNotifier {
     return _word;
   }
 
-  // ? This function run two time, do not know way.
   Future<void> generateItemList(context) async {
     if (sourceList.isEmpty) {
       String _word = await randomLetters(context);

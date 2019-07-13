@@ -30,7 +30,8 @@ class CustomLetter extends StatelessWidget {
       child: Opacity(
         opacity: isSource ? 0.5 : 1,
         child: Container(
-          padding: EdgeInsets.all(10),
+          width: 35,
+          height: 40,
           margin: EdgeInsets.all(7),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
@@ -40,9 +41,11 @@ class CustomLetter extends StatelessWidget {
               Radius.circular(5),
             ),
           ),
-          child: Text(
-            item.letter,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          child: Center(
+            child: Text(
+              item.letter,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            ),
           ),
         ),
       ),

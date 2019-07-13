@@ -27,7 +27,7 @@ class _VideoLayaoutState extends State<VideoLayaout> {
         model.getVideoController();
         return Stack(
           children: <Widget>[
-            model.videoController != null
+            !model.isNotDone
                 ? VideoPlayer(model.videoController)
                 : Center(
                     child: CircularProgressIndicator(),
