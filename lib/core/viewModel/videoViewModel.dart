@@ -10,7 +10,7 @@ class VideoViewModel extends ChangeNotifier {
   VideoViewModel({this.guess});
 
   Future<void> getVideoController() async {
-    if (isNotDone) {
+/*     if (isNotDone) {
       videoController = VideoPlayerController.network('${guess.videoURL}');
       await videoController.initialize();
       await videoController.setLooping(true);
@@ -18,6 +18,6 @@ class VideoViewModel extends ChangeNotifier {
 
       isNotDone = false;
       notifyListeners();
-    }
+    } */
   }
 }

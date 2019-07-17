@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/viewModel/videoViewModel.dart';
+import 'package:guess_what/ui/widgets/avatarIcon.dart';
 
 import 'package:video_player/video_player.dart';
 
@@ -26,7 +27,7 @@ class _VideoLayaoutState extends State<VideoLayaout> {
 
   @override
   void dispose() {
-    model.videoController.dispose();
+    if (model.videoController != null) model.videoController.dispose();
     super.dispose();
   }
 
@@ -38,9 +39,7 @@ class _VideoLayaoutState extends State<VideoLayaout> {
             ? VideoPlayer(model.videoController)
             : Stack(
                 children: <Widget>[
-                  Image.asset('assets/images/noiseTv.gif',
-                      fit: BoxFit.cover),
-                
+                  Image.asset('assets/images/noiseTv.gif', fit: BoxFit.cover),
                 ],
               ),
         BuildAvatarIcon(),
@@ -49,34 +48,3 @@ class _VideoLayaoutState extends State<VideoLayaout> {
   }
 }
 
-class BuildAvatarIcon extends StatelessWidget {
-  const BuildAvatarIcon({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Colors.yellow,
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                'User Name',
-                style: TextStyle(
-                    color: Colors.white70, fontWeight: FontWeight.bold),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}

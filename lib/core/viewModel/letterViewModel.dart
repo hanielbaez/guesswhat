@@ -9,6 +9,8 @@ class LettersViewModel extends ChangeNotifier {
 
   LettersViewModel({this.word});
 
+  //TODO: Revisar cuando la respuesta es correcta.
+
   /*  Future<String> fetchWord(BuildContext context) async {
     Guess _guess;
     _guess =
@@ -29,11 +31,10 @@ class LettersViewModel extends ChangeNotifier {
     List<String> _list = _word.split('');
     _list.sort();
     _word = _list.join();
-    print(_word);
     return _word;
   }
 
-  Future<void> generateItemList(context) async {
+  generateItemList(context) {
     if (sourceList.isEmpty) {
       String _word = randomLetters(context);
 
@@ -41,7 +42,6 @@ class LettersViewModel extends ChangeNotifier {
       _list = List.generate(
         _word.length,
         (i) {
-          print(i);
           return Item(
             id: i,
             letter: _word[i],
@@ -49,7 +49,7 @@ class LettersViewModel extends ChangeNotifier {
         },
       );
       sourceList = _list;
-      notifyListeners();
+      Future.delayed(Duration.zero, () => notifyListeners());
     }
   }
 
@@ -65,7 +65,10 @@ class LettersViewModel extends ChangeNotifier {
 
   void setLetter({Item selectedItem}) {
     selectedItems.add(selectedItem);
-    var _word = getWord(selectedItems);
+    var _selectedWord = getWord(selectedItems);
+    if (_selectedWord == word) {
+      print('Correct Answear!');
+    }
   }
 
   void deleteLetter({Item selectedItem}) {

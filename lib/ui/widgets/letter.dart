@@ -37,9 +37,6 @@ class CustomLetter extends StatelessWidget {
             shape: BoxShape.rectangle,
             color: Colors.white,
             border: Border.all(color: Colors.black),
-            borderRadius: BorderRadius.all(
-              Radius.circular(5),
-            ),
           ),
           child: Center(
             child: Text(

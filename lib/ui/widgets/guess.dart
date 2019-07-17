@@ -26,14 +26,11 @@ class GuessLayaout extends StatelessWidget {
                 FractionallySizedBox(
                   //alignment: Alignment.topCenter,
                   heightFactor: 0.7,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: ChangeNotifierProvider<VideoViewModel>.value(
-                      value: VideoViewModel(guess: guess),
-                      child: Consumer<VideoViewModel>(
-                        builder: (context, model, child) =>
-                            VideoLayaout(model: model),
-                      ),
+                  child: ChangeNotifierProvider<VideoViewModel>.value(
+                    value: VideoViewModel(guess: guess),
+                    child: Consumer<VideoViewModel>(
+                      builder: (context, model, child) =>
+                          VideoLayaout(model: model),
                     ),
                   ),
                 ),
@@ -54,9 +51,7 @@ class GuessLayaout extends StatelessWidget {
               ],
             ),
           ),
-          CostumDescription(
-              text:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+          CostumDescription(text: '${guess.description}'),
           Divider(
             color: Colors.black26,
           ),

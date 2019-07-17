@@ -3,6 +3,7 @@ import 'package:flutter_sidekick/flutter_sidekick.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:guess_what/ui/widgets/letter.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LettersAnimations extends StatefulWidget {
   final Guess guess;
@@ -63,7 +64,10 @@ class _LettersAnimationsState extends State<LettersAnimations> {
                   children: sourceBuilderDelegates.isEmpty
                       ? [
                           Center(
-                            child: CircularProgressIndicator(),
+                            child: SpinKitFadingCube(
+                              color: Colors.black12,
+                              size: 50.0,
+                            ),
                           )
                         ]
                       : sourceBuilderDelegates
