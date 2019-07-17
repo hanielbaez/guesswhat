@@ -10,7 +10,6 @@ class CostumDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpandablePanel(
-      header: Text('1000 Likes'),
       collapsed: Text(
         text,
         softWrap: true,
@@ -22,7 +21,8 @@ class CostumDescription extends StatelessWidget {
         softWrap: true,
       ),
       tapHeaderToExpand: true,
-      hasIcon: false,
+      tapBodyToCollapse: true,
+      hasIcon: true,
     );
   }
 }

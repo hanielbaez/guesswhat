@@ -1,27 +1,25 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/ui/widgets/letter.dart';
-import 'package:provider/provider.dart';
-import 'package:guess_what/core/services/db.dart';
-
 
 class LettersViewModel extends ChangeNotifier {
+  String word;
   List<Item> selectedItems = [];
   List<Item> sourceList = [];
 
-  Future<String> fetchWord(BuildContext context) async {
+  LettersViewModel({this.word});
+
+  /*  Future<String> fetchWord(BuildContext context) async {
     Guess _guess;
     _guess =
         await Provider.of<DatabaseServices>(context, listen: false).getGuess();
     return _guess.word;
-  }
+  } */
 
-  Future<String> randomLetters(context) async {
+  String randomLetters(context) {
     final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     final _random = Random();
-    String _word = await fetchWord(context);
+    String _word = word.toUpperCase();
 
     while (_word.length < 12) {
       _word += _abc[_random.nextInt(_abc.length)];
@@ -37,7 +35,7 @@ class LettersViewModel extends ChangeNotifier {
 
   Future<void> generateItemList(context) async {
     if (sourceList.isEmpty) {
-      String _word = await randomLetters(context);
+      String _word = randomLetters(context);
 
       List<Item> _list;
       _list = List.generate(
@@ -68,7 +66,6 @@ class LettersViewModel extends ChangeNotifier {
   void setLetter({Item selectedItem}) {
     selectedItems.add(selectedItem);
     var _word = getWord(selectedItems);
-    print('DEBBUG THE LETTERS ARE $_word');
   }
 
   void deleteLetter({Item selectedItem}) {

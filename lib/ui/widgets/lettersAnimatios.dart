@@ -1,94 +1,94 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
+import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:guess_what/ui/widgets/letter.dart';
-import 'package:provider/provider.dart';
 
-class LettersAnimations extends StatelessWidget {
+class LettersAnimations extends StatefulWidget {
+  final Guess guess;
+  final LettersViewModel model;
+  LettersAnimations({this.guess, this.model});
+
+  @override
+  _LettersAnimationsState createState() => _LettersAnimationsState();
+}
+
+class _LettersAnimationsState extends State<LettersAnimations> {
+  LettersViewModel _model;
+
+  @override
+  void initState() {
+    _model = widget.model;
+    _model.generateItemList(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LettersViewModel>.value(
-      value: LettersViewModel(),
-      child: Consumer<LettersViewModel>(
-        builder: (context, model, child) {
-          model.generateItemList(context);
-          return SidekickTeamBuilder<Item>(
-            animationDuration: Duration(milliseconds: 500),
-            initialSourceList: model.sourceList,
-
-            /* <Item>[
-              Item(id: 1, letter: "H"),
-              Item(id: 2, letter: "A"),
-              Item(id: 3, letter: "N"),
-              Item(id: 4, letter: "I"),
-              Item(id: 5, letter: "E"),
-              Item(id: 6, letter: "L"),
-              Item(id: 1, letter: "H"),
-              Item(id: 2, letter: "A"),
-              Item(id: 3, letter: "N"),
-              Item(id: 4, letter: "I"),
-              Item(id: 5, letter: "E"),
-              Item(id: 6, letter: "L"),
-              Item(id: 5, letter: "E"),
-              Item(id: 6, letter: "L"),
-            ], */
-            builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
-              return Container(
-                height: MediaQuery.of(context).size.height / 2.65,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 50.0,
-                      child: Wrap(
-                        children: targetBuilderDelegates
-                            .map(
-                              (builderDelegate) => builderDelegate.build(
-                                  context,
-                                  CustomLetter(
-                                      item: builderDelegate.message,
-                                      isSource: false,
-                                      model: model),
-                                  animationBuilder: (animation) =>
-                                      CurvedAnimation(
-                                        parent: animation,
-                                        curve: FlippedCurve(Curves.ease),
-                                      )),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 60.0,
-                    ),
-                    SizedBox(
-                      height: 125.0,
-                      child: Wrap(
-                        children: sourceBuilderDelegates
-                            .map(
-                              (builderDelegate) => builderDelegate.build(
-                                    context,
-                                    CustomLetter(
-                                        item: builderDelegate.message,
-                                        isSource: true,
-                                        model: model),
-                                    animationBuilder: (animation) {
-                                      return CurvedAnimation(
-                                        parent: animation,
-                                        curve: Curves.ease,
-                                      );
-                                    },
-                                  ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  ],
+    return SidekickTeamBuilder<Item>(
+      animationDuration: Duration(milliseconds: 600),
+      initialSourceList: widget.model.sourceList,
+      builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
+        return Container(
+          color: Colors.transparent,
+          alignment: Alignment.bottomCenter,
+          height: MediaQuery.of(context).size.height / 3,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 50.0,
+                child: Wrap(
+                  children: targetBuilderDelegates
+                      .map(
+                        (builderDelegate) => builderDelegate.build(
+                            context,
+                            CustomLetter(
+                                item: builderDelegate.message,
+                                isSource: false,
+                                model: widget.model),
+                            animationBuilder: (animation) => CurvedAnimation(
+                                  parent: animation,
+                                  curve: FlippedCurve(Curves.ease),
+                                )),
+                      )
+                      .toList(),
                 ),
-              );
-            },
-          );
-        },
-      ),
+              ),
+              SizedBox(
+                height: 35.0,
+              ),
+              SizedBox(
+                height: 110.0,
+                child: Wrap(
+                  children: sourceBuilderDelegates.isEmpty
+                      ? [
+                          Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        ]
+                      : sourceBuilderDelegates
+                          .map(
+                            (builderDelegate) => builderDelegate.build(
+                              context,
+                              CustomLetter(
+                                  item: builderDelegate.message,
+                                  isSource: true,
+                                  model: widget.model),
+                              animationBuilder: (animation) {
+                                return CurvedAnimation(
+                                  parent: animation,
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+                          )
+                          .toList(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

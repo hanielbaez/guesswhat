@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/services/db.dart';
+import 'package:guess_what/core/model/guess.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewModel extends ChangeNotifier {
-  DatabaseServices _dbServices;
+  Guess guess;
   VideoPlayerController videoController;
   bool isNotDone = true;
 
-  VideoViewModel({@required DatabaseServices dbServices})
-      : _dbServices = dbServices;
+  VideoViewModel({this.guess});
 
-  Future getVideoController() async {
+  Future<void> getVideoController() async {
     if (isNotDone) {
-      videoController = VideoPlayerController.network(
-          'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
+      videoController = VideoPlayerController.network('${guess.videoURL}');
       await videoController.initialize();
       await videoController.setLooping(true);
       await videoController.play();
