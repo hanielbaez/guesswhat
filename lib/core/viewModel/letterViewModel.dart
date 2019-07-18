@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:guess_what/ui/widgets/letter.dart';
+import 'package:guess_what/ui/widgets/guess/letter.dart';
 
 class LettersViewModel extends ChangeNotifier {
   String word;

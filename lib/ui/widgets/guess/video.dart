@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/viewModel/videoViewModel.dart';
-import 'package:guess_what/ui/widgets/avatarIcon.dart';
+import 'package:guess_what/ui/widgets/guess/avatarIcon.dart';
 
 import 'package:video_player/video_player.dart';
 

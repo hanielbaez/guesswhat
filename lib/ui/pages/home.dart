@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/viewModel/guessModel.dart';
-import 'package:guess_what/ui/widgets/guess.dart';
+import 'package:guess_what/ui/widgets/guess/guess.dart';
+
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {

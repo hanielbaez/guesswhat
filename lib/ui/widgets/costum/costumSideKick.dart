@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
-import 'package:guess_what/ui/widgets/letter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:guess_what/ui/widgets/guess/letter.dart';
 
-class LettersAnimations extends StatefulWidget {
+class CostumSidekick extends StatefulWidget {
   final Guess guess;
   final LettersViewModel model;
-  LettersAnimations({this.guess, this.model});
+  CostumSidekick({this.guess, this.model});
 
   @override
-  _LettersAnimationsState createState() => _LettersAnimationsState();
+  _CostumSidekickState createState() => _CostumSidekickState();
 }
 
-class _LettersAnimationsState extends State<LettersAnimations> {
+class _CostumSidekickState extends State<CostumSidekick> {
   LettersViewModel _model;
 
   @override
@@ -42,15 +42,16 @@ class _LettersAnimationsState extends State<LettersAnimations> {
                   children: targetBuilderDelegates
                       .map(
                         (builderDelegate) => builderDelegate.build(
-                            context,
-                            CustomLetter(
-                                item: builderDelegate.message,
-                                isSource: false,
-                                model: widget.model),
-                            animationBuilder: (animation) => CurvedAnimation(
-                                  parent: animation,
-                                  curve: FlippedCurve(Curves.ease),
-                                )),
+                          context,
+                          CustomLetter(
+                              item: builderDelegate.message,
+                              isSource: false,
+                              model: widget.model),
+                          animationBuilder: (animation) => CurvedAnimation(
+                            parent: animation,
+                            curve: FlippedCurve(Curves.ease),
+                          ),
+                        ),
                       )
                       .toList(),
                 ),
