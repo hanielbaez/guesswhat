@@ -19,7 +19,7 @@ class VideoViewModel extends ChangeNotifier {
       videoController = VideoPlayerController.file(fetchedFile);
       await videoController.initialize();
       await videoController.setLooping(true);
-      await videoController.play();
+      //await videoController.play();
 
       isNotDone = false;
       notifyListeners();

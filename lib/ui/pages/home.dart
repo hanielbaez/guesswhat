@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/viewModel/guessModel.dart';
+import 'package:guess_what/ui/widgets/costum/costumPopupMenu.dart';
 import 'package:guess_what/ui/widgets/guess/guess.dart';
 
 import 'package:provider/provider.dart';
@@ -14,6 +15,9 @@ class HomePage extends StatelessWidget {
           color: Colors.black45,
           onPressed: () {},
         ),
+        actions: <Widget>[
+          CostumPopupMenu(),
+        ],
         title: Text(
           'GuessWhat',
           style: TextStyle(color: Colors.black),
@@ -39,6 +43,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
+//TODO: I NEED TO RENAME THIS WIDGET AND RELOCATE IT
 class CostumSwiper extends StatefulWidget {
   final GuessModel model;
   final Function onModelReady;

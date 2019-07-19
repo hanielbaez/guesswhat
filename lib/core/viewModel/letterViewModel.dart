@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:guess_what/ui/widgets/guess/letter.dart';
 
 class LettersViewModel extends ChangeNotifier {
-  String word;
+  String _guessWord;
   List<Item> selectedItems = [];
   List<Item> sourceList = [];
 
-  LettersViewModel({this.word});
+  LettersViewModel({String guessWord}) : _guessWord = guessWord;
 
   //TODO: Revisar cuando la respuesta es correcta.
 
@@ -21,7 +21,7 @@ class LettersViewModel extends ChangeNotifier {
   String randomLetters(context) {
     final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     final _random = Random();
-    String _word = word.toUpperCase();
+    String _word = _guessWord.toUpperCase();
 
     while (_word.length < 12) {
       _word += _abc[_random.nextInt(_abc.length)];
@@ -66,7 +66,7 @@ class LettersViewModel extends ChangeNotifier {
   void setLetter({Item selectedItem}) {
     selectedItems.add(selectedItem);
     var _selectedWord = getWord(selectedItems);
-    if (_selectedWord == word) {
+    if (_selectedWord == _guessWord) {
       print('Correct Answear!');
     }
   }

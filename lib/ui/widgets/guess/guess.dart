@@ -19,8 +19,8 @@ class GuessLayaout extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
         children: <Widget>[
-          AspectRatio(
-            aspectRatio: 4 / 6.5,
+          SizedBox(
+            height: 500.0,
             child: Stack(
               children: <Widget>[
                 FractionallySizedBox(
@@ -37,7 +37,7 @@ class GuessLayaout extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: ChangeNotifierProvider<LettersViewModel>.value(
-                    value: LettersViewModel(word: guess.word),
+                    value: LettersViewModel(guessWord: guess.word),
                     child: Consumer<LettersViewModel>(
                       builder: (context, model, child) {
                         return CostumSidekick(

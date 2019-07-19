@@ -29,6 +29,8 @@ dependencies:
   expandable: ^3.0.0+1
   flutter_spinkit: "^3.1.0"
   flutter_cache_manager: ^1.1.0
+  image_picker: ^0.6.0+17
+  flutter_form_builder: ^3.2.8
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 
 class CustomCacheManager extends BaseCacheManager {
-  static const key = "customCache";
+  static const key = "customCacheGuess";
 
   static CustomCacheManager _instance;
 
