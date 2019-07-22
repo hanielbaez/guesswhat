@@ -13,7 +13,7 @@ class CostumDescription extends StatelessWidget {
       collapsed: Text(
         text,
         softWrap: true,
-        maxLines: 3,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
       expanded: Text(
@@ -22,7 +22,8 @@ class CostumDescription extends StatelessWidget {
       ),
       tapHeaderToExpand: true,
       tapBodyToCollapse: true,
-      hasIcon: true,
+      hasIcon: false,
+      
     );
   }
 }

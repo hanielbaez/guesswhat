@@ -1,19 +1,19 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class GuessCreate extends StatelessWidget {
-  final GlobalKey<FormBuilderState> _formCreateKey =
+  static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
-  final File _imageFile;
+  final File _multiMediaFile;
 
-  GuessCreate({imageFile}) : _imageFile = imageFile;
+  GuessCreate({multiMediaFile}) : _multiMediaFile = multiMediaFile;
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Crear el form necesario para capturar 1) Secret word 2) Description, both are optional.
+    //TODO: Create a thumbnail for the video
+    //TODO Validate the forms, and upload the data to FireStore.
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -33,9 +33,9 @@ class GuessCreate extends StatelessWidget {
               child: Container(
                 height: 200.0,
                 child: Image.file(
-                  _imageFile,
-                  fit: BoxFit.fitHeight,
-                ),
+                        _multiMediaFile,
+                        fit: BoxFit.fitHeight,
+                      ),
               ),
             ),
             FormBuilder(
@@ -93,7 +93,7 @@ class GuessCreate extends StatelessWidget {
                     maxLength: 350,
                     maxLengthEnforced: true,
                     validators: [
-                      FormBuilderValidators.max(7),
+                      FormBuilderValidators.max(350),
                     ],
                   ),
                   FlatButton(

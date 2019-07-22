@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:guess_what/core/viewModel/guessModel.dart';
-import 'package:guess_what/ui/widgets/costum/costumPopupMenu.dart';
-import 'package:guess_what/ui/widgets/guess/guess.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:guess_what/core/viewModel/SourceMediaViewModel.dart';
+import 'package:guess_what/core/viewModel/guessModel.dart';
+import 'package:guess_what/ui/pages/guessCreate.dart';
+import 'package:guess_what/ui/widgets/costum/costumListGuess.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,7 +19,13 @@ class HomePage extends StatelessWidget {
           onPressed: () {},
         ),
         actions: <Widget>[
-          CostumPopupMenu(),
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: Colors.black38,
+            ),
+            onPressed: () => _onButtonPressed(context), //Add multimedia
+          )
         ],
         title: Text(
           'GuessWhat',
@@ -32,7 +41,7 @@ class HomePage extends StatelessWidget {
         ),
         child: Consumer<GuessModel>(
           builder: (context, model, child) {
-            return CostumSwiper(
+            return CostumListGuess(
               model: model,
               onModelReady: () => model.getAllGuesses(),
             );
@@ -43,38 +52,60 @@ class HomePage extends StatelessWidget {
   }
 }
 
-//TODO: I NEED TO RENAME THIS WIDGET AND RELOCATE IT
-class CostumSwiper extends StatefulWidget {
-  final GuessModel model;
-  final Function onModelReady;
+void _onButtonPressed(context) {
+  SourceImageOption _sourceOption = SourceImageOption();
 
-  CostumSwiper({Key key, this.model, this.onModelReady}) : super(key: key);
+  //Todo: Add the thrumbal for the video
 
-  @override
-  _CostumSwiperState createState() => _CostumSwiperState();
-}
-
-class _CostumSwiperState extends State<CostumSwiper> {
-  GuessModel model;
-
-  @override
-  void initState() {
-    model = widget.model;
-    if (model.allGuesses.isEmpty) {
-      model.getAllGuesses();
-    }
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: model.allGuesses.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Center(
-          child: GuessLayaout(guess: model.allGuesses[index]),
-        );
-      },
-    );
-  }
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+            title: Text('Capture Image'),
+            leading: Icon(Icons.photo_camera),
+            onTap: () async {
+              var _mediaFile = await _sourceOption.getImage(ImageSource.camera);
+              _sourceOption.navigateToCreate(
+                  context: context, mediaFile: _mediaFile);
+            },
+          ),
+          ListTile(
+            title: Text('Capture Video'),
+            leading: Icon(Icons.videocam),
+            onTap: () async {
+              var _mediaFile = await _sourceOption.getVideo(ImageSource.camera);
+              _mediaFile = await _sourceOption.getThumbnailVideo(_mediaFile);
+              //? Remember I'm still need get the videoFile
+              _sourceOption.navigateToCreate(
+                  context: context, mediaFile: _mediaFile);
+            },
+          ),
+          ListTile(
+            title: Text('Image from Gallery'),
+            leading: Icon(Icons.photo_album),
+            onTap: () async {
+              var _mediaFile =
+                  await _sourceOption.getImage(ImageSource.gallery);
+              _sourceOption.navigateToCreate(
+                  context: context, mediaFile: _mediaFile);
+            },
+          ),
+          ListTile(
+            title: Text('Video from Gallery'),
+            leading: Icon(Icons.video_library),
+            onTap: () async {
+              var _mediaFile =
+                  await _sourceOption.getVideo(ImageSource.gallery);
+              _mediaFile = await _sourceOption.getThumbnailVideo(_mediaFile);
+              _sourceOption.navigateToCreate(
+                  context: context, mediaFile: _mediaFile);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
