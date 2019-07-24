@@ -1,11 +1,13 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_video_compress/flutter_video_compress.dart';
 import 'package:guess_what/ui/pages/guessCreate.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class SourceImageOption {
   final _flutterVideoCompress = FlutterVideoCompress();
+  Map multimediaFile = {};
 
   Future<File> getImage(source) async {
     return await ImagePicker.pickImage(
@@ -14,6 +16,18 @@ class SourceImageOption {
 
   Future<File> getVideo(source) async {
     return await ImagePicker.pickVideo(source: source);
+  }
+
+  Future<File> getthumbnailImage(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 50,
+      //keepExif: false,
+      autoCorrectionAngle: true
+
+    );
+    return result;
   }
 
   Future<File> getThumbnailVideo(File file) async {
@@ -25,11 +39,11 @@ class SourceImageOption {
     return thumbnailFile;
   }
 
-  void navigateToCreate({BuildContext context, File mediaFile}) {
+  void navigateToCreate({BuildContext context, Map multiMedia}) {
     Navigator.of(context).pop(); //Close the modal
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => GuessCreate(multiMediaFile: mediaFile),
+        builder: (context) => GuessCreate(multiMedia: multiMedia),
       ),
     );
   }

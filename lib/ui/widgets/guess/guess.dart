@@ -19,8 +19,8 @@ class GuessLayaout extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
         children: <Widget>[
-          SizedBox(
-            height: 500.0,
+          LimitedBox(
+            maxHeight: 550.0,
             child: Stack(
               children: <Widget>[
                 FractionallySizedBox(

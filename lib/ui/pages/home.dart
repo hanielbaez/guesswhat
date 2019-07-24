@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/viewModel/SourceMediaViewModel.dart';
 import 'package:guess_what/core/viewModel/guessModel.dart';
@@ -54,12 +52,11 @@ class HomePage extends StatelessWidget {
 
 void _onButtonPressed(context) {
   SourceImageOption _sourceOption = SourceImageOption();
-
-  //Todo: Add the thrumbal for the video
-
   showModalBottomSheet(
     context: context,
     builder: (context) {
+      Map _multiMedia = {};
+
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -67,41 +64,51 @@ void _onButtonPressed(context) {
             title: Text('Capture Image'),
             leading: Icon(Icons.photo_camera),
             onTap: () async {
-              var _mediaFile = await _sourceOption.getImage(ImageSource.camera);
+              _multiMedia['image'] =
+                  await _sourceOption.getImage(ImageSource.camera);
+                  print(' MultiMedia Image ${_multiMedia['image']}');
+              _multiMedia['imageThumbnail'] =
+                  await _sourceOption.getthumbnailImage(
+                      _multiMedia['image'], _multiMedia['image'].path);
               _sourceOption.navigateToCreate(
-                  context: context, mediaFile: _mediaFile);
+                  context: context, multiMedia: _multiMedia);
             },
           ),
           ListTile(
             title: Text('Capture Video'),
             leading: Icon(Icons.videocam),
             onTap: () async {
-              var _mediaFile = await _sourceOption.getVideo(ImageSource.camera);
-              _mediaFile = await _sourceOption.getThumbnailVideo(_mediaFile);
-              //? Remember I'm still need get the videoFile
+              _multiMedia['video'] =
+                  await _sourceOption.getVideo(ImageSource.camera);
+              _multiMedia['videoThumbnail'] =
+                  await _sourceOption.getThumbnailVideo(_multiMedia['video']);
               _sourceOption.navigateToCreate(
-                  context: context, mediaFile: _mediaFile);
+                  context: context, multiMedia: _multiMedia);
             },
           ),
           ListTile(
             title: Text('Image from Gallery'),
             leading: Icon(Icons.photo_album),
             onTap: () async {
-              var _mediaFile =
+              _multiMedia['image'] =
                   await _sourceOption.getImage(ImageSource.gallery);
+              _multiMedia['imageThumbnail'] =
+                  await _sourceOption.getthumbnailImage(
+                      _multiMedia['image'], _multiMedia['image'].path);
               _sourceOption.navigateToCreate(
-                  context: context, mediaFile: _mediaFile);
+                  context: context, multiMedia: _multiMedia);
             },
           ),
           ListTile(
             title: Text('Video from Gallery'),
             leading: Icon(Icons.video_library),
             onTap: () async {
-              var _mediaFile =
+              _multiMedia['video'] =
                   await _sourceOption.getVideo(ImageSource.gallery);
-              _mediaFile = await _sourceOption.getThumbnailVideo(_mediaFile);
+              _multiMedia['videoThumbnail'] =
+                  await _sourceOption.getThumbnailVideo(_multiMedia['video']);
               _sourceOption.navigateToCreate(
-                  context: context, mediaFile: _mediaFile);
+                  context: context, multiMedia: _multiMedia);
             },
           ),
         ],

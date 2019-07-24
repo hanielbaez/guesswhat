@@ -1,19 +1,35 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
+import 'package:mime/mime.dart';
+import 'package:provider/provider.dart';
 
-class GuessCreate extends StatelessWidget {
+class GuessCreate extends StatefulWidget {
+  final Map _multiMedia;
+  GuessCreate({multiMedia}) : _multiMedia = multiMedia;
+
+  @override
+  _GuessCreateState createState() => _GuessCreateState();
+}
+
+class _GuessCreateState extends State<GuessCreate> {
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
-  final File _multiMediaFile;
+  static TextEditingController _wordController = TextEditingController();
+  static TextEditingController _descriptionController = TextEditingController();
 
-  GuessCreate({multiMediaFile}) : _multiMediaFile = multiMediaFile;
+  @override
+  void dispose() {
+    /* _wordController.dispose();
+    _descriptionController.dispose(); */
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Create a thumbnail for the video
-    //TODO Validate the forms, and upload the data to FireStore.
+    Map<String, dynamic> _guess = {};
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -33,9 +49,10 @@ class GuessCreate extends StatelessWidget {
               child: Container(
                 height: 200.0,
                 child: Image.file(
-                        _multiMediaFile,
-                        fit: BoxFit.fitHeight,
-                      ),
+                  widget._multiMedia['imageThumbnail'] ??
+                      widget._multiMedia['videoThumbnail'],
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
             FormBuilder(
@@ -45,6 +62,7 @@ class GuessCreate extends StatelessWidget {
                 children: <Widget>[
                   FormBuilderTextField(
                     attribute: "word",
+                    controller: _wordController,
                     decoration: InputDecoration(
                       labelText: "Word",
                       labelStyle: TextStyle(color: Colors.black),
@@ -72,6 +90,7 @@ class GuessCreate extends StatelessWidget {
                   ),
                   FormBuilderTextField(
                     attribute: "description",
+                    controller: _descriptionController,
                     maxLines: 5,
                     decoration: InputDecoration(
                       labelText: "Description",
@@ -96,14 +115,41 @@ class GuessCreate extends StatelessWidget {
                       FormBuilderValidators.max(350),
                     ],
                   ),
-                  FlatButton(
-                    child: Text("Submit"),
-                    onPressed: () {
-                      _formCreateKey.currentState.save();
-                      if (_formCreateKey.currentState.validate()) {
-                        print(_formCreateKey.currentState.value);
-                      }
-                    },
+                  ChangeNotifierProvider<GuessCreateViewModel>.value(
+                    value: GuessCreateViewModel(
+                        databaseServices: Provider.of(context)),
+                    child: Consumer<GuessCreateViewModel>(
+                      builder: (context, model, child) {
+                        return FlatButton(
+                          child: Text("Submit"),
+                          onPressed: () async {
+                            _formCreateKey.currentState.save();
+                            if (_formCreateKey.currentState.validate()) {
+                              var _file = widget._multiMedia['video'] ??
+                                  widget._multiMedia['image'];
+
+                              var url =
+                                  await model.uploadFireStore(file: _file);
+
+                              //Set the map with the form text value
+                              _guess['word'] = _wordController.value.text;
+                              _guess['description'] =
+                                  _descriptionController.value.text;
+                              _guess['userName'] = 'Haniel';
+
+                              var listSplit =
+                                  lookupMimeType(_file.path).split('/');
+
+                              listSplit[0] == 'image'
+                                  ? _guess['imageURL'] = url
+                                  : _guess['videoURL'] = url;
+
+                              model.uploadFireBase(guess: _guess);
+                            }
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),

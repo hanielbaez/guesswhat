@@ -20,7 +20,7 @@ class _VideoLayaoutState extends State<VideoLayaout> {
   void initState() {
     model = widget.model;
     if (model.isNotDone) {
-      model.getVideoController();
+      model.getMedia();
     }
     super.initState();
   }
@@ -34,17 +34,29 @@ class _VideoLayaoutState extends State<VideoLayaout> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: <Widget>[
         !model.isNotDone
-            ? VideoPlayer(model.videoController)
+            ? (model.imageFile != null
+                ? Image.file(
+                    model.imageFile,
+                    fit: BoxFit.fitWidth,
+                  )
+                : AspectRatio(
+                    aspectRatio: model.videoController.value.aspectRatio,
+                    child: VideoPlayer(model.videoController),
+                  ))
+            : Image.asset('assets/images/noiseTv.gif', fit: BoxFit.cover),
+
+        /*  ? VideoPlayer(model.videoController) ??
+                Image.file(model.imageFile) // Video or Image
             : Stack(
                 children: <Widget>[
                   Image.asset('assets/images/noiseTv.gif', fit: BoxFit.cover),
                 ],
-              ),
+              ), */
         BuildAvatarIcon(),
       ],
     );
   }
 }
-
