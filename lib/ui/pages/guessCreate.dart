@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
+import 'package:guess_what/ui/pages/home.dart';
 import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +17,9 @@ class GuessCreate extends StatefulWidget {
 class _GuessCreateState extends State<GuessCreate> {
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
-  static TextEditingController _wordController = TextEditingController();
-  static TextEditingController _descriptionController = TextEditingController();
-
   @override
   void dispose() {
-    /* _wordController.dispose();
-    _descriptionController.dispose(); */
+
     super.dispose();
   }
 
@@ -35,6 +32,15 @@ class _GuessCreateState extends State<GuessCreate> {
         title: Text(
           'Create a Guess',
           style: TextStyle(color: Colors.black),
+        ),
+        leading: IconButton(
+          //Costum Back Button
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => HomePage(),
+            ),
+          ),
         ),
         centerTitle: true,
         elevation: 0.0,
@@ -62,7 +68,6 @@ class _GuessCreateState extends State<GuessCreate> {
                 children: <Widget>[
                   FormBuilderTextField(
                     attribute: "word",
-                    controller: _wordController,
                     decoration: InputDecoration(
                       labelText: "Word",
                       labelStyle: TextStyle(color: Colors.black),
@@ -90,7 +95,6 @@ class _GuessCreateState extends State<GuessCreate> {
                   ),
                   FormBuilderTextField(
                     attribute: "description",
-                    controller: _descriptionController,
                     maxLines: 5,
                     decoration: InputDecoration(
                       labelText: "Description",
@@ -132,9 +136,8 @@ class _GuessCreateState extends State<GuessCreate> {
                                   await model.uploadFireStore(file: _file);
 
                               //Set the map with the form text value
-                              _guess['word'] = _wordController.value.text;
-                              _guess['description'] =
-                                  _descriptionController.value.text;
+                              _guess['word'] =  _formCreateKey.currentState.value['word'];    
+                              _guess['description'] = _formCreateKey.currentState.value['description']; 
                               _guess['userName'] = 'Haniel';
 
                               var listSplit =

@@ -33,14 +33,15 @@ class SourceImageOption {
   Future<File> getThumbnailVideo(File file) async {
     final thumbnailFile =
         await _flutterVideoCompress.getThumbnailWithFile(file.path,
-            quality: 50, // default(100)
+            quality: 10, // default(100)
             position: -1 // default(-1)
             );
     return thumbnailFile;
   }
 
   void navigateToCreate({BuildContext context, Map multiMedia}) {
-    Navigator.of(context).push(
+    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => GuessCreate(multiMedia: multiMedia),
       ),

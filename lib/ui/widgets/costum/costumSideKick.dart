@@ -39,15 +39,7 @@ class _CostumSidekickState extends State<CostumSidekick> {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  SizedBox.fromSize(
-                    child: ChangeNotifierProvider<VideoViewModel>.value(
-                      value: VideoViewModel(guess: widget.guess),
-                      child: Consumer<VideoViewModel>(
-                        builder: (context, model, child) =>
-                            VideoLayaout(model: model),
-                      ),
-                    ),
-                  ),
+                  
                   Container(
                     alignment: Alignment.bottomCenter,
                     child: Wrap(
