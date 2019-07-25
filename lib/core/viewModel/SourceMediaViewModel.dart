@@ -40,7 +40,6 @@ class SourceImageOption {
   }
 
   void navigateToCreate({BuildContext context, Map multiMedia}) {
-    Navigator.of(context).pop(); //Close the modal
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => GuessCreate(multiMedia: multiMedia),

@@ -3,7 +3,10 @@ import 'package:flutter_sidekick/flutter_sidekick.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:guess_what/core/viewModel/videoViewModel.dart';
 import 'package:guess_what/ui/widgets/guess/letter.dart';
+import 'package:guess_what/ui/widgets/guess/video.dart';
+import 'package:provider/provider.dart';
 
 class CostumSidekick extends StatefulWidget {
   final Guess guess;
@@ -31,43 +34,54 @@ class _CostumSidekickState extends State<CostumSidekick> {
       initialSourceList: widget.model.sourceList,
       builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
         return Container(
-          color: Colors.transparent,
-          alignment: Alignment.bottomCenter,
-          height: MediaQuery.of(context).size.height / 3,
           child: Column(
             children: <Widget>[
-              SizedBox(
-                height: 50.0,
-                child: Wrap(
-                  children: targetBuilderDelegates
-                      .map(
-                        (builderDelegate) => builderDelegate.build(
-                          context,
-                          CustomLetter(
-                              item: builderDelegate.message,
-                              isSource: false,
-                              model: widget.model),
-                          animationBuilder: (animation) => CurvedAnimation(
-                            parent: animation,
-                            curve: FlippedCurve(Curves.ease),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  SizedBox.fromSize(
+                    child: ChangeNotifierProvider<VideoViewModel>.value(
+                      value: VideoViewModel(guess: widget.guess),
+                      child: Consumer<VideoViewModel>(
+                        builder: (context, model, child) =>
+                            VideoLayaout(model: model),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    child: Wrap(
+                      children: targetBuilderDelegates
+                          .map(
+                            (builderDelegate) => builderDelegate.build(
+                              context,
+                              CustomLetter(
+                                  item: builderDelegate.message,
+                                  isSource: false,
+                                  model: widget.model),
+                              animationBuilder: (animation) => CurvedAnimation(
+                                parent: animation,
+                                curve: FlippedCurve(Curves.ease),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 35.0,
-              ),
-              SizedBox(
-                height: 110.0,
+              Container(
+                //height: 110.0,
                 child: Wrap(
                   children: sourceBuilderDelegates.isEmpty
                       ? [
                           Center(
-                            child: SpinKitFadingCube(
-                              color: Colors.black12,
-                              size: 50.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: SpinKitCircle(
+                                color: Colors.black,
+                                size: 30.0,
+                              ),
                             ),
                           )
                         ]

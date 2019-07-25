@@ -27,36 +27,29 @@ class _VideoLayaoutState extends State<VideoLayaout> {
 
   @override
   void dispose() {
-    if (model.videoController != null) model.videoController.dispose();
+    //if (model.videoController != null) model.videoController.dispose();
+    model.videoController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        !model.isNotDone
-            ? (model.imageFile != null
-                ? Image.file(
-                    model.imageFile,
-                    fit: BoxFit.fitWidth,
-                  )
-                : AspectRatio(
-                    aspectRatio: model.videoController.value.aspectRatio,
-                    child: VideoPlayer(model.videoController),
-                  ))
-            : Image.asset('assets/images/noiseTv.gif', fit: BoxFit.cover),
-
-        /*  ? VideoPlayer(model.videoController) ??
-                Image.file(model.imageFile) // Video or Image
-            : Stack(
-                children: <Widget>[
-                  Image.asset('assets/images/noiseTv.gif', fit: BoxFit.cover),
-                ],
-              ), */
-        BuildAvatarIcon(),
-      ],
+    return Container(
+      width: double.infinity,
+      constraints:
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
+      child: !model.isNotDone
+          ? (model.imageFile != null
+              ? Image.file(
+                  model.imageFile,
+                  fit: BoxFit.fitWidth,
+                )
+              : AspectRatio(
+                //TODO: Fit the VIDEO LAYOUT 
+                  aspectRatio: model.videoController.value.aspectRatio,
+                  child: VideoPlayer(model.videoController),
+                ))
+          : Image.asset('assets/images/noiseTv.gif', fit: BoxFit.cover),
     );
   }
 }

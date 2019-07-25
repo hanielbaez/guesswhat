@@ -80,9 +80,9 @@ class _GuessCreateState extends State<GuessCreate> {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    maxLength: 7,
+                    maxLength: 9,
                     validators: [
-                      FormBuilderValidators.max(7),
+                      FormBuilderValidators.max(9),
                     ],
                   ),
                   SizedBox(

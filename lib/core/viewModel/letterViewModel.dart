@@ -11,19 +11,13 @@ class LettersViewModel extends ChangeNotifier {
 
   //TODO: Revisar cuando la respuesta es correcta.
 
-  /*  Future<String> fetchWord(BuildContext context) async {
-    Guess _guess;
-    _guess =
-        await Provider.of<DatabaseServices>(context, listen: false).getGuess();
-    return _guess.word;
-  } */
-
   String randomLetters(context) {
+    //Add randoms letters to the supply secret word
     final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     final _random = Random();
     String _word = _guessWord.toUpperCase();
 
-    while (_word.length < 12) {
+    while (_word.length < 14) {
       _word += _abc[_random.nextInt(_abc.length)];
     }
 
@@ -35,6 +29,7 @@ class LettersViewModel extends ChangeNotifier {
   }
 
   generateItemList(context) {
+    //Generar una lista de character for the source (SidedKick)
     if (sourceList.isEmpty) {
       String _word = randomLetters(context);
 
@@ -54,6 +49,7 @@ class LettersViewModel extends ChangeNotifier {
   }
 
   String getWord(List<Item> items) {
+    //From a list of characters get a word
     String _word = '';
     items.forEach(
       (item) {
@@ -64,6 +60,7 @@ class LettersViewModel extends ChangeNotifier {
   }
 
   void setLetter({Item selectedItem}) {
+    //Add letter to the target
     selectedItems.add(selectedItem);
     var _selectedWord = getWord(selectedItems);
     if (_selectedWord == _guessWord) {
@@ -72,6 +69,7 @@ class LettersViewModel extends ChangeNotifier {
   }
 
   void deleteLetter({Item selectedItem}) {
+    //Remove letter from the target
     int _letterID = selectedItem.id;
     selectedItems.removeWhere((item) => item.id == _letterID);
   }
