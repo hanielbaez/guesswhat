@@ -7,13 +7,19 @@ class GuessCreateViewModel extends ChangeNotifier {
   GuessCreateViewModel({@required DatabaseServices databaseServices})
       : _databaseServices = databaseServices;
 
-  Future<String> uploadFireStore({File file}) async { //Upload Image/video
-    return await _databaseServices.uploadToFireStore(file); 
-    //Scaffold.of(context).showSnackBar(SnackBar(context: Text('Uploaded Successfully')));
+  Future<String> uploadFireStore({File file, BuildContext context}) async {
+    //Upload Image/video
+    var url = await _databaseServices.uploadToFireStore(file);
+    /* Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Uploaded Successfully'),
+      ),
+    ); */
+    return url;
+    //Todo Show snackBar when upload is complete
   }
 
-  Future uploadFireBase({Map<String, dynamic> guess}) async {
-    return await  _databaseServices.uploadGuess(guess: guess);
+  void uploadFireBase({Map<String, dynamic> guess}) {
+    return _databaseServices.uploadGuess(guess: guess);
   }
-
 }

@@ -3,10 +3,7 @@ import 'package:flutter_sidekick/flutter_sidekick.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:guess_what/core/viewModel/videoViewModel.dart';
 import 'package:guess_what/ui/widgets/guess/letter.dart';
-import 'package:guess_what/ui/widgets/guess/video.dart';
-import 'package:provider/provider.dart';
 
 class CostumSidekick extends StatefulWidget {
   final Guess guess;
@@ -39,7 +36,6 @@ class _CostumSidekickState extends State<CostumSidekick> {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  
                   Container(
                     alignment: Alignment.bottomCenter,
                     child: Wrap(

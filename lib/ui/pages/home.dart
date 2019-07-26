@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/viewModel/SourceMediaViewModel.dart';
 import 'package:guess_what/core/viewModel/guessModel.dart';
-import 'package:guess_what/ui/pages/guessCreate.dart';
 import 'package:guess_what/ui/widgets/costum/costumListGuess.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';

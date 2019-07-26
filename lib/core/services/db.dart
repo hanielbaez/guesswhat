@@ -17,7 +17,7 @@ class DatabaseServices {
   Future<List<Guess>> fectchGuesses() async {
     //Use to fech all Guesses
     final List<Guess> allGuesses = [];
-    var snap = await _db.collection('guess').getDocuments();
+    var snap = await _db.collection('guess').orderBy('creationDate', descending: true).getDocuments();
     snap.documents.forEach(
       (document) {
         allGuesses.add(

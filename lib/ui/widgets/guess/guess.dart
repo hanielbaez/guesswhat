@@ -27,21 +27,23 @@ class GuessLayaout extends StatelessWidget {
             },
           ),
         ),
-        ChangeNotifierProvider<LettersViewModel>.value(
-          value: LettersViewModel(guessWord: guess.word),
-          child: Consumer<LettersViewModel>(
-            builder: (context, model, child) {
-              return CostumSidekick(
-                guess: guess,
-                model: model,
-              );
-            },
+        if (guess.word.isNotEmpty) //Consition for not guess word
+          ChangeNotifierProvider<LettersViewModel>.value(
+            value: LettersViewModel(guessWord: guess.word),
+            child: Consumer<LettersViewModel>(
+              builder: (context, model, child) {
+                return CostumSidekick(
+                  guess: guess,
+                  model: model,
+                );
+              },
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: CostumDescription(text: '${guess.description}'),
-        ),
+        if (guess.description.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: CostumDescription(text: '${guess.description}'),
+          ),
         Divider(
           color: Colors.black26,
         ),

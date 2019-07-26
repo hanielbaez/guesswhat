@@ -7,13 +7,17 @@ class Guess {
   String description;
   String videoURL;
   String imageURL;
+  String thumbnail;
+  Timestamp creationDate;
 
   Guess(
       {@required this.id,
       @required this.word,
       @required this.description,
       this.videoURL,
-      this.imageURL});
+      this.imageURL,
+      @required this.thumbnail,
+      @required this.creationDate});
 
   factory Guess.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data;
@@ -22,6 +26,8 @@ class Guess {
         word: data['word'] ?? 'NOTWORDS',
         description: data['description'] ?? 'NOTDESCRIPTION',
         videoURL: data['videoURL'],
-        imageURL: data['imageURL']);
+        imageURL: data['imageURL'],
+        thumbnail: data['thumbnail'],
+        creationDate: data['creationDate']);
   }
 }

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:ui' as prefix0;
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/costum/costumCacheManager.dart';
 import 'package:guess_what/core/model/guess.dart';
@@ -11,13 +13,13 @@ class VideoViewModel extends ChangeNotifier {
   VideoPlayerController videoController;
   File imageFile;
 
-  dynamic widget = buildNoiseTV();
+  dynamic widget;
 
   VideoViewModel({this.guess});
 
   void getMedia() async {
     if (mediaFeche == null) {
-      widget = buildNoiseTV();
+      widget = buildThumbnail();
       switch (await mediaType()) {
         case 'image':
           await getImage();
@@ -67,15 +69,26 @@ class VideoViewModel extends ChangeNotifier {
     );
   }
 
-  VideoPlayer buildVideo() {
-    return VideoPlayer(videoController);
+  AspectRatio buildVideo() {
+    return AspectRatio(
+      aspectRatio: videoController.value.aspectRatio,
+      child: VideoPlayer(videoController),
+      key: ValueKey('video'),
+    );
   }
 
-  static Image buildNoiseTV() {
-    return Image.asset(
-      'assets/images/noiseTv.gif',
-      fit: BoxFit.cover,
-      key: ValueKey('default'),
+  BackdropFilter buildThumbnail() {
+    return BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 5,
+        sigmaY: 5,
+      ),
+      child: Image.network(
+        guess.thumbnail,
+        fit: BoxFit.fitWidth,
+        // loadingBuilder: , //Todo Make a progres indication
+        key: ValueKey('thumbnail'),
+      ),
     );
   }
 }

@@ -20,13 +20,10 @@ class SourceImageOption {
 
   Future<File> getthumbnailImage(File file, String targetPath) async {
     var result = await FlutterImageCompress.compressAndGetFile(
-      file.absolute.path,
-      targetPath,
-      quality: 50,
-      //keepExif: false,
-      autoCorrectionAngle: true
-
-    );
+        file.absolute.path, targetPath,
+        quality: 50,
+        //keepExif: false,
+        autoCorrectionAngle: true);
     return result;
   }
 
@@ -40,11 +37,13 @@ class SourceImageOption {
   }
 
   void navigateToCreate({BuildContext context, Map multiMedia}) {
-    Navigator.of(context).pop();
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => GuessCreate(multiMedia: multiMedia),
-      ),
-    );
+    if (multiMedia.isNotEmpty) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => GuessCreate(multiMedia: multiMedia),
+        ),
+      );
+    }
   }
 }

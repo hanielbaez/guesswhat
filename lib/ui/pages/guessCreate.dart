@@ -6,22 +6,11 @@ import 'package:guess_what/ui/pages/home.dart';
 import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 
-class GuessCreate extends StatefulWidget {
+class GuessCreate extends StatelessWidget {
   final Map _multiMedia;
-  GuessCreate({multiMedia}) : _multiMedia = multiMedia;
-
-  @override
-  _GuessCreateState createState() => _GuessCreateState();
-}
-
-class _GuessCreateState extends State<GuessCreate> {
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
-  @override
-  void dispose() {
-
-    super.dispose();
-  }
+  GuessCreate({multiMedia}) : _multiMedia = multiMedia;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +25,7 @@ class _GuessCreateState extends State<GuessCreate> {
         leading: IconButton(
           //Costum Back Button
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ),
-          ),
+          onPressed: () => navigateHome(context),
         ),
         centerTitle: true,
         elevation: 0.0,
@@ -55,8 +40,8 @@ class _GuessCreateState extends State<GuessCreate> {
               child: Container(
                 height: 200.0,
                 child: Image.file(
-                  widget._multiMedia['imageThumbnail'] ??
-                      widget._multiMedia['videoThumbnail'],
+                  _multiMedia['imageThumbnail'] ??
+                      _multiMedia['videoThumbnail'],
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -87,7 +72,14 @@ class _GuessCreateState extends State<GuessCreate> {
                     keyboardType: TextInputType.text,
                     maxLength: 9,
                     validators: [
-                      FormBuilderValidators.max(9),
+                      (val) {
+                        RegExp regex = RegExp(r'^[0-9a-zA-Z ]+$');
+                        if (!regex.hasMatch(val) && val.toString().isNotEmpty) {
+                          return "No special characters or numbers";
+                        }
+                        //Todo permitir enviar valores vacios a FireBase
+                        //Todo Detectar si la palabra secreta esta compuesta por numeros, letras o una combinacion de ambos
+                      },
                     ],
                   ),
                   SizedBox(
@@ -129,25 +121,36 @@ class _GuessCreateState extends State<GuessCreate> {
                           onPressed: () async {
                             _formCreateKey.currentState.save();
                             if (_formCreateKey.currentState.validate()) {
-                              var _file = widget._multiMedia['video'] ??
-                                  widget._multiMedia['image'];
+                              var _file =
+                                  _multiMedia['video'] ?? _multiMedia['image'];
+                              var _fileThumbnail =
+                                  _multiMedia['imageThumbnail'] ??
+                                      _multiMedia['videoThumbnail'];
 
-                              var url =
-                                  await model.uploadFireStore(file: _file);
+                              var _url = await model.uploadFireStore(
+                                  file: _file, context: context);
+                              var _urlThumbnail = await model.uploadFireStore(
+                                  file: _fileThumbnail, context: context);
 
                               //Set the map with the form text value
-                              _guess['word'] =  _formCreateKey.currentState.value['word'];    
-                              _guess['description'] = _formCreateKey.currentState.value['description']; 
+                              _guess['word'] =
+                                  _formCreateKey.currentState.value['word'];
+                              _guess['description'] = _formCreateKey
+                                  .currentState.value['description'];
                               _guess['userName'] = 'Haniel';
+                              _guess['thumbnail'] = _urlThumbnail;
+                              _guess['creationDate'] = DateTime.now();
 
                               var listSplit =
                                   lookupMimeType(_file.path).split('/');
 
                               listSplit[0] == 'image'
-                                  ? _guess['imageURL'] = url
-                                  : _guess['videoURL'] = url;
+                                  ? _guess['imageURL'] = _url
+                                  : _guess['videoURL'] = _url;
 
                               model.uploadFireBase(guess: _guess);
+
+                              navigateHome(context);
                             }
                           },
                         );
@@ -162,4 +165,12 @@ class _GuessCreateState extends State<GuessCreate> {
       ),
     );
   }
+}
+
+void navigateHome(BuildContext context) {
+  Navigator.of(context).pushReplacement(
+    MaterialPageRoute(
+      builder: (context) => HomePage(),
+    ),
+  );
 }
