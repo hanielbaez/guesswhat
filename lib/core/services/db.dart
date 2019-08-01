@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:async';
+import 'package:guess_what/core/model/comment.dart';
 import 'package:path/path.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +18,10 @@ class DatabaseServices {
   Future<List<Guess>> fectchGuesses() async {
     //Use to fech all Guesses
     final List<Guess> allGuesses = [];
-    var snap = await _db.collection('guess').orderBy('creationDate', descending: true).getDocuments();
+    var snap = await _db
+        .collection('guess')
+        .orderBy('creationDate', descending: true)
+        .getDocuments();
     snap.documents.forEach(
       (document) {
         allGuesses.add(
@@ -50,8 +54,39 @@ class DatabaseServices {
 
   void uploadGuess({Map<String, dynamic> guess}) {
     DocumentReference _ref = _db.collection('guess').document();
-    _ref.setData(guess).catchError((error) => print('FireBase ERROR: $error')
-    ).whenComplete(() => print('FireBase Complete')
+    _ref
+        .setData(guess)
+        .catchError((error) => print('FireBase ERROR: $error'))
+        .whenComplete(() => print('FireBase Complete'));
+  }
+
+  // * Comment
+
+  Future<List<Comment>> getAllComments(String guessID) async {
+    //Use to fech all Comments
+    final List<Comment> allComments = [];
+    var snap = await _db
+        .collection('guess')
+        .document(guessID)
+        .collection('comment')
+        .orderBy('creationDate', descending: true)
+        .getDocuments();
+    snap.documents.forEach(
+      (document) {
+        allComments.add(
+          Comment.fromFireStore(document),
+        );
+      },
     );
+    return allComments;
+  }
+
+  void uploadComment(Map<String, dynamic> comment) {
+    DocumentReference _ref = _db
+        .collection('guess')
+        .document('${comment['guessID']}')
+        .collection('comment')
+        .document();
+    _ref.setData(comment);
   }
 }

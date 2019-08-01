@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
-// ? Necesito terminar con el layaout de las descripciones.
-
 class CostumDescription extends StatelessWidget {
   final String text;
   CostumDescription({this.text});
@@ -12,18 +10,20 @@ class CostumDescription extends StatelessWidget {
     return ExpandablePanel(
       collapsed: Text(
         text,
+        style: TextStyle(color: Colors.white),
+        textAlign: TextAlign.justify,
         softWrap: true,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
       expanded: Text(
         text,
+        style: TextStyle(color: Colors.white),
         softWrap: true,
       ),
       tapHeaderToExpand: true,
       tapBodyToCollapse: true,
       hasIcon: false,
-      
     );
   }
 }

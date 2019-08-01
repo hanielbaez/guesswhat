@@ -20,16 +20,15 @@ class GuessCreate extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Create a Guess',
-          style: TextStyle(color: Colors.black),
         ),
         leading: IconButton(
           //Costum Back Button
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back),
           onPressed: () => navigateHome(context),
         ),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -77,8 +76,7 @@ class GuessCreate extends StatelessWidget {
                         if (!regex.hasMatch(val) && val.toString().isNotEmpty) {
                           return "No special characters or numbers";
                         }
-                        //Todo permitir enviar valores vacios a FireBase
-                        //Todo Detectar si la palabra secreta esta compuesta por numeros, letras o una combinacion de ambos
+                        return null;
                       },
                     ],
                   ),
@@ -127,11 +125,8 @@ class GuessCreate extends StatelessWidget {
                                   _multiMedia['imageThumbnail'] ??
                                       _multiMedia['videoThumbnail'];
 
-                              var _url = await model.uploadFireStore(
-                                  file: _file, context: context);
                               var _urlThumbnail = await model.uploadFireStore(
                                   file: _fileThumbnail, context: context);
-
                               //Set the map with the form text value
                               _guess['word'] =
                                   _formCreateKey.currentState.value['word'];
@@ -141,16 +136,19 @@ class GuessCreate extends StatelessWidget {
                               _guess['thumbnail'] = _urlThumbnail;
                               _guess['creationDate'] = DateTime.now();
 
+                              navigateHome(context);
+
+                              var _url = await model.uploadFireStore(
+                                  file: _file, context: context);
+
+                              //Get the media Type video/image
                               var listSplit =
                                   lookupMimeType(_file.path).split('/');
-
                               listSplit[0] == 'image'
                                   ? _guess['imageURL'] = _url
                                   : _guess['videoURL'] = _url;
 
                               model.uploadFireBase(guess: _guess);
-
-                              navigateHome(context);
                             }
                           },
                         );
@@ -168,7 +166,7 @@ class GuessCreate extends StatelessWidget {
 }
 
 void navigateHome(BuildContext context) {
-  Navigator.of(context).pushReplacement(
+  Navigator.of(context).push(
     MaterialPageRoute(
       builder: (context) => HomePage(),
     ),

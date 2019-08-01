@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui' as prefix0;
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/costum/costumCacheManager.dart';
@@ -27,12 +26,11 @@ class VideoViewModel extends ChangeNotifier {
         case 'video':
           await getVideoController();
           break;
-        default:
-          //TODO: Get a default image
-          break;
       }
     }
   }
+
+  //TODO: Mineatura del video
 
   //Return video or image
   Future<String> mediaType() async {
@@ -55,7 +53,8 @@ class VideoViewModel extends ChangeNotifier {
     videoController = VideoPlayerController.file(mediaFeche);
     await videoController.initialize();
     await videoController.setLooping(true);
-    //await videoController.play();
+    await videoController.setVolume(0.0);
+    await videoController.play();
     widget = buildVideo();
     notifyListeners();
   }
@@ -77,18 +76,34 @@ class VideoViewModel extends ChangeNotifier {
     );
   }
 
-  BackdropFilter buildThumbnail() {
-    return BackdropFilter(
-      filter: ImageFilter.blur(
-        sigmaX: 5,
-        sigmaY: 5,
-      ),
-      child: Image.network(
-        guess.thumbnail,
-        fit: BoxFit.fitWidth,
-        // loadingBuilder: , //Todo Make a progres indication
-        key: ValueKey('thumbnail'),
-      ),
-    );
+  buildThumbnail() {
+    CustomCacheManager().getSingleFile('${guess.thumbnail}').then((_thumbnail) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: 5,
+          sigmaY: 5,
+        ),
+        child: Container(
+          child: Image.file(
+            _thumbnail,
+            fit: BoxFit.fitWidth,
+            /* loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes
+                    : null,
+                backgroundColor: Colors.white,
+              ),
+            );
+          }, */
+            key: ValueKey('thumbnail'),
+          ),
+        ),
+      );
+    });
   }
 }

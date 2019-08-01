@@ -6,19 +6,27 @@ class LettersViewModel extends ChangeNotifier {
   String _guessWord;
   List<Item> selectedItems = [];
   List<Item> sourceList = [];
+  bool correctAnswear = false;
 
   LettersViewModel({String guessWord}) : _guessWord = guessWord;
 
-  //TODO: Revisar cuando la respuesta es correcta.
-
-  String randomLetters(context) {
-    //Add randoms letters to the supply secret word
-    final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    final _random = Random();
+  String randomCharacters() {
     String _word = _guessWord.toUpperCase();
+    //Add randoms characteres(LETTERS AND NUMBERS) to the supply secret word
+    final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    final String _numbers = '0123456789';
+    String _newCharacter = '';
+    final _random = Random();
 
+    if (_word.contains(RegExp(r'[A-Z]'))) {
+      _newCharacter = _abc;
+    } else if (_word.contains(RegExp(r'[0-9]'))) {
+      _newCharacter = _numbers;
+    }
+
+    // Add ulti 14 characters
     while (_word.length < 14) {
-      _word += _abc[_random.nextInt(_abc.length)];
+      _word += _newCharacter[_random.nextInt(_newCharacter.length)];
     }
 
     //Sort the string
@@ -28,10 +36,10 @@ class LettersViewModel extends ChangeNotifier {
     return _word;
   }
 
+//Generar una lista de character for the source (SidedKick)
   generateItemList(context) {
-    //Generar una lista de character for the source (SidedKick)
     if (sourceList.isEmpty) {
-      String _word = randomLetters(context);
+      String _word = randomCharacters();
 
       List<Item> _list;
       _list = List.generate(
@@ -63,8 +71,10 @@ class LettersViewModel extends ChangeNotifier {
     //Add letter to the target
     selectedItems.add(selectedItem);
     var _selectedWord = getWord(selectedItems);
-    if (_selectedWord == _guessWord) {
+    if (_selectedWord == _guessWord.toUpperCase()) {
       print('Correct Answear!');
+      correctAnswear = true;
+      //notifyListeners();
     }
   }
 

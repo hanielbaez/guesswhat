@@ -9,12 +9,12 @@ class SourceImageOption {
   final _flutterVideoCompress = FlutterVideoCompress();
   Map multimediaFile = {};
 
-  Future<File> getImage(source) async {
+  Future<File> getImage(source, context) async {
     return await ImagePicker.pickImage(
         source: source, maxHeight: 1080, maxWidth: 1080);
   }
 
-  Future<File> getVideo(source) async {
+  Future<File> getVideo(source, context) async {
     return await ImagePicker.pickVideo(source: source);
   }
 
@@ -39,11 +39,12 @@ class SourceImageOption {
   void navigateToCreate({BuildContext context, Map multiMedia}) {
     if (multiMedia.isNotEmpty) {
       Navigator.of(context).pop();
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => GuessCreate(multiMedia: multiMedia),
         ),
       );
     }
   }
+
 }

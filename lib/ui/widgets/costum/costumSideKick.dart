@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+//Coustom import
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:guess_what/ui/widgets/guess/letter.dart';
 
 class CostumSidekick extends StatefulWidget {
@@ -39,6 +41,7 @@ class _CostumSidekickState extends State<CostumSidekick> {
                   Container(
                     alignment: Alignment.bottomCenter,
                     child: Wrap(
+                      
                       children: targetBuilderDelegates
                           .map(
                             (builderDelegate) => builderDelegate.build(
@@ -60,37 +63,39 @@ class _CostumSidekickState extends State<CostumSidekick> {
               ),
               Container(
                 //height: 110.0,
-                child: Wrap(
-                  children: sourceBuilderDelegates.isEmpty
-                      ? [
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: SpinKitCircle(
-                                color: Colors.black,
-                                size: 30.0,
-                              ),
-                            ),
-                          )
-                        ]
-                      : sourceBuilderDelegates
-                          .map(
-                            (builderDelegate) => builderDelegate.build(
-                              context,
-                              CustomLetter(
-                                  item: builderDelegate.message,
-                                  isSource: true,
-                                  model: widget.model),
-                              animationBuilder: (animation) {
-                                return CurvedAnimation(
-                                  parent: animation,
-                                  curve: Curves.ease,
-                                );
-                              },
-                            ),
-                          )
-                          .toList(),
-                ),
+                child: _model.correctAnswear
+                    ? Container()
+                    : Wrap(
+                        children: sourceBuilderDelegates.isEmpty
+                            ? [
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: SpinKitThreeBounce(
+                                      color: Colors.white,
+                                      size: 50.0,
+                                    ),
+                                  ),
+                                )
+                              ]
+                            : sourceBuilderDelegates
+                                .map(
+                                  (builderDelegate) => builderDelegate.build(
+                                    context,
+                                    CustomLetter(
+                                        item: builderDelegate.message,
+                                        isSource: true,
+                                        model: widget.model),
+                                    animationBuilder: (animation) {
+                                      return CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.ease,
+                                      );
+                                    },
+                                  ),
+                                )
+                                .toList(),
+                      ),
               ),
             ],
           ),

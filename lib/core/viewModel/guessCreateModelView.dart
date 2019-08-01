@@ -9,14 +9,17 @@ class GuessCreateViewModel extends ChangeNotifier {
 
   Future<String> uploadFireStore({File file, BuildContext context}) async {
     //Upload Image/video
-    var url = await _databaseServices.uploadToFireStore(file);
-    /* Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Uploaded Successfully'),
-      ),
-    ); */
+    var url = await _databaseServices.uploadToFireStore(file).whenComplete(() {
+      print('FIREBASE DONE0.');
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Uploaded Successfully'),
+        ),
+      );
+    });
+
     return url;
-    //Todo Show snackBar when upload is complete
+    //TODO: Show snackBar when upload is complete
   }
 
   void uploadFireBase({Map<String, dynamic> guess}) {
