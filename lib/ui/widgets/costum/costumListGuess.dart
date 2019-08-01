@@ -20,7 +20,6 @@ class _CostumListGuessState extends State<CostumListGuess> {
     model = widget.model;
     if (model.allGuesses.isEmpty) {
       model.getAllGuesses();
-      print('GET ALL GUESSES');
     }
     super.initState();
   }

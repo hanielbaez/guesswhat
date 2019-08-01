@@ -73,10 +73,10 @@ class _CostumSidekickState extends State<CostumSidekick> {
                                     padding: const EdgeInsets.all(15.0),
                                     child: SpinKitThreeBounce(
                                       color: Colors.white,
-                                      size: 50.0,
+                                      size: 25.0,
                                     ),
                                   ),
-                                )
+                                ),
                               ]
                             : sourceBuilderDelegates
                                 .map(

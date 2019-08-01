@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
           fallbackHeight: 50,
         ),
       ),
-      
+      backgroundColor: Colors.black,
       body: ChangeNotifierProvider<GuessModel>.value(
         value: GuessModel(
           databaseServices: Provider.of(context),

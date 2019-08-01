@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:guess_what/core/costum/costumCacheManager.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:mime/mime.dart';
@@ -18,7 +19,7 @@ class VideoViewModel extends ChangeNotifier {
 
   void getMedia() async {
     if (mediaFeche == null) {
-      widget = buildThumbnail();
+      getThumbnail();
       switch (await mediaType()) {
         case 'image':
           await getImage();
@@ -43,7 +44,6 @@ class VideoViewModel extends ChangeNotifier {
 
   Future<void> getImage() async {
     imageFile = mediaFeche;
-    print('notifyListeners');
     widget = buildImage();
     notifyListeners();
   }
@@ -56,6 +56,12 @@ class VideoViewModel extends ChangeNotifier {
     await videoController.setVolume(0.0);
     await videoController.play();
     widget = buildVideo();
+    notifyListeners();
+  }
+
+  Future<void> getThumbnail() async {
+    imageFile = await CustomCacheManager().getSingleFile('${guess.thumbnail}');
+    widget = buildThumbnail();
     notifyListeners();
   }
 
@@ -77,33 +83,36 @@ class VideoViewModel extends ChangeNotifier {
   }
 
   buildThumbnail() {
-    CustomCacheManager().getSingleFile('${guess.thumbnail}').then((_thumbnail) {
-      return BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: 5,
-          sigmaY: 5,
-        ),
-        child: Container(
+    return Stack(
+      children: <Widget>[
+        Center(
           child: Image.file(
-            _thumbnail,
+            imageFile,
             fit: BoxFit.fitWidth,
-            /* loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
-                    : null,
-                backgroundColor: Colors.white,
-              ),
-            );
-          }, */
             key: ValueKey('thumbnail'),
           ),
         ),
-      );
-    });
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 5,
+              sigmaY: 5,
+            ),
+            child: Container(
+              color: Colors.black.withOpacity(0.0),
+            ),
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SpinKitThreeBounce(
+              color: Colors.white,
+              size: 50.0,
+            ),
+          ),
+        )
+      ],
+    );
   }
 }
