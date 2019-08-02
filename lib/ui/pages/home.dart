@@ -20,7 +20,8 @@ class HomePage extends StatelessWidget {
         ],
         title: Text(
           'Tekel',
-          style: TextStyle(color: Colors.yellowAccent),
+          style: TextStyle(
+              color: Colors.yellowAccent, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.black,

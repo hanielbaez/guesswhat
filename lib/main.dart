@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         title: 'GuessWhat',
+        theme: ThemeData(fontFamily: 'NanumGothic'),
         home: HomePage(),
         debugShowCheckedModeBanner: false,
       ),
