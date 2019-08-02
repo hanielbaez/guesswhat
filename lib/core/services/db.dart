@@ -69,7 +69,6 @@ class DatabaseServices {
         .collection('guess')
         .document(guessID)
         .collection('comment')
-        .orderBy('creationDate', descending: true)
         .getDocuments();
     snap.documents.forEach(
       (document) {
@@ -81,12 +80,28 @@ class DatabaseServices {
     return allComments;
   }
 
-  void uploadComment(Map<String, dynamic> comment) {
+  Future<bool> uploadComment({Comment comment, String guessID}) {
+    var _result;
     DocumentReference _ref = _db
         .collection('guess')
-        .document('${comment['guessID']}')
+        .document(guessID)
         .collection('comment')
         .document();
-    _ref.setData(comment);
+    _ref.setData(comment.toJson()).whenComplete(() {
+      _result = valueHandle();
+    }).catchError((onError) {
+      _result = errorHandle(onError);
+    });
+    return _result;
+  }
+
+  //* Data result handle
+  String errorHandle(error) {
+    print('ERROR: ' + error?.toString());
+    return error?.toString();
+  }
+
+  String valueHandle() {
+    return 'success';
   }
 }

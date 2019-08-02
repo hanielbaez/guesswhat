@@ -5,6 +5,7 @@ import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:guess_what/core/viewModel/videoViewModel.dart';
 import 'package:guess_what/ui/pages/commentPage.dart';
 import 'package:guess_what/ui/widgets/costum/costumSideKick.dart';
+import 'package:guess_what/ui/widgets/costum/userBar.dart';
 import 'package:guess_what/ui/widgets/guess/description.dart';
 import 'package:guess_what/ui/widgets/guess/video.dart';
 
@@ -19,6 +20,10 @@ class GuessLayaout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        UserBar(),
+        SizedBox(
+          height: 10.0,
+        ),
         ChangeNotifierProvider<VideoViewModel>.value(
           value: VideoViewModel(guess: guess),
           child: Consumer<VideoViewModel>(
@@ -48,7 +53,6 @@ class GuessLayaout extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: CostumDescription(text: '${guess.description}')),
           ),
-
         FlatButton.icon(
           icon: Icon(
             Icons.comment,
