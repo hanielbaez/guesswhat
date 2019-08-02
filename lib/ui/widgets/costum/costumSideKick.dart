@@ -41,7 +41,6 @@ class _CostumSidekickState extends State<CostumSidekick> {
                   Container(
                     alignment: Alignment.bottomCenter,
                     child: Wrap(
-                      
                       children: targetBuilderDelegates
                           .map(
                             (builderDelegate) => builderDelegate.build(
@@ -62,7 +61,9 @@ class _CostumSidekickState extends State<CostumSidekick> {
                 ],
               ),
               Container(
-                //height: 110.0,
+                  //height: 110.0,
+                  child: AnimatedSwitcher(
+                duration: Duration(seconds: 1),
                 child: _model.correctAnswear
                     ? Container()
                     : Wrap(
@@ -96,7 +97,7 @@ class _CostumSidekickState extends State<CostumSidekick> {
                                 )
                                 .toList(),
                       ),
-              ),
+              )),
             ],
           ),
         );

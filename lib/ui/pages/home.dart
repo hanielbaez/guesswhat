@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:provider/provider.dart';
 
 //Coustom import
@@ -13,9 +14,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.add,
-            ),
+            icon: Icon(SimpleLineIcons.getIconData('plus')),
             onPressed: () => onButtonPressed(context), //Add multimedia
           )
         ],

@@ -8,6 +8,7 @@ import 'package:guess_what/ui/widgets/costum/costumSideKick.dart';
 import 'package:guess_what/ui/widgets/costum/userBar.dart';
 import 'package:guess_what/ui/widgets/guess/description.dart';
 import 'package:guess_what/ui/widgets/guess/video.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:provider/provider.dart';
 
@@ -20,9 +21,9 @@ class GuessLayaout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        UserBar(),
-        SizedBox(
-          height: 10.0,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: UserBar(),
         ),
         ChangeNotifierProvider<VideoViewModel>.value(
           value: VideoViewModel(guess: guess),
@@ -53,34 +54,55 @@ class GuessLayaout extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: CostumDescription(text: '${guess.description}')),
           ),
-        FlatButton.icon(
-          icon: Icon(
-            Icons.comment,
-            color: Colors.white,
-          ),
-          label: Text(
-            'Comment',
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return ChangeNotifierProvider<CommentViewModel>.value(
-                  value: CommentViewModel(
-                    databaseServices: Provider.of(context),
-                  ),
-                  child: Consumer<CommentViewModel>(
-                    builder: (context, model, child) {
-                      return CommentPage(
-                        model: model,
-                        guess: guess,
-                      );
-                    },
-                  ),
-                );
-              },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            FlatButton.icon(
+              icon: Icon(SimpleLineIcons.getIconData('heart'), color: Colors.white),
+              label: Text(
+                'Love',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {},
             ),
-          ),
+            FlatButton.icon(
+              icon: Icon(
+                SimpleLineIcons.getIconData('bubbles'),
+                color: Colors.white,
+              ),
+              label: Text(
+                'Comment',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ChangeNotifierProvider<CommentViewModel>.value(
+                      value: CommentViewModel(
+                        databaseServices: Provider.of(context),
+                      ),
+                      child: Consumer<CommentViewModel>(
+                        builder: (context, model, child) {
+                          return CommentPage(
+                            model: model,
+                            guess: guess,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            FlatButton.icon(
+              icon: Icon(SimpleLineIcons.getIconData('share'), color: Colors.white),
+              label: Text(
+                'Share',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {},
+            ),
+          ],
         ),
         Divider(
           color: Colors.white54,

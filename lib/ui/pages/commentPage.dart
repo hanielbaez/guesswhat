@@ -3,6 +3,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:guess_what/core/model/comment.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/commentViewModel.dart';
@@ -139,7 +140,7 @@ class CommentForm extends StatelessWidget {
         ),
         IconButton(
           icon: Icon(
-            Icons.send,
+            SimpleLineIcons.getIconData('paper-plane'),
             color: Colors.white,
           ),
           onPressed: () {

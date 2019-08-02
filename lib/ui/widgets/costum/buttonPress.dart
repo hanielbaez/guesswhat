@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:guess_what/core/viewModel/SourceMediaViewModel.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -14,7 +15,7 @@ void onButtonPressed(context) {
         children: <Widget>[
           ListTile(
             title: Text('Capture Image'),
-            leading: Icon(Icons.photo_camera),
+            leading: Icon(SimpleLineIcons.getIconData('camera')),
             onTap: () async {
               try {
                 _multiMedia['image'] =
@@ -33,7 +34,7 @@ void onButtonPressed(context) {
           ),
           ListTile(
             title: Text('Capture Video'),
-            leading: Icon(Icons.videocam),
+            leading: Icon(SimpleLineIcons.getIconData('camrecorder')),
             onTap: () async {
               try {
                 _multiMedia['video'] =
@@ -49,7 +50,7 @@ void onButtonPressed(context) {
           ),
           ListTile(
             title: Text('Image from Gallery'),
-            leading: Icon(Icons.photo_album),
+            leading: Icon(SimpleLineIcons.getIconData('picture')),
             onTap: () async {
               try {
                 _multiMedia['image'] =
@@ -66,7 +67,7 @@ void onButtonPressed(context) {
           ),
           ListTile(
             title: Text('Video from Gallery'),
-            leading: Icon(Icons.video_library),
+            leading: Icon(SimpleLineIcons.getIconData('film')),
             onTap: () async {
               try {
                 _multiMedia['video'] =
