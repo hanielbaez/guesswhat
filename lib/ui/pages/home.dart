@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(SimpleLineIcons.getIconData('menu')),
         actions: <Widget>[
           IconButton(
             icon: Icon(SimpleLineIcons.getIconData('plus')),
@@ -24,7 +25,6 @@ class HomePage extends StatelessWidget {
               color: Colors.yellowAccent, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: Colors.black,
       ),
       drawer: Drawer(
         child: Placeholder(

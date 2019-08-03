@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
 import 'package:guess_what/ui/pages/home.dart';
 import 'package:mime/mime.dart';
@@ -23,7 +25,7 @@ class GuessCreate extends StatelessWidget {
         ),
         leading: IconButton(
           //Costum Back Button
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
           onPressed: () => navigateHome(context),
         ),
         centerTitle: true,
@@ -114,44 +116,56 @@ class GuessCreate extends StatelessWidget {
                         databaseServices: Provider.of(context)),
                     child: Consumer<GuessCreateViewModel>(
                       builder: (context, model, child) {
-                        return FlatButton(
-                          child: Text("Submit"),
-                          onPressed: () async {
-                            _formCreateKey.currentState.save();
-                            if (_formCreateKey.currentState.validate()) {
-                              var _file =
-                                  _multiMedia['video'] ?? _multiMedia['image'];
-                              var _fileThumbnail =
-                                  _multiMedia['imageThumbnail'] ??
-                                      _multiMedia['videoThumbnail'];
+                        return model.loading
+                            ? Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: SpinKitThreeBounce(
+                                    color: Colors.black,
+                                    size: 25.0,
+                                  ),
+                                ),
+                              )
+                            : FlatButton(
+                                child: Text("Submit"),
+                                onPressed: () async {
+                                  _formCreateKey.currentState.save();
+                                  if (_formCreateKey.currentState.validate()) {
+                                    var _file = _multiMedia['video'] ??
+                                        _multiMedia['image'];
+                                    var _fileThumbnail =
+                                        _multiMedia['imageThumbnail'] ??
+                                            _multiMedia['videoThumbnail'];
 
-                              var _urlThumbnail = await model.uploadFireStore(
-                                  file: _fileThumbnail, context: context);
-                              //Set the map with the form text value
-                              _guess['word'] =
-                                  _formCreateKey.currentState.value['word'];
-                              _guess['description'] = _formCreateKey
-                                  .currentState.value['description'];
-                              _guess['userName'] = 'Haniel';
-                              _guess['thumbnail'] = _urlThumbnail;
-                              _guess['creationDate'] = DateTime.now();
+                                    var _urlThumbnail =
+                                        await model.uploadFireStore(
+                                            file: _fileThumbnail,
+                                            context: context);
+                                    //Set the map with the form text value
+                                    _guess['word'] = _formCreateKey
+                                        .currentState.value['word'];
+                                    _guess['description'] = _formCreateKey
+                                        .currentState.value['description'];
+                                    _guess['userName'] = 'Haniel';
+                                    _guess['thumbnail'] = _urlThumbnail;
+                                    _guess['creationDate'] = DateTime.now();
 
-                              navigateHome(context);
+                                    navigateHome(context);
 
-                              var _url = await model.uploadFireStore(
-                                  file: _file, context: context);
+                                    var _url = await model.uploadFireStore(
+                                        file: _file, context: context);
 
-                              //Get the media Type video/image
-                              var listSplit =
-                                  lookupMimeType(_file.path).split('/');
-                              listSplit[0] == 'image'
-                                  ? _guess['imageURL'] = _url
-                                  : _guess['videoURL'] = _url;
+                                    //Get the media Type video/image
+                                    var listSplit =
+                                        lookupMimeType(_file.path).split('/');
+                                    listSplit[0] == 'image'
+                                        ? _guess['imageURL'] = _url
+                                        : _guess['videoURL'] = _url;
 
-                              model.uploadFireBase(guess: _guess);
-                            }
-                          },
-                        );
+                                    model.uploadFireBase(guess: _guess);
+                                  }
+                                },
+                              );
                       },
                     ),
                   ),
@@ -166,7 +180,7 @@ class GuessCreate extends StatelessWidget {
 }
 
 void navigateHome(BuildContext context) {
-  Navigator.of(context).push(
+  Navigator.of(context).pushReplacement(
     MaterialPageRoute(
       builder: (context) => HomePage(),
     ),

@@ -3,6 +3,8 @@ import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:guess_what/core/viewModel/SourceMediaViewModel.dart';
 import 'package:image_picker/image_picker.dart';
 
+//TODO: Rename this
+
 void onButtonPressed(context) {
   SourceImageOption _sourceOption = SourceImageOption();
   showModalBottomSheet(

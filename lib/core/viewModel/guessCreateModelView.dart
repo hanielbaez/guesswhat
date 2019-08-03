@@ -4,18 +4,21 @@ import 'package:guess_what/core/services/db.dart';
 
 class GuessCreateViewModel extends ChangeNotifier {
   final DatabaseServices _databaseServices;
+  bool loading = false;
   GuessCreateViewModel({@required DatabaseServices databaseServices})
       : _databaseServices = databaseServices;
 
   Future<String> uploadFireStore({File file, BuildContext context}) async {
+    loading =  true;
+    notifyListeners();
     //Upload Image/video
     var url = await _databaseServices.uploadToFireStore(file).whenComplete(() {
-      print('FIREBASE DONE0.');
-      Scaffold.of(context).showSnackBar(
+      //! Error at leave moment
+      /* Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Uploaded Successfully'),
         ),
-      );
+      ); */
     });
 
     return url;

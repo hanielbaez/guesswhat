@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess_what/costumTheme.dart';
 import 'package:provider/provider.dart';
 import 'package:guess_what/providerSetup.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         title: 'GuessWhat',
-        theme: ThemeData(fontFamily: 'NanumGothic'),
+        theme: costumTheme,
         home: HomePage(),
         debugShowCheckedModeBanner: false,
       ),

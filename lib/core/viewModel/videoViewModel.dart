@@ -31,8 +31,6 @@ class VideoViewModel extends ChangeNotifier {
     }
   }
 
-  //TODO: Mineatura del video
-
   //Return video or image
   Future<String> mediaType() async {
     var mediaURL = this.guess.imageURL ?? this.guess.videoURL;

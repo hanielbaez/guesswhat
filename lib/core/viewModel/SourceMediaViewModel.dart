@@ -18,12 +18,10 @@ class SourceImageOption {
     return await ImagePicker.pickVideo(source: source);
   }
 
-  Future<File> getthumbnailImage(File file, String targetPath) async {
+ Future<File> getthumbnailImage(File file, String targetPath) async {
     var result = await FlutterImageCompress.compressAndGetFile(
         file.absolute.path, targetPath,
-        quality: 50,
-        //keepExif: false,
-        autoCorrectionAngle: true);
+        quality: 50, autoCorrectionAngle: true);
     return result;
   }
 
@@ -46,5 +44,4 @@ class SourceImageOption {
       );
     }
   }
-
 }

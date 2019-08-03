@@ -10,7 +10,6 @@ class CostumDescription extends StatelessWidget {
     return ExpandablePanel(
       collapsed: Text(
         text,
-        style: TextStyle(color: Colors.white),
         textAlign: TextAlign.justify,
         softWrap: true,
         maxLines: 2,
@@ -18,7 +17,6 @@ class CostumDescription extends StatelessWidget {
       ),
       expanded: Text(
         text,
-        style: TextStyle(color: Colors.white),
         softWrap: true,
       ),
       tapHeaderToExpand: true,
