@@ -61,43 +61,44 @@ class _CostumSidekickState extends State<CostumSidekick> {
                 ],
               ),
               Container(
-                  //height: 110.0,
-                  child: AnimatedSwitcher(
-                duration: Duration(seconds: 1),
-                child: _model.correctAnswear
-                    ? Container()
-                    : Wrap(
-                        children: sourceBuilderDelegates.isEmpty
-                            ? [
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: SpinKitThreeBounce(
-                                      color: Colors.white,
-                                      size: 25.0,
+                //height: 110.0,
+                child: AnimatedSwitcher(
+                  duration: Duration(seconds: 1),
+                  child: _model.correctAnswear
+                      ? Container()
+                      : Wrap(
+                          children: sourceBuilderDelegates.isEmpty
+                              ? [
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: SpinKitThreeBounce(
+                                        color: Colors.white,
+                                        size: 25.0,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ]
-                            : sourceBuilderDelegates
-                                .map(
-                                  (builderDelegate) => builderDelegate.build(
-                                    context,
-                                    CustomLetter(
-                                        item: builderDelegate.message,
-                                        isSource: true,
-                                        model: widget.model),
-                                    animationBuilder: (animation) {
-                                      return CurvedAnimation(
-                                        parent: animation,
-                                        curve: Curves.ease,
-                                      );
-                                    },
-                                  ),
-                                )
-                                .toList(),
-                      ),
-              )),
+                                ]
+                              : sourceBuilderDelegates
+                                  .map(
+                                    (builderDelegate) => builderDelegate.build(
+                                      context,
+                                      CustomLetter(
+                                          item: builderDelegate.message,
+                                          isSource: true,
+                                          model: widget.model),
+                                      animationBuilder: (animation) {
+                                        return CurvedAnimation(
+                                          parent: animation,
+                                          curve: Curves.ease,
+                                        );
+                                      },
+                                    ),
+                                  )
+                                  .toList(),
+                        ),
+                ),
+              ),
             ],
           ),
         );

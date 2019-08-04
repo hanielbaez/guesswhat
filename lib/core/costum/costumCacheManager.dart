@@ -15,17 +15,19 @@ class CustomCacheManager extends BaseCacheManager {
     return _instance;
   }
 
-  CustomCacheManager._() : super(key,
-      maxAgeCacheObject: Duration(minutes: 30),
-      maxNrOfCacheObjects: 30,
-      fileFetcher: _customHttpGetter);
+  CustomCacheManager._()
+      : super(key,
+            maxAgeCacheObject: Duration(minutes: 30),
+            maxNrOfCacheObjects: 30,
+            fileFetcher: _customHttpGetter);
 
   Future<String> getFilePath() async {
     var directory = await getTemporaryDirectory();
     return path.join(directory.path, key);
   }
 
-  static Future<FileFetcherResponse> _customHttpGetter(String url, {Map<String, String> headers}) async {
+  static Future<FileFetcherResponse> _customHttpGetter(String url,
+      {Map<String, String> headers}) async {
     // Do things with headers, the url or whatever.
     return HttpFileFetcherResponse(await http.get(url, headers: headers));
   }

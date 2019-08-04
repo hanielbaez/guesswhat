@@ -14,12 +14,6 @@ class VideoLayaout extends StatefulWidget {
 
 class _VideoLayaoutState extends State<VideoLayaout> {
   @override
-  void initState() {
-    widget.model.getMedia();
-    super.initState();
-  }
-
-  @override
   void dispose() {
     widget.model.videoController?.dispose();
     super.dispose();
@@ -28,14 +22,30 @@ class _VideoLayaoutState extends State<VideoLayaout> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //width: double.infinity,
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
       child: GestureDetector(
         child: Stack(
           fit: StackFit.loose,
           children: <Widget>[
-            widget.model.widget ?? Container(),
+            FutureBuilder(
+              future: widget.model.getMedia(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    return Text('Check your network connection.');
+                  case ConnectionState.active:
+                  case ConnectionState.waiting:
+                    return widget.model.buildThumbnail();
+                  case ConnectionState.done:
+                    if (snapshot.hasError)
+                      return Text('Error: ${snapshot.error}');
+                    return widget.model.widget;
+                }
+                return Text('Unreachable.');
+              },
+            ),
+            //widget.model.widget ?? Container(),
             //TODO: Finish the Flare implementacion
             /*  FlareActor(
               "assets/flare/Success.flr",

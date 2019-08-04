@@ -62,6 +62,7 @@ class DatabaseServices {
 
   // * Comment
 
+  //Fech all Commenst availables
   Future<List<Comment>> getAllComments(String guessID) async {
     //Use to fech all Comments
     final List<Comment> allComments = [];

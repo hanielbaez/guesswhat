@@ -16,5 +16,6 @@ class CommentViewModel extends ChangeNotifier {
 
   Future uploadComment({Comment comment, String guessID}) async {
     await _databaseServices.uploadComment(comment: comment, guessID: guessID);
+    notifyListeners();
   }
 }

@@ -12,20 +12,21 @@ class VideoViewModel extends ChangeNotifier {
   File mediaFeche;
   VideoPlayerController videoController;
   File imageFile;
-
+  File thumbnailFile;
   dynamic widget;
+
+  Future<dynamic> future;
 
   VideoViewModel({this.guess});
 
-  void getMedia() async {
+  Future getMedia() async {
     if (mediaFeche == null) {
-      getThumbnail();
       switch (await mediaType()) {
         case 'image':
-          await getImage();
+          return await getImage();
           break;
         case 'video':
-          await getVideoController();
+          return await getVideoController();
           break;
       }
     }
@@ -40,30 +41,24 @@ class VideoViewModel extends ChangeNotifier {
     return listSplit[0];
   }
 
-  Future<void> getImage() async {
+  Future<File> getImage() async {
     imageFile = mediaFeche;
     widget = buildImage();
-    notifyListeners();
+    return imageFile;
   }
 
 //Setup the videoController
-  Future<void> getVideoController() async {
+  Future<VideoPlayerController> getVideoController() async {
     videoController = VideoPlayerController.file(mediaFeche);
     await videoController.initialize();
     await videoController.setLooping(true);
     await videoController.setVolume(0.0);
     await videoController.play();
     widget = buildVideo();
-    notifyListeners();
+    return videoController;
   }
 
-  Future<void> getThumbnail() async {
-    imageFile = await CustomCacheManager().getSingleFile('${guess.thumbnail}');
-    widget = buildThumbnail();
-    notifyListeners();
-  }
-
-//Costum widgets
+//Costum image widgets
   Image buildImage() {
     return Image.file(
       imageFile,
@@ -72,6 +67,7 @@ class VideoViewModel extends ChangeNotifier {
     );
   }
 
+  //Costum video widgets
   AspectRatio buildVideo() {
     return AspectRatio(
       aspectRatio: videoController.value.aspectRatio,
@@ -80,25 +76,15 @@ class VideoViewModel extends ChangeNotifier {
     );
   }
 
-  buildThumbnail() {
+  //Costum thumbnail widgets
+  Stack buildThumbnail() {
     return Stack(
       children: <Widget>[
         Center(
-          child: Image.file(
-            imageFile,
+          child: Image.asset(
+            'assets/images/noiseTv.gif',
             fit: BoxFit.fitWidth,
             key: ValueKey('thumbnail'),
-          ),
-        ),
-        Positioned.fill(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: 5,
-              sigmaY: 5,
-            ),
-            child: Container(
-              color: Colors.black.withOpacity(0.0),
-            ),
           ),
         ),
         Center(
