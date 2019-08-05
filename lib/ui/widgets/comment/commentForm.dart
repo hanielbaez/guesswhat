@@ -21,6 +21,7 @@ class CommentForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _focusNode = FocusNode();
     return Row(
       children: <Widget>[
         FormBuilder(
@@ -29,7 +30,7 @@ class CommentForm extends StatelessWidget {
             child: FormBuilderTextField(
               attribute: "comment",
               maxLines: 1,
-              autofocus: true,
+              focusNode: _focusNode,
               decoration: InputDecoration(
                 labelStyle: TextStyle(color: Colors.white),
                 hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
@@ -69,7 +70,9 @@ class CommentForm extends StatelessWidget {
               );
 
               model.uploadComment(comment: newComment, guessID: guess.id);
+
               _fbKey.currentState.reset();
+              model.scrollBotton();
             }
           },
         ),

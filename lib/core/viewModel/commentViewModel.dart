@@ -5,6 +5,7 @@ import 'package:guess_what/core/services/db.dart';
 class CommentViewModel extends ChangeNotifier {
   DatabaseServices _databaseServices;
   List<Comment> listComments = [];
+  ScrollController scrollController = ScrollController();
 
   CommentViewModel({@required DatabaseServices databaseServices})
       : _databaseServices = databaseServices;
@@ -16,6 +17,12 @@ class CommentViewModel extends ChangeNotifier {
 
   Future uploadComment({Comment comment, String guessID}) async {
     await _databaseServices.uploadComment(comment: comment, guessID: guessID);
-    notifyListeners();
+    getComments(guessID); //? This is not optimal
+  }
+
+  //Scroll to the last comment
+  void scrollBotton() {
+    scrollController.animateTo(scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
   }
 }

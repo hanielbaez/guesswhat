@@ -55,6 +55,7 @@ class _CommentPageState extends State<CommentPage> {
           children: <Widget>[
             Expanded(
               child: ListView.builder(
+                controller: model.scrollController,
                 itemCount: model.listComments.length,
                 itemBuilder: (BuildContext context, int index) {
                   return model.listComments.isEmpty
@@ -102,4 +103,3 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 }
-
