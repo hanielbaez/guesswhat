@@ -8,5 +8,5 @@ ThemeData costumTheme = ThemeData(
       title: TextStyle(fontSize: 36.0, color: Colors.white),
       body1: TextStyle(fontSize: 14.0, color: Colors.white),
     ),
-    appBarTheme: AppBarTheme(color: Colors.black45),
+    appBarTheme: AppBarTheme(color: Colors.black87),
     backgroundColor: Colors.black);

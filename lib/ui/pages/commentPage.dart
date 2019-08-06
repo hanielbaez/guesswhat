@@ -28,7 +28,6 @@ class _CommentPageState extends State<CommentPage> {
   void initState() {
     model = widget.model;
     guess = widget.guess;
-    model.getComments(guess.id);
     super.initState();
   }
 
@@ -54,52 +53,78 @@ class _CommentPageState extends State<CommentPage> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: ListView.builder(
-                controller: model.scrollController,
-                itemCount: model.listComments.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return model.listComments.isEmpty
-                      ? Center(
-                          child: Text(
-                            'Make the first comment',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            UserBar(),
-                            SizedBox(height: 10.0),
-                            ExpandablePanel(
-                              collapsed: Text(
-                                '${model.listComments[index].text}',
-                                style: TextStyle(color: Colors.white),
-                                textAlign: TextAlign.justify,
-                                softWrap: true,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              expanded: Text(
-                                '${model.listComments[index].text}',
-                                style: TextStyle(color: Colors.white),
-                                softWrap: true,
-                              ),
-                              tapHeaderToExpand: true,
-                              tapBodyToCollapse: true,
-                              hasIcon: false,
-                            ),
-                            Divider(
-                              color: Colors.white.withOpacity(0.5),
-                            )
-                          ],
-                        );
-                },
-              ),
+              child: StreamBuilder(
+                  stream: model.getComments(guess.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError)
+                      return (Text('Error: ${snapshot.error}'));
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return Text('Not currently connected');
+                      case ConnectionState.waiting:
+                        return Text('Connected');
+                      case ConnectionState.active:
+                        return ListViewBuilder(
+                            model: model, snapshot: snapshot);
+                      case ConnectionState.done:
+                        print('Comments fetch');
+                    }
+                    return null; //unreachable
+                  }),
             ),
             CommentForm(fbKey: _fbKey, model: model, guess: guess),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ListViewBuilder extends StatelessWidget {
+  const ListViewBuilder({
+    Key key,
+    @required this.model,
+    @required this.snapshot,
+  }) : super(key: key);
+
+  final CommentViewModel model;
+  final AsyncSnapshot<dynamic> snapshot;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      controller: model.scrollController,
+      itemCount: snapshot.data.documents.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            UserBar(),
+            SizedBox(height: 10.0),
+            ExpandablePanel(
+              collapsed: Text(
+                '${snapshot.data.documents[index]['text']}',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.justify,
+                softWrap: true,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+              expanded: Text(
+                '${snapshot.data.documents[index]['text']}',
+                style: TextStyle(color: Colors.white),
+                softWrap: true,
+              ),
+              tapHeaderToExpand: true,
+              tapBodyToCollapse: true,
+              hasIcon: false,
+            ),
+            Divider(
+              color: Colors.white.withOpacity(0.5),
+            )
+          ],
+        );
+      },
     );
   }
 }

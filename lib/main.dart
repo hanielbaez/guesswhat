@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         title: 'GuessWhat',
         theme: costumTheme,
         home: HomePage(),
-        debugShowCheckedModeBanner: false,
+        //debugShowCheckedModeBanner: false,
       ),
     );
   }

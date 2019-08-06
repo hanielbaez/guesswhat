@@ -18,7 +18,7 @@ class SourceImageOption {
     return await ImagePicker.pickVideo(source: source);
   }
 
- Future<File> getthumbnailImage(File file, String targetPath) async {
+  Future<File> getthumbnailImage(File file, String targetPath) async {
     var result = await FlutterImageCompress.compressAndGetFile(
         file.absolute.path, targetPath,
         quality: 50, autoCorrectionAngle: true);
@@ -37,7 +37,7 @@ class SourceImageOption {
   void navigateToCreate({BuildContext context, Map multiMedia}) {
     if (multiMedia.isNotEmpty) {
       Navigator.of(context).pop();
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => GuessCreate(multiMedia: multiMedia),
         ),

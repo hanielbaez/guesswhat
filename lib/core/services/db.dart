@@ -63,22 +63,13 @@ class DatabaseServices {
   // * Comment
 
   //Fech all Commenst availables
-  Future<List<Comment>> getAllComments(String guessID) async {
+  Stream<QuerySnapshot> getAllComments(String guessID) {
     //Use to fech all Comments
-    final List<Comment> allComments = [];
-    var snap = await _db
+    return _db
         .collection('guess')
         .document(guessID)
         .collection('comment')
-        .getDocuments();
-    snap.documents.forEach(
-      (document) {
-        allComments.add(
-          Comment.fromFireStore(document),
-        );
-      },
-    );
-    return allComments;
+        .snapshots();
   }
 
   Future<bool> uploadComment({Comment comment, String guessID}) {
