@@ -74,7 +74,6 @@ class LettersViewModel extends ChangeNotifier {
     if (_selectedWord == _guessWord.toUpperCase()) {
       print('Correct Answear!');
       correctAnswear = true;
-      //notifyListeners();
     }
   }
 

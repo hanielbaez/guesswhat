@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
+import 'package:guess_what/ui/widgets/costum/costumDrawer.dart';
 import 'package:provider/provider.dart';
 
 //Coustom import
@@ -34,38 +35,12 @@ class HomePage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      drawer: Drawer(
-        child: Container(
-          color: Colors.black87,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Debes registrarte para continuar es GRATIS',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 50.0,
-                ),
-                FacebookSignInButton(
-                    text: 'Sign in with Facebook',
-                    onPressed: () {
-                      // call authentication logic
-                    }),
-                SizedBox(
-                  height: 10.0,
-                ),
-                GoogleSignInButton(
-                  onPressed: () {/* ... */},
-                )
-              ],
-            ),
-          ),
+      drawer: ChangeNotifierProvider<DrawerViewModel>.value(
+        value: DrawerViewModel(authentication: Provider.of(context)),
+        child: Consumer<DrawerViewModel>(
+          builder: (context, model, child) {
+            return CostumDrawer(model: model);
+          },
         ),
       ),
       backgroundColor: Colors.black,
@@ -85,3 +60,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+

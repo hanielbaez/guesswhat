@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:guess_what/core/model/comment.dart';
+import 'package:guess_what/core/model/user.dart';
 import 'package:path/path.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,7 +16,33 @@ class DatabaseServices {
   final Firestore _db = Firestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  //Dowload
+//*USER*//
+
+  //User profile data
+  Stream<User> getUser(FirebaseUser user) {
+    return _db
+        .collection('users')
+        .document(user.uid)
+        .snapshots()
+        .map((snap) => User.fromFireStore(snap));
+  }
+
+  void updateUserData(User userData) {
+    var user = User(
+        uid: userData.uid,
+        email: userData.email,
+        displayName: userData.displayName,
+        photoURL: userData.photoURL,
+        lastSeen: Timestamp.now());
+    _db.collection('users').document(user.uid).setData(user.toJson(), merge: true);
+  }
+
+
+  
+
+  //* GUESS *// 
+
+  //Dowload guesses
   Future<List<Guess>> fectchGuesses() async {
     //Use to fech all Guesses
     final List<Guess> allGuesses = [];
@@ -60,7 +88,7 @@ class DatabaseServices {
         .whenComplete(() => print('FireBase Complete'));
   }
 
-  // * Comment
+  //* COMMENT *// 
 
   //Fech all Commenst availables
   Stream<QuerySnapshot> getAllComments(String guessID) {
@@ -87,7 +115,9 @@ class DatabaseServices {
     return _result;
   }
 
-  //* Data result handle
+  //* HANDLE *//
+
+  //Data error handle
   String errorHandle(error) {
     print('ERROR: ' + error?.toString());
     return error?.toString();
