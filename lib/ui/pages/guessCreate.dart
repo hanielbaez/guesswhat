@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:guess_what/core/model/user.dart';
+import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
 import 'package:guess_what/ui/pages/home.dart';
 import 'package:mime/mime.dart';
@@ -126,44 +128,88 @@ class GuessCreate extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : FlatButton(
-                                child: Text("Submit"),
-                                onPressed: () async {
-                                  _formCreateKey.currentState.save();
-                                  if (_formCreateKey.currentState.validate()) {
-                                    var _file = _multiMedia['video'] ??
-                                        _multiMedia['image'];
-                                    var _fileThumbnail =
-                                        _multiMedia['imageThumbnail'] ??
-                                            _multiMedia['videoThumbnail'];
-
-                                    var _urlThumbnail =
-                                        await model.uploadFireStore(
-                                            file: _fileThumbnail,
-                                            context: context);
-                                    //Set the map with the form text value
-                                    _guess['word'] = _formCreateKey
-                                        .currentState.value['word'];
-                                    _guess['description'] = _formCreateKey
-                                        .currentState.value['description'];
-                                    _guess['userName'] = 'Haniel';
-                                    _guess['thumbnail'] = _urlThumbnail;
-                                    _guess['creationDate'] = DateTime.now();
-
-                                    navigateHome(context);
-
-                                    var _url = await model.uploadFireStore(
-                                        file: _file, context: context);
-
-                                    //Get the media Type video/image
-                                    var listSplit =
-                                        lookupMimeType(_file.path).split('/');
-                                    listSplit[0] == 'image'
-                                        ? _guess['imageURL'] = _url
-                                        : _guess['videoURL'] = _url;
-
-                                    model.uploadFireBase(guess: _guess);
+                            : StreamBuilder<User>(
+                                stream:
+                                    Provider.of<AuthenticationServices>(context)
+                                        .profile,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return Text(snapshot.error.toString());
                                   }
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.none:
+                                      Text('Not current connected');
+                                      break;
+                                    case ConnectionState.waiting:
+                                      return Text('Wating...');
+                                      break;
+                                    case ConnectionState.active:
+                                      return FlatButton(
+                                        color: Colors.black,
+                                        child: Text(
+                                          "Submit",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onPressed: () async {
+                                          _formCreateKey.currentState.save();
+                                          if (_formCreateKey.currentState
+                                              .validate()) {
+                                            var _file = _multiMedia['video'] ??
+                                                _multiMedia['image'];
+                                            /* var _fileThumbnail = _multiMedia[
+                                                    'imageThumbnail'] ??
+                                                _multiMedia['videoThumbnail']; */
+
+                                            /* var _urlThumbnail =
+                                                await model.uploadFireStore(
+                                                    file: _fileThumbnail,
+                                                    context: context); */
+
+                                            //Set the map with the form text value
+                                            _guess['word'] = _formCreateKey
+                                                .currentState.value['word'];
+                                            _guess['description'] =
+                                                _formCreateKey.currentState
+                                                    .value['description'];
+                                            _guess['user'] = {
+                                              'uid': snapshot.data.uid,
+                                              'displayName':
+                                                  snapshot.data.displayName,
+                                              'photoURL':
+                                                  snapshot.data.photoURL,
+                                            };
+
+                                            // _guess['thumbnail'] = _urlThumbnail;
+                                            _guess['creationDate'] =
+                                                DateTime.now();
+
+                                            navigateHome(context);
+
+                                            //Upload media to FireStore
+                                            var _url =
+                                                await model.uploadFireStore(
+                                                    file: _file,
+                                                    context: context);
+
+                                            //Get the media Type video/image
+                                            var listSplit =
+                                                lookupMimeType(_file.path)
+                                                    .split('/');
+                                            listSplit[0] == 'image'
+                                                ? _guess['imageURL'] = _url
+                                                : _guess['videoURL'] = _url;
+
+                                            model.uploadFireBase(guess: _guess);
+                                          }
+                                        },
+                                      );
+                                      break;
+                                    case ConnectionState.done:
+                                      print('Stream done');
+                                      return Container();
+                                      break;
+                                  }
+                                  return Text('Unreachable'); //unreachable
                                 },
                               );
                       },

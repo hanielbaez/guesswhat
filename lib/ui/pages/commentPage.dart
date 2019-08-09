@@ -90,16 +90,27 @@ class ListViewBuilder extends StatelessWidget {
   final CommentViewModel model;
   final AsyncSnapshot<dynamic> snapshot;
 
+  //TODO: UserBar getting null
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       controller: model.scrollController,
       itemCount: snapshot.data.documents.length,
       itemBuilder: (BuildContext context, int index) {
+        var userData = {
+          'displayName': snapshot.data.documents[index]['user']['displayName'],
+          'uid': snapshot.data.documents[index]['user']['uid'],
+          'photoURL': snapshot.data.documents[index]['user']['photoURL'],
+        };
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            UserBar(),
+            UserBar(
+              userData: userData,
+              timeStamp: snapshot.data.documents[index]['creationDate'],
+            ),
             SizedBox(height: 10.0),
             ExpandablePanel(
               collapsed: Text(

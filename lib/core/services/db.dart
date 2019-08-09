@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:guess_what/core/model/comment.dart';
 import 'package:guess_what/core/model/user.dart';
+import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,7 +48,7 @@ class DatabaseServices {
     //Use to fech all Guesses
     final List<Guess> allGuesses = [];
     var snap = await _db
-        .collection('guess')
+        .collection('guesses')
         .orderBy('creationDate', descending: true)
         .getDocuments();
     snap.documents.forEach(
@@ -63,7 +64,7 @@ class DatabaseServices {
   Future<Guess> getGuess() async {
     //Use to fech one Guess by it's ID
     var snap =
-        await _db.collection('guess').document('MFEYSUv3UTBbDZT0Gkkz').get();
+        await _db.collection('guesses').document('MFEYSUv3UTBbDZT0Gkkz').get();
     return Guess.fromFireStore(snap);
   }
 
@@ -71,7 +72,7 @@ class DatabaseServices {
   Future<String> uploadToFireStore(File file) async {
     //Use to upload Image or Video to FireStore adn get the DownloadURL
     String baseName = basename(file.path);
-    final String fileName = '$baseName' + Random().nextInt(10000).toString();
+    final String fileName = lookupMimeType(baseName) + '/' + Random().nextInt(10000).toString() + '$baseName';
 
     final StorageReference storageRef = _storage.ref().child(fileName);
     final StorageUploadTask uploadTask = storageRef.putFile(file);
@@ -81,7 +82,7 @@ class DatabaseServices {
   }
 
   void uploadGuess({Map<String, dynamic> guess}) {
-    DocumentReference _ref = _db.collection('guess').document();
+    DocumentReference _ref = _db.collection('guesses').document();
     _ref
         .setData(guess)
         .catchError((error) => print('FireBase ERROR: $error'))
@@ -94,18 +95,18 @@ class DatabaseServices {
   Stream<QuerySnapshot> getAllComments(String guessID) {
     //Use to fech all Comments
     return _db
-        .collection('guess')
+        .collection('guesses')
         .document(guessID)
-        .collection('comment')
+        .collection('comments')
         .snapshots();
   }
 
   Future<bool> uploadComment({Comment comment, String guessID}) {
     var _result;
     DocumentReference _ref = _db
-        .collection('guess')
+        .collection('guesses')
         .document(guessID)
-        .collection('comment')
+        .collection('comments')
         .document();
     _ref.setData(comment.toJson()).whenComplete(() {
       _result = valueHandle();

@@ -23,7 +23,10 @@ class GuessLayaout extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: UserBar(),
+          child: UserBar(
+            userData: guess.user,
+            timeStamp: guess.creationDate,
+          ),
         ),
         ChangeNotifierProvider<VideoViewModel>.value(
           value: VideoViewModel(guess: guess),
