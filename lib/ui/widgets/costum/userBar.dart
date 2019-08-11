@@ -34,15 +34,21 @@ class UserBar extends StatelessWidget {
           width: 10.0,
         ),
         Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '${userData['displayName']}'.split(' ')[0] +
-                  ' ・ ' +
-                  TimeAgo.getTimeAgo(timeStamp.millisecondsSinceEpoch),
-              style: TextStyle(
-                  color: Colors.white.withOpacity(0.5),
-                  fontWeight: FontWeight.bold),
+              '${userData['displayName']}'.split(' ')[0],
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  
+            ),
+            Text(
+              TimeAgo.getTimeAgo(
+                timeStamp.millisecondsSinceEpoch,
+              ),
+              style: TextStyle(color: Colors.white.withOpacity(0.5),
+              fontSize: 10.0,
+              ),
             ),
           ],
         ),

@@ -130,8 +130,7 @@ class GuessCreate extends StatelessWidget {
                               )
                             : StreamBuilder<User>(
                                 stream:
-                                    Provider.of<AuthenticationServices>(context)
-                                        .profile,
+                                    null,
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     return Text(snapshot.error.toString());

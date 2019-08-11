@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:guess_what/core/model/comment.dart';
+import 'package:guess_what/core/model/love.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
@@ -20,12 +21,11 @@ class DatabaseServices {
 //*USER*//
 
   //User profile data
-  Stream<User> getUser(FirebaseUser user) {
-    return _db
-        .collection('users')
-        .document(user.uid)
-        .snapshots()
-        .map((snap) => User.fromFireStore(snap));
+  Future<User> getUser(FirebaseUser user) async {
+    print(user.displayName);
+    print(user.email);
+    var snap = await _db.collection('users').document(user.uid).get();
+    return User.fromFireStore(snap);
   }
 
   void updateUserData(User userData) {
@@ -35,13 +35,13 @@ class DatabaseServices {
         displayName: userData.displayName,
         photoURL: userData.photoURL,
         lastSeen: Timestamp.now());
-    _db.collection('users').document(user.uid).setData(user.toJson(), merge: true);
+    _db
+        .collection('users')
+        .document(user.uid)
+        .setData(user.toJson(), merge: true);
   }
 
-
-  
-
-  //* GUESS *// 
+  //* GUESS *//
 
   //Dowload guesses
   Future<List<Guess>> fectchGuesses() async {
@@ -72,7 +72,10 @@ class DatabaseServices {
   Future<String> uploadToFireStore(File file) async {
     //Use to upload Image or Video to FireStore adn get the DownloadURL
     String baseName = basename(file.path);
-    final String fileName = lookupMimeType(baseName) + '/' + Random().nextInt(10000).toString() + '$baseName';
+    final String fileName = lookupMimeType(baseName) +
+        '/' +
+        Random().nextInt(10000).toString() +
+        '$baseName';
 
     final StorageReference storageRef = _storage.ref().child(fileName);
     final StorageUploadTask uploadTask = storageRef.putFile(file);
@@ -89,7 +92,13 @@ class DatabaseServices {
         .whenComplete(() => print('FireBase Complete'));
   }
 
-  //* COMMENT *// 
+  //* LOVE(Favorite) *//
+
+  void updateLoveState({String customID, Love love}) {
+    _db.collection('loveGuesses').document(customID).setData(love.toJson());
+  }
+
+  //* COMMENT *//
 
   //Fech all Commenst availables
   Stream<QuerySnapshot> getAllComments(String guessID) {

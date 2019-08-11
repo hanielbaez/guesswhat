@@ -8,26 +8,12 @@ import 'package:rxdart/rxdart.dart';
 class AuthenticationServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseServices _dataBase;
-  Observable<FirebaseUser> user; //Firebase user
-  Observable<User> _profile; //User data in FireStore
 
-  AuthenticationServices({DatabaseServices dataBase}) : _dataBase = dataBase {
-    user = Observable(_auth.onAuthStateChanged);
+  AuthenticationServices({DatabaseServices dataBase}) : _dataBase = dataBase;
 
-    _profile = user.switchMap(
-      (FirebaseUser user) {
-        if (user != null) {
-          print('User SINGIN');
-          return _dataBase.getUser(user);
-        } else {
-          print('User SINGOUT');
-          return null; //No user authenticated
-        }
-      },
-    );
+  Observable<FirebaseUser> user() {
+    return Observable(FirebaseAuth.instance.onAuthStateChanged);
   }
-
-  Observable<User> get profile => _profile;
 
   //SignIn the user and set the firebase user
   Future<FirebaseUser> loginWithFacebooK() async {

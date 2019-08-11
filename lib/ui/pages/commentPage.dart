@@ -90,8 +90,6 @@ class ListViewBuilder extends StatelessWidget {
   final CommentViewModel model;
   final AsyncSnapshot<dynamic> snapshot;
 
-  //TODO: UserBar getting null
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

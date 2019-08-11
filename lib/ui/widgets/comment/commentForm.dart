@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -6,6 +7,7 @@ import 'package:guess_what/core/model/comment.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/auth.dart';
+import 'package:guess_what/core/services/db.dart';
 
 import 'package:guess_what/core/viewModel/commentViewModel.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +27,8 @@ class CommentForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User>(
-        stream: Provider.of<AuthenticationServices>(context).profile,
+    return StreamBuilder<FirebaseUser>(
+        stream: Provider.of<AuthenticationServices>(context).user(),
         builder: (context, snapshot) {
           return Row(
             children: <Widget>[
@@ -70,15 +72,17 @@ class CommentForm extends StatelessWidget {
                   SimpleLineIcons.getIconData('paper-plane'),
                   color: Colors.white,
                 ),
-                onPressed: () {
+                onPressed: () async {
                   _fbKey.currentState.save();
+                  var _user = await Provider.of<DatabaseServices>(context)
+                      .getUser(snapshot.data);
                   if (_fbKey.currentState.validate()) {
                     Comment newComment = Comment(
                       text: _fbKey.currentState.value['comment'],
                       user: {
                         'displayName': snapshot.data.displayName,
                         'uid': snapshot.data.uid,
-                        'photoURL': snapshot.data.photoURL
+                        'photoURL': _user.photoURL,
                       },
                       creationDate: Timestamp.now(),
                     );

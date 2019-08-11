@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 List<SingleChildCloneableWidget> providers = [
   ...independentServices,
   ...dependentServices,
+
 ];
 
 List<SingleChildCloneableWidget> independentServices = [
@@ -16,3 +17,5 @@ List<SingleChildCloneableWidget> dependentServices = [
         AuthenticationServices(dataBase: dataBase),
   )
 ];
+
+

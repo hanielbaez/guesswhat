@@ -9,7 +9,7 @@ class DrawerViewModel extends ChangeNotifier {
   DrawerViewModel({@required AuthenticationServices authentication})
       : _authentication = authentication;
 
-  Observable<User> get userProfile => _authentication.profile;
+  //Observable<User> get userProfile => _authentication.getUserprofile().asBroadcastStream();
 
   //Signn with facebook
   void facebookLoging() async {

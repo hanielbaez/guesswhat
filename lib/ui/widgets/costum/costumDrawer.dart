@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:guess_what/core/model/user.dart';
+import 'package:guess_what/core/services/auth.dart';
+import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
+import 'package:provider/provider.dart';
 
 class CostumDrawer extends StatelessWidget {
   final DrawerViewModel model;
@@ -19,29 +23,23 @@ class CostumDrawer extends StatelessWidget {
         color: Colors.black87,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: StreamBuilder(
-            stream: model.userProfile,
+          child: StreamBuilder<FirebaseUser>(
+            stream: Provider.of<AuthenticationServices>(context).user(),
             builder: (context, snapshot) {
               if (snapshot.data == null) {
                 return SingOutLayout(model: model);
               }
               if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
+                return Text('${snapshot.error}');
               }
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
-                  print('Not current connected');
-                  break;
+                  return Text('Not current connected');
                 case ConnectionState.waiting:
-                  print('Wating');
-                  break;
+                  return Text('Wating');
                 case ConnectionState.active:
-                  print('Connected to a Stream');
-                  return SingInLayout(snapshot: snapshot, model: model);
-                  break;
                 case ConnectionState.done:
-                  print('Stream done');
-                  return Container();
+                  return SingInLayout(snapshot: snapshot, model: model);
                   break;
               }
               return Container(); //unreachable
@@ -54,7 +52,7 @@ class CostumDrawer extends StatelessWidget {
 }
 
 class SingInLayout extends StatelessWidget {
-  final AsyncSnapshot<User> snapshot;
+  final AsyncSnapshot<FirebaseUser> snapshot;
   final DrawerViewModel model;
 
   const SingInLayout({Key key, this.snapshot, this.model}) : super(key: key);
@@ -76,9 +74,29 @@ class SingInLayout extends StatelessWidget {
                 shape: BoxShape.rectangle,
                 border: Border.all(color: Colors.white),
               ),
-              child: Image.network(
-                snapshot.data.photoURL,
-                fit: BoxFit.fill,
+              child: FutureBuilder<User>(
+                future: Provider.of<DatabaseServices>(context)
+                    .getUser(snapshot.data),
+                builder: (context, imageSnap) {
+                  switch (imageSnap.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.active:
+                    case ConnectionState.waiting:
+                      return Icon(
+                        SimpleLineIcons.getIconData('emotsmile'),
+                        color: Colors.white,
+                      );
+                    case ConnectionState.done:
+                      if (imageSnap.hasError)
+                        return Text('Error: ${snapshot.error}');
+                      return Image.network(
+                        imageSnap.data.photoURL,
+                        fit: BoxFit.fill,
+                      );
+                  }
+
+                  return Container();
+                },
               ),
             ),
             Text(snapshot.data.displayName),
