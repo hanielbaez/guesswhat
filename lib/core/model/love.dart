@@ -10,8 +10,8 @@ class Love {
     return Love(state: map['state']);
   }
 
-  Map<dynamic, dynamic> toJson() {
-    Map<dynamic, dynamic> map = Map<dynamic, dynamic>();
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = Map<String, dynamic>();
     map['state'] = this.state;
     map['updateDate'] = this.updateDate;
     return map;

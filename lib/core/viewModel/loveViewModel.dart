@@ -1,3 +1,4 @@
+import 'package:guess_what/core/model/love.dart';
 import 'package:guess_what/core/services/db.dart';
 
 class FavoriteViewModel {
@@ -6,9 +7,9 @@ class FavoriteViewModel {
   FavoriteViewModel({this.db});
 
   /* void uploadFavorite({Love loveData, String loveID}) =>
-      db.uploadLove(loveData: loveData, loveID: loveID); */
+      db.uploadLove(loveData: loveData, loveID: loveID); 
 
-  /* Future<Love> favoriteStream(String loveID) {
+   Future<Love> favoriteStream(String loveID) {
     return db.loveStream(loveID);
   } */
 }

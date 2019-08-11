@@ -25,29 +25,30 @@ class UserBar extends StatelessWidget {
             shape: BoxShape.rectangle,
             border: Border.all(color: Colors.white),
           ),
-          child: Image.network(
-            userData['photoURL'].toString(),
-            fit: BoxFit.fill,
+          child: FadeInImage.assetNetwork(
+            placeholder: 'assets/images/noiseTv.gif',
+            image: userData['photoURL'],
+            fit: BoxFit.cover,
           ),
         ),
         SizedBox(
           width: 10.0,
         ),
         Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               '${userData['displayName']}'.split(' ')[0],
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  
             ),
             Text(
               TimeAgo.getTimeAgo(
                 timeStamp.millisecondsSinceEpoch,
               ),
-              style: TextStyle(color: Colors.white.withOpacity(0.5),
-              fontSize: 10.0,
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.5),
+                fontSize: 10.0,
               ),
             ),
           ],

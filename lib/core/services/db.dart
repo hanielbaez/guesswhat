@@ -93,9 +93,18 @@ class DatabaseServices {
   }
 
   //* LOVE(Favorite) *//
+  /* The customID is make out od the GuessId and the Authenticated UserId */
 
   void updateLoveState({String customID, Love love}) {
     _db.collection('loveGuesses').document(customID).setData(love.toJson());
+  }
+
+  Stream<Love> loveStream({String customID}) {
+    return _db.collection('loveGuesses').document(customID).snapshots().map(
+      (doc) {
+        return Love.fromFireStore(doc.data);
+      },
+    );
   }
 
   //* COMMENT *//

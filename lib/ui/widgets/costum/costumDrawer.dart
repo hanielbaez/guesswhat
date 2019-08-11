@@ -89,12 +89,12 @@ class SingInLayout extends StatelessWidget {
                     case ConnectionState.done:
                       if (imageSnap.hasError)
                         return Text('Error: ${snapshot.error}');
-                      return Image.network(
-                        imageSnap.data.photoURL,
-                        fit: BoxFit.fill,
+                      return FadeInImage.assetNetwork(
+                        placeholder: 'assets/images/noiseTv.gif',
+                        image: imageSnap.data.photoURL,
+                        fit: BoxFit.cover,
                       );
                   }
-
                   return Container();
                 },
               ),
