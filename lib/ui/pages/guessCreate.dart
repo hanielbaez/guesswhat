@@ -1,20 +1,26 @@
+//Flutter and dart import
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:guess_what/core/services/db.dart';
+import 'package:provider/provider.dart';
+import 'package:mime/mime.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:guess_what/core/model/user.dart';
-import 'package:guess_what/core/services/auth.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+//Self import
+import 'package:flutter/services.dart';
 import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
 import 'package:guess_what/ui/pages/home.dart';
-import 'package:mime/mime.dart';
-import 'package:provider/provider.dart';
 
 class GuessCreate extends StatelessWidget {
   final Map _multiMedia;
+  final FirebaseUser _user;
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
-  GuessCreate({multiMedia}) : _multiMedia = multiMedia;
+  GuessCreate({multiMedia, user})
+      : _multiMedia = multiMedia,
+        _user = user;
 
   @override
   Widget build(BuildContext context) {
@@ -128,87 +134,62 @@ class GuessCreate extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : StreamBuilder<User>(
-                                stream:
-                                    null,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    return Text(snapshot.error.toString());
-                                  }
-                                  switch (snapshot.connectionState) {
-                                    case ConnectionState.none:
-                                      Text('Not current connected');
-                                      break;
-                                    case ConnectionState.waiting:
-                                      return Text('Wating...');
-                                      break;
-                                    case ConnectionState.active:
-                                      return FlatButton(
-                                        color: Colors.black,
-                                        child: Text(
-                                          "Submit",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        onPressed: () async {
-                                          _formCreateKey.currentState.save();
-                                          if (_formCreateKey.currentState
-                                              .validate()) {
-                                            var _file = _multiMedia['video'] ??
-                                                _multiMedia['image'];
-                                            /* var _fileThumbnail = _multiMedia[
+                            : FlatButton(
+                                color: Colors.black,
+                                child: Text(
+                                  "Submit",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () async {
+                                  _formCreateKey.currentState.save();
+                                  if (_formCreateKey.currentState.validate()) {
+                                    var _file = _multiMedia['video'] ??
+                                        _multiMedia['image'];
+                                    //? I think that the thumbnail is not needed for now
+                                    /* var _fileThumbnail = _multiMedia[
                                                     'imageThumbnail'] ??
                                                 _multiMedia['videoThumbnail']; */
 
-                                            /* var _urlThumbnail =
+                                    /* var _urlThumbnail =
                                                 await model.uploadFireStore(
                                                     file: _fileThumbnail,
                                                     context: context); */
 
-                                            //Set the map with the form text value
-                                            _guess['word'] = _formCreateKey
-                                                .currentState.value['word'];
-                                            _guess['description'] =
-                                                _formCreateKey.currentState
-                                                    .value['description'];
-                                            _guess['user'] = {
-                                              'uid': snapshot.data.uid,
-                                              'displayName':
-                                                  snapshot.data.displayName,
-                                              'photoURL':
-                                                  snapshot.data.photoURL,
-                                            };
+                                    //Set the map with the form text value
 
-                                            // _guess['thumbnail'] = _urlThumbnail;
-                                            _guess['creationDate'] =
-                                                DateTime.now();
+                                    var _userDb =
+                                        await Provider.of<DatabaseServices>(
+                                                context)
+                                            .getUser(_user);
 
-                                            navigateHome(context);
+                                    _guess['word'] = _formCreateKey
+                                        .currentState.value['word'];
+                                    _guess['description'] = _formCreateKey
+                                        .currentState.value['description'];
+                                    _guess['user'] = {
+                                      'uid': _user.uid,
+                                      'displayName': _user.displayName,
+                                      'photoURL': _userDb.photoURL,
+                                    };
 
-                                            //Upload media to FireStore
-                                            var _url =
-                                                await model.uploadFireStore(
-                                                    file: _file,
-                                                    context: context);
+                                    // _guess['thumbnail'] = _urlThumbnail;
+                                    _guess['creationDate'] = DateTime.now();
 
-                                            //Get the media Type video/image
-                                            var listSplit =
-                                                lookupMimeType(_file.path)
-                                                    .split('/');
-                                            listSplit[0] == 'image'
-                                                ? _guess['imageURL'] = _url
-                                                : _guess['videoURL'] = _url;
+                                    navigateHome(context);
 
-                                            model.uploadFireBase(guess: _guess);
-                                          }
-                                        },
-                                      );
-                                      break;
-                                    case ConnectionState.done:
-                                      print('Stream done');
-                                      return Container();
-                                      break;
+                                    //Upload media to FireStore
+                                    var _url = await model.uploadFireStore(
+                                        file: _file, context: context);
+
+                                    //Get the media Type video/image
+                                    var listSplit =
+                                        lookupMimeType(_file.path).split('/');
+                                    listSplit[0] == 'image'
+                                        ? _guess['imageURL'] = _url
+                                        : _guess['videoURL'] = _url;
+
+                                    model.uploadFireBase(guess: _guess);
                                   }
-                                  return Text('Unreachable'); //unreachable
                                 },
                               );
                       },

@@ -29,7 +29,7 @@ class _CostumSidekickState extends State<CostumSidekick> {
   @override
   Widget build(BuildContext context) {
     return SidekickTeamBuilder<Item>(
-      animationDuration: Duration(milliseconds: 600),
+      animationDuration: Duration(milliseconds: 500),
       initialSourceList: widget.model.sourceList,
       builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
         return Container(
@@ -63,7 +63,7 @@ class _CostumSidekickState extends State<CostumSidekick> {
               Container(
                 //height: 110.0,
                 child: AnimatedSwitcher(
-                  duration: Duration(seconds: 1),
+                  duration: Duration(milliseconds: 600),
                   child: _model.correctAnswear
                       ? Container()
                       : Wrap(

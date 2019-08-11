@@ -1,10 +1,15 @@
+//Flutter and Dart import
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter_video_compress/flutter_video_compress.dart';
-import 'package:guess_what/ui/pages/guessCreate.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
+//Self import
+import 'package:guess_what/ui/pages/guessCreate.dart';
+
+//Pick the image or video from different sources as gallery or camera
 class SourceImageOption {
   final _flutterVideoCompress = FlutterVideoCompress();
   Map multimediaFile = {};
@@ -34,12 +39,16 @@ class SourceImageOption {
     return thumbnailFile;
   }
 
-  void navigateToCreate({BuildContext context, Map multiMedia}) {
+  void navigateToCreate(
+      {BuildContext context, Map multiMedia, FirebaseUser user}) {
     if (multiMedia.isNotEmpty) {
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => GuessCreate(multiMedia: multiMedia),
+          builder: (context) => GuessCreate(
+            multiMedia: multiMedia,
+            user: user,
+          ),
         ),
       );
     }

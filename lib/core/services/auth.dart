@@ -5,6 +5,7 @@ import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/db.dart';
 import 'package:rxdart/rxdart.dart';
 
+//User authentication from Firebase
 class AuthenticationServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseServices _dataBase;
