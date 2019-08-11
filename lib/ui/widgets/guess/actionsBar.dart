@@ -2,9 +2,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/costum/costumCacheManager.dart';
-import 'package:guess_what/core/services/auth.dart';
-import 'package:guess_what/core/services/db.dart';
 import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -14,6 +11,8 @@ import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/commentViewModel.dart';
 import 'package:guess_what/ui/pages/commentPage.dart';
 import 'package:share_extend/share_extend.dart';
+import 'package:guess_what/core/costum/costumCacheManager.dart';
+import 'package:guess_what/core/services/auth.dart';
 
 class ActionBar extends StatelessWidget {
   const ActionBar({

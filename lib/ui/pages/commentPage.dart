@@ -56,20 +56,20 @@ class _CommentPageState extends State<CommentPage> {
               child: StreamBuilder(
                   stream: model.getComments(guess.id),
                   builder: (context, snapshot) {
-                    if (snapshot.hasError)
-                      return (Text('Error: ${snapshot.error}'));
                     switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                        return Text('Not currently connected');
+                      case ConnectionState.none:              
                       case ConnectionState.waiting:
-                        return Text('Connected');
                       case ConnectionState.active:
-                        return ListViewBuilder(
-                            model: model, snapshot: snapshot);
+                        if (snapshot.hasError)
+                          return (Text('Error: ${snapshot.error}'));
+                        if (snapshot.hasData)
+                          return ListViewBuilder(
+                              model: model, snapshot: snapshot);
+                        break;
                       case ConnectionState.done:
                         print('Comments fetch');
                     }
-                    return null; //unreachable
+                    return Container(); //unreachable
                   }),
             ),
             CommentForm(fbKey: _fbKey, model: model, guess: guess),
