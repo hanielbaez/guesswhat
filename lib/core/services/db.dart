@@ -72,10 +72,9 @@ class DatabaseServices {
   Future<String> uploadToFireStore(File file) async {
     //Use to upload Image or Video to FireStore adn get the DownloadURL
     String baseName = basename(file.path);
-    final String fileName = lookupMimeType(baseName) +
-        '/' +
-        Random().nextInt(10000).toString() +
-        '$baseName';
+    String fileType = lookupMimeType(baseName) + '/';
+    final String fileName =
+        fileType + Random().nextInt(10000).toString() + '$baseName';
 
     final StorageReference storageRef = _storage.ref().child(fileName);
     final StorageUploadTask uploadTask = storageRef.putFile(file);
@@ -91,6 +90,8 @@ class DatabaseServices {
         .catchError((error) => print('FireBase ERROR: $error'))
         .whenComplete(() => print('FireBase Complete'));
   }
+
+  //* GUESS DONE*//
 
   //* LOVE(Favorite) *//
   /* The customID is make out od the GuessId and the Authenticated UserId */
