@@ -3,11 +3,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:guess_what/core/viewModel/guessModel.dart';
 import 'package:guess_what/ui/widgets/guess/guess.dart';
 
-class CostumListGuess extends StatelessWidget {
+class CustomListGuess extends StatelessWidget {
   final GuessModel model;
   final Function onModelReady;
 
-  CostumListGuess({Key key, this.model, this.onModelReady}) : super(key: key);
+  CustomListGuess({Key key, this.model, this.onModelReady}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

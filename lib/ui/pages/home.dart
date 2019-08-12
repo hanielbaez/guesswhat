@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
-import 'package:guess_what/ui/widgets/costum/costumDrawer.dart';
+import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
 import 'package:provider/provider.dart';
 
 //Coustom import
 import 'package:guess_what/core/viewModel/guessModel.dart';
-import 'package:guess_what/ui/widgets/costum/costumListGuess.dart';
-import '../widgets/costum/buttonPress.dart';
+import 'package:guess_what/ui/widgets/custom/customListGuess.dart';
+import '../widgets/custom/buttonPress.dart';
 
 class HomePage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
         value: DrawerViewModel(authentication: Provider.of(context)),
         child: Consumer<DrawerViewModel>(
           builder: (context, model, child) {
-            return CostumDrawer(model: model);
+            return CustomDrawer(model: model);
           },
         ),
       ),
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
         ),
         child: Consumer<GuessModel>(
           builder: (context, model, child) {
-            return CostumListGuess(
+            return CustomListGuess(
               model: model,
               onModelReady: () => model.getAllGuesses(),
             );

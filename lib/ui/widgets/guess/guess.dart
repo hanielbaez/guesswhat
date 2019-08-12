@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:guess_what/core/viewModel/videoViewModel.dart';
-import 'package:guess_what/ui/widgets/costum/costumSideKick.dart';
-import 'package:guess_what/ui/widgets/costum/userBar.dart';
+import 'package:guess_what/ui/widgets/custom/customSideKick.dart';
+import 'package:guess_what/ui/widgets/custom/userBar.dart';
 import 'package:guess_what/ui/widgets/guess/actionsBar.dart';
 import 'package:guess_what/ui/widgets/guess/description.dart';
 import 'package:guess_what/ui/widgets/guess/video.dart';
@@ -43,7 +43,7 @@ class GuessLayaout extends StatelessWidget {
             value: LettersViewModel(guessWord: guess.word),
             child: Consumer<LettersViewModel>(
               builder: (context, model, child) {
-                return CostumSidekick(
+                return CustomSidekick(
                   guess: guess,
                   model: model,
                 );
@@ -55,7 +55,7 @@ class GuessLayaout extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: CostumDescription(text: '${guess.description}')),
+                child: CustomDescription(text: '${guess.description}')),
           ),
         ActionBar(guess: guess),
         Divider(

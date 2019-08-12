@@ -1,16 +1,17 @@
+//Flutter and Dart import
 import 'dart:io';
 import 'dart:math';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:guess_what/core/model/comment.dart';
-import 'package:guess_what/core/model/love.dart';
-import 'package:guess_what/core/model/user.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+//Self import
+import 'package:guess_what/core/model/comment.dart';
+import 'package:guess_what/core/model/love.dart';
+import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/model/guess.dart';
 
 //Networks request
@@ -92,9 +93,20 @@ class DatabaseServices {
   }
 
   //* GUESS DONE*//
+  void setGuessesDone({String customID}) {
+    _db
+        .collection('GuessesDone')
+        .document(customID)
+        .setData({'creationDate': Timestamp.now()});
+  }
+
+  //Return NULL is the user have not completed the Guess yet
+  Future<DocumentSnapshot> guessStatus({String customID}) {
+    return _db.collection('GuessesDone').document(customID).get();
+  }
 
   //* LOVE(Favorite) *//
-  /* The customID is make out od the GuessId and the Authenticated UserId */
+  /* The customID is make out of the GuessId and the Authenticated UserId */
 
   void updateLoveState({String customID, Love love}) {
     _db.collection('loveGuesses').document(customID).setData(love.toJson());

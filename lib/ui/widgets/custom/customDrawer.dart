@@ -8,10 +8,10 @@ import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
 import 'package:provider/provider.dart';
 
-class CostumDrawer extends StatelessWidget {
+class CustomDrawer extends StatelessWidget {
   final DrawerViewModel model;
 
-  const CostumDrawer({
+  const CustomDrawer({
     Key key,
     this.model,
   }) : super(key: key);

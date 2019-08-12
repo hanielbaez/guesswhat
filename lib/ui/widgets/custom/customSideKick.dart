@@ -7,16 +7,16 @@ import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:guess_what/ui/widgets/guess/letter.dart';
 
-class CostumSidekick extends StatefulWidget {
+class CustomSidekick extends StatefulWidget {
   final Guess guess;
   final LettersViewModel model;
-  CostumSidekick({this.guess, this.model});
+  CustomSidekick({this.guess, this.model});
 
   @override
-  _CostumSidekickState createState() => _CostumSidekickState();
+  _CustomSidekickState createState() => _CustomSidekickState();
 }
 
-class _CostumSidekickState extends State<CostumSidekick> {
+class _CustomSidekickState extends State<CustomSidekick> {
   LettersViewModel _model;
 
   @override

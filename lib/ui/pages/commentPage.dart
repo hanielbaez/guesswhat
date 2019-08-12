@@ -1,13 +1,15 @@
+//Flutter Dart import
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+
+//Self import
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/commentViewModel.dart';
 import 'package:guess_what/ui/pages/home.dart';
 import 'package:guess_what/ui/widgets/comment/commentForm.dart';
-import 'package:guess_what/ui/widgets/costum/userBar.dart';
+import 'package:guess_what/ui/widgets/custom/userBar.dart';
 
 class CommentPage extends StatefulWidget {
   final CommentViewModel model;
@@ -38,7 +40,7 @@ class _CommentPageState extends State<CommentPage> {
         title: Text('Comments'),
         centerTitle: true,
         leading: IconButton(
-          //Costum Back Button
+          //Custom Back Button
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
           onPressed: () => Navigator.of(context).push(
             MaterialPageRoute(
@@ -57,7 +59,7 @@ class _CommentPageState extends State<CommentPage> {
                   stream: model.getComments(guess.id),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
-                      case ConnectionState.none:              
+                      case ConnectionState.none:
                       case ConnectionState.waiting:
                       case ConnectionState.active:
                         if (snapshot.hasError)

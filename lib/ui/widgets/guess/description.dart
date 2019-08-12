@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
-class CostumDescription extends StatelessWidget {
+class CustomDescription extends StatelessWidget {
   final String text;
-  CostumDescription({this.text});
+  CustomDescription({this.text});
 
   @override
   Widget build(BuildContext context) {
