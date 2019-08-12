@@ -6,16 +6,16 @@ import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
 import 'package:guess_what/core/model/guess.dart';
-import 'package:guess_what/core/viewModel/commentViewModel.dart';
+import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/ui/pages/home.dart';
 import 'package:guess_what/ui/widgets/comment/commentForm.dart';
 import 'package:guess_what/ui/widgets/custom/userBar.dart';
+import 'package:provider/provider.dart';
 
 class CommentPage extends StatefulWidget {
-  final CommentViewModel model;
   final Guess guess;
 
-  CommentPage({this.model, this.guess});
+  CommentPage({this.guess});
 
   @override
   _CommentPageState createState() => _CommentPageState();
@@ -23,12 +23,11 @@ class CommentPage extends StatefulWidget {
 
 class _CommentPageState extends State<CommentPage> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-  CommentViewModel model;
+
   Guess guess;
 
   @override
   void initState() {
-    model = widget.model;
     guess = widget.guess;
     super.initState();
   }
@@ -56,7 +55,8 @@ class _CommentPageState extends State<CommentPage> {
           children: <Widget>[
             Expanded(
               child: StreamBuilder(
-                  stream: model.getComments(guess.id),
+                  stream: Provider.of<DatabaseServices>(context)
+                      .getAllComments(guess.id),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
@@ -65,8 +65,7 @@ class _CommentPageState extends State<CommentPage> {
                         if (snapshot.hasError)
                           return (Text('Error: ${snapshot.error}'));
                         if (snapshot.hasData)
-                          return ListViewBuilder(
-                              model: model, snapshot: snapshot);
+                          return ListViewBuilder(snapshot: snapshot);
                         break;
                       case ConnectionState.done:
                         print('Comments fetch');
@@ -74,7 +73,7 @@ class _CommentPageState extends State<CommentPage> {
                     return Container(); //unreachable
                   }),
             ),
-            CommentForm(fbKey: _fbKey, model: model, guess: guess),
+            CommentForm(fbKey: _fbKey, guess: guess),
           ],
         ),
       ),
@@ -85,17 +84,17 @@ class _CommentPageState extends State<CommentPage> {
 class ListViewBuilder extends StatelessWidget {
   const ListViewBuilder({
     Key key,
-    @required this.model,
+    //@required this.model,
     @required this.snapshot,
   }) : super(key: key);
 
-  final CommentViewModel model;
+  //final CommentViewModel model;
   final AsyncSnapshot<dynamic> snapshot;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      controller: model.scrollController,
+      //controller: model.scrollController,
       itemCount: snapshot.data.documents.length,
       itemBuilder: (BuildContext context, int index) {
         var userData = {

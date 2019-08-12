@@ -1,12 +1,12 @@
+//Flutter and Dart import
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
-import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
-import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
 import 'package:provider/provider.dart';
 
-//Coustom import
-import 'package:guess_what/core/viewModel/guessModel.dart';
+//Self import
+import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
+import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
 import 'package:guess_what/ui/widgets/custom/customListGuess.dart';
 import '../widgets/custom/buttonPress.dart';
 
@@ -44,19 +44,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       backgroundColor: Color.fromARGB(1, 191, 191, 191),
-      body: ChangeNotifierProvider<GuessModel>.value(
-        value: GuessModel(
-          databaseServices: Provider.of(context),
-        ),
-        child: Consumer<GuessModel>(
-          builder: (context, model, child) {
-            return CustomListGuess(
-              model: model,
-              onModelReady: () => model.getAllGuesses(),
-            );
-          },
-        ),
-      ),
+      body: CustomListGuess(),
     );
   }
 }

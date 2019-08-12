@@ -1,22 +1,25 @@
+//Flutter and Dart import
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:guess_what/core/viewModel/guessModel.dart';
+import 'package:provider/provider.dart';
+
+//Self import
+import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/ui/widgets/guess/guess.dart';
 
 class CustomListGuess extends StatelessWidget {
-  final GuessModel model;
   final Function onModelReady;
 
-  CustomListGuess({Key key, this.model, this.onModelReady}) : super(key: key);
+  CustomListGuess({Key key, this.onModelReady}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: model.getAllGuesses(),
+      future: Provider.of<DatabaseServices>(context).fectchGuesses(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        //? Do i really nees this SWITCH
         switch (snapshot.connectionState) {
           case ConnectionState.none:
-          //return Text('Press button to start.');
           case ConnectionState.active:
           case ConnectionState.waiting:
             return Container(
@@ -35,14 +38,15 @@ class CustomListGuess extends StatelessWidget {
           case ConnectionState.done:
             if (snapshot.hasError) return Text('Error: ${snapshot.error}');
             return ListView.builder(
-              itemCount: model.allGuesses.length,
+              itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Center(
-                  child: GuessLayaout(guess: model.allGuesses[index]),
+                  child: GuessLayaout(guess: snapshot.data[index]),
                 );
               },
             );
         }
+        return Text('Something went wrong, please try later');
       },
     );
   }
