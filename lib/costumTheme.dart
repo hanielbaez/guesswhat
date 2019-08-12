@@ -9,4 +9,4 @@ ThemeData costumTheme = ThemeData(
       body1: TextStyle(fontSize: 14.0, color: Colors.white),
     ),
     appBarTheme: AppBarTheme(color: Colors.black87),
-    backgroundColor: Colors.black);
+    backgroundColor: Color.fromARGB(1, 191, 191, 191));

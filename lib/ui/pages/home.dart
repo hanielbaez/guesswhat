@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
           },
         ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(1, 191, 191, 191),
       body: ChangeNotifierProvider<GuessModel>.value(
         value: GuessModel(
           databaseServices: Provider.of(context),
@@ -60,4 +60,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
