@@ -1,5 +1,7 @@
-import 'package:flare_flutter/flare_actor.dart';
+//Flutter and Dart import
 import 'package:flutter/material.dart';
+
+//Self import
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/videoViewModel.dart';
 

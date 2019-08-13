@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:guess_what/core/costum/costumCacheManager.dart';
+import 'package:guess_what/core/custom/customCacheManager.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:mime/mime.dart';
 import 'package:video_player/video_player.dart';

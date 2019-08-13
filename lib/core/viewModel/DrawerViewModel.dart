@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/auth.dart';
-import 'package:rxdart/rxdart.dart';
 
 class DrawerViewModel extends ChangeNotifier {
   AuthenticationServices _authentication = AuthenticationServices();

@@ -1,9 +1,13 @@
+//Flutter and Dart import
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:rxdart/rxdart.dart';
+
+//Self import
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/db.dart';
-import 'package:rxdart/rxdart.dart';
 
 //User authentication from Firebase
 class AuthenticationServices {
@@ -37,7 +41,7 @@ class AuthenticationServices {
         var user = await _auth.signInWithCredential(credential);
 
         updateUser(user.user);
-
+        requestingPermission();
         return user.user;
         break;
     }
@@ -58,5 +62,14 @@ class AuthenticationServices {
 
   void singOut() {
     _auth.signOut();
+  }
+
+  //Getting the devices permission
+  void requestingPermission() async {
+    await PermissionHandler().requestPermissions([
+      PermissionGroup.location,
+      PermissionGroup.camera,
+      PermissionGroup.mediaLibrary
+    ]);
   }
 }

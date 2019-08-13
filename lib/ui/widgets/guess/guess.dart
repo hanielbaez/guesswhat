@@ -54,8 +54,9 @@ class GuessLayaout extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Align(
-                alignment: Alignment.topLeft,
-                child: CustomDescription(text: '${guess.description}')),
+              alignment: Alignment.topLeft,
+              child: CustomDescription(text: '${guess.description}'),
+            ),
           ),
         ActionBar(guess: guess),
         Divider(

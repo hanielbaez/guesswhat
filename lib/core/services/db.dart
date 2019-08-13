@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:location/location.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -84,7 +86,7 @@ class DatabaseServices {
     return url;
   }
 
-  void uploadGuess({Map<String, dynamic> guess}) {
+  void uploadGuess({Map<String, dynamic> guess}) async {
     DocumentReference _ref = _db.collection('guesses').document();
     _ref
         .setData(guess)

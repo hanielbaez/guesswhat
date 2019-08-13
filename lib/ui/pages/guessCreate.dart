@@ -1,6 +1,7 @@
 //Flutter and dart import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guess_what/core/custom/customGeoPoint.dart';
 import 'package:guess_what/core/services/db.dart';
 import 'package:provider/provider.dart';
 import 'package:mime/mime.dart';
@@ -162,15 +163,31 @@ class GuessCreate extends StatelessWidget {
                                                 context)
                                             .getUser(_user);
 
-                                    _guess['word'] = _formCreateKey
-                                        .currentState.value['word'];
-                                    _guess['description'] = _formCreateKey
-                                        .currentState.value['description'];
+                                    if (_formCreateKey
+                                            .currentState.value['word'] !=
+                                        '') {
+                                      _guess['word'] = _formCreateKey
+                                          .currentState.value['word'];
+                                    }
+
+                                    if (_formCreateKey.currentState
+                                            .value['description'] !=
+                                        '') {
+                                      _guess['word'] = _formCreateKey
+                                          .currentState.value['description'];
+                                    }
+
                                     _guess['user'] = {
                                       'uid': _user.uid,
                                       'displayName': _user.displayName,
                                       'photoURL': _userDb.photoURL,
                                     };
+
+                                    var _guessLocation =
+                                        await CustomGeoPoint().addGeoPoint();
+                                    if (_guessLocation != null) {
+                                      _guess['location'] = _guessLocation;
+                                    }
 
                                     // _guess['thumbnail'] = _urlThumbnail;
                                     _guess['creationDate'] = DateTime.now();
