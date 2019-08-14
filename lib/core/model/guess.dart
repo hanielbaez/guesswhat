@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 
 class Guess {
   String id;
@@ -9,7 +8,7 @@ class Guess {
   String videoURL;
   String imageURL;
   Map<dynamic, dynamic> user;
-  GeoFirePoint location;
+  String address;
   Timestamp creationDate;
 
   Guess({
@@ -18,11 +17,12 @@ class Guess {
     @required this.description,
     @required this.user,
     @required this.creationDate,
-    this.location,
+    this.address,
     this.videoURL,
     this.imageURL,
   });
 
+  ///Return a Guess Object
   factory Guess.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data;
     return Guess(
@@ -31,6 +31,9 @@ class Guess {
         description: data['description'] ?? '',
         videoURL: data['videoURL'],
         imageURL: data['imageURL'],
+        //!Getting null at data['location']
+        address:
+            data.containsKey('location') ? data['location']['address'] : '',
         user: data['user'],
         creationDate: data['creationDate']);
   }

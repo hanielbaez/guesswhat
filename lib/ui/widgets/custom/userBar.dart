@@ -6,8 +6,9 @@ import 'package:time_ago_provider/time_ago_provider.dart';
 class UserBar extends StatelessWidget {
   final Map<dynamic, dynamic> userData;
   final Timestamp timeStamp;
+  final String address;
 
-  UserBar({this.userData, this.timeStamp});
+  UserBar({this.userData, this.timeStamp, this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +43,11 @@ class UserBar extends StatelessWidget {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             Text(
-              TimeAgo.getTimeAgo(
-                timeStamp.millisecondsSinceEpoch,
-              ),
+              address +
+                  ' · ' +
+                  TimeAgo.getTimeAgo(
+                    timeStamp.millisecondsSinceEpoch,
+                  ),
               style: TextStyle(
                 color: Colors.white.withOpacity(0.5),
                 fontSize: 10.0,

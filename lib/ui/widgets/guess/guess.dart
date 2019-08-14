@@ -26,6 +26,7 @@ class GuessLayaout extends StatelessWidget {
           child: UserBar(
             userData: guess.user,
             timeStamp: guess.creationDate,
+            address: guess.address,
           ),
         ),
         ChangeNotifierProvider<VideoViewModel>.value(

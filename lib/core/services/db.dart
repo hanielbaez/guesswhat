@@ -16,14 +16,14 @@ import 'package:guess_what/core/model/love.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/model/guess.dart';
 
-//Networks request
+///Networks request
 class DatabaseServices {
   final Firestore _db = Firestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
 //*USER*//
 
-  //User profile data
+  ///Return a User object
   Future<User> getUser(FirebaseUser user) async {
     print(user.displayName);
     print(user.email);
@@ -31,6 +31,7 @@ class DatabaseServices {
     return User.fromFireStore(snap);
   }
 
+  ///Update the user data at firestore
   void updateUserData(User userData) {
     var user = User(
         uid: userData.uid,
@@ -46,7 +47,7 @@ class DatabaseServices {
 
   //* GUESS *//
 
-  //Dowload guesses
+  //Fectch all gussess and order it by date
   Future<List<Guess>> fectchGuesses() async {
     //Use to fech all Guesses
     final List<Guess> allGuesses = [];
@@ -64,14 +65,14 @@ class DatabaseServices {
     return allGuesses;
   }
 
+  ///Use to fech one Guess by it's ID
   Future<Guess> getGuess() async {
-    //Use to fech one Guess by it's ID
     var snap =
         await _db.collection('guesses').document('MFEYSUv3UTBbDZT0Gkkz').get();
     return Guess.fromFireStore(snap);
   }
 
-  //Uploade
+  //Upload media to FireStorage and return a Dowload URL
   Future<String> uploadToFireStore(File file) async {
     //Use to upload Image or Video to FireStore adn get the DownloadURL
     String baseName = basename(file.path);
@@ -86,6 +87,7 @@ class DatabaseServices {
     return url;
   }
 
+  ///Upload new guess to FireStore
   void uploadGuess({Map<String, dynamic> guess}) async {
     DocumentReference _ref = _db.collection('guesses').document();
     _ref
@@ -95,6 +97,7 @@ class DatabaseServices {
   }
 
   //* GUESS DONE*//
+  //? I need to inplement this.
   void setGuessesDone({String customID}) {
     _db
         .collection('GuessesDone')
@@ -102,7 +105,7 @@ class DatabaseServices {
         .setData({'creationDate': Timestamp.now()});
   }
 
-  //Return NULL is the user have not completed the Guess yet
+  ///Return NULL is the user have not completed the Guess yet
   Future<DocumentSnapshot> guessStatus({String customID}) {
     return _db.collection('GuessesDone').document(customID).get();
   }
@@ -124,7 +127,7 @@ class DatabaseServices {
 
   //* COMMENT *//
 
-  //Fech all Commenst availables
+  ///Fech all Comments availables by specifict guess
   Stream<QuerySnapshot> getAllComments(String guessID) {
     //Use to fech all Comments
     return _db
