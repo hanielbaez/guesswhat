@@ -83,7 +83,7 @@ class SingInLayout extends StatelessWidget {
                     case ConnectionState.active:
                     case ConnectionState.waiting:
                       return Icon(
-                        SimpleLineIcons.getIconData('emotsmile'),
+                        SimpleLineIcons.getIconData('user'),
                         color: Colors.white,
                       );
                     case ConnectionState.done:

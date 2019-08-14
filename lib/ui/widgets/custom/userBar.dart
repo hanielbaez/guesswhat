@@ -8,7 +8,7 @@ class UserBar extends StatelessWidget {
   final Timestamp timeStamp;
   final String address;
 
-  UserBar({this.userData, this.timeStamp, this.address});
+  UserBar({this.userData, this.timeStamp, this.address = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +43,7 @@ class UserBar extends StatelessWidget {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             Text(
-              address +
-                  ' · ' +
+              (address.isEmpty ? '' : address + ' ・ ') +
                   TimeAgo.getTimeAgo(
                     timeStamp.millisecondsSinceEpoch,
                   ),
