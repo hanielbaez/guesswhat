@@ -31,9 +31,9 @@ class Guess {
         description: data['description'] ?? '',
         videoURL: data['videoURL'],
         imageURL: data['imageURL'],
-        //!Getting null at data['location']
-        address:
-            data.containsKey('location') ? data['location']['address'] : '',
+        address: data.containsKey('location')
+            ? (data['location']['address']) ?? ''
+            : '',
         user: data['user'],
         creationDate: data['creationDate']);
   }

@@ -1,8 +1,9 @@
+//Flutter and Dart
 import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-//Coustom import
+//Self import
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:guess_what/ui/widgets/guess/letter.dart';
@@ -23,6 +24,7 @@ class _CustomSidekickState extends State<CustomSidekick> {
   void initState() {
     _model = widget.model;
     _model.generateItemList(context);
+    _model.getTargetList();
     super.initState();
   }
 
@@ -30,6 +32,7 @@ class _CustomSidekickState extends State<CustomSidekick> {
   Widget build(BuildContext context) {
     return SidekickTeamBuilder<Item>(
       animationDuration: Duration(milliseconds: 500),
+      initialTargetList: _model.targetList,
       initialSourceList: widget.model.sourceList,
       builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
         return Container(

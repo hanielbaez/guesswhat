@@ -1,5 +1,8 @@
 //Flutter import
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guess_what/core/services/auth.dart';
+import 'package:guess_what/core/services/db.dart';
 import 'package:provider/provider.dart';
 
 //Self import
@@ -39,17 +42,28 @@ class GuessLayaout extends StatelessWidget {
             },
           ),
         ),
-        if (guess.word.isNotEmpty) //Consition for not guess word
-          ChangeNotifierProvider<LettersViewModel>.value(
-            value: LettersViewModel(guessWord: guess.word),
-            child: Consumer<LettersViewModel>(
-              builder: (context, model, child) {
-                return CustomSidekick(
-                  guess: guess,
-                  model: model,
+        if (guess.word.isNotEmpty)
+          StreamBuilder<FirebaseUser>(
+            stream: Provider.of<AuthenticationServices>(context).user(),
+            builder: (context, userSnap) {
+              if (userSnap.hasData) {
+                return ChangeNotifierProvider<LettersViewModel>.value(
+                  value: LettersViewModel(
+                      guess: guess,
+                      db: Provider.of(context),
+                      user: userSnap.data),
+                  child: Consumer<LettersViewModel>(
+                    builder: (context, model, child) {
+                      return CustomSidekick(
+                        guess: guess,
+                        model: model,
+                      );
+                    },
+                  ),
                 );
-              },
-            ),
+              }
+              return Container();
+            },
           ),
         if (guess.description.isNotEmpty)
           Padding(

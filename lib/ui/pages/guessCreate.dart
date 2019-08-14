@@ -173,7 +173,7 @@ class GuessCreate extends StatelessWidget {
                                     if (_formCreateKey.currentState
                                             .value['description'] !=
                                         '') {
-                                      _guess['word'] = _formCreateKey
+                                      _guess['description'] = _formCreateKey
                                           .currentState.value['description'];
                                     }
 

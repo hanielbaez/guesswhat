@@ -9,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/db.dart';
 
-//User authentication from Firebase
+///User authentication from Firebase
 class AuthenticationServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseServices _dataBase;
@@ -20,7 +20,11 @@ class AuthenticationServices {
     return Observable(FirebaseAuth.instance.onAuthStateChanged);
   }
 
-  //SignIn the user and set the firebase user
+  AsObservableFuture<FirebaseUser> futureUser() {
+    return Observable(FirebaseAuth.instance.onAuthStateChanged).single;
+  }
+
+  ///SignIn the user and set the firebase user
   Future<FirebaseUser> loginWithFacebooK() async {
     var facebookLoging = FacebookLogin();
     var result = await facebookLoging
@@ -48,7 +52,7 @@ class AuthenticationServices {
     return null; //unreachable
   }
 
-  //Update user record at Firebase
+  ///Update user record at Firebase
   void updateUser(FirebaseUser userData) {
     var user = User(
         uid: userData.uid,
@@ -64,7 +68,7 @@ class AuthenticationServices {
     _auth.signOut();
   }
 
-  //Getting the devices permission
+  ///Getting the devices permission
   void requestingPermission() async {
     await PermissionHandler().requestPermissions([
       PermissionGroup.location,

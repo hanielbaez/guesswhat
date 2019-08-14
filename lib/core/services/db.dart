@@ -3,8 +3,6 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:location/location.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -97,17 +95,17 @@ class DatabaseServices {
   }
 
   //* GUESS DONE*//
-  //? I need to inplement this.
+  ///Set the data at Firebase
   void setGuessesDone({String customID}) {
     _db
-        .collection('GuessesDone')
+        .collection('guessesDone')
         .document(customID)
         .setData({'creationDate': Timestamp.now()});
   }
 
   ///Return NULL is the user have not completed the Guess yet
-  Future<DocumentSnapshot> guessStatus({String customID}) {
-    return _db.collection('GuessesDone').document(customID).get();
+  Future<DocumentSnapshot> getGuessesDone({String customID}) async {
+    return await _db.collection('guessesDone').document(customID).get();
   }
 
   //* LOVE(Favorite) *//

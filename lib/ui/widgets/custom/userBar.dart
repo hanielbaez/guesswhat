@@ -8,7 +8,7 @@ class UserBar extends StatelessWidget {
   final Timestamp timeStamp;
   final String address;
 
-  UserBar({this.userData, this.timeStamp, this.address = ''});
+  UserBar({this.userData, this.timeStamp, this.address});
 
   @override
   Widget build(BuildContext context) {
