@@ -17,7 +17,6 @@ class CustomListGuess extends StatelessWidget {
     return FutureBuilder(
       future: Provider.of<DatabaseServices>(context).fectchGuesses(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        //? Do i really nees this SWITCH
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.active:

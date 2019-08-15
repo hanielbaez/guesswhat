@@ -43,7 +43,7 @@ class UserBar extends StatelessWidget {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             Text(
-              (address.isEmpty ? '' : address + ' ・ ') +
+              (address == null ? '' : address + ' ・ ') +
                   TimeAgo.getTimeAgo(
                     timeStamp.millisecondsSinceEpoch,
                   ),

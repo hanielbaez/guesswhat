@@ -7,6 +7,7 @@ import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:share_extend/share_extend.dart';
 
 class CustomDrawer extends StatelessWidget {
   final DrawerViewModel model;
@@ -64,43 +65,86 @@ class SingInLayout extends StatelessWidget {
         SizedBox(
           height: 40.0,
         ),
-        Row(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 10.0),
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Border.all(color: Colors.white),
+        Container(
+          height: 100.0,
+          child: Row(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(right: 10.0),
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  border: Border.all(color: Colors.white),
+                ),
+                child: FutureBuilder<User>(
+                  future: Provider.of<DatabaseServices>(context)
+                      .getUser(snapshot.data),
+                  builder: (context, imageSnap) {
+                    switch (imageSnap.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.active:
+                      case ConnectionState.waiting:
+                        return Icon(
+                          SimpleLineIcons.getIconData('user'),
+                          color: Colors.white,
+                        );
+                      case ConnectionState.done:
+                        if (imageSnap.hasError)
+                          return Text('Error: ${snapshot.error}');
+                        return FadeInImage.assetNetwork(
+                          placeholder: 'assets/images/noiseTv.gif',
+                          image: imageSnap.data.photoURL,
+                          fit: BoxFit.cover,
+                        );
+                    }
+                    return Container();
+                  },
+                ),
               ),
-              child: FutureBuilder<User>(
-                future: Provider.of<DatabaseServices>(context)
-                    .getUser(snapshot.data),
-                builder: (context, imageSnap) {
-                  switch (imageSnap.connectionState) {
-                    case ConnectionState.none:
-                    case ConnectionState.active:
-                    case ConnectionState.waiting:
-                      return Icon(
-                        SimpleLineIcons.getIconData('user'),
-                        color: Colors.white,
-                      );
-                    case ConnectionState.done:
-                      if (imageSnap.hasError)
-                        return Text('Error: ${snapshot.error}');
-                      return FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/noiseTv.gif',
-                        image: imageSnap.data.photoURL,
-                        fit: BoxFit.cover,
-                      );
-                  }
-                  return Container();
-                },
-              ),
-            ),
-            Text(snapshot.data.displayName),
-          ],
+              Text(snapshot.data.displayName),
+            ],
+          ),
+        ),
+        Divider(
+          color: Colors.white24,
+        ),
+        ListTile(
+          leading: Icon(
+            SimpleLineIcons.getIconData('heart'),
+            color: Colors.white,
+          ),
+          title: Text(
+            'Loves',
+            style: TextStyle(color: Colors.white),
+          ),
+          onTap: () {},
+        ),
+        ListTile(
+          leading: Icon(
+            SimpleLineIcons.getIconData('present'),
+            color: Colors.white,
+          ),
+          title: Text(
+            'Share Tekel with friends',
+            style: TextStyle(color: Colors.white),
+          ),
+          onTap: () {
+            ShareExtend.share(
+                "I invite you to try Tekel a fun word app, available on Google Play. Go get it!",
+                "text");
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            SimpleLineIcons.getIconData('question'),
+            color: Colors.white,
+          ),
+          title: Text(
+            'Support',
+            style: TextStyle(color: Colors.white),
+          ),
+          onTap: () => model.signOut(),
         ),
         Expanded(
           child: Align(

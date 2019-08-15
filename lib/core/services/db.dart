@@ -70,9 +70,9 @@ class DatabaseServices {
     return Guess.fromFireStore(snap);
   }
 
-  //Upload media to FireStorage and return a Dowload URL
+  ///Upload media to FireStorage and return a Dowload URL
   Future<String> uploadToFireStore(File file) async {
-    //Use to upload Image or Video to FireStore adn get the DownloadURL
+    //Use to upload Image or Video to FireStore and get the DownloadURL
     String baseName = basename(file.path);
     String fileType = lookupMimeType(baseName) + '/';
     final String fileName =
@@ -85,12 +85,14 @@ class DatabaseServices {
     return url;
   }
 
-  ///Upload new guess to FireStore
-  void uploadGuess({Map<String, dynamic> guess}) async {
+  ///Return TRUE if upload new guess to FireStore success
+  Future<void> uploadGuess(Map<String, dynamic> guess) async {
     DocumentReference _ref = _db.collection('guesses').document();
     _ref
         .setData(guess)
-        .catchError((error) => print('FireBase ERROR: $error'))
+        .catchError(
+          (error) => print('FireBase ERROR: $error'),
+        )
         .whenComplete(() => print('FireBase Complete'));
   }
 

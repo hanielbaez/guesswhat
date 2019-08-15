@@ -2,7 +2,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/custom/customGeoPoint.dart';
-import 'package:guess_what/core/services/db.dart';
 import 'package:provider/provider.dart';
 import 'package:mime/mime.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -10,7 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 //Self import
-import 'package:flutter/services.dart';
+import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
 import 'package:guess_what/ui/pages/home.dart';
 
@@ -153,8 +152,8 @@ class GuessCreate extends StatelessWidget {
 
                                     /* var _urlThumbnail =
                                                 await model.uploadFireStore(
-                                                    file: _fileThumbnail,
-                                                    context: context); */
+                                                    file: _fileThumbnail
+                                                    ); */
 
                                     //Set the map with the form text value
 
@@ -195,8 +194,10 @@ class GuessCreate extends StatelessWidget {
                                     navigateHome(context);
 
                                     //Upload media to FireStore
-                                    var _url = await model.uploadFireStore(
-                                        file: _file, context: context);
+                                    var _url =
+                                        await Provider.of<DatabaseServices>(
+                                                context)
+                                            .uploadToFireStore(_file);
 
                                     //Get the media Type video/image
                                     var listSplit =
@@ -205,7 +206,8 @@ class GuessCreate extends StatelessWidget {
                                         ? _guess['imageURL'] = _url
                                         : _guess['videoURL'] = _url;
 
-                                    model.uploadFireBase(guess: _guess);
+                                    Provider.of<DatabaseServices>(context)
+                                        .uploadGuess(_guess);
                                   }
                                 },
                               );

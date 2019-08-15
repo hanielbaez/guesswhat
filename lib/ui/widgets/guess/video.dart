@@ -47,13 +47,6 @@ class _VideoLayaoutState extends State<VideoLayaout> {
                 return Text('Unreachable.');
               },
             ),
-            //widget.model.widget ?? Container(),
-            //TODO: Finish the Flare implementacion
-            /*  FlareActor(
-              "assets/flare/Success.flr",
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-            ), */
           ],
         ),
         onDoubleTap: () {
