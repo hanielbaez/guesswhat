@@ -191,8 +191,6 @@ class GuessCreate extends StatelessWidget {
                                     // _guess['thumbnail'] = _urlThumbnail;
                                     _guess['creationDate'] = DateTime.now();
 
-                                    navigateHome(context);
-
                                     //Upload media to FireStore
                                     var _url =
                                         await Provider.of<DatabaseServices>(
@@ -208,6 +206,8 @@ class GuessCreate extends StatelessWidget {
 
                                     Provider.of<DatabaseServices>(context)
                                         .uploadGuess(_guess);
+
+                                    navigateHome(context);
                                   }
                                 },
                               );
