@@ -13,6 +13,7 @@ class LettersViewModel extends ChangeNotifier {
   List<Item> sourceList = [];
   List<Item> targetList = [];
   bool correctAnswear = false;
+  bool wrongAnswear = false;
 
   LettersViewModel({Guess guess, DatabaseServices db, FirebaseUser user})
       : _guess = guess,
@@ -47,7 +48,7 @@ class LettersViewModel extends ChangeNotifier {
   }
 
   ///Generate a list of character for the source (SidedKick)
-  generateItemList(context) {
+  generateItemList() {
     if (sourceList.isEmpty) {
       String _word = randomCharacters();
 
@@ -77,7 +78,7 @@ class LettersViewModel extends ChangeNotifier {
     return _word;
   }
 
-  ///Returns a list for the destination list only if the user has previously solved it.
+  ///Get a list for the target list only if the user has previously solved it.
   getTargetList() async {
     var response = await _db.getGuessesDone(customID: _guess.id + _user.uid);
     if (response?.data != null) {
@@ -93,23 +94,44 @@ class LettersViewModel extends ChangeNotifier {
       targetList = list;
       correctAnswear = true;
       Future.delayed(Duration.zero, () => notifyListeners());
+    }else{
+      generateItemList();
     }
   }
 
+  ///Return a color for the target list depending of the target list state
+  ///if it is correct it get a color yellow, if it is wrong it get a color red
+  ///if it is not correct or wrong it get white
+  Color letterColor(bool isSource) {
+    if ((correctAnswear) && !isSource) {
+      return Colors.yellow;
+    } else if (wrongAnswear && !isSource) {
+      return Colors.red[300];
+    } else {
+      return Colors.white;
+    }
+  }
+
+  ///Add letter to the target
+  ///If it is equal to the guess.word it get a color yellow
   void setLetter({Item selectedItem}) {
-    //Add letter to the target
     selectedItems.add(selectedItem);
     var _selectedWord = getWord(selectedItems);
     if (_selectedWord == _guess.word.toUpperCase()) {
-      print('Correct Answear!');
       if (_user != null) _db.setGuessesDone(customID: _guess.id + _user.uid);
       correctAnswear = true;
+    } else if (_selectedWord.length >= _guess.word.length) {
+      wrongAnswear = true;
     }
   }
 
+  ///Remove letter from the target list
+  ///If it is longer that the answear it get a red color
   void deleteLetter({Item selectedItem}) {
-    //Remove letter from the target
     int _letterID = selectedItem.id;
     selectedItems.removeWhere((item) => item.id == _letterID);
+    if (selectedItems.length < _guess.word.length) {
+      wrongAnswear = false;
+    }
   }
 }

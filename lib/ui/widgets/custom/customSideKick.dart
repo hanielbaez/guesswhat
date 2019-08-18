@@ -23,7 +23,6 @@ class _CustomSidekickState extends State<CustomSidekick> {
   @override
   void initState() {
     _model = widget.model;
-    _model.generateItemList(context);
     _model.getTargetList();
     super.initState();
   }

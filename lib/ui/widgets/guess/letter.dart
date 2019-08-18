@@ -21,7 +21,6 @@ class CustomLetter extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        
         //If correct aswear TRUE do nothing
         if (model.correctAnswear == false) {
           SidekickTeamBuilder.of<Item>(context).move(item);
@@ -42,19 +41,17 @@ class CustomLetter extends StatelessWidget {
             shape: BoxShape.rectangle,
             color: Colors.transparent,
             border: Border.all(
-                color: (model.correctAnswear && !isSource)
-                    ? Colors.yellow
-                    : Colors.white),
+              color: model.letterColor(isSource),
+            ),
           ),
           child: Center(
             child: Text(
               item.letter,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: (model.correctAnswear && !isSource)
-                      ? Colors.yellow
-                      : Colors.white),
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+                color: model.letterColor(isSource),
+              ),
             ),
           ),
         ),
