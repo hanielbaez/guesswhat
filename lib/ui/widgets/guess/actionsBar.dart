@@ -35,36 +35,41 @@ class ActionBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   StreamBuilder<Love>(
-                      stream: Provider.of<DatabaseServices>(context)
-                          .loveStream(customID: guess.id + userSnap.data.uid),
-                      builder: (context, loveSnap) {
-                        var loveState = loveSnap?.data?.state ?? false;
+                    stream: Provider.of<DatabaseServices>(context)
+                        .loveStream(customID: guess.id + userSnap.data.uid),
+                    builder: (context, loveSnap) {
+                      var loveState = loveSnap?.data?.state ?? false;
 
-                        return FlatButton.icon(
-                          icon: loveState
-                              ? Icon(
-                                  Icons.favorite,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(SimpleLineIcons.getIconData('heart'),
-                                  color: Colors.white),
-                          label: Text(
-                            'Love',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            if (userSnap.data == null) {
-                              Scaffold.of(context).openDrawer();
-                              return null;
-                            }
+                      return FlatButton.icon(
+                        icon: loveState
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.yellow,
+                              )
+                            : Icon(SimpleLineIcons.getIconData('heart'),
+                                color: Colors.white),
+                        label: Text(
+                          'Love',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          if (userSnap.data == null) {
+                            Scaffold.of(context).openDrawer();
+                            return null;
+                          }
 
-                            Provider.of<DatabaseServices>(context)
-                                .updateLoveState(
-                                    customID: guess.id + userSnap.data.uid,
-                                    love: Love(state: !loveState));
-                          },
-                        );
-                      }),
+                          Provider.of<DatabaseServices>(context)
+                              .updateLoveState(
+                            customID: guess.id + userSnap.data.uid,
+                            love: Love(
+                                state: !loveState,
+                                userId: userSnap.data.uid,
+                                guessId: guess.id),
+                          );
+                        },
+                      );
+                    },
+                  ),
                   FlatButton.icon(
                     icon: Icon(
                       SimpleLineIcons.getIconData('bubbles'),

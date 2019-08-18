@@ -64,11 +64,11 @@ class DatabaseServices {
   }
 
   ///Use to fech one Guess by it's ID
-  Future<Guess> getGuess() async {
+  /* Future<Guess> getGuess() async {
     var snap =
-        await _db.collection('guesses').document('MFEYSUv3UTBbDZT0Gkkz').get();
+        await _db.collection('guesses').w;
     return Guess.fromFireStore(snap);
-  }
+  } */
 
   ///Upload media to FireStorage and return a Dowload URL
   Future<String> uploadToFireStore(File file) async {
@@ -119,10 +119,21 @@ class DatabaseServices {
   //* LOVE(Favorite) *//
   /* The customID is make out of the GuessId and the Authenticated UserId */
 
+  ///Update the love data to FireStore
   void updateLoveState({String customID, Love love}) {
     _db.collection('loveGuesses').document(customID).setData(love.toJson());
   }
 
+  ///Return a Snapshot of theloveGuesses by user
+  ///TODO: Add a thumbnail to the loveGuesses
+  Future<QuerySnapshot> loveGuesses(String userId) async {
+    return await _db
+        .collection('loveGuesses')
+        .where('userId', isEqualTo: userId)
+        .getDocuments();
+  }
+
+  ///Return a Love obj
   Stream<Love> loveStream({String customID}) {
     return _db.collection('loveGuesses').document(customID).snapshots().map(
       (doc) {
