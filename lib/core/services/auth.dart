@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -24,30 +25,52 @@ class AuthenticationServices {
     return Observable(FirebaseAuth.instance.onAuthStateChanged).single;
   }
 
-  ///SignIn the user and set the firebase user
-  Future<FirebaseUser> loginWithFacebooK() async {
-    var facebookLoging = FacebookLogin();
-    var result = await facebookLoging
-        .logInWithReadPermissions(['email', 'public_profile']);
+  ///SignIn the user with Facebook and set the firebase user
+  Future<FirebaseUser> loginWithFacebook() async {
+    try {
+      var facebookLoging = FacebookLogin();
+      var result = await facebookLoging
+          .logInWithReadPermissions(['email', 'public_profile']);
 
-    switch (result.status) {
-      case FacebookLoginStatus.cancelledByUser:
-        print('Error: Facebook Login calcelled by user');
-        break;
-      case FacebookLoginStatus.error:
-        print('Error: ${result.errorMessage}');
-        break;
-      case FacebookLoginStatus.loggedIn:
-        print('Facebook Loging Succes');
-        FacebookAccessToken myToken = result.accessToken;
-        AuthCredential credential =
-            FacebookAuthProvider.getCredential(accessToken: myToken.token);
-        var user = await _auth.signInWithCredential(credential);
+      switch (result.status) {
+        case FacebookLoginStatus.cancelledByUser:
+          print('Error: Facebook Login calcelled by user');
+          break;
+        case FacebookLoginStatus.error:
+          print('Error: ${result.errorMessage}');
+          break;
+        case FacebookLoginStatus.loggedIn:
+          print('Facebook Loging Succes');
+          FacebookAccessToken myToken = result.accessToken;
+          AuthCredential credential =
+              FacebookAuthProvider.getCredential(accessToken: myToken.token);
+          var user = await _auth.signInWithCredential(credential);
 
-        updateUser(user.user);
-        requestingPermission();
-        return user.user;
-        break;
+          updateUser(user.user);
+          requestingPermission();
+          return user.user;
+          break;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return null; //unreachable
+  }
+
+  Future<FirebaseUser> sigInWithGoogle() async {
+    try {
+      GoogleSignIn _googleSingIn = GoogleSignIn();
+      GoogleSignInAccount googleSignInAccount = await _googleSingIn.signIn();
+      GoogleSignInAuthentication googleAuth =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      var user = await _auth.signInWithCredential(credential);
+      updateUser(user.user);
+      requestingPermission();
+    } catch (e) {
+      print(e.toString());
     }
     return null; //unreachable
   }
@@ -65,7 +88,11 @@ class AuthenticationServices {
   }
 
   void singOut() {
-    _auth.signOut();
+    try {
+      _auth.signOut();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   ///Getting the devices permission

@@ -5,16 +5,12 @@ import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
 class CustomDrawer extends StatelessWidget {
-  final DrawerViewModel model;
-
   const CustomDrawer({
     Key key,
-    this.model,
   }) : super(key: key);
 
   @override
@@ -28,7 +24,7 @@ class CustomDrawer extends StatelessWidget {
             stream: Provider.of<AuthenticationServices>(context).user(),
             builder: (context, snapshot) {
               if (snapshot.data == null) {
-                return SingOutLayout(model: model);
+                return SingOutLayout();
               }
               if (snapshot.hasError) {
                 return Text('${snapshot.error}');
@@ -40,7 +36,7 @@ class CustomDrawer extends StatelessWidget {
                   return Text('Wating');
                 case ConnectionState.active:
                 case ConnectionState.done:
-                  return SingInLayout(snapshot: snapshot, model: model);
+                  return SingInLayout(snapshot: snapshot);
                   break;
               }
               return Container(); //unreachable
@@ -54,9 +50,8 @@ class CustomDrawer extends StatelessWidget {
 
 class SingInLayout extends StatelessWidget {
   final AsyncSnapshot<FirebaseUser> snapshot;
-  final DrawerViewModel model;
 
-  const SingInLayout({Key key, this.snapshot, this.model}) : super(key: key);
+  const SingInLayout({Key key, this.snapshot}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -136,16 +131,17 @@ class SingInLayout extends StatelessWidget {
           },
         ),
         ListTile(
-          leading: Icon(
-            SimpleLineIcons.getIconData('question'),
-            color: Colors.white,
-          ),
-          title: Text(
-            'Support',
-            style: TextStyle(color: Colors.white),
-          ),
-          onTap: () => model.signOut(),
-        ),
+            leading: Icon(
+              SimpleLineIcons.getIconData('question'),
+              color: Colors.white,
+            ),
+            title: Text(
+              'Support',
+              style: TextStyle(color: Colors.white),
+            ),
+            onTap: () {
+              //TODO: Make a support page
+            }),
         Expanded(
           child: Align(
             alignment: Alignment.bottomLeft,
@@ -156,16 +152,59 @@ class SingInLayout extends StatelessWidget {
                   color: Colors.white24,
                 ),
                 ListTile(
-                  leading: Icon(
-                    SimpleLineIcons.getIconData('logout'),
-                    color: Colors.white,
-                  ),
-                  title: Text(
-                    'Logout',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () => model.signOut(),
-                ),
+                    leading: Icon(
+                      SimpleLineIcons.getIconData('logout'),
+                      color: Colors.white.withOpacity(0.4),
+                    ),
+                    title: Text(
+                      'Logout',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.4),
+                      ),
+                    ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                              'Leave Tekel?',
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            actions: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  FlatButton(
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                    ),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                  FlatButton(
+                                      child: Text(
+                                        'Leave',
+                                        style: TextStyle(
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Provider.of<AuthenticationServices>(
+                                                context)
+                                            .singOut();
+                                        Navigator.pop(context);
+                                      })
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }),
               ],
             ),
           ),
@@ -179,10 +218,7 @@ class SingInLayout extends StatelessWidget {
 class SingOutLayout extends StatelessWidget {
   const SingOutLayout({
     Key key,
-    @required this.model,
   }) : super(key: key);
-
-  final DrawerViewModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -201,24 +237,16 @@ class SingOutLayout extends StatelessWidget {
         ),
         FacebookSignInButton(
           text: 'Sign in with Facebook',
-          onPressed: () {
-            // call FB authentication logic
-            model.facebookLoging();
-          },
+          onPressed: () =>
+              Provider.of<AuthenticationServices>(context).loginWithFacebook(),
         ),
         SizedBox(
           height: 10.0,
         ),
         GoogleSignInButton(
-          onPressed: () {
-            //TODO: Inplemente Google SingIn
-          },
+          onPressed: () =>
+              Provider.of<AuthenticationServices>(context).sigInWithGoogle(),
         ),
-        ListTile(
-          leading: Icon(SimpleLineIcons.getIconData('logout')),
-          title: Text('Logout'),
-          onTap: () {},
-        )
       ],
     );
   }

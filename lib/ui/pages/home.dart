@@ -1,10 +1,8 @@
 //Flutter and Dart import
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
-import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/core/viewModel/DrawerViewModel.dart';
 import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
 import 'package:guess_what/ui/widgets/custom/customListGuess.dart';
 import '../widgets/custom/buttonPress.dart';
@@ -34,14 +32,7 @@ class HomePage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      drawer: ChangeNotifierProvider<DrawerViewModel>.value(
-        value: DrawerViewModel(authentication: Provider.of(context)),
-        child: Consumer<DrawerViewModel>(
-          builder: (context, model, child) {
-            return CustomDrawer(model: model);
-          },
-        ),
-      ),
+      drawer: CustomDrawer(),
       backgroundColor: Color.fromARGB(1, 191, 191, 191),
       body: CustomListGuess(),
     );

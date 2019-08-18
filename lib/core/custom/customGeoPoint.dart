@@ -21,10 +21,14 @@ class CustomGeoPoint {
 
   ///Return the subLocality of a given coordinate
   Future getAddress({double latitude, double longitude}) async {
-    final coordinates = new geoCoder.Coordinates(latitude, longitude);
-    var listAddresses =
-        await geoCoder.Geocoder.local.findAddressesFromCoordinates(coordinates);
-    return listAddresses.first.subLocality;
+    try {
+      final coordinates = new geoCoder.Coordinates(latitude, longitude);
+      var listAddresses = await geoCoder.Geocoder.local
+          .findAddressesFromCoordinates(coordinates);
+      return listAddresses.first.subLocality;
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   ///Return a Map with the user curren address and geoPoints
