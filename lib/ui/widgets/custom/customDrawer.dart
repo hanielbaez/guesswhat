@@ -1,12 +1,15 @@
+//Flutter and Dart import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:share_extend/share_extend.dart';
+
+//Self import
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/services/db.dart';
-import 'package:provider/provider.dart';
-import 'package:share_extend/share_extend.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -157,7 +160,7 @@ class SingInLayout extends StatelessWidget {
                       color: Colors.white.withOpacity(0.4),
                     ),
                     title: Text(
-                      'Logout',
+                      'Log out',
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.4),
                       ),
@@ -237,16 +240,51 @@ class SingOutLayout extends StatelessWidget {
         ),
         FacebookSignInButton(
           text: 'Sign in with Facebook',
-          onPressed: () =>
-              Provider.of<AuthenticationServices>(context).loginWithFacebook(),
+          onPressed: () => Provider.of<AuthenticationServices>(context)
+              .loginWithFacebook()
+              .then(
+            (response) {
+              Navigator.pop(context);
+              Scaffold.of(context).showSnackBar(
+                new SnackBar(
+                  content: new Text("$response"),
+                ),
+              );
+            },
+          ),
         ),
         SizedBox(
           height: 10.0,
         ),
         GoogleSignInButton(
-          onPressed: () =>
-              Provider.of<AuthenticationServices>(context).sigInWithGoogle(),
+          onPressed: () => Provider.of<AuthenticationServices>(context)
+              .sigInWithGoogle()
+              .then(
+            (response) {
+              Navigator.pop(context);
+              Scaffold.of(context).showSnackBar(
+                new SnackBar(
+                  content: new Text("$response"),
+                ),
+              );
+            },
+          ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Divider(
+            color: Colors.white24,
+          ),
+        ),
+        FlatButton.icon(
+          label: Text('Sign in with Email'),
+          color: Colors.white,
+          icon: Icon(
+            SimpleLineIcons.getIconData('envelope'),
+            color: Colors.black,
+          ),
+          onPressed: () {},
+        )
       ],
     );
   }

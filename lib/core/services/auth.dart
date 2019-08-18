@@ -26,7 +26,7 @@ class AuthenticationServices {
   }
 
   ///SignIn the user with Facebook and set the firebase user
-  Future<FirebaseUser> loginWithFacebook() async {
+  Future<String> loginWithFacebook() async {
     try {
       var facebookLoging = FacebookLogin();
       var result = await facebookLoging
@@ -40,7 +40,6 @@ class AuthenticationServices {
           print('Error: ${result.errorMessage}');
           break;
         case FacebookLoginStatus.loggedIn:
-          print('Facebook Loging Succes');
           FacebookAccessToken myToken = result.accessToken;
           AuthCredential credential =
               FacebookAuthProvider.getCredential(accessToken: myToken.token);
@@ -48,16 +47,17 @@ class AuthenticationServices {
 
           updateUser(user.user);
           requestingPermission();
-          return user.user;
+          return 'Signed in Successfully';
           break;
       }
     } catch (e) {
       print(e.toString());
+      return e.message.toString();
     }
     return null; //unreachable
   }
 
-  Future<FirebaseUser> sigInWithGoogle() async {
+  Future<String> sigInWithGoogle() async {
     try {
       GoogleSignIn _googleSingIn = GoogleSignIn();
       GoogleSignInAccount googleSignInAccount = await _googleSingIn.signIn();
@@ -69,10 +69,10 @@ class AuthenticationServices {
       var user = await _auth.signInWithCredential(credential);
       updateUser(user.user);
       requestingPermission();
+      return 'Signed in Successfully';
     } catch (e) {
-      print(e.toString());
+      return e.message;
     }
-    return null; //unreachable
   }
 
   ///Update user record at Firebase
