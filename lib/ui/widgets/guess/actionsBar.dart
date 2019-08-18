@@ -25,86 +25,123 @@ class ActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<FirebaseUser>(
-      stream: Provider.of<AuthenticationServices>(context).user(),
-      builder: (context, userSnap) {
-        if (userSnap.data != null)
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              StreamBuilder<Love>(
-                  stream: Provider.of<DatabaseServices>(context)
-                      .loveStream(customID: guess.id + userSnap.data.uid),
-                  builder: (context, loveSnap) {
-                    var loveState = loveSnap?.data?.state ?? false;
+    return Column(
+      children: <Widget>[
+        StreamBuilder<FirebaseUser>(
+          stream: Provider.of<AuthenticationServices>(context).user(),
+          builder: (context, userSnap) {
+            if (userSnap.data != null)
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  StreamBuilder<Love>(
+                      stream: Provider.of<DatabaseServices>(context)
+                          .loveStream(customID: guess.id + userSnap.data.uid),
+                      builder: (context, loveSnap) {
+                        var loveState = loveSnap?.data?.state ?? false;
 
-                    return FlatButton.icon(
-                      icon: loveState
-                          ? Icon(
-                              Icons.favorite,
-                              color: Colors.yellow,
-                            )
-                          : Icon(SimpleLineIcons.getIconData('heart'),
-                              color: Colors.white),
-                      label: Text(
-                        'Love',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        if (userSnap.data == null) {
-                          Scaffold.of(context).openDrawer();
-                          return null;
-                        }
+                        return FlatButton.icon(
+                          icon: loveState
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: Colors.yellow,
+                                )
+                              : Icon(SimpleLineIcons.getIconData('heart'),
+                                  color: Colors.white),
+                          label: Text(
+                            'Love',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            if (userSnap.data == null) {
+                              Scaffold.of(context).openDrawer();
+                              return null;
+                            }
 
-                        Provider.of<DatabaseServices>(context).updateLoveState(
-                            customID: guess.id + userSnap.data.uid,
-                            love: Love(state: !loveState));
-                      },
-                    );
-                  }),
-              FlatButton.icon(
-                icon: Icon(
-                  SimpleLineIcons.getIconData('bubbles'),
-                  color: Colors.white,
-                ),
-                label: Text(
-                  'Comment',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  if (userSnap.data == null) {
-                    Scaffold.of(context).openDrawer();
-                    return null;
-                  }
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return CommentPage(
-                          guess: guess,
+                            Provider.of<DatabaseServices>(context)
+                                .updateLoveState(
+                                    customID: guess.id + userSnap.data.uid,
+                                    love: Love(state: !loveState));
+                          },
                         );
-                      },
+                      }),
+                  FlatButton.icon(
+                    icon: Icon(
+                      SimpleLineIcons.getIconData('bubbles'),
+                      color: Colors.white,
                     ),
-                  );
-                },
-              ),
-              FlatButton.icon(
-                icon: Icon(SimpleLineIcons.getIconData('share'),
-                    color: Colors.white),
-                label: Text(
-                  'Share',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () async {
-                  var f = await CustomCacheManager()
-                      .getSingleFile('${guess.imageURL ?? guess.videoURL}');
-                  var mimeType = lookupMimeType(f.path.split('/').first);
-                  ShareExtend.share(f.path, mimeType);
-                },
-              ),
-            ],
-          ); //unattainable
-        return Container(); //unattainable
-      },
+                    label: Text(
+                      'Comment',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      if (userSnap.data == null) {
+                        Scaffold.of(context).openDrawer();
+                        return null;
+                      }
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CommentPage(
+                              guess: guess,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  FlatButton.icon(
+                    icon: Icon(SimpleLineIcons.getIconData('share'),
+                        color: Colors.white),
+                    label: Text(
+                      'Share',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () async {
+                      var f = await CustomCacheManager()
+                          .getSingleFile('${guess.imageURL ?? guess.videoURL}');
+                      var mimeType = lookupMimeType(f.path.split('/').first);
+                      ShareExtend.share(f.path, mimeType);
+                    },
+                  ),
+                ],
+              ); //unattainable
+            return Container(); //unattainable
+          },
+        ),
+        Row(
+          children: <Widget>[
+            guess.loveCounter.isNotEmpty
+                ? Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
+                      child: Text(
+                        'Loves ${guess.loveCounter}',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
+            guess.commentCounter.isNotEmpty
+                ? Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
+                      child: Text(
+                        'Comments ${guess.commentCounter}',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
+          ],
+        ),
+      ],
     );
   }
 }

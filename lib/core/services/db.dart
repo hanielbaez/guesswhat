@@ -107,7 +107,13 @@ class DatabaseServices {
 
   ///Return NULL is the user have not completed the Guess yet
   Future<DocumentSnapshot> getGuessesDone({String customID}) async {
-    return await _db.collection('guessesDone').document(customID).get();
+    return await _db
+        .collection('guessesDone')
+        .document(customID)
+        .get()
+        .catchError((error) {
+      print(error.toString());
+    });
   }
 
   //* LOVE(Favorite) *//

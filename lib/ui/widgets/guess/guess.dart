@@ -2,7 +2,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/services/auth.dart';
-import 'package:guess_what/core/services/db.dart';
 import 'package:provider/provider.dart';
 
 //Self import

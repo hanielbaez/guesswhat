@@ -7,24 +7,43 @@ class Guess {
   String description;
   String videoURL;
   String imageURL;
-  Map<dynamic, dynamic> user;
   String address;
+  Map<dynamic, dynamic> user;
+  String loveCounter;
+  String commentCounter;
   Timestamp creationDate;
 
   Guess({
     @required this.id,
     @required this.word,
     @required this.description,
-    @required this.user,
-    @required this.creationDate,
-    this.address,
     this.videoURL,
     this.imageURL,
+    this.address,
+    @required this.user,
+    this.loveCounter,
+    this.commentCounter,
+    @required this.creationDate,
   });
 
   ///Return a Guess Object
   factory Guess.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data;
+    String _loveCounter = '';
+    String _commentCounter = '';
+
+    // The values of the counters can not be null o equal to 0
+    if (data.containsKey('counter')) {
+      if ((data['counter']['loveCounter'].toString() != 'null') &&
+          (data['counter']['loveCounter'].toString() != '0')) {
+        _loveCounter = data['counter']['loveCounter'].toString();
+      }
+      if ((data['counter']['commentCounter'].toString() != 'null') &&
+          (data['counter']['commentCounter'].toString() != '0')) {
+        _commentCounter = data['counter']['commentCounter'].toString();
+      }
+    }
+
     return Guess(
         id: doc.documentID,
         word: data['word'] ?? '',
@@ -35,6 +54,8 @@ class Guess {
             ? (data['location']['address']) ?? ''
             : '',
         user: data['user'],
+        loveCounter: _loveCounter,
+        commentCounter: _commentCounter,
         creationDate: data['creationDate']);
   }
 }
