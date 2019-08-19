@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(SimpleLineIcons.getIconData('plus')),
-            onPressed: () => onButtonPressed(context), //Add multimedia
+            onPressed: () => onButtonPressed(_scaffoldKey.currentContext), //Add multimedia
           )
         ],
         title: Text(

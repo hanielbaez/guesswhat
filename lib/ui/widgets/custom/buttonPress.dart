@@ -51,11 +51,6 @@ void onButtonPressed(context) {
                         _multiMedia['image'] = await _sourceOption.getImage(
                             ImageSource.camera, context);
 
-                        _multiMedia['imageThumbnail'] =
-                            await _sourceOption.getthumbnailImage(
-                                _multiMedia['image'],
-                                _multiMedia['image']?.path);
-
                         _sourceOption.navigateToCreate(
                             context: context,
                             multiMedia: _multiMedia,
@@ -92,10 +87,7 @@ void onButtonPressed(context) {
                       try {
                         _multiMedia['image'] = await _sourceOption.getImage(
                             ImageSource.gallery, context);
-                        _multiMedia['imageThumbnail'] =
-                            await _sourceOption.getthumbnailImage(
-                                _multiMedia['image'],
-                                _multiMedia['image'].path);
+                     
                         _sourceOption.navigateToCreate(
                             context: context,
                             multiMedia: _multiMedia,

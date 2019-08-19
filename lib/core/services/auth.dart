@@ -100,7 +100,7 @@ class AuthenticationServices {
     await PermissionHandler().requestPermissions([
       PermissionGroup.location,
       PermissionGroup.camera,
-      PermissionGroup.mediaLibrary
+      PermissionGroup.storage
     ]);
   }
 }

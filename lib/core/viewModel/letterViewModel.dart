@@ -106,7 +106,7 @@ class LettersViewModel extends ChangeNotifier {
     if ((correctAnswear) && !isSource) {
       return Colors.yellow;
     } else if (wrongAnswear && !isSource) {
-      return Colors.red[300];
+      return Colors.red[400];
     } else {
       return Colors.white;
     }

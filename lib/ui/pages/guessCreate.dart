@@ -16,11 +16,13 @@ import 'package:guess_what/ui/pages/home.dart';
 class GuessCreate extends StatelessWidget {
   final Map _multiMedia;
   final FirebaseUser _user;
+  final BuildContext _context;
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
-  GuessCreate({multiMedia, user})
+  GuessCreate({multiMedia, user, context})
       : _multiMedia = multiMedia,
-        _user = user;
+        _user = user,
+        _context = context;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class GuessCreate extends StatelessWidget {
         leading: IconButton(
           //Costum Back Button
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
-          onPressed: () => navigateHome(context),
+          onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
         elevation: 0.0,
@@ -49,8 +51,7 @@ class GuessCreate extends StatelessWidget {
               child: Container(
                 height: 200.0,
                 child: Image.file(
-                  _multiMedia['imageThumbnail'] ??
-                      _multiMedia['videoThumbnail'],
+                  _multiMedia['image'],
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -143,8 +144,9 @@ class GuessCreate extends StatelessWidget {
                                 onPressed: () async {
                                   _formCreateKey.currentState.save();
                                   if (_formCreateKey.currentState.validate()) {
-                                    var _file = _multiMedia['video'] ??
-                                        _multiMedia['image'];
+                                    model.getFile(_multiMedia['video'],
+                                        _multiMedia['image']);
+
                                     //? I think that the thumbnail is not needed for now
                                     /* var _fileThumbnail = _multiMedia[
                                                     'imageThumbnail'] ??
@@ -165,18 +167,19 @@ class GuessCreate extends StatelessWidget {
                                     if (_formCreateKey
                                             .currentState.value['word'] !=
                                         '') {
-                                      _guess['word'] = _formCreateKey
+                                      model.guess['word'] = _formCreateKey
                                           .currentState.value['word'];
                                     }
 
                                     if (_formCreateKey.currentState
                                             .value['description'] !=
                                         '') {
-                                      _guess['description'] = _formCreateKey
-                                          .currentState.value['description'];
+                                      model.guess['description'] =
+                                          _formCreateKey.currentState
+                                              .value['description'];
                                     }
 
-                                    _guess['user'] = {
+                                    model.guess['user'] = {
                                       'uid': _user.uid,
                                       'displayName': _user.displayName,
                                       'photoURL': _userDb.photoURL,
@@ -185,29 +188,16 @@ class GuessCreate extends StatelessWidget {
                                     var _guessLocation =
                                         await CustomGeoPoint().addGeoPoint();
                                     if (_guessLocation != null) {
-                                      _guess['location'] = _guessLocation;
+                                      model.guess['location'] = _guessLocation;
                                     }
 
                                     // _guess['thumbnail'] = _urlThumbnail;
-                                    _guess['creationDate'] = DateTime.now();
+                                    model.guess['creationDate'] =
+                                        DateTime.now();
 
-                                    //Upload media to FireStore
-                                    var _url =
-                                        await Provider.of<DatabaseServices>(
-                                                context)
-                                            .uploadToFireStore(_file);
+                                    model.upload(_context);
 
-                                    //Get the media Type video/image
-                                    var listSplit =
-                                        lookupMimeType(_file.path).split('/');
-                                    listSplit[0] == 'image'
-                                        ? _guess['imageURL'] = _url
-                                        : _guess['videoURL'] = _url;
-
-                                    Provider.of<DatabaseServices>(context)
-                                        .uploadGuess(_guess);
-
-                                    navigateHome(context);
+                                    //Navigator.pop(_context);
                                   }
                                 },
                               );
@@ -222,12 +212,4 @@ class GuessCreate extends StatelessWidget {
       ),
     );
   }
-}
-
-void navigateHome(BuildContext context) {
-  Navigator.of(context).pushReplacement(
-    MaterialPageRoute(
-      builder: (context) => HomePage(),
-    ),
-  );
 }
