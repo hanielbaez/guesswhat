@@ -23,10 +23,11 @@ exports.manageLoveCounter = functions.firestore.document('loveGuesses/{loveId}')
 
         if (state === true) {
             //Increment the value of the referent Guess by 1
-            docRef.update({ 'counter.loveCounter': admin.firestore.FieldValue.increment(1) });
+            return docRef.update({ 'counter.loveCounter': admin.firestore.FieldValue.increment(1) });
+
         } else {
             //Decrement the value of the referent Guess by -1
-            docRef.update({ 'counter.loveCounter': admin.firestore.FieldValue.increment(-1) });
+            return docRef.update({ 'counter.loveCounter': admin.firestore.FieldValue.increment(-1) });
         }
     });
 
@@ -37,6 +38,6 @@ exports.manageCommentCounter = functions.firestore.document('guesses/{guessId}/c
         const firestore = admin.firestore();
         var docRef = firestore.collection('guesses').doc(context.params.guessId);
 
-        docRef.update({ 'counter.commentCounter': admin.firestore.FieldValue.increment(1) });
+        return docRef.update({ 'counter.commentCounter': admin.firestore.FieldValue.increment(1) });
 
     });
