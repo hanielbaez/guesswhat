@@ -23,44 +23,58 @@ class DatabaseServices {
 
   ///Return a User object
   Future<User> getUser(FirebaseUser user) async {
-    print(user.displayName);
-    print(user.email);
-    var snap = await _db.collection('users').document(user.uid).get();
-    return User.fromFireStore(snap);
+    try {
+      var snap = await _db.collection('users').document(user.uid).get();
+      return User.fromFireStore(snap);
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   ///Update the user data at firestore
   void updateUserData(User userData) {
-    var user = User(
+    try {
+      var user = User(
         uid: userData.uid,
         email: userData.email,
         displayName: userData.displayName,
         photoURL: userData.photoURL,
-        lastSeen: Timestamp.now());
-    _db
-        .collection('users')
-        .document(user.uid)
-        .setData(user.toJson(), merge: true);
+        lastSeen: Timestamp.now(),
+      );
+      _db
+          .collection('users')
+          .document(user.uid)
+          .setData(user.toJson(), merge: true);
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   //* GUESS *//
 
   //Fectch all gussess and order it by date
   Future<List<Guess>> fectchGuesses() async {
-    //Use to fech all Guesses
-    final List<Guess> allGuesses = [];
-    var snap = await _db
-        .collection('guesses')
-        .orderBy('creationDate', descending: true)
-        .getDocuments();
-    snap.documents.forEach(
-      (document) {
-        allGuesses.add(
-          Guess.fromFireStore(document),
-        );
-      },
-    );
-    return allGuesses;
+    try {
+      //Use to fech all Guesses
+      final List<Guess> allGuesses = [];
+      var snap = await _db
+          .collection('guesses')
+          .orderBy('creationDate', descending: true)
+          .getDocuments();
+      snap.documents.forEach(
+        (document) {
+          allGuesses.add(
+            Guess.fromFireStore(document),
+          );
+        },
+      );
+      return allGuesses;
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   ///Use to fech one Guess by it's ID
@@ -72,17 +86,22 @@ class DatabaseServices {
 
   ///Upload media to FireStorage and return a Dowload URL
   Future<String> uploadToFireStore(File file) async {
-    //Use to upload Image or Video to FireStore and get the DownloadURL
-    String baseName = basename(file.path);
-    String fileType = lookupMimeType(baseName) + '/';
-    final String fileName =
-        fileType + Random().nextInt(10000).toString() + '$baseName';
+    try {
+      //Use to upload Image or Video to FireStore and get the DownloadURL
+      String baseName = basename(file.path);
+      String fileType = lookupMimeType(baseName) + '/';
+      final String fileName =
+          fileType + Random().nextInt(10000).toString() + '$baseName';
 
-    final StorageReference storageRef = _storage.ref().child(fileName);
-    final StorageUploadTask uploadTask = storageRef.putFile(file);
-    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
-    final String url = (await downloadUrl.ref.getDownloadURL());
-    return url;
+      final StorageReference storageRef = _storage.ref().child(fileName);
+      final StorageUploadTask uploadTask = storageRef.putFile(file);
+      final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+      final String url = (await downloadUrl.ref.getDownloadURL());
+      return url;
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   ///Return TRUE if upload new guess to FireStore success
@@ -93,27 +112,42 @@ class DatabaseServices {
         .catchError(
           (error) => print('FireBase ERROR: $error'),
         )
-        .whenComplete(() => print('FireBase Complete'));
+        .whenComplete(
+          () => print('FireBase Complete'),
+        );
   }
 
   //* GUESS DONE*//
   ///Set the data at Firebase
   void setGuessesDone({String customID}) {
-    _db
-        .collection('guessesDone')
-        .document(customID)
-        .setData({'creationDate': Timestamp.now()});
+    try {
+      _db.collection('guessesDone').document(customID).setData(
+        {
+          'creationDate': Timestamp.now(),
+        },
+      );
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   ///Return NULL is the user have not completed the Guess yet
   Future<DocumentSnapshot> getGuessesDone({String customID}) async {
-    return await _db
-        .collection('guessesDone')
-        .document(customID)
-        .get()
-        .catchError((error) {
-      print(error.toString());
-    });
+    try {
+      return await _db
+          .collection('guessesDone')
+          .document(customID)
+          .get()
+          .catchError(
+        (error) {
+          print(error.toString());
+        },
+      );
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   //* LOVE(Favorite) *//
@@ -121,63 +155,73 @@ class DatabaseServices {
 
   ///Update the love data to FireStore
   void updateLoveState({String customID, Love love}) {
-    _db.collection('loveGuesses').document(customID).setData(love.toJson());
+    try {
+      _db.collection('loveGuesses').document(customID).setData(love.toJson());
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   ///Return a Snapshot of theloveGuesses by user
   ///TODO: Add a thumbnail to the loveGuesses
   Future<QuerySnapshot> loveGuesses(String userId) async {
-    return await _db
-        .collection('loveGuesses')
-        .where('userId', isEqualTo: userId)
-        .getDocuments();
+    try {
+      return await _db
+          .collection('loveGuesses')
+          .where('userId', isEqualTo: userId)
+          .getDocuments();
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   ///Return a Love obj
   Stream<Love> loveStream({String customID}) {
-    return _db.collection('loveGuesses').document(customID).snapshots().map(
-      (doc) {
-        return Love.fromFireStore(doc.data);
-      },
-    );
+    try {
+      return _db.collection('loveGuesses').document(customID).snapshots().map(
+        (doc) {
+          return Love.fromFireStore(doc.data);
+        },
+      );
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   //* COMMENT *//
 
   ///Fech all Comments availables by specifict guess
   Stream<QuerySnapshot> getAllComments(String guessID) {
-    //Use to fech all Comments
-    return _db
-        .collection('guesses')
-        .document(guessID)
-        .collection('comments')
-        .snapshots();
+    try {
+      //Use to fech all Comments
+      return _db
+          .collection('guesses')
+          .document(guessID)
+          .collection('comments')
+          .snapshots();
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
   Future<bool> uploadComment({Comment comment, String guessID}) {
-    var _result;
-    DocumentReference _ref = _db
-        .collection('guesses')
-        .document(guessID)
-        .collection('comments')
-        .document();
-    _ref.setData(comment.toJson()).whenComplete(() {
-      _result = valueHandle();
-    }).catchError((onError) {
-      _result = errorHandle(onError);
-    });
-    return _result;
+    try {
+      var _result;
+      DocumentReference _ref = _db
+          .collection('guesses')
+          .document(guessID)
+          .collection('comments')
+          .document();
+      _ref.setData(comment.toJson());
+      return _result;
+    } catch (e) {
+      print('$e');
+      return null;
+    }
   }
 
-  //* HANDLE *//
-
-  //Data error handle
-  String errorHandle(error) {
-    print('ERROR: ' + error?.toString());
-    return error?.toString();
-  }
-
-  String valueHandle() {
-    return 'success';
-  }
 }

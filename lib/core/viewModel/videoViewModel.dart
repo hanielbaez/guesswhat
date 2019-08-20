@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:guess_what/core/custom/customCacheManager.dart';
 import 'package:guess_what/core/model/guess.dart';
 import 'package:mime/mime.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewModel extends ChangeNotifier {
@@ -59,11 +60,16 @@ class VideoViewModel extends ChangeNotifier {
   }
 
 //Costum image widgets
-  Image buildImage() {
-    return Image.file(
-      imageFile,
-      fit: BoxFit.fitWidth,
-      key: ValueKey('image'),
+  PhotoView buildImage() {
+    return PhotoView(
+      imageProvider: NetworkImage('${guess.imageURL}'),
+      maxScale: PhotoViewComputedScale.contained,
+      minScale: PhotoViewComputedScale.contained,
+      loadingChild: Image.asset(
+        'assets/images/noiseTv.gif',
+        fit: BoxFit.fitWidth,
+        key: ValueKey('thumbnail'),
+      ),
     );
   }
 
