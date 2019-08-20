@@ -7,6 +7,7 @@ class Guess {
   String description;
   String videoURL;
   String imageURL;
+  String thumbnail;
   String address;
   Map<dynamic, dynamic> user;
   String loveCounter;
@@ -19,6 +20,7 @@ class Guess {
     @required this.description,
     this.videoURL,
     this.imageURL,
+    this.thumbnail,
     this.address,
     @required this.user,
     this.loveCounter,
@@ -43,13 +45,14 @@ class Guess {
         _commentCounter = data['counter']['commentCounter'].toString();
       }
     }
-
+    //TODO: Add a thumbnail
     return Guess(
         id: doc.documentID,
         word: data['word'] ?? '',
         description: data['description'] ?? '',
         videoURL: data['videoURL'],
-        imageURL: data['imageURL'],
+        imageURL: data['imageURL'],                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+        thumbnail: data['thumbnail'] ?? null,
         address: data.containsKey('location')
             ? (data['location']['address']) ?? ''
             : '',

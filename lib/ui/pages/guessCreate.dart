@@ -148,7 +148,7 @@ class GuessCreate extends StatelessWidget {
                                         _multiMedia['image']);
 
                                     //? I think that the thumbnail is not needed for now
-                                    /* var _fileThumbnail = _multiMedia[
+                                   /*  var _fileThumbnail = _multiMedia[
                                                     'imageThumbnail'] ??
                                                 _multiMedia['videoThumbnail']; */
 
