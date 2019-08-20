@@ -91,7 +91,7 @@ class DatabaseServices {
       String baseName = basename(file.path);
       String fileType = lookupMimeType(baseName) + '/';
       final String fileName =
-          fileType + Random().nextInt(10000).toString() + '$baseName';
+          fileType + Random().nextInt(1000000).toString() + '$baseName';
 
       final StorageReference storageRef = _storage.ref().child(fileName);
       final StorageUploadTask uploadTask = storageRef.putFile(file);

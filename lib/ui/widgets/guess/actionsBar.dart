@@ -62,9 +62,11 @@ class ActionBar extends StatelessWidget {
                               .updateLoveState(
                             customID: guess.id + userSnap.data.uid,
                             love: Love(
-                                state: !loveState,
-                                userId: userSnap.data.uid,
-                                guessId: guess.id),
+                              state: !loveState,
+                              userId: userSnap.data.uid,
+                              guessId: guess.id,
+                              thumbnailUrl: guess.thumbnailURL,
+                            ),
                           );
                         },
                       );

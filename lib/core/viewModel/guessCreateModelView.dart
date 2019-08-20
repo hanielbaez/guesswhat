@@ -39,7 +39,7 @@ class GuessCreateViewModel extends ChangeNotifier {
 
     //Get a temporary path
     Directory tempDir = await getTemporaryDirectory();
-    String tempPath = tempDir.path + '/thumbnail.png';
+    String tempPath = '${tempDir.path}/thumbnail.png}';
 
     // Save the thumbnail as a PNG
     var thumbnailFaile = File(tempPath)
@@ -48,6 +48,8 @@ class GuessCreateViewModel extends ChangeNotifier {
     //Upload media to FireStore and return a Dowload URL
     var _url =
         await Provider.of<DatabaseServices>(context).uploadToFireStore(file);
+    print('IMAGE $file');
+    print('thumbnailFaile $thumbnailFaile');
     var _thumbnailUrl = await Provider.of<DatabaseServices>(context)
         .uploadToFireStore(thumbnailFaile);
 

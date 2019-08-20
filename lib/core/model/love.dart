@@ -4,9 +4,10 @@ class Love {
   final bool state;
   final String userId;
   final String guessId;
+  final String thumbnailUrl;
   final Timestamp updateDate = Timestamp.now();
 
-  Love({this.state, this.userId, this.guessId});
+  Love({this.state, this.userId, this.guessId, this.thumbnailUrl});
 
   factory Love.fromFireStore(Map<dynamic, dynamic> map) {
     return Love(state: map['state']);
@@ -17,6 +18,7 @@ class Love {
     map['state'] = this.state;
     map['userId'] = this.userId;
     map['guessId'] = this.guessId;
+    map['thumbnailUrl'] = this.thumbnailUrl;
     map['updateDate'] = this.updateDate;
     return map;
   }
