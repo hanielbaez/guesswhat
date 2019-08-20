@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:guess_what/core/services/db.dart';
 
 class GuessCreateViewModel extends ChangeNotifier {
-  final DatabaseServices _databaseServices;
+
   Map<String, dynamic> guess = {
     'word': '',
     'description': '',
@@ -21,9 +21,6 @@ class GuessCreateViewModel extends ChangeNotifier {
   File file;
   bool loading = false;
 
-  GuessCreateViewModel({@required DatabaseServices databaseServices})
-      : _databaseServices = databaseServices;
-
   getFile(File fileImage, File fileVideo) {
     file = fileImage ?? fileVideo;
   }
@@ -33,13 +30,12 @@ class GuessCreateViewModel extends ChangeNotifier {
     notifyListeners();
 
     img.Image image = img.decodeImage(File('${file.path}').readAsBytesSync());
-    print('FILE PATH ${file.path}');
     // Resize the image to a 120x? thumbnail (maintaining the aspect ratio).
     img.Image thumbnail = img.copyResize(image, width: 120);
 
     //Get a temporary path
     Directory tempDir = await getTemporaryDirectory();
-    String tempPath = '${tempDir.path}/thumbnail.png}';
+    String tempPath = tempDir.path + '/_thumbnail.png';
 
     // Save the thumbnail as a PNG
     var thumbnailFaile = File(tempPath)
@@ -48,7 +44,6 @@ class GuessCreateViewModel extends ChangeNotifier {
     //Upload media to FireStore and return a Dowload URL
     var _url =
         await Provider.of<DatabaseServices>(context).uploadToFireStore(file);
-    print('IMAGE $file');
     print('thumbnailFaile $thumbnailFaile');
     var _thumbnailUrl = await Provider.of<DatabaseServices>(context)
         .uploadToFireStore(thumbnailFaile);

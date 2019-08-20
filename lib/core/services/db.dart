@@ -13,6 +13,7 @@ import 'package:guess_what/core/model/comment.dart';
 import 'package:guess_what/core/model/love.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/model/guess.dart';
+import 'package:uuid/uuid.dart';
 
 ///Networks request
 class DatabaseServices {
@@ -84,14 +85,15 @@ class DatabaseServices {
     return Guess.fromFireStore(snap);
   } */
 
-  ///Upload media to FireStorage and return a Dowload URL
+  ///Upload media to Firebase Storage and return a Dowload URL
   Future<String> uploadToFireStore(File file) async {
     try {
-      //Use to upload Image or Video to FireStore and get the DownloadURL
+      // Generate a v4 (random) id
+      var uuid = new Uuid();
+
       String baseName = basename(file.path);
       String fileType = lookupMimeType(baseName) + '/';
-      final String fileName =
-          fileType + Random().nextInt(1000000).toString() + '$baseName';
+      final String fileName = fileType + uuid.v4() + '$baseName';
 
       final StorageReference storageRef = _storage.ref().child(fileName);
       final StorageUploadTask uploadTask = storageRef.putFile(file);
@@ -223,5 +225,4 @@ class DatabaseServices {
       return null;
     }
   }
-
 }

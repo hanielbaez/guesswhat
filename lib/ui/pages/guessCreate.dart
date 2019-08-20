@@ -121,8 +121,7 @@ class GuessCreate extends StatelessWidget {
                     ],
                   ),
                   ChangeNotifierProvider<GuessCreateViewModel>.value(
-                    value: GuessCreateViewModel(
-                        databaseServices: Provider.of(context)),
+                    value: GuessCreateViewModel(),
                     child: Consumer<GuessCreateViewModel>(
                       builder: (context, model, child) {
                         return model.loading
@@ -148,7 +147,7 @@ class GuessCreate extends StatelessWidget {
                                         _multiMedia['image']);
 
                                     //? I think that the thumbnail is not needed for now
-                                   /*  var _fileThumbnail = _multiMedia[
+                                    /*  var _fileThumbnail = _multiMedia[
                                                     'imageThumbnail'] ??
                                                 _multiMedia['videoThumbnail']; */
 
