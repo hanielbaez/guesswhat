@@ -51,10 +51,10 @@ void onButtonPressed(context) {
                         _multiMedia['image'] = await _sourceOption.getImage(
                             ImageSource.camera, context);
 
-                        _sourceOption.navigateToCreate(
-                            context: context,
-                            multiMedia: _multiMedia,
-                            user: userSnap.data);
+                          _sourceOption.navigateToCreate(
+                              context: context,
+                              multiMedia: _multiMedia,
+                              user: userSnap.data);
                       } catch (error) {
                         print('Error: $error');
                       }
@@ -87,7 +87,7 @@ void onButtonPressed(context) {
                       try {
                         _multiMedia['image'] = await _sourceOption.getImage(
                             ImageSource.gallery, context);
-                     
+
                         _sourceOption.navigateToCreate(
                             context: context,
                             multiMedia: _multiMedia,

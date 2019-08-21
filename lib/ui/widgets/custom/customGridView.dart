@@ -10,7 +10,7 @@ class CustomGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StaggeredGridView.countBuilder(
-      crossAxisCount: 4,
+      crossAxisCount: 6,
       itemCount: list.length,
       itemBuilder: (BuildContext contex, int index) => Card(
         child: Image.network(
@@ -27,8 +27,6 @@ class CustomGridView extends StatelessWidget {
         ),
       ),
       staggeredTileBuilder: (_) => StaggeredTile.fit(2),
-      mainAxisSpacing: 2.0,
-      crossAxisSpacing: 2.0,
     );
   }
 }

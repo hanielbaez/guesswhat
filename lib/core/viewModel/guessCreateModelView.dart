@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:guess_what/core/services/db.dart';
 
 class GuessCreateViewModel extends ChangeNotifier {
-
   Map<String, dynamic> guess = {
     'word': '',
     'description': '',
@@ -31,7 +30,7 @@ class GuessCreateViewModel extends ChangeNotifier {
 
     img.Image image = img.decodeImage(File('${file.path}').readAsBytesSync());
     // Resize the image to a 120x? thumbnail (maintaining the aspect ratio).
-    img.Image thumbnail = img.copyResize(image, width: 120);
+    img.Image thumbnail = img.copyResize(image, width: 200);
 
     //Get a temporary path
     Directory tempDir = await getTemporaryDirectory();

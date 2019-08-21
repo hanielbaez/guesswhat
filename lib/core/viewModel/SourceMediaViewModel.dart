@@ -33,7 +33,7 @@ class SourceImageOption {
 
   void navigateToCreate(
       {BuildContext context, Map multiMedia, FirebaseUser user}) {
-    if (multiMedia.isNotEmpty) {
+    if (multiMedia['image'] != null) {
       Navigator.of(context).pop();
       Navigator.of(context).push(
         MaterialPageRoute(

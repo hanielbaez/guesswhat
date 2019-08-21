@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:guess_what/core/custom/customGridView.dart';
 import 'package:provider/provider.dart';
 
 //Self import
 import 'package:guess_what/core/services/db.dart';
+import 'package:guess_what/ui/widgets/custom/customGridView.dart';
 
 class LovePage extends StatelessWidget {
   final String userId;
@@ -40,12 +40,13 @@ class LovePage extends StatelessWidget {
             case ConnectionState.waiting:
               return Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text('Please wait...'),
                     SpinKitThreeBounce(
                       color: Colors.white,
-                      size: 25.0,
+                      size: 50.0,
                     ),
                   ],
                 ),

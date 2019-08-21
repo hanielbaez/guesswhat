@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:guess_what/costumTheme.dart';
-import 'package:guess_what/ui/pages/lovePage.dart';
 import 'package:provider/provider.dart';
 import 'package:guess_what/providerSetup.dart';
 

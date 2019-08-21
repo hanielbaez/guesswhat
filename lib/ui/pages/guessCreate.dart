@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/custom/customGeoPoint.dart';
 import 'package:provider/provider.dart';
-import 'package:mime/mime.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 //Self import
 import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
-import 'package:guess_what/ui/pages/home.dart';
 
 class GuessCreate extends StatelessWidget {
   final Map _multiMedia;
@@ -48,10 +46,15 @@ class GuessCreate extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Container(
                 height: 200.0,
-                child: Image.file(
-                  _multiMedia['image'],
-                  fit: BoxFit.fitHeight,
-                ),
+                child: _multiMedia['image'] == null
+                    ? Icon(
+                        SimpleLineIcons.getIconData('plus'),
+                        size: 40.0,
+                      )
+                    : Image.file(
+                        _multiMedia['image'],
+                        fit: BoxFit.fitHeight,
+                      ),
               ),
             ),
             FormBuilder(
