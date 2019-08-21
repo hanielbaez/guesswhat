@@ -165,14 +165,24 @@ class DatabaseServices {
     }
   }
 
-  ///Return a Snapshot of theloveGuesses by user
-  ///TODO: Add a thumbnail to the loveGuesses
-  Future<QuerySnapshot> loveGuesses(String userId) async {
+  ///Return a List of theloveGuesses by user
+  Future<List> loveGuesses(String userId) async {
     try {
-      return await _db
+      final List loveList = [];
+
+      var snap = await _db
           .collection('loveGuesses')
           .where('userId', isEqualTo: userId)
+          .where('state', isEqualTo: true)
           .getDocuments();
+
+      snap.documents.forEach(
+        (document) {
+          loveList.add(document.data);
+        },
+      );
+
+      return loveList.isNotEmpty ? loveList : null;
     } catch (e) {
       print('$e');
       return null;

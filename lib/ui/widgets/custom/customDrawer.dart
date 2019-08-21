@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
 //Self import
+import 'package:guess_what/ui/pages/lovePage.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/services/db.dart';
@@ -116,7 +117,15 @@ class SingInLayout extends StatelessWidget {
             'Loves',
             style: TextStyle(color: Colors.white),
           ),
-          onTap: () {},
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LovePage(snapshot.data.uid),
+              ),
+            );
+          },
         ),
         ListTile(
           leading: Icon(
@@ -283,7 +292,9 @@ class SingOutLayout extends StatelessWidget {
             SimpleLineIcons.getIconData('envelope'),
             color: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            //TODO: Inplement email sing in
+          },
         )
       ],
     );

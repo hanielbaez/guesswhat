@@ -21,16 +21,16 @@ class CustomListGuess extends StatelessWidget {
           case ConnectionState.none:
           case ConnectionState.active:
           case ConnectionState.waiting:
-            return Container(
-              alignment: Alignment.center,
+            return Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('Please wait...'),
                   SpinKitThreeBounce(
                     color: Colors.white,
-                    size: 25.0,
+                    size: 50.0,
                   ),
+                  Text('Please wait...'),
                 ],
               ),
             );

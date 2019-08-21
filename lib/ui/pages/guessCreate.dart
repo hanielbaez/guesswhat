@@ -26,8 +26,6 @@ class GuessCreate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> _guess = {};
-
     return Scaffold(
       appBar: AppBar(
         title: Text(

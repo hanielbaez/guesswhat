@@ -45,7 +45,7 @@ class Guess {
         _commentCounter = data['counter']['commentCounter'].toString();
       }
     }
-    //TODO: Add a thumbnail
+
     return Guess(
         id: doc.documentID,
         word: data['word'] ?? '',
