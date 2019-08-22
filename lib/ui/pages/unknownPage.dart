@@ -4,10 +4,9 @@ import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
 import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
-import 'package:guess_what/ui/widgets/custom/customListGuess.dart';
 import '../widgets/custom/buttonPress.dart';
 
-class HomePage extends StatelessWidget {
+class UnknownPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -31,12 +30,27 @@ class HomePage extends StatelessWidget {
         ],
         title: Text(
           'Tekel',
+          //style: TextStyle(color: Colors.yellowAccent),
         ),
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
       backgroundColor: Color.fromARGB(1, 191, 191, 191),
-      body: CustomListGuess(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              SimpleLineIcons.getIconData('exclamation'),
+              color: Colors.white,
+              size: 50.0,
+            ),
+            SizedBox(height: 20.0),
+            Text('Page not found please try later'),
+          ],
+        ),
+      ),
     );
   }
 }

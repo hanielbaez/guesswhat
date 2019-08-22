@@ -41,11 +41,7 @@ class _CommentPageState extends State<CommentPage> {
         leading: IconButton(
           //Custom Back Button
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ),
-          ),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       backgroundColor: Colors.black,

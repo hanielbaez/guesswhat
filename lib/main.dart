@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:guess_what/costumTheme.dart';
 import 'package:guess_what/providerSetup.dart';
 import './ui/pages/homePage.dart';
+import './router.dart' as router;
 
 void main() => runApp(MyApp());
 
@@ -15,9 +16,11 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: providers,
       child: MaterialApp(
-        title: 'GuessWhat',
+        title: 'Tekel',
         theme: costumTheme,
         home: HomePage(),
+        onGenerateRoute: router.generateRoute,
+        initialRoute: '/',
         //debugShowCheckedModeBanner: false,
       ),
     );

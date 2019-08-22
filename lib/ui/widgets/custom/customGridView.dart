@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/ui/pages/guessPage.dart';
 import 'package:provider/provider.dart';
 
 class CustomGridView extends StatelessWidget {
@@ -20,13 +19,7 @@ class CustomGridView extends StatelessWidget {
           var guess = await Provider.of<DatabaseServices>(context)
               .getGuess(guessId: list[index]['guessId']);
 
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) => GuessPage(
-                guess,
-              ),
-            ),
-          );
+          Navigator.of(context).pushNamed('guessPage', arguments: guess);
         },
         child: Hero(
           tag: list[index]['guessId'],

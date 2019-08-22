@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
 //Self import
-import 'package:guess_what/ui/pages/homePage.dart';
-import 'package:guess_what/ui/pages/lovePage.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/services/db.dart';
@@ -120,18 +118,15 @@ class SingInLayout extends StatelessWidget {
           ),
           onTap: () {
             Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(),
-              ),
-            );
+            Navigator.popUntil(context, (route) {
+              if (route.settings.name != '/') {
+                Navigator.popAndPushNamed(context, '/');
+                return true;
+              }
+              return true;
+            });
           },
         ),
-
-
-
-
         ListTile(
           leading: Icon(
             SimpleLineIcons.getIconData('heart'),
@@ -143,12 +138,8 @@ class SingInLayout extends StatelessWidget {
           ),
           onTap: () {
             Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LovePage(snapshot.data.uid),
-              ),
-            );
+            Navigator.pushNamed(context, 'lovePage',
+                arguments: snapshot.data.uid);
           },
         ),
         ListTile(

@@ -33,6 +33,8 @@ class GuessPage extends StatelessWidget {
             onPressed: () => onButtonPressed(context), //Add multimedia
           )
         ],
+        title: Text('Tekel'),
+        centerTitle: true,
       ),
       drawer: CustomDrawer(),
       backgroundColor: Color.fromARGB(1, 191, 191, 191),
