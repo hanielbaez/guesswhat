@@ -29,7 +29,7 @@ class GuessCreateViewModel extends ChangeNotifier {
     notifyListeners();
 
     img.Image image = img.decodeImage(File('${file.path}').readAsBytesSync());
-    // Resize the image to a 120x? thumbnail (maintaining the aspect ratio).
+    // Resize the image to a 200x? thumbnail (maintaining the aspect ratio).
     img.Image thumbnail = img.copyResize(image, width: 200);
 
     //Get a temporary path

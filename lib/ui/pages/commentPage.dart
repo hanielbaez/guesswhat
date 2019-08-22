@@ -7,7 +7,7 @@ import 'package:flutter_icons/simple_line_icons.dart';
 //Self import
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/ui/pages/home.dart';
+import 'package:guess_what/ui/pages/homePage.dart';
 import 'package:guess_what/ui/widgets/comment/commentForm.dart';
 import 'package:guess_what/ui/widgets/custom/userBar.dart';
 import 'package:provider/provider.dart';

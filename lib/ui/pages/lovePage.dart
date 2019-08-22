@@ -18,7 +18,7 @@ class LovePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Love's Guesses",
+          "Loves",
         ),
         leading: IconButton(
           //Costum Back Button
@@ -72,7 +72,7 @@ class LovePage extends StatelessWidget {
                       SizedBox(
                         height: 20.0,
                       ),
-                      Text('You do not Love any Guess yet'),
+                      Text('You do not love any guess yet'),
                     ],
                   ),
                 );

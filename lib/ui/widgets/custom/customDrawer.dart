@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
 //Self import
+import 'package:guess_what/ui/pages/homePage.dart';
 import 'package:guess_what/ui/pages/lovePage.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/auth.dart';
@@ -108,6 +109,29 @@ class SingInLayout extends StatelessWidget {
         Divider(
           color: Colors.white24,
         ),
+        ListTile(
+          leading: Icon(
+            SimpleLineIcons.getIconData('home'),
+            color: Colors.white,
+          ),
+          title: Text(
+            'Home',
+            style: TextStyle(color: Colors.white),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(),
+              ),
+            );
+          },
+        ),
+
+
+
+
         ListTile(
           leading: Icon(
             SimpleLineIcons.getIconData('heart'),

@@ -77,12 +77,11 @@ class DatabaseServices {
     }
   }
 
-  ///Use to fech one Guess by it's ID
-  /* Future<Guess> getGuess() async {
-    var snap =
-        await _db.collection('guesses').w;
+  ///Retur a guess by the given ID
+  Future<Guess> getGuess({String guessId}) async {
+    var snap = await _db.collection('guesses').document(guessId).get();
     return Guess.fromFireStore(snap);
-  } */
+  }
 
   ///Upload media to Firebase Storage and return a Dowload URL
   Future<String> uploadToFireStore(File file) async {
@@ -173,6 +172,7 @@ class DatabaseServices {
           .collection('loveGuesses')
           .where('userId', isEqualTo: userId)
           .where('state', isEqualTo: true)
+          .orderBy('updateDate', descending: true)
           .getDocuments();
 
       snap.documents.forEach(

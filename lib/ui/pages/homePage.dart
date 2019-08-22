@@ -22,13 +22,16 @@ class HomePage extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(SimpleLineIcons.getIconData('plus')),
-            onPressed: () => onButtonPressed(_scaffoldKey.currentContext), //Add multimedia
+            icon: Icon(
+              SimpleLineIcons.getIconData('plus'),
+              color: Colors.yellow,
+            ),
+            onPressed: () => onButtonPressed(context), //Add multimedia
           )
         ],
         title: Text(
           'Tekel',
-          style: TextStyle(color: Colors.yellowAccent),
+          //style: TextStyle(color: Colors.yellowAccent),
         ),
         centerTitle: true,
       ),

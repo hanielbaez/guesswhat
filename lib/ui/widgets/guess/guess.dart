@@ -31,14 +31,17 @@ class GuessLayaout extends StatelessWidget {
             address: guess.address,
           ),
         ),
-        ChangeNotifierProvider<VideoViewModel>.value(
-          value: VideoViewModel(guess: guess),
-          child: Consumer<VideoViewModel>(
-            builder: (context, model, child) {
-              return SizedBox.fromSize(
-                child: VideoLayaout(guess: guess, model: model),
-              );
-            },
+        Hero(
+          tag: guess.id,
+          child: ChangeNotifierProvider<VideoViewModel>.value(
+            value: VideoViewModel(guess: guess),
+            child: Consumer<VideoViewModel>(
+              builder: (context, model, child) {
+                return SizedBox.fromSize(
+                  child: VideoLayaout(guess: guess, model: model),
+                );
+              },
+            ),
           ),
         ),
         if (guess.word.isNotEmpty)
