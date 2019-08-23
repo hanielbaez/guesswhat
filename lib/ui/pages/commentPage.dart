@@ -7,7 +7,6 @@ import 'package:flutter_icons/simple_line_icons.dart';
 //Self import
 import 'package:guess_what/core/model/guess.dart';
 import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/ui/pages/homePage.dart';
 import 'package:guess_what/ui/widgets/comment/commentForm.dart';
 import 'package:guess_what/ui/widgets/custom/userBar.dart';
 import 'package:provider/provider.dart';
@@ -51,23 +50,17 @@ class _CommentPageState extends State<CommentPage> {
           children: <Widget>[
             Expanded(
               child: StreamBuilder(
-                  stream: Provider.of<DatabaseServices>(context)
-                      .getAllComments(guess.id),
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                      case ConnectionState.active:
-                        if (snapshot.hasError)
-                          return (Text('Error: ${snapshot.error}'));
-                        if (snapshot.hasData)
-                          return ListViewBuilder(snapshot: snapshot);
-                        break;
-                      case ConnectionState.done:
-                        print('Comments fetch');
-                    }
-                    return Container(); //unreachable
-                  }),
+                stream: Provider.of<DatabaseServices>(context)
+                    .getAllComments(guess.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.hasError)
+                      return Text('Error: Please try later');
+                    return ListViewBuilder(snapshot: snapshot);
+                  }
+                  return Container();
+                },
+              ),
             ),
             CommentForm(fbKey: _fbKey, guess: guess),
           ],
@@ -111,9 +104,8 @@ class ListViewBuilder extends StatelessWidget {
               collapsed: Text(
                 '${snapshot.data.documents[index]['text']}',
                 style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.justify,
                 softWrap: true,
-                maxLines: 3,
+                maxLines: 5,
                 overflow: TextOverflow.ellipsis,
               ),
               expanded: Text(

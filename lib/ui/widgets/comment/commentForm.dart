@@ -29,6 +29,9 @@ class CommentForm extends StatelessWidget {
       stream: Provider.of<AuthenticationServices>(context).user(),
       builder: (context, snapshot) {
         return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          
           children: <Widget>[
             FormBuilder(
               key: _fbKey,
@@ -64,8 +67,9 @@ class CommentForm extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(
-                SimpleLineIcons.getIconData('paper-plane'),
-                color: Colors.white,
+                SimpleLineIcons.getIconData('arrow-up'),
+                color: Colors.yellow,
+                size: 30.0,
               ),
               onPressed: () async {
                 _fbKey.currentState.save();

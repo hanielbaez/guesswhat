@@ -22,7 +22,7 @@ class CustomLetter extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         //If correct aswear TRUE do nothing
-        if (model.correctAnswear == false) {
+        if (model.correctAnswer == false) {
           SidekickTeamBuilder.of<Item>(context).move(item);
         }
 

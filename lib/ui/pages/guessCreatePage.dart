@@ -1,7 +1,6 @@
 //Flutter and dart import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/custom/customGeoPoint.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 //Self import
 import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
+import 'package:guess_what/core/custom/customGeoPoint.dart';
 
 class GuessCreate extends StatelessWidget {
   final Map _multiMedia;
@@ -27,7 +27,7 @@ class GuessCreate extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Create a Guess',
+          'Create a riddle',
         ),
         leading: IconButton(
           //Costum Back Button
@@ -63,11 +63,11 @@ class GuessCreate extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   FormBuilderTextField(
-                    attribute: "word",
+                    attribute: "answer",
                     decoration: InputDecoration(
-                      labelText: "Word",
+                      labelText: "Answer",
                       labelStyle: TextStyle(color: Colors.black),
-                      hintText: 'Word to be guess',
+                      hintText: 'The answer of your riddle',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.horizontal(right: Radius.zero),
@@ -102,7 +102,7 @@ class GuessCreate extends StatelessWidget {
                       labelText: "Description",
                       labelStyle: TextStyle(color: Colors.black),
                       hintText:
-                          'You can write something funny about your guess',
+                          'You can write something funny about your riddle',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.horizontal(right: Radius.zero),
@@ -165,10 +165,10 @@ class GuessCreate extends StatelessWidget {
                                             .getUser(_user);
 
                                     if (_formCreateKey
-                                            .currentState.value['word'] !=
+                                            .currentState.value['answer'] !=
                                         '') {
-                                      model.guess['word'] = _formCreateKey
-                                          .currentState.value['word'];
+                                      model.guess['answer'] = _formCreateKey
+                                          .currentState.value['answer'];
                                     }
 
                                     if (_formCreateKey.currentState

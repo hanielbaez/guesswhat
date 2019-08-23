@@ -44,7 +44,7 @@ class GuessLayaout extends StatelessWidget {
             ),
           ),
         ),
-        if (guess.word.isNotEmpty)
+        if (guess.answer.isNotEmpty)
           StreamBuilder<FirebaseUser>(
             stream: Provider.of<AuthenticationServices>(context).user(),
             builder: (context, userSnap) {

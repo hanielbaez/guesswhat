@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Guess {
   String id;
-  String word;
+  String answer;
   String description;
   String videoURL;
   String imageURL;
@@ -16,7 +16,7 @@ class Guess {
 
   Guess({
     @required this.id,
-    @required this.word,
+    @required this.answer,
     @required this.description,
     this.videoURL,
     this.imageURL,
@@ -48,7 +48,7 @@ class Guess {
 
     return Guess(
         id: doc.documentID,
-        word: data['word'] ?? '',
+        answer: data['answer'] ?? '',
         description: data['description'] ?? '',
         videoURL: data['videoURL'],
         imageURL: data['imageURL'],

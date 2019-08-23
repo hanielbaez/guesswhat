@@ -63,10 +63,9 @@ class _CustomSidekickState extends State<CustomSidekick> {
                 ],
               ),
               Container(
-                //height: 110.0,
                 child: AnimatedSwitcher(
                   duration: Duration(milliseconds: 600),
-                  child: _model.correctAnswear
+                  child: _model.correctAnswer
                       ? Container()
                       : Wrap(
                           children: sourceBuilderDelegates.isEmpty

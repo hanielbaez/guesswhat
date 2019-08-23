@@ -11,7 +11,7 @@ import 'package:guess_what/core/services/db.dart';
 
 class GuessCreateViewModel extends ChangeNotifier {
   Map<String, dynamic> guess = {
-    'word': '',
+    'answer': '',
     'description': '',
     'user': '',
     'location': '',

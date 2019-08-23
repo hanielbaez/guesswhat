@@ -10,7 +10,6 @@ class CustomDescription extends StatelessWidget {
     return ExpandablePanel(
       collapsed: Text(
         text,
-        textAlign: TextAlign.justify,
         softWrap: true,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,

@@ -119,10 +119,12 @@ class DatabaseServices {
 
   //* GUESS DONE*//
   ///Set the data at Firebase
-  void setGuessesDone({String customID}) {
+  void setGuessesDone({String customID, String guessId, String userId}) {
     try {
       _db.collection('guessesDone').document(customID).setData(
         {
+          'guessId': guessId,
+          'userId': userId,
           'creationDate': Timestamp.now(),
         },
       );

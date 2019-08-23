@@ -12,8 +12,8 @@ class LettersViewModel extends ChangeNotifier {
   List<Item> selectedItems = [];
   List<Item> sourceList = [];
   List<Item> targetList = [];
-  bool correctAnswear = false;
-  bool wrongAnswear = false;
+  bool correctAnswer = false;
+  bool wronganswer = false;
 
   LettersViewModel({Guess guess, DatabaseServices db, FirebaseUser user})
       : _guess = guess,
@@ -22,7 +22,7 @@ class LettersViewModel extends ChangeNotifier {
 
   ///Add randoms characteres(LETTERS AND NUMBERS) to the supply secret word
   String randomCharacters() {
-    String _word = _guess.word.toUpperCase();
+    String _word = _guess.answer.toUpperCase();
 
     final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     final String _numbers = '0123456789';
@@ -83,18 +83,18 @@ class LettersViewModel extends ChangeNotifier {
     var response = await _db.getGuessesDone(customID: _guess.id + _user.uid);
     if (response?.data != null) {
       var list = List.generate(
-        _guess.word.length,
+        _guess.answer.length,
         (i) {
           return Item(
             id: i,
-            letter: _guess.word[i].toUpperCase(),
+            letter: _guess.answer[i].toUpperCase(),
           );
         },
       );
       targetList = list;
-      correctAnswear = true;
+      correctAnswer = true;
       Future.delayed(Duration.zero, () => notifyListeners());
-    }else{
+    } else {
       generateItemList();
     }
   }
@@ -103,9 +103,9 @@ class LettersViewModel extends ChangeNotifier {
   ///if it is correct it get a color yellow, if it is wrong it get a color red
   ///if it is not correct or wrong it get white
   Color letterColor(bool isSource) {
-    if ((correctAnswear) && !isSource) {
+    if ((correctAnswer) && !isSource) {
       return Colors.yellow;
-    } else if (wrongAnswear && !isSource) {
+    } else if (wronganswer && !isSource) {
       return Colors.red[400];
     } else {
       return Colors.white;
@@ -117,21 +117,25 @@ class LettersViewModel extends ChangeNotifier {
   void setLetter({Item selectedItem}) {
     selectedItems.add(selectedItem);
     var _selectedWord = getWord(selectedItems);
-    if (_selectedWord == _guess.word.toUpperCase()) {
-      if (_user != null) _db.setGuessesDone(customID: _guess.id + _user.uid);
-      correctAnswear = true;
-    } else if (_selectedWord.length >= _guess.word.length) {
-      wrongAnswear = true;
+    if (_selectedWord == _guess.answer.toUpperCase()) {
+      if (_user != null)
+        _db.setGuessesDone(
+            customID: _guess.id + _user.uid,
+            guessId: _guess.id,
+            userId: _user.uid);
+      correctAnswer = true;
+    } else if (_selectedWord.length >= _guess.answer.length) {
+      wronganswer = true;
     }
   }
 
   ///Remove letter from the target list
-  ///If it is longer that the answear it get a red color
+  ///If it is longer that the answer it get a red color
   void deleteLetter({Item selectedItem}) {
     int _letterID = selectedItem.id;
     selectedItems.removeWhere((item) => item.id == _letterID);
-    if (selectedItems.length < _guess.word.length) {
-      wrongAnswear = false;
+    if (selectedItems.length < _guess.answer.length) {
+      wronganswer = false;
     }
   }
 }
