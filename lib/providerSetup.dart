@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 List<SingleChildCloneableWidget> providers = [
   ...independentServices,
   ...dependentServices,
-
 ];
 
 List<SingleChildCloneableWidget> independentServices = [
@@ -18,4 +17,6 @@ List<SingleChildCloneableWidget> dependentServices = [
   )
 ];
 
-
+List<SingleChildCloneableWidget> uiConsumableProviders = [
+ 
+];

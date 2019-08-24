@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +10,22 @@ class LettersViewModel extends ChangeNotifier {
   final DatabaseServices _db;
   final FirebaseUser _user;
   final Guess _guess;
+  final StreamController _changeNotifier;
   List<Item> selectedItems = [];
   List<Item> sourceList = [];
   List<Item> targetList = [];
   bool correctAnswer = false;
   bool wronganswer = false;
 
-  LettersViewModel({Guess guess, DatabaseServices db, FirebaseUser user})
+  LettersViewModel(
+      {Guess guess,
+      DatabaseServices db,
+      FirebaseUser user,
+      StreamController changeNotifier})
       : _guess = guess,
         _db = db,
-        _user = user;
+        _user = user,
+        _changeNotifier = changeNotifier;
 
   ///Add randoms characteres(LETTERS AND NUMBERS) to the supply secret word
   String randomCharacters() {
@@ -124,6 +131,7 @@ class LettersViewModel extends ChangeNotifier {
             guessId: _guess.id,
             userId: _user.uid);
       correctAnswer = true;
+      _changeNotifier.sink.add(true);
     } else if (_selectedWord.length >= _guess.answer.length) {
       wronganswer = true;
     }

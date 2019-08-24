@@ -10,6 +10,7 @@ import 'package:video_player/video_player.dart';
 
 class VideoViewModel extends ChangeNotifier {
   final Guess guess;
+  
   File mediaFeche;
   VideoPlayerController videoController;
   File imageFile;

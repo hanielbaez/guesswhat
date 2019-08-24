@@ -1,11 +1,12 @@
 //Flutter import
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/services/auth.dart';
 import 'package:provider/provider.dart';
 
 //Self import
 import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:guess_what/core/viewModel/videoViewModel.dart';
 import 'package:guess_what/ui/widgets/custom/customSideKick.dart';
@@ -14,10 +15,23 @@ import 'package:guess_what/ui/widgets/guess/actionsBar.dart';
 import 'package:guess_what/ui/widgets/guess/description.dart';
 import 'package:guess_what/ui/widgets/guess/video.dart';
 
-class GuessLayaout extends StatelessWidget {
+class GuessLayaout extends StatefulWidget {
   final Guess guess;
 
   GuessLayaout({this.guess});
+
+  @override
+  _GuessLayaoutState createState() => _GuessLayaoutState();
+}
+
+class _GuessLayaoutState extends State<GuessLayaout> {
+  final changeNotifier = new StreamController.broadcast();
+
+  @override
+  void dispose() {
+    changeNotifier.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,38 +40,39 @@ class GuessLayaout extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: UserBar(
-            userData: guess.user,
-            timeStamp: guess.creationDate,
-            address: guess.address,
+            userData: widget.guess.user,
+            timeStamp: widget.guess.creationDate,
+            address: widget.guess.address,
           ),
         ),
         Hero(
-          tag: guess.id,
+          tag: widget.guess.id,
           child: ChangeNotifierProvider<VideoViewModel>.value(
-            value: VideoViewModel(guess: guess),
+            value: VideoViewModel(guess: widget.guess),
             child: Consumer<VideoViewModel>(
               builder: (context, model, child) {
                 return SizedBox.fromSize(
-                  child: VideoLayaout(guess: guess, model: model),
+                  child: VideoLayaout(guess: widget.guess, model: model, shouldTriggerChange: changeNotifier.stream),
                 );
               },
             ),
           ),
         ),
-        if (guess.answer.isNotEmpty)
+        if (widget.guess.answer.isNotEmpty)
           StreamBuilder<FirebaseUser>(
             stream: Provider.of<AuthenticationServices>(context).user(),
             builder: (context, userSnap) {
               if (userSnap.hasData) {
                 return ChangeNotifierProvider<LettersViewModel>.value(
                   value: LettersViewModel(
-                      guess: guess,
+                      guess: widget.guess,
                       db: Provider.of(context),
-                      user: userSnap.data),
+                      user: userSnap.data,
+                      changeNotifier: changeNotifier),
                   child: Consumer<LettersViewModel>(
                     builder: (context, model, child) {
                       return CustomSidekick(
-                        guess: guess,
+                        guess: widget.guess,
                         model: model,
                       );
                     },
@@ -67,15 +82,15 @@ class GuessLayaout extends StatelessWidget {
               return Container();
             },
           ),
-        if (guess.description.isNotEmpty)
+        if (widget.guess.description.isNotEmpty)
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Align(
               alignment: Alignment.topLeft,
-              child: CustomDescription(text: '${guess.description}'),
+              child: CustomDescription(text: '${widget.guess.description}'),
             ),
           ),
-        ActionBar(guess: guess),
+        ActionBar(guess: widget.guess),
         Divider(
           color: Colors.white54,
         ),

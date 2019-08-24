@@ -8,11 +8,17 @@ import 'package:guess_what/ui/widgets/guess/guess.dart';
 import 'package:guess_what/core/model/guess.dart';
 import '../widgets/custom/buttonPress.dart';
 
-class GuessPage extends StatelessWidget {
+class GuessPage extends StatefulWidget {
   final Guess guess;
   GuessPage(this.guess);
 
+  @override
+  _GuessPageState createState() => _GuessPageState();
+}
+
+class _GuessPageState extends State<GuessPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +47,7 @@ class GuessPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           GuessLayaout(
-            guess: guess,
+            guess: widget.guess,
           ),
         ],
       ),
