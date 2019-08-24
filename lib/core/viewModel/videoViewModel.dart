@@ -10,7 +10,7 @@ import 'package:video_player/video_player.dart';
 
 class VideoViewModel extends ChangeNotifier {
   final Guess guess;
-  
+
   File mediaFeche;
   VideoPlayerController videoController;
   File imageFile;
@@ -66,10 +66,25 @@ class VideoViewModel extends ChangeNotifier {
       imageProvider: NetworkImage('${guess.imageURL}'),
       maxScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained,
-      loadingChild: Image.asset(
-        'assets/images/noiseTv.gif',
-        fit: BoxFit.fitWidth,
-        key: ValueKey('thumbnail'),
+      loadingChild: Stack(
+        children: <Widget>[
+          Center(
+            child: Image.asset(
+              'assets/images/noiseTv.gif',
+              fit: BoxFit.fitWidth,
+              key: ValueKey('thumbnail'),
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: SpinKitThreeBounce(
+                color: Colors.black,
+                size: 50.0,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -80,30 +95,6 @@ class VideoViewModel extends ChangeNotifier {
       aspectRatio: videoController.value.aspectRatio,
       child: VideoPlayer(videoController),
       key: ValueKey('video'),
-    );
-  }
-
-  //Costum thumbnail widgets
-  Stack buildThumbnail() {
-    return Stack(
-      children: <Widget>[
-        Center(
-          child: Image.asset(
-            'assets/images/noiseTv.gif',
-            fit: BoxFit.fitWidth,
-            key: ValueKey('thumbnail'),
-          ),
-        ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: SpinKitThreeBounce(
-              color: Colors.white,
-              size: 50.0,
-            ),
-          ),
-        )
-      ],
     );
   }
 }

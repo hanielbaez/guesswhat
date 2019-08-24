@@ -133,7 +133,7 @@ class SingInLayout extends StatelessWidget {
             color: Colors.white,
           ),
           title: Text(
-            'Loves',
+            'Loved Ridlle',
             style: TextStyle(color: Colors.white),
           ),
           onTap: () {
@@ -148,7 +148,7 @@ class SingInLayout extends StatelessWidget {
             color: Colors.white,
           ),
           title: Text(
-            'Share Tekel with friends',
+            'Share Tekel with Friends',
             style: TextStyle(color: Colors.white),
           ),
           onTap: () {
@@ -253,7 +253,7 @@ class SingOutLayout extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'Debes registrarte para continuar, es GRATIS',
+          "You must register to continue, it's FREE",
           style: TextStyle(
             fontSize: 20,
           ),
