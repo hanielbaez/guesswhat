@@ -6,7 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 //Self import
 import 'package:guess_what/core/custom/customGeoPoint.dart';
 
-class GuessCreate extends StatelessWidget {
+class SupportPage extends StatelessWidget {
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
 
@@ -15,7 +15,7 @@ class GuessCreate extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Custom support',
+          'Custom Support',
         ),
         leading: IconButton(
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
@@ -26,7 +26,7 @@ class GuessCreate extends StatelessWidget {
         backgroundColor: Colors.black,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        padding: EdgeInsets.all(30.0),
         child: ListView(
           children: <Widget>[
             FormBuilder(
@@ -34,12 +34,19 @@ class GuessCreate extends StatelessWidget {
               autovalidate: true,
               child: Column(
                 children: <Widget>[
+                  Text(
+                    'We are here to help you. You will receive a response if necessary through your email as soon as possible.',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
                   FormBuilderTextField(
-                    attribute: "answer",
+                    attribute: "message",
+                    maxLines: 10,
                     decoration: InputDecoration(
-                      labelText: "Answer",
+                      labelText: "Message",
                       labelStyle: TextStyle(color: Colors.black),
-                      hintText: 'The answer of your riddle',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.horizontal(right: Radius.zero),
@@ -52,46 +59,15 @@ class GuessCreate extends StatelessWidget {
                             BorderSide(color: Colors.black26, width: 2.5),
                       ),
                     ),
-                    keyboardType: TextInputType.text,
-                    maxLength: 9,
+                    maxLength: 500,
+                    maxLengthEnforced: true,
                     validators: [
-                      (val) {
-                        RegExp regex = RegExp(r'^[0-9a-zA-Z ]+$');
-                        if (!regex.hasMatch(val) && val.toString().isNotEmpty) {
-                          return "No special characters or numbers";
-                        }
-                        return null;
-                      },
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.max(500),
                     ],
                   ),
                   SizedBox(
-                    height: 10.0,
-                  ),
-                  FormBuilderTextField(
-                    attribute: "description",
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      labelText: "Description",
-                      labelStyle: TextStyle(color: Colors.black),
-                      hintText:
-                          'You can write something funny about your riddle',
-                      border: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.horizontal(right: Radius.zero),
-                        borderSide: BorderSide(color: Colors.black26, width: 1),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.horizontal(right: Radius.zero),
-                        borderSide:
-                            BorderSide(color: Colors.black26, width: 2.5),
-                      ),
-                    ),
-                    maxLength: 350,
-                    maxLengthEnforced: true,
-                    validators: [
-                      FormBuilderValidators.max(350),
-                    ],
+                    height: 30.0,
                   ),
                   FlatButton(
                     color: Colors.black,
@@ -101,10 +77,7 @@ class GuessCreate extends StatelessWidget {
                     ),
                     onPressed: () async {
                       _formCreateKey.currentState.save();
-                      if (_formCreateKey.currentState.validate()) {
-                        var _guessLocation =
-                            await CustomGeoPoint().addGeoPoint();
-                      }
+                      if (_formCreateKey.currentState.validate()) {}
                     },
                   ),
                 ],
