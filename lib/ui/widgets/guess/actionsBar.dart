@@ -117,17 +117,15 @@ class ActionBar extends StatelessWidget {
           },
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             guess.loveCounter.isNotEmpty
                 ? Align(
                     alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      child: Text(
-                        'Loves ${guess.loveCounter}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
-                        ),
+                    child: Text(
+                      '${guess.loveCounter} Loves',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.5),
                       ),
                     ),
                   )
@@ -135,13 +133,10 @@ class ActionBar extends StatelessWidget {
             guess.commentCounter.isNotEmpty
                 ? Align(
                     alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      child: Text(
-                        'Comments ${guess.commentCounter}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
-                        ),
+                    child: Text(
+                      '${guess.commentCounter} Comments',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.5),
                       ),
                     ),
                   )

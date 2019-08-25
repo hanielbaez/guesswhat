@@ -27,7 +27,7 @@ class GuessCreate extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Create a riddle',
+          'Create a Riddle',
         ),
         leading: IconButton(
           //Costum Back Button

@@ -18,7 +18,7 @@ class LovePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Loves",
+          "Loved",
         ),
         leading: IconButton(
           //Costum Back Button

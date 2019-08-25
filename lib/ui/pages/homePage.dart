@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
       ),
       drawer: CustomDrawer(),
       backgroundColor: Color.fromARGB(1, 191, 191, 191),
-      body: CustomListGuess(),
+      body:  CustomListGuess(),
     );
   }
 }

@@ -167,7 +167,7 @@ class SingInLayout extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
-              //TODO: Make a support page
+              Navigator.popAndPushNamed(context, 'supportPage');
             }),
         Expanded(
           child: Align(
@@ -301,14 +301,14 @@ class SingOutLayout extends StatelessWidget {
           ),
         ),
         FlatButton.icon(
-          label: Text('Sign in with Email'),
+          label: Text('Continue as a Guest'),
           color: Colors.white,
           icon: Icon(
-            SimpleLineIcons.getIconData('envelope'),
+            SimpleLineIcons.getIconData('user'),
             color: Colors.black,
           ),
           onPressed: () {
-            //TODO: Inplement email sing in
+            Navigator.pop(context);
           },
         )
       ],
