@@ -34,7 +34,7 @@ class CustomDrawer extends StatelessWidget {
               }
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
-                  return Text('Not current connected');
+                  return SingOutLayout();
                 case ConnectionState.waiting:
                   return Text('Wating');
                 case ConnectionState.active:
@@ -167,7 +167,8 @@ class SingInLayout extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
-              Navigator.popAndPushNamed(context, 'supportPage');
+              Navigator.popAndPushNamed(context, 'supportPage',
+                  arguments: snapshot.data);
             }),
         Expanded(
           child: Align(
@@ -268,7 +269,7 @@ class SingOutLayout extends StatelessWidget {
               .loginWithFacebook()
               .then(
             (response) {
-              Navigator.pop(context);
+              //Navigator.pop(context);
               Scaffold.of(context).showSnackBar(
                 new SnackBar(
                   content: new Text("$response"),

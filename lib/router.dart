@@ -18,7 +18,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case 'supportPage':
       return MaterialPageRoute(
-        builder: (context) => SupportPage(),
+        builder: (context) => SupportPage(user: settings.arguments),
       );
     default:
       return MaterialPageRoute(builder: (context) => UnknownPage());

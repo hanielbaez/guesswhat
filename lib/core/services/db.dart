@@ -12,6 +12,7 @@ import 'package:guess_what/core/model/comment.dart';
 import 'package:guess_what/core/model/love.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/supportContact.dart';
 import 'package:uuid/uuid.dart';
 
 ///Networks request
@@ -50,6 +51,15 @@ class DatabaseServices {
       print('$e');
       return null;
     }
+  }
+
+  void supportContact({SupportContact support}) async {
+    var ref = _db
+        .collection('users')
+        .document(support.userId)
+        .collection('supportContacts')
+        .document();
+    ref.setData(await support.toJson());
   }
 
   //* GUESS *//
