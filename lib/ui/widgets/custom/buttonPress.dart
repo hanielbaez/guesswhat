@@ -40,6 +40,16 @@ void onButtonPressed(context) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Create a Ridlle',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
                 Card(
                   child: ListTile(
                     title: Text('Capture Image'),
@@ -51,10 +61,10 @@ void onButtonPressed(context) {
                         _multiMedia['image'] = await _sourceOption.getImage(
                             ImageSource.camera, context);
 
-                          _sourceOption.navigateToCreate(
-                              context: context,
-                              multiMedia: _multiMedia,
-                              user: userSnap.data);
+                        _sourceOption.navigateToCreate(
+                            context: context,
+                            multiMedia: _multiMedia,
+                            user: userSnap.data);
                       } catch (error) {
                         print('Error: $error');
                       }

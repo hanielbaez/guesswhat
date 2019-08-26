@@ -35,69 +35,75 @@ class _GuessLayaoutState extends State<GuessLayaout> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: UserBar(
-            userData: widget.guess.user,
-            timeStamp: widget.guess.creationDate,
-            address: widget.guess.address,
-          ),
-        ),
-        Hero(
-          tag: widget.guess.id,
-          child: ChangeNotifierProvider<VideoViewModel>.value(
-            value: VideoViewModel(guess: widget.guess),
-            child: Consumer<VideoViewModel>(
-              builder: (context, model, child) {
-                return SizedBox.fromSize(
-                  child: VideoLayaout(guess: widget.guess, model: model, shouldTriggerChange: changeNotifier.stream),
-                );
-              },
+    return Card(
+      color: Colors.white10,
+      shape: BeveledRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: UserBar(
+              userData: widget.guess.user,
+              timeStamp: widget.guess.creationDate,
+              address: widget.guess.address,
             ),
           ),
-        ),
-        if (widget.guess.answer.isNotEmpty)
-          StreamBuilder<FirebaseUser>(
-            stream: Provider.of<AuthenticationServices>(context).user(),
-            builder: (context, userSnap) {
-              if (userSnap.hasData) {
-                return ChangeNotifierProvider<LettersViewModel>.value(
-                  value: LettersViewModel(
-                      guess: widget.guess,
-                      db: Provider.of(context),
-                      user: userSnap.data,
-                      changeNotifier: changeNotifier),
-                  child: Consumer<LettersViewModel>(
-                    builder: (context, model, child) {
-                      return CustomSidekick(
+          Hero(
+            tag: widget.guess.id,
+            child: ChangeNotifierProvider<VideoViewModel>.value(
+              value: VideoViewModel(guess: widget.guess),
+              child: Consumer<VideoViewModel>(
+                builder: (context, model, child) {
+                  return SizedBox.fromSize(
+                    child: VideoLayaout(
                         guess: widget.guess,
                         model: model,
-                      );
-                    },
-                  ),
-                );
-              }
-              return Container();
-            },
-          ),
-        if (widget.guess.description.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: CustomDescription(text: '${widget.guess.description}'),
+                        shouldTriggerChange: changeNotifier.stream),
+                  );
+                },
+              ),
             ),
           ),
-        ActionBar(guess: widget.guess),
-        Divider(
-          color: Colors.white54,
-        ),
-        SizedBox(
-          height: 30.0,
-        ),
-      ],
+          if (widget.guess.answer.isNotEmpty)
+            StreamBuilder<FirebaseUser>(
+              stream: Provider.of<AuthenticationServices>(context).user(),
+              builder: (context, userSnap) {
+                if (userSnap.hasData) {
+                  return ChangeNotifierProvider<LettersViewModel>.value(
+                    value: LettersViewModel(
+                        guess: widget.guess,
+                        db: Provider.of(context),
+                        user: userSnap.data,
+                        changeNotifier: changeNotifier),
+                    child: Consumer<LettersViewModel>(
+                      builder: (context, model, child) {
+                        return CustomSidekick(
+                          guess: widget.guess,
+                          model: model,
+                        );
+                      },
+                    ),
+                  );
+                }
+                return Container();
+              },
+            ),
+          if (widget.guess.description.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: CustomDescription(text: '${widget.guess.description}'),
+              ),
+            ),
+          ActionBar(guess: widget.guess),
+          SizedBox(
+            height: 15.0,
+          ),
+        ],
+      ),
     );
   }
 }

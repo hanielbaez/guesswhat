@@ -1,7 +1,6 @@
 //Flutter and Dart
 import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 //Self import
 import 'package:guess_what/core/model/guess.dart';
@@ -70,15 +69,7 @@ class _CustomSidekickState extends State<CustomSidekick> {
                       : Wrap(
                           children: sourceBuilderDelegates.isEmpty
                               ? [
-                                  Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: SpinKitThreeBounce(
-                                        color: Colors.white,
-                                        size: 25.0,
-                                      ),
-                                    ),
-                                  ),
+                                  Container(),
                                 ]
                               : sourceBuilderDelegates
                                   .map(

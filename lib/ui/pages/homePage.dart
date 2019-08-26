@@ -35,8 +35,8 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
-      backgroundColor: Color.fromARGB(1, 191, 191, 191),
-      body:  CustomListGuess(),
+      backgroundColor: Colors.black,
+      body: CustomListGuess(),
     );
   }
 }

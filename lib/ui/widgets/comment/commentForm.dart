@@ -31,7 +31,6 @@ class CommentForm extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          
           children: <Widget>[
             FormBuilder(
               key: _fbKey,
@@ -55,7 +54,6 @@ class CommentForm extends StatelessWidget {
                   ),
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
-                  maxLength: 350,
                   maxLengthEnforced: true,
                   validators: [
                     FormBuilderValidators.required(

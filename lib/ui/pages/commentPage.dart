@@ -62,7 +62,13 @@ class _CommentPageState extends State<CommentPage> {
                 },
               ),
             ),
-            CommentForm(fbKey: _fbKey, guess: guess),
+            Card(
+                color: Colors.white10,
+                shape: BeveledRectangleBorder(borderRadius: BorderRadius.zero),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: CommentForm(fbKey: _fbKey, guess: guess),
+                )),
           ],
         ),
       ),
@@ -92,35 +98,41 @@ class ListViewBuilder extends StatelessWidget {
           'photoURL': snapshot.data.documents[index]['user']['photoURL'],
         };
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            UserBar(
-              userData: userData,
-              timeStamp: snapshot.data.documents[index]['creationDate'],
+        return Card(
+          color: Colors.white12,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                UserBar(
+                  userData: userData,
+                  timeStamp: snapshot.data.documents[index]['creationDate'],
+                ),
+                SizedBox(height: 10.0),
+                ExpandablePanel(
+                  collapsed: Text(
+                    '${snapshot.data.documents[index]['text']}',
+                    style: TextStyle(color: Colors.white),
+                    softWrap: true,
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  expanded: Text(
+                    '${snapshot.data.documents[index]['text']}',
+                    style: TextStyle(color: Colors.white),
+                    softWrap: true,
+                  ),
+                  tapHeaderToExpand: true,
+                  tapBodyToCollapse: true,
+                  hasIcon: false,
+                ),
+              ],
             ),
-            SizedBox(height: 10.0),
-            ExpandablePanel(
-              collapsed: Text(
-                '${snapshot.data.documents[index]['text']}',
-                style: TextStyle(color: Colors.white),
-                softWrap: true,
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
-              ),
-              expanded: Text(
-                '${snapshot.data.documents[index]['text']}',
-                style: TextStyle(color: Colors.white),
-                softWrap: true,
-              ),
-              tapHeaderToExpand: true,
-              tapBodyToCollapse: true,
-              hasIcon: false,
-            ),
-            Divider(
-              color: Colors.white.withOpacity(0.5),
-            )
-          ],
+          ),
         );
       },
     );

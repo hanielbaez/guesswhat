@@ -39,7 +39,7 @@ class CustomLetter extends StatelessWidget {
           margin: EdgeInsets.all(isSource ? 7 : 2),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            color: Colors.transparent,
+            color: Colors.white12,
             border: Border.all(
               color: model.letterColor(isSource),
             ),

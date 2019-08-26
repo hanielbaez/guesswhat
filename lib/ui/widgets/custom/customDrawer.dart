@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
 //Self import
+import 'package:guess_what/ui/widgets/custom/buttonPress.dart';
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/services/db.dart';
@@ -107,69 +108,113 @@ class SingInLayout extends StatelessWidget {
         Divider(
           color: Colors.white24,
         ),
-        ListTile(
-          leading: Icon(
-            SimpleLineIcons.getIconData('home'),
-            color: Colors.white,
+        Card(
+          color: Colors.white10,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.zero,
           ),
-          title: Text(
-            'Home',
-            style: TextStyle(color: Colors.white),
-          ),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.popUntil(context, (route) {
-              if (route.settings.name != '/') {
-                Navigator.popAndPushNamed(context, '/');
-                return true;
-              }
-              return true;
-            });
-          },
-        ),
-        ListTile(
-          leading: Icon(
-            SimpleLineIcons.getIconData('heart'),
-            color: Colors.white,
-          ),
-          title: Text(
-            'Loved Ridlle',
-            style: TextStyle(color: Colors.white),
-          ),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, 'lovePage',
-                arguments: snapshot.data.uid);
-          },
-        ),
-        ListTile(
-          leading: Icon(
-            SimpleLineIcons.getIconData('present'),
-            color: Colors.white,
-          ),
-          title: Text(
-            'Share Tekel with Friends',
-            style: TextStyle(color: Colors.white),
-          ),
-          onTap: () {
-            ShareExtend.share(
-                "I invite you to try Tekel a fun word app, available on Google Play. Go get it!",
-                "text");
-          },
-        ),
-        ListTile(
+          child: ListTile(
             leading: Icon(
-              SimpleLineIcons.getIconData('question'),
+              SimpleLineIcons.getIconData('home'),
               color: Colors.white,
             ),
             title: Text(
-              'Support',
+              'Home',
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
-              Navigator.popAndPushNamed(context, 'supportPage',
-                  arguments: snapshot.data);
-            }),
+              Navigator.pop(context);
+              Navigator.popUntil(context, (route) {
+                if (route.settings.name != '/') {
+                  Navigator.popAndPushNamed(context, '/');
+                  return true;
+                }
+                return true;
+              });
+            },
+          ),
+        ),
+        Card(
+          color: Colors.white10,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+          child: ListTile(
+            leading: Icon(
+              SimpleLineIcons.getIconData('pencil'),
+              color: Colors.white,
+            ),
+            title: Text(
+              'Create a Ridlle',
+              style: TextStyle(color: Colors.white),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              onButtonPressed(context);
+            },
+          ),
+        ),
+        Card(
+          color: Colors.white10,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+          child: ListTile(
+            leading: Icon(
+              SimpleLineIcons.getIconData('heart'),
+              color: Colors.white,
+            ),
+            title: Text(
+              'Loved Ridlles',
+              style: TextStyle(color: Colors.white),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, 'lovePage',
+                  arguments: snapshot.data.uid);
+            },
+          ),
+        ),
+        Card(
+          color: Colors.white10,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+          child: ListTile(
+            leading: Icon(
+              SimpleLineIcons.getIconData('present'),
+              color: Colors.white,
+            ),
+            title: Text(
+              'Share Tekel with Friends',
+              style: TextStyle(color: Colors.white),
+            ),
+            onTap: () {
+              ShareExtend.share(
+                  "I invite you to try Tekel a fun word app, available on Google Play. Go get it!",
+                  "text");
+            },
+          ),
+        ),
+        Card(
+          color: Colors.white10,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+          child: ListTile(
+              leading: Icon(
+                SimpleLineIcons.getIconData('question'),
+                color: Colors.white,
+              ),
+              title: Text(
+                'Support',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.popAndPushNamed(context, 'supportPage',
+                    arguments: snapshot.data);
+              }),
+        ),
         Expanded(
           child: Align(
             alignment: Alignment.bottomLeft,
