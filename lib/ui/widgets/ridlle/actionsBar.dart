@@ -38,7 +38,6 @@ class ActionBar extends StatelessWidget {
                     stream: Provider.of<DatabaseServices>(context)
                         .loveStream(customID: ridlle.id + userSnap.data.uid),
                     builder: (context, loveSnap) {
-                      print('USER ID ${ridlle.id} ${userSnap.data.uid}');
                       var loveState = loveSnap?.data?.state ?? false;
 
                       return FlatButton.icon(

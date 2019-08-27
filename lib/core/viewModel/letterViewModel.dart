@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guess_what/core/model/ridlle.dart';
@@ -11,6 +12,7 @@ class LettersViewModel extends ChangeNotifier {
   final FirebaseUser _user;
   final Ridlle _ridlle;
   final StreamController _changeNotifier;
+  static AudioCache player = new AudioCache();
   List<Item> selectedItems = [];
   List<Item> sourceList = [];
   List<Item> targetList = [];
@@ -122,8 +124,13 @@ class LettersViewModel extends ChangeNotifier {
   ///Add letter to the target
   ///If it is equal to the ridlle.word it get a color yellow
   void setLetter({Item selectedItem}) {
+    const tapAudioPath = 'audios/fingerTap.wav';
+    const wrongChoiceAudioPath = 'audios/wrongChoice.wav';
+    const successAudioPath = 'audios/success.wav';
+
     selectedItems.add(selectedItem);
     var _selectedWord = getWord(selectedItems);
+
     if (_selectedWord == _ridlle.answer.toUpperCase()) {
       if (_user != null)
         _db.setRidlleDone(
@@ -131,17 +138,24 @@ class LettersViewModel extends ChangeNotifier {
             ridlleId: _ridlle.id,
             userId: _user.uid);
       correctAnswer = true;
+      player.play(successAudioPath);
       _changeNotifier.sink.add(true);
     } else if (_selectedWord.length >= _ridlle.answer.length) {
+      player.play(wrongChoiceAudioPath);
       wronganswer = true;
+    } else {
+      //Play the basic tap sound
+      player.play(tapAudioPath);
     }
   }
 
   ///Remove letter from the target list
   ///If it is longer that the answer it get a red color
   void deleteLetter({Item selectedItem}) {
+    const tapAudioPath = 'audios/fingerTap.wav';
     int _letterID = selectedItem.id;
     selectedItems.removeWhere((item) => item.id == _letterID);
+    player.play(tapAudioPath);
     if (selectedItems.length < _ridlle.answer.length) {
       wronganswer = false;
     }

@@ -17,6 +17,8 @@ class CustomLetter extends StatelessWidget {
   final LettersViewModel model;
 
   CustomLetter({this.item, this.isSource, this.model});
+  
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
