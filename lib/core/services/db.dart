@@ -11,7 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:guess_what/core/model/comment.dart';
 import 'package:guess_what/core/model/love.dart';
 import 'package:guess_what/core/model/user.dart';
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:guess_what/core/model/supportContact.dart';
 import 'package:uuid/uuid.dart';
 
@@ -62,35 +62,35 @@ class DatabaseServices {
     ref.setData(await support.toJson());
   }
 
-  //* GUESS *//
+  //* RIDLLE *//
 
-  //Fectch all gussess and order it by date
-  Future<List<Guess>> fectchGuesses() async {
+  //Fectch all ridlles and order it by date
+  Future<List<Ridlle>> fectchRidlle() async {
     try {
-      //Use to fech all Guesses
-      final List<Guess> allGuesses = [];
+      //Use to fech all Ridlles
+      final List<Ridlle> allRidlle = [];
       var snap = await _db
-          .collection('guesses')
+          .collection('ridlles')
           .orderBy('creationDate', descending: true)
           .getDocuments();
       snap.documents.forEach(
         (document) {
-          allGuesses.add(
-            Guess.fromFireStore(document),
+          allRidlle.add(
+            Ridlle.fromFireStore(document),
           );
         },
       );
-      return allGuesses;
+      return allRidlle;
     } catch (e) {
       print('$e');
       return null;
     }
   }
 
-  ///Retur a guess by the given ID
-  Future<Guess> getGuess({String guessId}) async {
-    var snap = await _db.collection('guesses').document(guessId).get();
-    return Guess.fromFireStore(snap);
+  ///Retur a ridlle by the given ID
+  Future<Ridlle> getRidlle({String ridlleId}) async {
+    var snap = await _db.collection('ridlles').document(ridlleId).get();
+    return Ridlle.fromFireStore(snap);
   }
 
   ///Upload media to Firebase Storage and return a Dowload URL
@@ -114,11 +114,11 @@ class DatabaseServices {
     }
   }
 
-  ///Return TRUE if upload new guess to FireStore success
-  Future<void> uploadGuess(Map<String, dynamic> guess) async {
-    DocumentReference _ref = _db.collection('guesses').document();
+  ///Return TRUE if upload new ridlle to FireStore success
+  Future<void> uploadRidlle(Map<String, dynamic> ridlle) async {
+    DocumentReference _ref = _db.collection('ridlles').document();
     _ref
-        .setData(guess)
+        .setData(ridlle)
         .catchError(
           (error) => print('FireBase ERROR: $error'),
         )
@@ -127,13 +127,13 @@ class DatabaseServices {
         );
   }
 
-  //* GUESS DONE*//
+  ///* RIDLLE DONE*//
   ///Set the data at Firebase
-  void setGuessesDone({String customID, String guessId, String userId}) {
+  void setRidlleDone({String customID, String ridlleId, String userId}) {
     try {
-      _db.collection('guessesDone').document(customID).setData(
+      _db.collection('ridllesDone').document(customID).setData(
         {
-          'guessId': guessId,
+          'ridlleId': ridlleId,
           'userId': userId,
           'creationDate': Timestamp.now(),
         },
@@ -144,11 +144,11 @@ class DatabaseServices {
     }
   }
 
-  ///Return NULL is the user have not completed the Guess yet
-  Future<DocumentSnapshot> getGuessesDone({String customID}) async {
+  ///Return NULL is the user have not completed the Ridlle yet
+  Future<DocumentSnapshot> getRidlleDone({String customID}) async {
     try {
       return await _db
-          .collection('guessesDone')
+          .collection('ridllesDone')
           .document(customID)
           .get()
           .catchError(
@@ -163,25 +163,25 @@ class DatabaseServices {
   }
 
   //* LOVE(Favorite) *//
-  /* The customID is make out of the GuessId and the Authenticated UserId */
+  /* The customID is make out of the RidleId and the Authenticated UserId */
 
   ///Update the love data to FireStore
   void updateLoveState({String customID, Love love}) {
     try {
-      _db.collection('loveGuesses').document(customID).setData(love.toJson());
+      _db.collection('loveRidlles').document(customID).setData(love.toJson());
     } catch (e) {
       print('$e');
       return null;
     }
   }
 
-  ///Return a List of theloveGuesses by user
-  Future<List> loveGuesses(String userId) async {
+  ///Return a List of theloveRidlle by user
+  Future<List> loveRidlle(String userId) async {
     try {
       final List loveList = [];
 
       var snap = await _db
-          .collection('loveGuesses')
+          .collection('loveRidlles')
           .where('userId', isEqualTo: userId)
           .where('state', isEqualTo: true)
           .orderBy('updateDate', descending: true)
@@ -203,7 +203,7 @@ class DatabaseServices {
   ///Return a Love obj
   Stream<Love> loveStream({String customID}) {
     try {
-      return _db.collection('loveGuesses').document(customID).snapshots().map(
+      return _db.collection('loveRidlles').document(customID).snapshots().map(
         (doc) {
           return Love.fromFireStore(doc.data);
         },
@@ -216,13 +216,13 @@ class DatabaseServices {
 
   //* COMMENT *//
 
-  ///Fech all Comments availables by specifict guess
-  Stream<QuerySnapshot> getAllComments(String guessID) {
+  ///Fech all Comments availables by specifict ridlle
+  Stream<QuerySnapshot> getAllComments(String ridlleId) {
     try {
       //Use to fech all Comments
       return _db
-          .collection('guesses')
-          .document(guessID)
+          .collection('ridlles')
+          .document(ridlleId)
           .collection('comments')
           .snapshots();
     } catch (e) {
@@ -231,12 +231,12 @@ class DatabaseServices {
     }
   }
 
-  Future<bool> uploadComment({Comment comment, String guessID}) {
+  Future<bool> uploadComment({Comment comment, String ridlleId}) {
     try {
       var _result;
       DocumentReference _ref = _db
-          .collection('guesses')
-          .document(guessID)
+          .collection('ridlles')
+          .document(ridlleId)
           .collection('comments')
           .document();
       _ref.setData(comment.toJson());

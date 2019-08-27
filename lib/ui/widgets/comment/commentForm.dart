@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 //Self import
 import 'package:guess_what/core/model/comment.dart';
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/services/db.dart';
 
@@ -16,12 +16,12 @@ class CommentForm extends StatelessWidget {
   const CommentForm({
     Key key,
     @required GlobalKey<FormBuilderState> fbKey,
-    @required this.guess,
+    @required this.ridlle,
   })  : _fbKey = fbKey,
         super(key: key);
 
   final GlobalKey<FormBuilderState> _fbKey;
-  final Guess guess;
+  final Ridlle ridlle;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class CommentForm extends StatelessWidget {
 
                   //Save the new comment at the database
                   Provider.of<DatabaseServices>(context)
-                      .uploadComment(comment: newComment, guessID: guess.id);
+                      .uploadComment(comment: newComment, ridlleId: ridlle.id);
                   FocusScope.of(context)
                       .requestFocus(new FocusNode()); //Hide the keyboard
                   _fbKey.currentState.reset();

@@ -8,7 +8,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 //Self import
 import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/core/viewModel/guessCreateModelView.dart';
+import 'package:guess_what/core/viewModel/ridlleCreateModelView.dart';
 import 'package:guess_what/core/custom/customGeoPoint.dart';
 
 class GuessCreate extends StatelessWidget {
@@ -121,9 +121,9 @@ class GuessCreate extends StatelessWidget {
                       FormBuilderValidators.max(350),
                     ],
                   ),
-                  ChangeNotifierProvider<GuessCreateViewModel>.value(
-                    value: GuessCreateViewModel(),
-                    child: Consumer<GuessCreateViewModel>(
+                  ChangeNotifierProvider<RidlleCreateViewModel>.value(
+                    value: RidlleCreateViewModel(),
+                    child: Consumer<RidlleCreateViewModel>(
                       builder: (context, model, child) {
                         return model.loading
                             ? Center(
@@ -167,37 +167,36 @@ class GuessCreate extends StatelessWidget {
                                     if (_formCreateKey
                                             .currentState.value['answer'] !=
                                         '') {
-                                      model.guess['answer'] = _formCreateKey
+                                      model.ridlle['answer'] = _formCreateKey
                                           .currentState.value['answer'];
                                     }
 
                                     if (_formCreateKey.currentState
                                             .value['description'] !=
                                         '') {
-                                      model.guess['description'] =
+                                      model.ridlle['description'] =
                                           _formCreateKey.currentState
                                               .value['description'];
                                     }
 
-                                    model.guess['user'] = {
+                                    model.ridlle['user'] = {
                                       'uid': _user.uid,
                                       'displayName': _user.displayName,
                                       'photoURL': _userDb.photoURL,
                                     };
 
-                                    var _guessLocation =
+                                    var _ridlleLocation =
                                         await CustomGeoPoint().addGeoPoint();
-                                    if (_guessLocation != null) {
-                                      model.guess['location'] = _guessLocation;
+                                    if (_ridlleLocation != null) {
+                                      model.ridlle['location'] =
+                                          _ridlleLocation;
                                     }
 
-                                    // _guess['thumbnail'] = _urlThumbnail;
-                                    model.guess['creationDate'] =
+                                    // _ridlle['thumbnail'] = _urlThumbnail;
+                                    model.ridlle['creationDate'] =
                                         DateTime.now();
 
                                     model.upload(_context);
-
-                                    
                                   }
                                 },
                               );

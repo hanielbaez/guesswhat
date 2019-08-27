@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/ui/widgets/guess/letter.dart';
+import 'package:guess_what/ui/widgets/ridlle/letter.dart';
 
 class LettersViewModel extends ChangeNotifier {
   final DatabaseServices _db;
   final FirebaseUser _user;
-  final Guess _guess;
+  final Ridlle _ridlle;
   final StreamController _changeNotifier;
   List<Item> selectedItems = [];
   List<Item> sourceList = [];
@@ -18,18 +18,18 @@ class LettersViewModel extends ChangeNotifier {
   bool wronganswer = false;
 
   LettersViewModel(
-      {Guess guess,
+      {Ridlle ridlle,
       DatabaseServices db,
       FirebaseUser user,
       StreamController changeNotifier})
-      : _guess = guess,
+      : _ridlle = ridlle,
         _db = db,
         _user = user,
         _changeNotifier = changeNotifier;
 
   ///Add randoms characteres(LETTERS AND NUMBERS) to the supply secret word
   String randomCharacters() {
-    String _word = _guess.answer.toUpperCase();
+    String _word = _ridlle.answer.toUpperCase();
 
     final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     final String _numbers = '0123456789';
@@ -87,14 +87,14 @@ class LettersViewModel extends ChangeNotifier {
 
   ///Get a list for the target list only if the user has previously solved it.
   getTargetList() async {
-    var response = await _db.getGuessesDone(customID: _guess.id + _user.uid);
+    var response = await _db.getRidlleDone(customID: _ridlle.id + _user.uid);
     if (response?.data != null) {
       var list = List.generate(
-        _guess.answer.length,
+        _ridlle.answer.length,
         (i) {
           return Item(
             id: i,
-            letter: _guess.answer[i].toUpperCase(),
+            letter: _ridlle.answer[i].toUpperCase(),
           );
         },
       );
@@ -120,19 +120,19 @@ class LettersViewModel extends ChangeNotifier {
   }
 
   ///Add letter to the target
-  ///If it is equal to the guess.word it get a color yellow
+  ///If it is equal to the ridlle.word it get a color yellow
   void setLetter({Item selectedItem}) {
     selectedItems.add(selectedItem);
     var _selectedWord = getWord(selectedItems);
-    if (_selectedWord == _guess.answer.toUpperCase()) {
+    if (_selectedWord == _ridlle.answer.toUpperCase()) {
       if (_user != null)
-        _db.setGuessesDone(
-            customID: _guess.id + _user.uid,
-            guessId: _guess.id,
+        _db.setRidlleDone(
+            customID: _ridlle.id + _user.uid,
+            ridlleId: _ridlle.id,
             userId: _user.uid);
       correctAnswer = true;
       _changeNotifier.sink.add(true);
-    } else if (_selectedWord.length >= _guess.answer.length) {
+    } else if (_selectedWord.length >= _ridlle.answer.length) {
       wronganswer = true;
     }
   }
@@ -142,7 +142,7 @@ class LettersViewModel extends ChangeNotifier {
   void deleteLetter({Item selectedItem}) {
     int _letterID = selectedItem.id;
     selectedItems.removeWhere((item) => item.id == _letterID);
-    if (selectedItems.length < _guess.answer.length) {
+    if (selectedItems.length < _ridlle.answer.length) {
       wronganswer = false;
     }
   }

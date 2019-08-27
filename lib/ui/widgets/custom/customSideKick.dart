@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
 
 //Self import
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
-import 'package:guess_what/ui/widgets/guess/letter.dart';
+import 'package:guess_what/ui/widgets/ridlle/letter.dart';
 
 class CustomSidekick extends StatefulWidget {
-  final Guess guess;
+  final Ridlle ridlle;
   final LettersViewModel model;
-  CustomSidekick({this.guess, this.model});
+  CustomSidekick({this.ridlle, this.model});
 
   @override
   _CustomSidekickState createState() => _CustomSidekickState();

@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 //Self import
 import 'package:guess_what/core/services/db.dart';
 
-class GuessCreateViewModel extends ChangeNotifier {
-  Map<String, dynamic> guess = {
+class RidlleCreateViewModel extends ChangeNotifier {
+  Map<String, dynamic> ridlle = {
     'answer': '',
     'description': '',
     'user': '',
@@ -47,16 +47,16 @@ class GuessCreateViewModel extends ChangeNotifier {
     var _thumbnailUrl = await Provider.of<DatabaseServices>(context)
         .uploadToFireStore(thumbnailFaile);
 
-    guess['thumbnailURL'] = _thumbnailUrl;
+    ridlle['thumbnailURL'] = _thumbnailUrl;
 
     //Get the media Type video/image
     var listSplit = lookupMimeType(file.path).split('/');
     listSplit[0] == 'image'
-        ? guess['imageURL'] = _url
-        : guess['videoURL'] = _url;
+        ? ridlle['imageURL'] = _url
+        : ridlle['videoURL'] = _url;
 
-    //Upload a new Guess to DataBase
-    await Provider.of<DatabaseServices>(context).uploadGuess(guess);
+    //Upload a new Ridlle to DataBase
+    await Provider.of<DatabaseServices>(context).uploadRidlle(ridlle);
 
     Navigator.pop(context);
   }

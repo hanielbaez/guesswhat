@@ -5,16 +5,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/ui/widgets/comment/commentForm.dart';
 import 'package:guess_what/ui/widgets/custom/userBar.dart';
 import 'package:provider/provider.dart';
 
 class CommentPage extends StatefulWidget {
-  final Guess guess;
+  final Ridlle ridlle;
 
-  CommentPage({this.guess});
+  CommentPage({this.ridlle});
 
   @override
   _CommentPageState createState() => _CommentPageState();
@@ -23,11 +23,11 @@ class CommentPage extends StatefulWidget {
 class _CommentPageState extends State<CommentPage> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
-  Guess guess;
+  Ridlle ridlle;
 
   @override
   void initState() {
-    guess = widget.guess;
+    ridlle = widget.ridlle;
     super.initState();
   }
 
@@ -51,7 +51,7 @@ class _CommentPageState extends State<CommentPage> {
             Expanded(
               child: StreamBuilder(
                 stream: Provider.of<DatabaseServices>(context)
-                    .getAllComments(guess.id),
+                    .getAllComments(ridlle.id),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.hasError)
@@ -67,7 +67,7 @@ class _CommentPageState extends State<CommentPage> {
                 shape: BeveledRectangleBorder(borderRadius: BorderRadius.zero),
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: CommentForm(fbKey: _fbKey, guess: guess),
+                  child: CommentForm(fbKey: _fbKey, ridlle: ridlle),
                 )),
           ],
         ),

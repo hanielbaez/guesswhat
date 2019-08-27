@@ -5,26 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:guess_what/core/services/auth.dart';
 import 'package:guess_what/core/viewModel/letterViewModel.dart';
 import 'package:guess_what/core/viewModel/videoViewModel.dart';
 import 'package:guess_what/ui/widgets/custom/customSideKick.dart';
 import 'package:guess_what/ui/widgets/custom/userBar.dart';
-import 'package:guess_what/ui/widgets/guess/actionsBar.dart';
-import 'package:guess_what/ui/widgets/guess/description.dart';
-import 'package:guess_what/ui/widgets/guess/video.dart';
+import 'package:guess_what/ui/widgets/ridlle/actionsBar.dart';
+import 'package:guess_what/ui/widgets/ridlle/description.dart';
+import 'package:guess_what/ui/widgets/ridlle/video.dart';
 
-class GuessLayaout extends StatefulWidget {
-  final Guess guess;
+class RidlleLayaout extends StatefulWidget {
+  final Ridlle ridlle;
 
-  GuessLayaout({this.guess});
+  RidlleLayaout({this.ridlle});
 
   @override
-  _GuessLayaoutState createState() => _GuessLayaoutState();
+  _RidlleLayaoutState createState() => _RidlleLayaoutState();
 }
 
-class _GuessLayaoutState extends State<GuessLayaout> {
+class _RidlleLayaoutState extends State<RidlleLayaout> {
   final changeNotifier = new StreamController.broadcast();
 
   @override
@@ -45,20 +45,20 @@ class _GuessLayaoutState extends State<GuessLayaout> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: UserBar(
-              userData: widget.guess.user,
-              timeStamp: widget.guess.creationDate,
-              address: widget.guess.address,
+              userData: widget.ridlle.user,
+              timeStamp: widget.ridlle.creationDate,
+              address: widget.ridlle.address,
             ),
           ),
           Hero(
-            tag: widget.guess.id,
+            tag: widget.ridlle.id,
             child: ChangeNotifierProvider<VideoViewModel>.value(
-              value: VideoViewModel(guess: widget.guess),
+              value: VideoViewModel(ridlle: widget.ridlle),
               child: Consumer<VideoViewModel>(
                 builder: (context, model, child) {
                   return SizedBox.fromSize(
                     child: VideoLayaout(
-                        guess: widget.guess,
+                        ridlle: widget.ridlle,
                         model: model,
                         shouldTriggerChange: changeNotifier.stream),
                   );
@@ -66,21 +66,21 @@ class _GuessLayaoutState extends State<GuessLayaout> {
               ),
             ),
           ),
-          if (widget.guess.answer.isNotEmpty)
+          if (widget.ridlle.answer.isNotEmpty)
             StreamBuilder<FirebaseUser>(
               stream: Provider.of<AuthenticationServices>(context).user(),
               builder: (context, userSnap) {
                 if (userSnap.hasData) {
                   return ChangeNotifierProvider<LettersViewModel>.value(
                     value: LettersViewModel(
-                        guess: widget.guess,
+                        ridlle: widget.ridlle,
                         db: Provider.of(context),
                         user: userSnap.data,
                         changeNotifier: changeNotifier),
                     child: Consumer<LettersViewModel>(
                       builder: (context, model, child) {
                         return CustomSidekick(
-                          guess: widget.guess,
+                          ridlle: widget.ridlle,
                           model: model,
                         );
                       },
@@ -90,15 +90,15 @@ class _GuessLayaoutState extends State<GuessLayaout> {
                 return Container();
               },
             ),
-          if (widget.guess.description.isNotEmpty)
+          if (widget.ridlle.description.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: CustomDescription(text: '${widget.guess.description}'),
+                child: CustomDescription(text: '${widget.ridlle.description}'),
               ),
             ),
-          ActionBar(guess: widget.guess),
+          ActionBar(ridlle: widget.ridlle),
           SizedBox(
             height: 15.0,
           ),

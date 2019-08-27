@@ -5,17 +5,17 @@ import 'package:provider/provider.dart';
 
 //Self import
 import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/ui/widgets/guess/guess.dart';
+import 'package:guess_what/ui/widgets/ridlle/ridlle.dart';
 
-class CustomListGuess extends StatelessWidget {
+class CustomListRidlle extends StatelessWidget {
   final Function onModelReady;
 
-  CustomListGuess({Key key, this.onModelReady}) : super(key: key);
+  CustomListRidlle({Key key, this.onModelReady}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Provider.of<DatabaseServices>(context).fectchGuesses(),
+      future: Provider.of<DatabaseServices>(context).fectchRidlle(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -40,7 +40,7 @@ class CustomListGuess extends StatelessWidget {
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Center(
-                  child: GuessLayaout(guess: snapshot.data[index]),
+                  child: RidlleLayaout(ridlle: snapshot.data[index]),
                 );
               },
             );

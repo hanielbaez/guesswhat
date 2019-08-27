@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:guess_what/ui/pages/commentPage.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:guess_what/core/custom/customCacheManager.dart';
@@ -18,10 +18,10 @@ import 'package:guess_what/core/services/auth.dart';
 class ActionBar extends StatelessWidget {
   const ActionBar({
     Key key,
-    @required this.guess,
+    @required this.ridlle,
   }) : super(key: key);
 
-  final Guess guess;
+  final Ridlle ridlle;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,9 @@ class ActionBar extends StatelessWidget {
                 children: <Widget>[
                   StreamBuilder<Love>(
                     stream: Provider.of<DatabaseServices>(context)
-                        .loveStream(customID: guess.id + userSnap.data.uid),
+                        .loveStream(customID: ridlle.id + userSnap.data.uid),
                     builder: (context, loveSnap) {
+                      print('USER ID ${ridlle.id} ${userSnap.data.uid}');
                       var loveState = loveSnap?.data?.state ?? false;
 
                       return FlatButton.icon(
@@ -60,12 +61,12 @@ class ActionBar extends StatelessWidget {
 
                           Provider.of<DatabaseServices>(context)
                               .updateLoveState(
-                            customID: guess.id + userSnap.data.uid,
+                            customID: ridlle.id + userSnap.data.uid,
                             love: Love(
                               state: !loveState,
                               userId: userSnap.data.uid,
-                              guessId: guess.id,
-                              thumbnailUrl: guess.thumbnailURL,
+                              ridlleId: ridlle.id,
+                              thumbnailUrl: ridlle.thumbnailURL,
                             ),
                           );
                         },
@@ -90,7 +91,7 @@ class ActionBar extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) {
                             return CommentPage(
-                              guess: guess,
+                              ridlle: ridlle,
                             );
                           },
                         ),
@@ -105,8 +106,8 @@ class ActionBar extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      var f = await CustomCacheManager()
-                          .getSingleFile('${guess.imageURL ?? guess.videoURL}');
+                      var f = await CustomCacheManager().getSingleFile(
+                          '${ridlle.imageURL ?? ridlle.videoURL}');
                       var mimeType = lookupMimeType(f.path.split('/').first);
                       ShareExtend.share(f.path, mimeType);
                     },
@@ -119,22 +120,22 @@ class ActionBar extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            guess.loveCounter.isNotEmpty
+            ridlle.loveCounter.isNotEmpty
                 ? Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '${guess.loveCounter} Loves',
+                      '${ridlle.loveCounter} Loves',
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.5),
                       ),
                     ),
                   )
                 : Container(),
-            guess.commentCounter.isNotEmpty
+            ridlle.commentCounter.isNotEmpty
                 ? Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '${guess.commentCounter} Comments',
+                      '${ridlle.commentCounter} Comments',
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.5),
                       ),

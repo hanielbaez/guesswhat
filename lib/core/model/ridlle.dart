@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Guess {
+class Ridlle {
   String id;
   String answer;
   String description;
@@ -14,7 +14,7 @@ class Guess {
   String commentCounter;
   Timestamp creationDate;
 
-  Guess({
+  Ridlle({
     @required this.id,
     @required this.answer,
     @required this.description,
@@ -28,8 +28,8 @@ class Guess {
     @required this.creationDate,
   });
 
-  ///Return a Guess Object
-  factory Guess.fromFireStore(DocumentSnapshot doc) {
+  ///Return a Ridlle Object
+  factory Ridlle.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data;
     String _loveCounter = '';
     String _commentCounter = '';
@@ -46,7 +46,7 @@ class Guess {
       }
     }
 
-    return Guess(
+    return Ridlle(
         id: doc.documentID,
         answer: data['answer'] ?? '',
         description: data['description'] ?? '',

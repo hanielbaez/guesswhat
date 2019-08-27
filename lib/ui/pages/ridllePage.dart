@@ -4,19 +4,19 @@ import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
 import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
-import 'package:guess_what/ui/widgets/guess/guess.dart';
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/ui/widgets/ridlle/ridlle.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import '../widgets/custom/buttonPress.dart';
 
-class GuessPage extends StatefulWidget {
-  final Guess guess;
-  GuessPage(this.guess);
+class RidllePage extends StatefulWidget {
+  final Ridlle ridlle;
+  RidllePage(this.ridlle);
 
   @override
-  _GuessPageState createState() => _GuessPageState();
+  _RidllePageState createState() => _RidllePageState();
 }
 
-class _GuessPageState extends State<GuessPage> {
+class _RidllePageState extends State<RidllePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -46,8 +46,8 @@ class _GuessPageState extends State<GuessPage> {
       backgroundColor: Color.fromARGB(1, 191, 191, 191),
       body: ListView(
         children: <Widget>[
-          GuessLayaout(
-            guess: widget.guess,
+          RidlleLayaout(
+            ridlle: widget.ridlle,
           ),
         ],
       ),

@@ -31,7 +31,7 @@ class LovePage extends StatelessWidget {
       ),
       backgroundColor: Colors.black,
       body: FutureBuilder<List>(
-        future: Provider.of<DatabaseServices>(context).loveGuesses(userId),
+        future: Provider.of<DatabaseServices>(context).loveRidlle(userId),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -72,7 +72,7 @@ class LovePage extends StatelessWidget {
                       SizedBox(
                         height: 20.0,
                       ),
-                      Text('You do not love any guess yet'),
+                      Text('You do not love any ridlle yet'),
                     ],
                   ),
                 );

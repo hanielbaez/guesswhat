@@ -3,13 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:guess_what/core/custom/customCacheManager.dart';
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:mime/mime.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewModel extends ChangeNotifier {
-  final Guess guess;
+  final Ridlle ridlle;
 
   File mediaFeche;
   VideoPlayerController videoController;
@@ -19,7 +19,7 @@ class VideoViewModel extends ChangeNotifier {
 
   Future<dynamic> future;
 
-  VideoViewModel({this.guess});
+  VideoViewModel({this.ridlle});
 
   Future getMedia() async {
     if (mediaFeche == null) {
@@ -36,7 +36,7 @@ class VideoViewModel extends ChangeNotifier {
 
   //Return video or image
   Future<String> mediaType() async {
-    var mediaURL = this.guess.imageURL ?? this.guess.videoURL;
+    var mediaURL = this.ridlle.imageURL ?? this.ridlle.videoURL;
     mediaFeche = await CustomCacheManager()
         .getSingleFile('$mediaURL'); //Check cache for media
     var listSplit = lookupMimeType(mediaFeche.path).split('/');
@@ -63,7 +63,7 @@ class VideoViewModel extends ChangeNotifier {
 //Costum image widgets
   PhotoView buildImage() {
     return PhotoView(
-      imageProvider: NetworkImage('${guess.imageURL}'),
+      imageProvider: NetworkImage('${ridlle.imageURL}'),
       maxScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained,
       loadingChild: Stack(

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 //Self import
-import 'package:guess_what/ui/pages/guessPage.dart';
+import 'package:guess_what/ui/pages/ridllePage.dart';
 import 'package:guess_what/ui/pages/homePage.dart';
 import 'package:guess_what/ui/pages/lovePage.dart';
 import 'package:guess_what/ui/pages/supportPage.dart';
@@ -18,9 +18,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => LovePage(settings.arguments),
       );
-    case 'guessPage':
+    case 'ridllePage':
       return MaterialPageRoute(
-        builder: (context) => GuessPage(settings.arguments),
+        builder: (context) => RidllePage(settings.arguments),
       );
     case 'supportPage':
       return MaterialPageRoute(

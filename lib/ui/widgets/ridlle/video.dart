@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/core/model/guess.dart';
+import 'package:guess_what/core/model/ridlle.dart';
 import 'package:guess_what/core/viewModel/videoViewModel.dart';
 
 class VideoLayaout extends StatefulWidget {
-  final Guess guess;
+  final Ridlle ridlle;
   final VideoViewModel model;
   final Stream shouldTriggerChange;
 
-  VideoLayaout({this.guess, this.model, this.shouldTriggerChange});
+  VideoLayaout({this.ridlle, this.model, this.shouldTriggerChange});
 
   @override
   _VideoLayaoutState createState() => _VideoLayaoutState();
