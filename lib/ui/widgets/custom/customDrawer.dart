@@ -21,9 +21,8 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: Colors.black87,
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(0.0),
           child: StreamBuilder<FirebaseUser>(
             stream: Provider.of<AuthenticationServices>(context).user(),
             builder: (context, snapshot) {
@@ -61,66 +60,74 @@ class SingInLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(
+        /* SizedBox(
           height: 40.0,
-        ),
+        ), */
         Container(
-          height: 100.0,
+          height: 150.0,
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              gradient: LinearGradient(
+                colors: [Colors.yellow[600], Colors.white],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              )),
           child: Row(
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: 10.0),
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  border: Border.all(color: Colors.white),
-                ),
-                child: FutureBuilder<User>(
-                  future: Provider.of<DatabaseServices>(context)
-                      .getUser(snapshot.data),
-                  builder: (context, imageSnap) {
-                    switch (imageSnap.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.active:
-                      case ConnectionState.waiting:
-                        return Icon(
-                          SimpleLineIcons.getIconData('user'),
-                          color: Colors.white,
-                        );
-                      case ConnectionState.done:
-                        if (imageSnap.hasError)
-                          return Text('Error: ${snapshot.error}');
-                        return FadeInImage.assetNetwork(
-                          placeholder: 'assets/images/noiseTv.gif',
-                          image: imageSnap.data.photoURL,
-                          fit: BoxFit.cover,
-                        );
-                    }
-                    return Container();
-                  },
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, 'userPage', arguments: snapshot.data),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10.0),
+                  width: 50,
+                  height: 50,
+                  child: FutureBuilder<User>(
+                    future: Provider.of<DatabaseServices>(context)
+                        .getUser(snapshot.data),
+                    builder: (context, imageSnap) {
+                      switch (imageSnap.connectionState) {
+                        case ConnectionState.none:
+                        case ConnectionState.active:
+                        case ConnectionState.waiting:
+                          return Icon(
+                            SimpleLineIcons.getIconData('user'),
+                          );
+                        case ConnectionState.done:
+                          if (imageSnap.hasError)
+                            return Text('Error: ${snapshot.error}');
+                          return FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/noiseTv.gif',
+                            image: imageSnap.data.photoURL,
+                            fit: BoxFit.cover,
+                          );
+                      }
+                      return Container();
+                    },
+                  ),
                 ),
               ),
-              Text(snapshot.data.displayName),
+              Text(
+                snapshot.data.displayName,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
         ),
         Divider(
-          color: Colors.white24,
+          color: Colors.white,
         ),
         Card(
-          color: Colors.white10,
+          color: Colors.white,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
           child: ListTile(
             leading: Icon(
               SimpleLineIcons.getIconData('home'),
-              color: Colors.white,
             ),
             title: Text(
               'Home',
-              style: TextStyle(color: Colors.white),
             ),
             onTap: () {
               Navigator.pop(context);
@@ -135,18 +142,16 @@ class SingInLayout extends StatelessWidget {
           ),
         ),
         Card(
-          color: Colors.white10,
+          color: Colors.yellow,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
           child: ListTile(
             leading: Icon(
               SimpleLineIcons.getIconData('pencil'),
-              color: Colors.white,
             ),
             title: Text(
               'Create a Ridlle',
-              style: TextStyle(color: Colors.white),
             ),
             onTap: () {
               Navigator.pop(context);
@@ -155,18 +160,16 @@ class SingInLayout extends StatelessWidget {
           ),
         ),
         Card(
-          color: Colors.white10,
+          color: Colors.white,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
           child: ListTile(
             leading: Icon(
               SimpleLineIcons.getIconData('heart'),
-              color: Colors.white,
             ),
             title: Text(
               'Loved Ridlles',
-              style: TextStyle(color: Colors.white),
             ),
             onTap: () {
               Navigator.pop(context);
@@ -176,18 +179,16 @@ class SingInLayout extends StatelessWidget {
           ),
         ),
         Card(
-          color: Colors.white10,
+          color: Colors.white,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
           child: ListTile(
             leading: Icon(
               SimpleLineIcons.getIconData('present'),
-              color: Colors.white,
             ),
             title: Text(
               'Share Tekel with Friends',
-              style: TextStyle(color: Colors.white),
             ),
             onTap: () {
               ShareExtend.share(
@@ -197,18 +198,16 @@ class SingInLayout extends StatelessWidget {
           ),
         ),
         Card(
-          color: Colors.white10,
+          color: Colors.white,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
           child: ListTile(
               leading: Icon(
                 SimpleLineIcons.getIconData('question'),
-                color: Colors.white,
               ),
               title: Text(
                 'Support',
-                style: TextStyle(color: Colors.white),
               ),
               onTap: () {
                 Navigator.popAndPushNamed(context, 'supportPage',
@@ -222,17 +221,17 @@ class SingInLayout extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Divider(
-                  color: Colors.white24,
+                  color: Colors.white,
                 ),
                 ListTile(
                     leading: Icon(
                       SimpleLineIcons.getIconData('logout'),
-                      color: Colors.white.withOpacity(0.4),
+                      color: Colors.black.withOpacity(0.4),
                     ),
                     title: Text(
                       'Log out',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.4),
+                        color: Colors.black.withOpacity(0.4),
                       ),
                     ),
                     onTap: () {
@@ -242,9 +241,7 @@ class SingInLayout extends StatelessWidget {
                           return AlertDialog(
                             title: Text(
                               'Leave Tekel?',
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
+                              style: TextStyle(),
                             ),
                             actions: <Widget>[
                               Row(

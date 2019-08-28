@@ -112,12 +112,10 @@ class LettersViewModel extends ChangeNotifier {
   ///if it is correct it get a color yellow, if it is wrong it get a color red
   ///if it is not correct or wrong it get white
   Color letterColor(bool isSource) {
-    if ((correctAnswer) && !isSource) {
-      return Colors.yellow;
-    } else if (wronganswer && !isSource) {
+    if (wronganswer && !isSource) {
       return Colors.red[400];
     } else {
-      return Colors.white;
+      return Colors.black;
     }
   }
 

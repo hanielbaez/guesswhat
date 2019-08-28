@@ -7,6 +7,7 @@ import 'package:guess_what/ui/pages/homePage.dart';
 import 'package:guess_what/ui/pages/lovePage.dart';
 import 'package:guess_what/ui/pages/supportPage.dart';
 import 'package:guess_what/ui/pages/unknownPage.dart';
+import 'package:guess_what/ui/pages/userPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -21,6 +22,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case 'ridllePage':
       return MaterialPageRoute(
         builder: (context) => RidllePage(settings.arguments),
+      );
+    case 'userPage':
+      return MaterialPageRoute(
+        builder: (context) => UserPage(user: settings.arguments),
       );
     case 'supportPage':
       return MaterialPageRoute(

@@ -37,23 +37,20 @@ class CommentForm extends StatelessWidget {
               child: Flexible(
                 child: FormBuilderTextField(
                   attribute: "comment",
-                  maxLines: 1,
                   autofocus: true,
                   decoration: InputDecoration(
-                    labelStyle: TextStyle(color: Colors.white),
-                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                    contentPadding: EdgeInsets.all(10.0),
+                    hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
                     hintText: 'Enter a comment',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.horizontal(right: Radius.zero),
-                      borderSide: BorderSide(color: Colors.white, width: 1),
+                      borderSide: BorderSide(color: Colors.black, width: 0.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.horizontal(right: Radius.zero),
-                      borderSide: BorderSide(color: Colors.white, width: 2.5),
+                      borderSide: BorderSide(color: Colors.black, width: 0.0),
                     ),
                   ),
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white),
                   maxLengthEnforced: true,
                   validators: [
                     FormBuilderValidators.required(
@@ -63,35 +60,39 @@ class CommentForm extends StatelessWidget {
                 ),
               ),
             ),
-            IconButton(
-              icon: Icon(
-                SimpleLineIcons.getIconData('arrow-up'),
-                color: Colors.yellow,
-                size: 30.0,
-              ),
-              onPressed: () async {
-                _fbKey.currentState.save();
-                var _user = await Provider.of<DatabaseServices>(context)
-                    .getUser(snapshot.data);
-                if (_fbKey.currentState.validate()) {
-                  Comment newComment = Comment(
-                    text: _fbKey.currentState.value['comment'],
-                    user: {
-                      'displayName': snapshot.data.displayName,
-                      'uid': snapshot.data.uid,
-                      'photoURL': _user.photoURL,
-                    },
-                    creationDate: Timestamp.now(),
-                  );
+            Container(
+              margin: EdgeInsets.all(2.0),
+              color: Colors.yellow,
+              child: IconButton(
+                icon: Icon(
+                  SimpleLineIcons.getIconData('arrow-up'),
+                  color: Colors.black,
+                  size: 30.0,
+                ),
+                onPressed: () async {
+                  _fbKey.currentState.save();
+                  var _user = await Provider.of<DatabaseServices>(context)
+                      .getUser(snapshot.data);
+                  if (_fbKey.currentState.validate()) {
+                    Comment newComment = Comment(
+                      text: _fbKey.currentState.value['comment'],
+                      user: {
+                        'displayName': snapshot.data.displayName,
+                        'uid': snapshot.data.uid,
+                        'photoURL': _user.photoURL,
+                      },
+                      creationDate: Timestamp.now(),
+                    );
 
-                  //Save the new comment at the database
-                  Provider.of<DatabaseServices>(context)
-                      .uploadComment(comment: newComment, ridlleId: ridlle.id);
-                  FocusScope.of(context)
-                      .requestFocus(new FocusNode()); //Hide the keyboard
-                  _fbKey.currentState.reset();
-                }
-              },
+                    //Save the new comment at the database
+                    Provider.of<DatabaseServices>(context).uploadComment(
+                        comment: newComment, ridlleId: ridlle.id);
+                    FocusScope.of(context)
+                        .requestFocus(new FocusNode()); //Hide the keyboard
+                    _fbKey.currentState.reset();
+                  }
+                },
+              ),
             ),
           ],
         );

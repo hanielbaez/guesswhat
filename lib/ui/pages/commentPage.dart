@@ -43,7 +43,7 @@ class _CommentPageState extends State<CommentPage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -56,19 +56,39 @@ class _CommentPageState extends State<CommentPage> {
                   if (snapshot.hasData) {
                     if (snapshot.hasError)
                       return Text('Error: Please try later');
-                    return ListViewBuilder(snapshot: snapshot);
+                    print('Snapshot data ${snapshot.hasData}');
+                    if (snapshot.data.documents.length > 0) {
+                      return ListViewBuilder(snapshot: snapshot);
+                    } else {
+                      return Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              SimpleLineIcons.getIconData('bubble'),
+                              color: Colors.yellow,
+                              size: 50.0,
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Text('Make the first comment'),
+                          ],
+                        ),
+                      );
+                    }
                   }
+
                   return Container();
                 },
               ),
             ),
-            Card(
-                color: Colors.white10,
-                shape: BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: CommentForm(fbKey: _fbKey, ridlle: ridlle),
-                )),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: CommentForm(fbKey: _fbKey, ridlle: ridlle),
+            )
           ],
         ),
       ),
@@ -99,7 +119,7 @@ class ListViewBuilder extends StatelessWidget {
         };
 
         return Card(
-          color: Colors.white12,
+          //color: Colors.white12,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
@@ -116,14 +136,12 @@ class ListViewBuilder extends StatelessWidget {
                 ExpandablePanel(
                   collapsed: Text(
                     '${snapshot.data.documents[index]['text']}',
-                    style: TextStyle(color: Colors.white),
                     softWrap: true,
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
                   ),
                   expanded: Text(
                     '${snapshot.data.documents[index]['text']}',
-                    style: TextStyle(color: Colors.white),
                     softWrap: true,
                   ),
                   tapHeaderToExpand: true,

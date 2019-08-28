@@ -5,9 +5,9 @@ class Ridlle {
   String id;
   String answer;
   String description;
-  String videoURL;
-  String imageURL;
-  String thumbnailURL;
+  String videoUrl;
+  String imageUrl;
+  String thumbnailUrl;
   String address;
   Map<dynamic, dynamic> user;
   String loveCounter;
@@ -18,9 +18,9 @@ class Ridlle {
     @required this.id,
     @required this.answer,
     @required this.description,
-    this.videoURL,
-    this.imageURL,
-    this.thumbnailURL,
+    this.videoUrl,
+    this.imageUrl,
+    this.thumbnailUrl,
     this.address,
     @required this.user,
     this.loveCounter,
@@ -50,9 +50,9 @@ class Ridlle {
         id: doc.documentID,
         answer: data['answer'] ?? '',
         description: data['description'] ?? '',
-        videoURL: data['videoURL'],
-        imageURL: data['imageURL'],
-        thumbnailURL: data['thumbnailURL'] ?? null,
+        videoUrl: data['videoUrl'],
+        imageUrl: data['imageUrl'],
+        thumbnailUrl: data['thumbnailUrl'] ?? null,
         address: data.containsKey('location')
             ? (data['location']['address']) ?? ''
             : '',

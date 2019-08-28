@@ -1,15 +1,19 @@
 //Flutter and Dart import
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:guess_what/core/services/db.dart';
 
 //Self import
-import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
-import 'package:guess_what/ui/widgets/custom/customListRidlle.dart';
-import 'package:guess_what/ui/widgets/custom/customListRidlle.dart';
-import '../widgets/custom/buttonPress.dart';
+import 'package:guess_what/ui/widgets/custom/customGridView.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class UserPage extends StatelessWidget {
+  final FirebaseUser user;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  UserPage({this.user});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +24,22 @@ class HomePage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'UserName',
+          '${user.displayName}',
         ),
         centerTitle: true,
       ),
-      backgroundColor: Colors.black,
-      body: CustomListRidlle(),
+      backgroundColor: Colors.white,
+      body: FutureBuilder(
+        future: Provider.of<DatabaseServices>(context)
+            .fectchUserRidlle(userId: user.uid),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) //return Text('${snapshot.data}');
+          return CustomGridView(
+              list: snapshot.data,
+            );
+          return Container();
+        },
+      ),
     );
   }
 }

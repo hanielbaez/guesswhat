@@ -22,10 +22,10 @@ class CustomGridView extends StatelessWidget {
           Navigator.of(context).pushNamed('ridllePage', arguments: guess);
         },
         child: Hero(
-          tag: list[index]['ridlleId'],
+          tag: list[index],
           child: Card(
-            color: Colors.black,
-            margin: EdgeInsets.all(1.0),
+            color: Colors.transparent,
+            margin: EdgeInsets.all(2.0),
             child: Container(
               width: 100.0,
               height: 100.0,

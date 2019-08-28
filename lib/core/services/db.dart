@@ -87,6 +87,30 @@ class DatabaseServices {
     }
   }
 
+  //Return a list of user Ridlles
+  Future<List> fectchUserRidlle({String userId}) async {
+    try {
+      final List ridlleList = [];
+      var snap = await _db
+          .collection('ridlles')
+          .where('user.uid', isEqualTo: userId)
+          .orderBy('creationDate', descending: true)
+          .getDocuments();
+      snap.documents.forEach(
+        (document) {
+          ridlleList.add({
+            'ridlleId': document.documentID,
+            'thumbnailUrl': document.data['thumbnailUrl'],
+          });
+        },
+      );
+      return ridlleList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   ///Retur a ridlle by the given ID
   Future<Ridlle> getRidlle({String ridlleId}) async {
     var snap = await _db.collection('ridlles').document(ridlleId).get();

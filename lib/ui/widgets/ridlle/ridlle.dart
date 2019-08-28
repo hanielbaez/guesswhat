@@ -36,7 +36,7 @@ class _RidlleLayaoutState extends State<RidlleLayaout> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white10,
+      color: Colors.white,
       shape: BeveledRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),

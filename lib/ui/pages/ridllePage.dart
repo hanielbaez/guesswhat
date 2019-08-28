@@ -25,25 +25,14 @@ class _RidllePageState extends State<RidllePage> {
       key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(SimpleLineIcons.getIconData('menu')),
-          onPressed: () {
-            _scaffoldKey.currentState.openDrawer();
-          },
+          icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
+          onPressed: () => Navigator.pop(context),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              SimpleLineIcons.getIconData('plus'),
-              color: Colors.yellow,
-            ),
-            onPressed: () => onButtonPressed(context), //Add multimedia
-          )
-        ],
         title: Text('Tekel'),
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
-      backgroundColor: Color.fromARGB(1, 191, 191, 191),
+      //backgroundColor: Color.fromARGB(1, 191, 191, 191),
       body: ListView(
         children: <Widget>[
           RidlleLayaout(

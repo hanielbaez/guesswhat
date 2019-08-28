@@ -17,7 +17,6 @@ class CustomLetter extends StatelessWidget {
   final LettersViewModel model;
 
   CustomLetter({this.item, this.isSource, this.model});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +40,18 @@ class CustomLetter extends StatelessWidget {
           margin: EdgeInsets.all(isSource ? 7 : 2),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            color: Colors.white12,
-            border: Border.all(
-              color: model.letterColor(isSource),
-            ),
           ),
-          child: Center(
-            child: Text(
-              item.letter,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: model.letterColor(isSource),
+          child: Card(
+            color: model.correctAnswer == true ? Colors.yellow : Colors.white,
+            margin: EdgeInsets.zero,
+            child: Center(
+              child: Text(
+                item.letter,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: model.letterColor(isSource),
+                ),
               ),
             ),
           ),

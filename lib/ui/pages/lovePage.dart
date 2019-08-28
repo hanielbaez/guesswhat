@@ -27,9 +27,9 @@ class LovePage extends StatelessWidget {
         ),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: FutureBuilder<List>(
         future: Provider.of<DatabaseServices>(context).loveRidlle(userId),
         builder: (context, snapshot) {
@@ -66,7 +66,7 @@ class LovePage extends StatelessWidget {
                     children: <Widget>[
                       Icon(
                         SimpleLineIcons.getIconData('heart'),
-                        color: Colors.white,
+                        color: Colors.yellow,
                         size: 50.0,
                       ),
                       SizedBox(

@@ -46,11 +46,11 @@ class ActionBar extends StatelessWidget {
                                 Icons.favorite,
                                 color: Colors.yellow,
                               )
-                            : Icon(SimpleLineIcons.getIconData('heart'),
-                                color: Colors.white),
+                            : Icon(
+                                SimpleLineIcons.getIconData('heart'),
+                              ),
                         label: Text(
                           'Love',
-                          style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
                           if (userSnap.data == null) {
@@ -65,7 +65,7 @@ class ActionBar extends StatelessWidget {
                               state: !loveState,
                               userId: userSnap.data.uid,
                               ridlleId: ridlle.id,
-                              thumbnailUrl: ridlle.thumbnailURL,
+                              thumbnailUrl: ridlle.thumbnailUrl,
                             ),
                           );
                         },
@@ -75,11 +75,9 @@ class ActionBar extends StatelessWidget {
                   FlatButton.icon(
                     icon: Icon(
                       SimpleLineIcons.getIconData('bubbles'),
-                      color: Colors.white,
                     ),
                     label: Text(
                       'Comment',
-                      style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
                       if (userSnap.data == null) {
@@ -98,15 +96,15 @@ class ActionBar extends StatelessWidget {
                     },
                   ),
                   FlatButton.icon(
-                    icon: Icon(SimpleLineIcons.getIconData('share'),
-                        color: Colors.white),
+                    icon: Icon(
+                      SimpleLineIcons.getIconData('share'),
+                    ),
                     label: Text(
                       'Share',
-                      style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
                       var f = await CustomCacheManager().getSingleFile(
-                          '${ridlle.imageURL ?? ridlle.videoURL}');
+                          '${ridlle.imageUrl ?? ridlle.videoUrl}');
                       var mimeType = lookupMimeType(f.path.split('/').first);
                       ShareExtend.share(f.path, mimeType);
                     },
@@ -125,7 +123,8 @@ class ActionBar extends StatelessWidget {
                     child: Text(
                       '${ridlle.loveCounter} Loves',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.black.withOpacity(0.5),
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   )
@@ -136,8 +135,8 @@ class ActionBar extends StatelessWidget {
                     child: Text(
                       '${ridlle.commentCounter} Comments',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
-                      ),
+                          color: Colors.black.withOpacity(0.5),
+                          fontWeight: FontWeight.bold),
                     ),
                   )
                 : Container(),

@@ -23,7 +23,6 @@ class UserBar extends StatelessWidget {
           height: 35,
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            border: Border.all(color: Colors.white),
           ),
           child: FadeInImage.assetNetwork(
             placeholder: 'assets/images/noiseTv.gif',
@@ -39,8 +38,7 @@ class UserBar extends StatelessWidget {
           children: <Widget>[
             Text(
               '${userData['displayName']}'.split(' ')[0],
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
               (address == null ? '' : address + ' ・ ') +
@@ -48,7 +46,7 @@ class UserBar extends StatelessWidget {
                     timeStamp.millisecondsSinceEpoch,
                   ),
               style: TextStyle(
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.black.withOpacity(0.5),
                 fontSize: 10.0,
               ),
             ),

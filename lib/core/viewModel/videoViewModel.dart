@@ -36,9 +36,15 @@ class VideoViewModel extends ChangeNotifier {
 
   //Return video or image
   Future<String> mediaType() async {
-    var mediaURL = this.ridlle.imageURL ?? this.ridlle.videoURL;
-    mediaFeche = await CustomCacheManager()
-        .getSingleFile('$mediaURL'); //Check cache for media
+    var mediaUrl = this.ridlle.imageUrl ?? this.ridlle.videoUrl;
+    try {
+      mediaFeche = await CustomCacheManager()
+          .getSingleFile('$mediaUrl'); //Check cache for media
+    } catch (e) {
+      print(e);
+      return null;
+    }
+
     var listSplit = lookupMimeType(mediaFeche.path).split('/');
     return listSplit[0];
   }
@@ -63,7 +69,8 @@ class VideoViewModel extends ChangeNotifier {
 //Costum image widgets
   PhotoView buildImage() {
     return PhotoView(
-      imageProvider: NetworkImage('${ridlle.imageURL}'),
+      backgroundDecoration: BoxDecoration(color: Colors.transparent),
+      imageProvider: NetworkImage('${ridlle.imageUrl}'),
       maxScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained,
       loadingChild: Stack(
@@ -79,7 +86,7 @@ class VideoViewModel extends ChangeNotifier {
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: SpinKitThreeBounce(
-                color: Colors.black,
+                color: Colors.white,
                 size: 50.0,
               ),
             ),

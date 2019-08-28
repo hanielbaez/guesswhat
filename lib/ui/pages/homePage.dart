@@ -21,12 +21,15 @@ class HomePage extends StatelessWidget {
           },
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              SimpleLineIcons.getIconData('plus'),
-              color: Colors.yellow,
+          Card(
+            color: Colors.yellow,
+            child: IconButton(
+              icon: Icon(
+                SimpleLineIcons.getIconData('plus'),
+                color: Colors.black54,
+              ),
+              onPressed: () => onButtonPressed(context), //Add multimedia
             ),
-            onPressed: () => onButtonPressed(context), //Add multimedia
           )
         ],
         title: Text(
@@ -35,7 +38,7 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: CustomListRidlle(),
     );
   }

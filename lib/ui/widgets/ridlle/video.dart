@@ -52,40 +52,32 @@ class _VideoLayaoutState extends State<VideoLayaout>
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       constraints:
-          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
-      child: GestureDetector(
-        child: Stack(
-          fit: StackFit.loose,
-          children: <Widget>[
-            FutureBuilder(
-              future: widget.model.getMedia(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                    return Text('Check your network connection.');
-                  case ConnectionState.active:
-                  case ConnectionState.waiting:
-                  case ConnectionState.done:
-                    if (snapshot.hasError)
-                      return Text('Error: try later, please');
-                    return Center(
-                      child: widget.model.widget,
-                    );
-                }
-                return Text('Unreachable.');
-              },
-            ),
-            FadeTransition(
-                opacity: fadeAnimation, child: buildSuccessContainer())
-          ],
-        ),
-        onDoubleTap: () {
-          //ON/OFF VOLUMEN
-          widget.model.videoController.value.volume == 0.0
-              ? widget.model.videoController.setVolume(1.0)
-              : widget.model.videoController.setVolume(0.0);
-        },
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2.5),
+      child: Stack(
+        fit: StackFit.loose,
+        children: <Widget>[
+          FutureBuilder(
+            future: widget.model.getMedia(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return Text('Check your network connection.');
+                case ConnectionState.active:
+                case ConnectionState.waiting:
+                case ConnectionState.done:
+                  if (snapshot.hasError)
+                    return Text('Error: try later, please');
+                  return Center(
+                    child: widget.model.widget,
+                  );
+              }
+              return Text('Unreachable.');
+            },
+          ),
+          FadeTransition(opacity: fadeAnimation, child: buildSuccessContainer())
+        ],
       ),
     );
   }

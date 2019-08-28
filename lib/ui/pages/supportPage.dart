@@ -49,7 +49,7 @@ class _SupportPageState extends State<SupportPage> {
         ),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: EdgeInsets.all(30.0),
@@ -75,7 +75,7 @@ class _SupportPageState extends State<SupportPage> {
   Widget textBuilder = Text(
     'Message Send',
     textAlign: TextAlign.center,
-    style: TextStyle(color: Colors.black),
+    style: TextStyle(color: Colors.white),
   );
 }
 
@@ -98,7 +98,6 @@ class SupportForm extends StatelessWidget {
       children: <Widget>[
         Text(
           'We are here to help you. You will receive a response if necessary through your email as soon as possible.',
-          style: TextStyle(color: Colors.black),
         ),
         SizedBox(
           height: 30.0,
@@ -111,11 +110,11 @@ class SupportForm extends StatelessWidget {
             labelStyle: TextStyle(color: Colors.black),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.horizontal(right: Radius.zero),
-              borderSide: BorderSide(color: Colors.black26, width: 1),
+              //borderSide: BorderSide(color: Colors.white, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.horizontal(right: Radius.zero),
-              borderSide: BorderSide(color: Colors.black26, width: 2.5),
+              //borderSide: BorderSide(color: Colors.white, width: 2.5),
             ),
           ),
           maxLength: 500,
@@ -129,10 +128,10 @@ class SupportForm extends StatelessWidget {
           height: 30.0,
         ),
         FlatButton(
-          color: Colors.black,
+          color: Colors.yellow,
           child: Text(
             "Submit",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           ),
           onPressed: () async {
             SupportPage._formCreateKey.currentState.save();

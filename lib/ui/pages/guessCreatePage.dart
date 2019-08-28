@@ -36,7 +36,7 @@ class GuessCreate extends StatelessWidget {
         ),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -71,13 +71,10 @@ class GuessCreate extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.horizontal(right: Radius.zero),
-                        borderSide: BorderSide(color: Colors.black26, width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.horizontal(right: Radius.zero),
-                        borderSide:
-                            BorderSide(color: Colors.black26, width: 2.5),
                       ),
                     ),
                     keyboardType: TextInputType.text,
@@ -106,13 +103,10 @@ class GuessCreate extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.horizontal(right: Radius.zero),
-                        borderSide: BorderSide(color: Colors.black26, width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.horizontal(right: Radius.zero),
-                        borderSide:
-                            BorderSide(color: Colors.black26, width: 2.5),
                       ),
                     ),
                     maxLength: 350,
@@ -136,10 +130,10 @@ class GuessCreate extends StatelessWidget {
                                 ),
                               )
                             : FlatButton(
-                                color: Colors.black,
+                                color: Colors.yellow,
                                 child: Text(
                                   "Submit",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.black),
                                 ),
                                 onPressed: () async {
                                   _formCreateKey.currentState.save();

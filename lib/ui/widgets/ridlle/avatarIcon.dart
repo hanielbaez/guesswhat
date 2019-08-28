@@ -22,7 +22,7 @@ class BuildAvatarIcon extends StatelessWidget {
               Text(
                 'User Name',
                 style: TextStyle(
-                    color: Colors.white70, fontWeight: FontWeight.bold),
+                     fontWeight: FontWeight.bold),
               ),
             ],
           )

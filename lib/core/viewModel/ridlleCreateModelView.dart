@@ -47,13 +47,13 @@ class RidlleCreateViewModel extends ChangeNotifier {
     var _thumbnailUrl = await Provider.of<DatabaseServices>(context)
         .uploadToFireStore(thumbnailFaile);
 
-    ridlle['thumbnailURL'] = _thumbnailUrl;
+    ridlle['thumbnailUrl'] = _thumbnailUrl;
 
     //Get the media Type video/image
     var listSplit = lookupMimeType(file.path).split('/');
     listSplit[0] == 'image'
-        ? ridlle['imageURL'] = _url
-        : ridlle['videoURL'] = _url;
+        ? ridlle['imageUrl'] = _url
+        : ridlle['videoUrl'] = _url;
 
     //Upload a new Ridlle to DataBase
     await Provider.of<DatabaseServices>(context).uploadRidlle(ridlle);
