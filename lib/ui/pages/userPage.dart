@@ -1,15 +1,15 @@
 //Flutter and Dart import
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
-import 'package:guess_what/core/services/db.dart';
 
 //Self import
 import 'package:guess_what/ui/widgets/custom/customGridView.dart';
+import 'package:guess_what/core/model/user.dart';
+import 'package:guess_what/core/services/db.dart';
 import 'package:provider/provider.dart';
 
 class UserPage extends StatelessWidget {
-  final FirebaseUser user;
+  final User user;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   UserPage({this.user});
@@ -34,7 +34,7 @@ class UserPage extends StatelessWidget {
             .fectchUserRidlle(userId: user.uid),
         builder: (context, snapshot) {
           if (snapshot.hasData) //return Text('${snapshot.data}');
-          return CustomGridView(
+            return CustomGridView(
               list: snapshot.data,
             );
           return Container();

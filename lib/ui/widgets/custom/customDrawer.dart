@@ -60,25 +60,23 @@ class SingInLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        /* SizedBox(
-          height: 40.0,
-        ), */
-        Container(
-          height: 150.0,
-          decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              gradient: LinearGradient(
-                colors: [Colors.yellow[600], Colors.white],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp,
-              )),
-          child: Row(
-            children: <Widget>[
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(context, 'userPage', arguments: snapshot.data),
-                child: Container(
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, 'userPage',
+              arguments: User.fromFirebaseUser(user: snapshot.data)),
+          child: Container(
+            height: 150.0,
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                gradient: LinearGradient(
+                  colors: [Colors.yellow[600], Colors.white],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(1, 0.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp,
+                )),
+            child: Row(
+              children: <Widget>[
+                Container(
                   margin: EdgeInsets.symmetric(horizontal: 10.0),
                   width: 50,
                   height: 50,
@@ -106,12 +104,12 @@ class SingInLayout extends StatelessWidget {
                     },
                   ),
                 ),
-              ),
-              Text(
-                snapshot.data.displayName,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
+                Text(
+                  snapshot.data.displayName,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
         ),
         Divider(

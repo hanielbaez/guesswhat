@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class User {
@@ -10,10 +11,18 @@ class User {
 
   User(
       {@required this.uid,
-      @required this.email,
+      this.email,
       @required this.photoURL,
       @required this.displayName,
-      @required this.lastSeen});
+      this.lastSeen});
+
+  factory User.fromFirebaseUser({FirebaseUser user}) {
+    return User(
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoUrl);
+  }
 
   factory User.fromFireStore(DocumentSnapshot snap) {
     Map<String, dynamic> map = snap.data;
