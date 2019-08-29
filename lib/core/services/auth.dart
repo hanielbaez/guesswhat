@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 //Self import
 import 'package:guess_what/core/model/user.dart';
 import 'package:guess_what/core/services/db.dart';
+import 'package:guess_what/core/custom/customGetToken.dart';
 
 ///User authentication from Firebase
 class AuthenticationServices {
@@ -102,5 +103,7 @@ class AuthenticationServices {
       PermissionGroup.camera,
       PermissionGroup.storage
     ]);
+    //Getting the device Toke
+    saveDeviceToken();
   }
 }
