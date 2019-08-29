@@ -24,6 +24,7 @@ dependencies:
   cloud_firestore: ^0.12.7
   firebase_storage: ^3.0.4
   firebase_auth: ^0.14.0
+  firebase_messaging: ^5.1.4
 
   #Media
   video_player: ^0.10.1+3

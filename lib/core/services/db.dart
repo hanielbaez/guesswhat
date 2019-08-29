@@ -19,13 +19,17 @@ import 'package:uuid/uuid.dart';
 class DatabaseServices {
   final Firestore _db = Firestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  static Future<String> _uid() async =>
+      await FirebaseAuth.instance.currentUser().then((user) {
+        return user.uid;
+      });
 
 //*USER*//
 
   ///Return a User object
   Future<User> getUser(FirebaseUser user) async {
     try {
-      var snap = await _db.collection('users').document(user.uid).get();
+      var snap = await _db.collection('users').document(await _uid()).get();
       return User.fromFireStore(snap);
     } catch (e) {
       print('$e');
@@ -56,7 +60,7 @@ class DatabaseServices {
   void supportContact({SupportContact support}) async {
     var ref = _db
         .collection('users')
-        .document(support.userId)
+        .document(await _uid())
         .collection('supportContacts')
         .document();
     ref.setData(await support.toJson());
@@ -88,12 +92,12 @@ class DatabaseServices {
   }
 
   //Return a list of user Ridlles
-  Future<List> fectchUserRidlle({String userId}) async {
+  Future<List> fectchUserRidlle() async {
     try {
       final List ridlleList = [];
       var snap = await _db
           .collection('ridlles')
-          .where('user.uid', isEqualTo: userId)
+          .where('user.uid', isEqualTo: await _uid())
           .orderBy('creationDate', descending: true)
           .getDocuments();
       snap.documents.forEach(
@@ -153,12 +157,12 @@ class DatabaseServices {
 
   ///* RIDLLE DONE*//
   ///Set the data at Firebase
-  void setRidlleDone({String customID, String ridlleId, String userId}) {
+  void setRidlleDone({String customID, String ridlleId}) async {
     try {
       _db.collection('ridllesDone').document(customID).setData(
         {
           'ridlleId': ridlleId,
-          'userId': userId,
+          'userId': await _uid(),
           'creationDate': Timestamp.now(),
         },
       );
@@ -200,13 +204,13 @@ class DatabaseServices {
   }
 
   ///Return a List of theloveRidlle by user
-  Future<List> loveRidlle(String userId) async {
+  Future<List> loveRidlle() async {
     try {
       final List loveList = [];
 
       var snap = await _db
           .collection('loveRidlles')
-          .where('userId', isEqualTo: userId)
+          .where('userId', isEqualTo: await _uid())
           .where('state', isEqualTo: true)
           .orderBy('updateDate', descending: true)
           .getDocuments();

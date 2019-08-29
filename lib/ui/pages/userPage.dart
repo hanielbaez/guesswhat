@@ -31,7 +31,7 @@ class UserPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: FutureBuilder(
         future: Provider.of<DatabaseServices>(context)
-            .fectchUserRidlle(userId: user.uid),
+            .fectchUserRidlle(),
         builder: (context, snapshot) {
           if (snapshot.hasData) //return Text('${snapshot.data}');
             return CustomGridView(

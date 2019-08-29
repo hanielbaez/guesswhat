@@ -17,7 +17,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case 'lovePage':
       return MaterialPageRoute(
-        builder: (context) => LovePage(settings.arguments),
+        builder: (context) => LovePage(),
       );
     case 'ridllePage':
       return MaterialPageRoute(

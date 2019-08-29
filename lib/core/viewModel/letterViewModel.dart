@@ -133,8 +133,7 @@ class LettersViewModel extends ChangeNotifier {
       if (_user != null)
         _db.setRidlleDone(
             customID: _ridlle.id + _user.uid,
-            ridlleId: _ridlle.id,
-            userId: _user.uid);
+            ridlleId: _ridlle.id);
       correctAnswer = true;
       player.play(successAudioPath);
       _changeNotifier.sink.add(true);

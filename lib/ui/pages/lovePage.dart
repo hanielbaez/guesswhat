@@ -9,9 +9,6 @@ import 'package:guess_what/core/services/db.dart';
 import 'package:guess_what/ui/widgets/custom/customGridView.dart';
 
 class LovePage extends StatelessWidget {
-  final String userId;
-
-  LovePage(this.userId);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +28,7 @@ class LovePage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List>(
-        future: Provider.of<DatabaseServices>(context).loveRidlle(userId),
+        future: Provider.of<DatabaseServices>(context).loveRidlle(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
