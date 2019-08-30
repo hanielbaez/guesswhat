@@ -68,11 +68,10 @@ class VideoViewModel extends ChangeNotifier {
 
 //Costum image widgets
   PhotoView buildImage() {
+    //?I can not user the zoon property, do i still need this widget?
     return PhotoView(
-      backgroundDecoration: BoxDecoration(color: Colors.transparent),
       imageProvider: NetworkImage('${ridlle.imageUrl}'),
-      maxScale: PhotoViewComputedScale.contained,
-      minScale: PhotoViewComputedScale.contained,
+      backgroundDecoration: BoxDecoration(color: Colors.transparent),
       loadingChild: Stack(
         children: <Widget>[
           Center(

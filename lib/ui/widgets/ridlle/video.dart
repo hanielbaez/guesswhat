@@ -51,12 +51,11 @@ class _VideoLayaoutState extends State<VideoLayaout>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
+    return ConstrainedBox(
       constraints:
-          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2.5),
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
       child: Stack(
-        fit: StackFit.loose,
+        fit: StackFit.expand,
         children: <Widget>[
           FutureBuilder(
             future: widget.model.getMedia(),
@@ -69,9 +68,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
                 case ConnectionState.done:
                   if (snapshot.hasError)
                     return Text('Error: try later, please');
-                  return Center(
-                    child: widget.model.widget,
-                  );
+                  return Center(child: widget.model.widget);
               }
               return Text('Unreachable.');
             },
