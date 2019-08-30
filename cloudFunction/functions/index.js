@@ -2,6 +2,10 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+const fcm = admin.messaging();
+
+
+
 //TODO: Delete all functions at Cloud Functions
 
 // // Create and Deploy Your First Cloud Functions
@@ -11,7 +15,7 @@ admin.initializeApp();
 exports.manageLoveCounter = functions.firestore.document('loveRidlles/{loveId}')
     .onWrite((snapshot, context) => {
         const newValue = snapshot.after.data();
-        
+
         //Grab the ridlleId of the created loveRidlles
         const ridlleId = newValue.ridlleId;
 
@@ -30,6 +34,36 @@ exports.manageLoveCounter = functions.firestore.document('loveRidlles/{loveId}')
             //Decrement the value of the referent Ridlle by -1
             return docRef.update({ 'counter.loveCounter': admin.firestore.FieldValue.increment(-1) });
         }
+    });
+
+exports.notifyLove = functions.firestore.document('loveRidlles/{docId}')
+    .onCreate((snapshot, context) => {
+
+        const document = snapshot.data();
+        //Document referent of the current Love(Like) ridlle
+        const firestore = admin.firestore();
+
+        //Get the tokes of the corresponding user
+        firestore.collection('users').doc(document.userId)
+            .collection('tokens').get().then(query => {
+                const tokens = [];
+                query.forEach(doc => {
+                    tokens.push(doc.id);
+                });
+                console.log(tokens);
+
+                const payload = {
+                    notification: {
+                        title: 'Someone love you riddle ♥️',
+                        body: `Tap here to check it out!`,
+                        click_action: 'FLUTTER_NOTIFICATION_CLICK'
+                    }
+                };
+
+                return fcm.sendToDevice(tokens, payload);
+
+            }).catch(error => console.log('Error sending notification: ', error));
+        return null;
     });
 
 //Listen to Comment create and increase the counter of /ridlles/::ridlleId/commentCounter

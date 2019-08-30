@@ -7,9 +7,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
 //Self import
-import 'package:guess_what/core/model/user.dart';
-import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/core/custom/customGetToken.dart';
+import 'package:Tekel/core/model/user.dart';
+import 'package:Tekel/core/services/db.dart';
+import 'package:Tekel/core/custom/customGetToken.dart';
 
 ///User authentication from Firebase
 class AuthenticationServices {
@@ -96,14 +96,15 @@ class AuthenticationServices {
     }
   }
 
-  ///Getting the devices permission
+  ///Getting the devices permission and save thse device token
   void requestingPermission() async {
+  //Getting the device Toke
+    saveDeviceToken();
+
     await PermissionHandler().requestPermissions([
       PermissionGroup.location,
       PermissionGroup.camera,
       PermissionGroup.storage
     ]);
-    //Getting the device Toke
-    saveDeviceToken();
   }
 }
