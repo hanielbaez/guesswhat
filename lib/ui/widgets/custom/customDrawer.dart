@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
 //Self import
-import 'package:guess_what/ui/widgets/custom/buttonPress.dart';
-import 'package:guess_what/core/model/user.dart';
-import 'package:guess_what/core/services/auth.dart';
-import 'package:guess_what/core/services/db.dart';
+import 'package:Tekel/ui/widgets/custom/buttonPress.dart';
+import 'package:Tekel/core/model/user.dart';
+import 'package:Tekel/core/services/auth.dart';
+import 'package:Tekel/core/services/db.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({

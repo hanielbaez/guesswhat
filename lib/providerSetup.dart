@@ -1,5 +1,5 @@
-import 'package:guess_what/core/services/auth.dart';
-import 'package:guess_what/core/services/db.dart';
+import 'package:Tekel/core/services/auth.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:provider/provider.dart';
 
 List<SingleChildCloneableWidget> providers = [

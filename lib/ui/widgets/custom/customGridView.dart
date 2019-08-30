@@ -1,7 +1,7 @@
 //Flutter and Dart import
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:guess_what/core/services/db.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:provider/provider.dart';
 
 class CustomGridView extends StatelessWidget {

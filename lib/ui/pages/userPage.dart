@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/ui/widgets/custom/customGridView.dart';
-import 'package:guess_what/core/model/user.dart';
-import 'package:guess_what/core/services/db.dart';
+import 'package:Tekel/ui/widgets/custom/customGridView.dart';
+import 'package:Tekel/core/model/user.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:provider/provider.dart';
 
 class UserPage extends StatelessWidget {

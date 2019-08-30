@@ -5,10 +5,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/core/model/ridlle.dart';
-import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/ui/widgets/comment/commentForm.dart';
-import 'package:guess_what/ui/widgets/custom/userBar.dart';
+import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/services/db.dart';
+import 'package:Tekel/ui/widgets/comment/commentForm.dart';
+import 'package:Tekel/ui/widgets/custom/userBar.dart';
 import 'package:provider/provider.dart';
 
 class CommentPage extends StatefulWidget {

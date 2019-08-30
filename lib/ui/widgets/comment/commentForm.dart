@@ -7,10 +7,10 @@ import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/core/model/comment.dart';
-import 'package:guess_what/core/model/ridlle.dart';
-import 'package:guess_what/core/services/auth.dart';
-import 'package:guess_what/core/services/db.dart';
+import 'package:Tekel/core/model/comment.dart';
+import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/services/auth.dart';
+import 'package:Tekel/core/services/db.dart';
 
 class CommentForm extends StatelessWidget {
   const CommentForm({

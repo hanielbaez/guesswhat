@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/costumTheme.dart';
-import 'package:guess_what/providerSetup.dart';
+import 'package:Tekel/costumTheme.dart';
+import 'package:Tekel/providerSetup.dart';
 import './ui/pages/homePage.dart';
 import './router.dart' as router;
 

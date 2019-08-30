@@ -8,11 +8,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 //Self import
-import 'package:guess_what/core/model/comment.dart';
-import 'package:guess_what/core/model/love.dart';
-import 'package:guess_what/core/model/user.dart';
-import 'package:guess_what/core/model/ridlle.dart';
-import 'package:guess_what/core/model/supportContact.dart';
+import 'package:Tekel/core/model/comment.dart';
+import 'package:Tekel/core/model/love.dart';
+import 'package:Tekel/core/model/user.dart';
+import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/supportContact.dart';
 import 'package:uuid/uuid.dart';
 
 ///Networks request

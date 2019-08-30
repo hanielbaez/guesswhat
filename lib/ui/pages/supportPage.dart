@@ -6,8 +6,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/core/model/supportContact.dart';
-import 'package:guess_what/core/services/db.dart';
+import 'package:Tekel/core/model/supportContact.dart';
+import 'package:Tekel/core/services/db.dart';
 
 class SupportPage extends StatefulWidget {
   final FirebaseUser user;

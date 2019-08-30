@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
-import 'package:guess_what/ui/widgets/ridlle/ridlle.dart';
-import 'package:guess_what/core/model/ridlle.dart';
+import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
+import 'package:Tekel/ui/widgets/ridlle/ridlle.dart';
+import 'package:Tekel/core/model/ridlle.dart';
 import '../widgets/custom/buttonPress.dart';
 
 class RidllePage extends StatefulWidget {

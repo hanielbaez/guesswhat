@@ -2,18 +2,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/model/love.dart';
-import 'package:guess_what/core/services/db.dart';
+import 'package:Tekel/core/model/love.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/core/model/ridlle.dart';
-import 'package:guess_what/ui/pages/commentPage.dart';
+import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/ui/pages/commentPage.dart';
 import 'package:share_extend/share_extend.dart';
-import 'package:guess_what/core/custom/customCacheManager.dart';
-import 'package:guess_what/core/services/auth.dart';
+import 'package:Tekel/core/custom/customCacheManager.dart';
+import 'package:Tekel/core/services/auth.dart';
 
 class ActionBar extends StatelessWidget {
   const ActionBar({

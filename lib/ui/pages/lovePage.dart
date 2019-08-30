@@ -5,8 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/ui/widgets/custom/customGridView.dart';
+import 'package:Tekel/core/services/db.dart';
+import 'package:Tekel/ui/widgets/custom/customGridView.dart';
 
 class LovePage extends StatelessWidget {
 

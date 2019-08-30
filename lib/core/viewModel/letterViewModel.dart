@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/model/ridlle.dart';
-import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/ui/widgets/ridlle/letter.dart';
+import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/services/db.dart';
+import 'package:Tekel/ui/widgets/ridlle/letter.dart';
 
 class LettersViewModel extends ChangeNotifier {
   final DatabaseServices _db;

@@ -7,9 +7,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 //Self import
-import 'package:guess_what/core/services/db.dart';
-import 'package:guess_what/core/viewModel/ridlleCreateModelView.dart';
-import 'package:guess_what/core/custom/customGeoPoint.dart';
+import 'package:Tekel/core/services/db.dart';
+import 'package:Tekel/core/viewModel/ridlleCreateModelView.dart';
+import 'package:Tekel/core/custom/customGeoPoint.dart';
 
 class GuessCreate extends StatelessWidget {
   final Map _multiMedia;

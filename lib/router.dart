@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 
 //Self import
-import 'package:guess_what/ui/pages/ridllePage.dart';
-import 'package:guess_what/ui/pages/homePage.dart';
-import 'package:guess_what/ui/pages/lovePage.dart';
-import 'package:guess_what/ui/pages/supportPage.dart';
-import 'package:guess_what/ui/pages/unknownPage.dart';
-import 'package:guess_what/ui/pages/userPage.dart';
+import 'package:Tekel/ui/pages/ridllePage.dart';
+import 'package:Tekel/ui/pages/homePage.dart';
+import 'package:Tekel/ui/pages/lovePage.dart';
+import 'package:Tekel/ui/pages/supportPage.dart';
+import 'package:Tekel/ui/pages/unknownPage.dart';
+import 'package:Tekel/ui/pages/userPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

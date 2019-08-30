@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/ui/widgets/custom/customDrawer.dart';
-import 'package:guess_what/ui/widgets/custom/customListRidlle.dart';
+import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
+import 'package:Tekel/ui/widgets/custom/customListRidlle.dart';
 import '../widgets/custom/buttonPress.dart';
 
 class HomePage extends StatelessWidget {

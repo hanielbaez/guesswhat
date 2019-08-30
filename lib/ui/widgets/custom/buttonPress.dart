@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/core/services/auth.dart';
-import 'package:guess_what/core/viewModel/SourceMediaViewModel.dart';
+import 'package:Tekel/core/services/auth.dart';
+import 'package:Tekel/core/viewModel/SourceMediaViewModel.dart';
 
 /* Handle the user actions, when trying to add new content,
 if the user is not singIn him will be redirected to the singIng buttons */

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:guess_what/core/model/ridlle.dart';
-import 'package:guess_what/core/viewModel/videoViewModel.dart';
+import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/viewModel/videoViewModel.dart';
 
 class VideoLayaout extends StatefulWidget {
   final Ridlle ridlle;

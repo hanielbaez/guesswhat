@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/core/services/db.dart';
+import 'package:Tekel/core/services/db.dart';
 
 class RidlleCreateViewModel extends ChangeNotifier {
   Map<String, dynamic> ridlle = {

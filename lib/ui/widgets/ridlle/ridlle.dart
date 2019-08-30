@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:guess_what/core/model/ridlle.dart';
-import 'package:guess_what/core/services/auth.dart';
-import 'package:guess_what/core/viewModel/letterViewModel.dart';
-import 'package:guess_what/core/viewModel/videoViewModel.dart';
-import 'package:guess_what/ui/widgets/custom/customSideKick.dart';
-import 'package:guess_what/ui/widgets/custom/userBar.dart';
-import 'package:guess_what/ui/widgets/ridlle/actionsBar.dart';
-import 'package:guess_what/ui/widgets/ridlle/description.dart';
-import 'package:guess_what/ui/widgets/ridlle/video.dart';
+import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/services/auth.dart';
+import 'package:Tekel/core/viewModel/letterViewModel.dart';
+import 'package:Tekel/core/viewModel/videoViewModel.dart';
+import 'package:Tekel/ui/widgets/custom/customSideKick.dart';
+import 'package:Tekel/ui/widgets/custom/userBar.dart';
+import 'package:Tekel/ui/widgets/ridlle/actionsBar.dart';
+import 'package:Tekel/ui/widgets/ridlle/description.dart';
+import 'package:Tekel/ui/widgets/ridlle/video.dart';
 
 class RidlleLayaout extends StatefulWidget {
   final Ridlle ridlle;

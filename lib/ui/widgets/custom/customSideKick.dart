@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
 
 //Self import
-import 'package:guess_what/core/model/ridlle.dart';
-import 'package:guess_what/core/viewModel/letterViewModel.dart';
-import 'package:guess_what/ui/widgets/ridlle/letter.dart';
+import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/viewModel/letterViewModel.dart';
+import 'package:Tekel/ui/widgets/ridlle/letter.dart';
 
 class CustomSidekick extends StatefulWidget {
   final Ridlle ridlle;

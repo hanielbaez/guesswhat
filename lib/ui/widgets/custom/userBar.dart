@@ -1,7 +1,7 @@
 //Flutter and Dart import
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:guess_what/core/model/user.dart';
+import 'package:Tekel/core/model/user.dart';
 import 'package:time_ago_provider/time_ago_provider.dart';
 
 class UserBar extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
-import 'package:guess_what/core/viewModel/letterViewModel.dart';
+import 'package:Tekel/core/viewModel/letterViewModel.dart';
 
 class Item {
   Item({

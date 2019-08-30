@@ -6,7 +6,7 @@ import 'package:flutter_video_compress/flutter_video_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 //Self import
-import 'package:guess_what/ui/pages/guessCreatePage.dart';
+import 'package:Tekel/ui/pages/guessCreatePage.dart';
 
 //Pick the image or video from different sources as gallery or camera
 class SourceImageOption {
