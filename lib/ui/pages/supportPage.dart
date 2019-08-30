@@ -97,7 +97,8 @@ class SupportForm extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(
-          'We are here to help you. You will receive a response if necessary through your email as soon as possible.',
+          'We are here to help you. You will receive a response'
+          'if necessary through your email as soon as possible.',
         ),
         SizedBox(
           height: 30.0,

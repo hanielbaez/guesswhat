@@ -8,6 +8,7 @@ import 'package:Tekel/ui/pages/lovePage.dart';
 import 'package:Tekel/ui/pages/supportPage.dart';
 import 'package:Tekel/ui/pages/unknownPage.dart';
 import 'package:Tekel/ui/pages/userPage.dart';
+import 'package:Tekel/ui/pages/editUserPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -30,6 +31,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case 'supportPage':
       return MaterialPageRoute(
         builder: (context) => SupportPage(user: settings.arguments),
+      );
+    case 'editUserPage':
+      return MaterialPageRoute(
+        builder: (context) => EditUserPage(user: settings.arguments),
       );
     default:
       return MaterialPageRoute(

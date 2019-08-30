@@ -45,6 +45,8 @@ class DatabaseServices {
         email: userData.email,
         displayName: userData.displayName,
         photoURL: userData.photoURL,
+        webSite: userData.webSite,
+        biography: userData.biography,
         lastSeen: Timestamp.now(),
       );
       _db

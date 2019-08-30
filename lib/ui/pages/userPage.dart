@@ -1,28 +1,46 @@
 //Flutter and Dart import
+import 'package:Tekel/core/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/ui/widgets/custom/customGridView.dart';
 import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/services/db.dart';
-import 'package:provider/provider.dart';
 
 class UserPage extends StatelessWidget {
   final User user;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   UserPage({this.user});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: <Widget>[
+          StreamBuilder(
+            stream: Provider.of<AuthenticationServices>(context).user(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) if (!snapshot.hasError &&
+                  snapshot.data.uid == user.uid) {
+                return FlatButton.icon(
+                  icon: Icon(SimpleLineIcons.getIconData('pencil')),
+                  label: Text('Edit'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'editUserPage',
+                        arguments: user);
+                  },
+                );
+              }
+              return Container();
+            },
+          ),
+        ],
         title: Text('Tekel'),
         centerTitle: true,
       ),
@@ -76,10 +94,7 @@ class UserPage extends StatelessWidget {
                       height: 10.0,
                     ),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit,'
-                      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-                      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip'
-                      'ex ea commodo consequat',
+                      '${user.biography}',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                     ),
@@ -105,14 +120,15 @@ class UserPage extends StatelessWidget {
                           onPressed: () {},
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
           ),
           FutureBuilder(
-            future: Provider.of<DatabaseServices>(context).fectchUserRidlle(userId: user.uid),
+            future: Provider.of<DatabaseServices>(context)
+                .fectchUserRidlle(userId: user.uid),
             builder: (context, snapshot) {
               if (snapshot.hasData) //return Text('${snapshot.data}');
                 return Expanded(

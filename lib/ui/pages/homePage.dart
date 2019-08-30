@@ -12,35 +12,35 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(SimpleLineIcons.getIconData('menu')),
-          onPressed: () {
-            _scaffoldKey.currentState.openDrawer();
-          },
-        ),
-        actions: <Widget>[
-          Card(
-            color: Colors.yellow,
-            child: IconButton(
-              icon: Icon(
-                SimpleLineIcons.getIconData('plus'),
-                color: Colors.black,
-                semanticLabel: 'Create a ridlle',
+        key: _scaffoldKey,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(SimpleLineIcons.getIconData('menu')),
+            onPressed: () {
+              _scaffoldKey.currentState.openDrawer();
+            },
+          ),
+          actions: <Widget>[
+            Card(
+              color: Colors.yellow,
+              child: IconButton(
+                icon: Icon(
+                  SimpleLineIcons.getIconData('plus'),
+                  color: Colors.black,
+                  semanticLabel: 'Create a ridlle',
+                ),
+                onPressed: () => onButtonPressed(context), //Add multimedia
               ),
-              onPressed: () => onButtonPressed(context), //Add multimedia
-            ),
-          )
-        ],
-        title: Text(
-          'Tekel',
+            )
+          ],
+          title: Text(
+            'Tekel',
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      drawer: CustomDrawer(),
-      backgroundColor: Colors.white,
-      body: CustomListRidlle(),
-    );
+        drawer: CustomDrawer(),
+        backgroundColor: Colors.white,
+        body: CustomListRidlle(),
+        );
   }
 }
