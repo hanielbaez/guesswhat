@@ -23,22 +23,107 @@ class UserPage extends StatelessWidget {
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          '${user.displayName}',
-        ),
+        title: Text('Tekel'),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
-      body: FutureBuilder(
-        future: Provider.of<DatabaseServices>(context)
-            .fectchUserRidlle(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) //return Text('${snapshot.data}');
-            return CustomGridView(
-              list: snapshot.data,
-            );
-          return Container();
-        },
+      body: Column(
+        children: <Widget>[
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height / 2.7,
+            ),
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: 100,
+                          width: 100,
+                          child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/noiseTv.gif',
+                            image: user.photoURL,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Text(
+                              '${user.displayName}',
+                              style: TextStyle(
+                                  fontSize: 17.0, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              '1.000.000 Members',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit,'
+                      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+                      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip'
+                      'ex ea commodo consequat',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        RaisedButton.icon(
+                          icon:
+                              Icon(SimpleLineIcons.getIconData('user-follow')),
+                          color: Colors.yellow,
+                          label: Text(
+                            'Join',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {},
+                        ),
+                        RaisedButton.icon(
+                          icon: Icon(SimpleLineIcons.getIconData('trophy')),
+                          label: Text(
+                            'Leaderboard',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          FutureBuilder(
+            future: Provider.of<DatabaseServices>(context).fectchUserRidlle(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) //return Text('${snapshot.data}');
+                return Expanded(
+                  child: CustomGridView(
+                    list: snapshot.data,
+                  ),
+                );
+              return Container();
+            },
+          ),
+        ],
       ),
     );
   }

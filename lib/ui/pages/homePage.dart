@@ -26,7 +26,8 @@ class HomePage extends StatelessWidget {
             child: IconButton(
               icon: Icon(
                 SimpleLineIcons.getIconData('plus'),
-                color: Colors.black54,
+                color: Colors.black,
+                semanticLabel: 'Create a ridlle',
               ),
               onPressed: () => onButtonPressed(context), //Add multimedia
             ),
