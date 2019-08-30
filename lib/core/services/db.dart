@@ -92,12 +92,12 @@ class DatabaseServices {
   }
 
   //Return a list of user Ridlles
-  Future<List> fectchUserRidlle() async {
+  Future<List> fectchUserRidlle({String userId}) async {
     try {
       final List ridlleList = [];
       var snap = await _db
           .collection('ridlles')
-          .where('user.uid', isEqualTo: await _uid())
+          .where('user.uid', isEqualTo: userId)
           .orderBy('creationDate', descending: true)
           .getDocuments();
       snap.documents.forEach(

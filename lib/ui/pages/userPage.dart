@@ -35,7 +35,7 @@ class UserPage extends StatelessWidget {
             ),
             child: Container(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -112,7 +112,7 @@ class UserPage extends StatelessWidget {
             ),
           ),
           FutureBuilder(
-            future: Provider.of<DatabaseServices>(context).fectchUserRidlle(),
+            future: Provider.of<DatabaseServices>(context).fectchUserRidlle(userId: user.uid),
             builder: (context, snapshot) {
               if (snapshot.hasData) //return Text('${snapshot.data}');
                 return Expanded(
