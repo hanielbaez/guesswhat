@@ -12,17 +12,28 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(SimpleLineIcons.getIconData('menu')),
-            onPressed: () {
-              _scaffoldKey.currentState.openDrawer();
-            },
-          ),
-          actions: <Widget>[
-            Card(
-              color: Colors.yellow,
+      key: _scaffoldKey,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(SimpleLineIcons.getIconData('menu')),
+          onPressed: () {
+            _scaffoldKey.currentState.openDrawer();
+          },
+        ),
+        actions: <Widget>[
+          Card(
+            //color: Colors.yellow,
+
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.yellow[600], Colors.orange[400]],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(1, 0.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp,
+                ),
+              ),
               child: IconButton(
                 icon: Icon(
                   SimpleLineIcons.getIconData('plus'),
@@ -31,16 +42,17 @@ class HomePage extends StatelessWidget {
                 ),
                 onPressed: () => onButtonPressed(context), //Add multimedia
               ),
-            )
-          ],
-          title: Text(
-            'Tekel',
-          ),
-          centerTitle: true,
+            ),
+          )
+        ],
+        title: Text(
+          'Tekel',
         ),
-        drawer: CustomDrawer(),
-        backgroundColor: Colors.white,
-        body: CustomListRidlle(),
-        );
+        centerTitle: true,
+      ),
+      drawer: CustomDrawer(),
+      backgroundColor: Colors.white,
+      body: CustomListRidlle(),
+    );
   }
 }

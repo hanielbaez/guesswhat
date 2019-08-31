@@ -45,36 +45,47 @@ class _EditUserPageState extends State<EditUserPage> {
           onPressed: () => Navigator.pop(context),
         ),
         actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(SimpleLineIcons.getIconData('cloud-upload')),
-            color: Colors.yellow,
-            label: Text(
-              'Save',
-              style: TextStyle(color: Colors.black),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.yellow[600], Colors.orange[400]],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              ),
             ),
-            onPressed: () async {
-              if (_fbKey.currentState.saveAndValidate()) {
-                var imageUrl;
-                if (imageChanged) {
-                  imageChanged = false;
-                  imageUrl = await Provider.of<DatabaseServices>(context)
-                      .uploadToFireStore(file);
+            child: FlatButton.icon(
+              icon: Icon(SimpleLineIcons.getIconData('cloud-upload')),
+              //color: Colors.yellow,
+              label: Text(
+                'Save',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () async {
+                if (_fbKey.currentState.saveAndValidate()) {
+                  var imageUrl;
+                  if (imageChanged) {
+                    imageChanged = false;
+                    imageUrl = await Provider.of<DatabaseServices>(context)
+                        .uploadToFireStore(file);
+                  }
+
+                  var newUser = User(
+                    uid: widget.user.uid,
+                    displayName: _fbKey.currentState.value['name'],
+                    photoURL: imageUrl ?? widget.user.photoURL,
+                    webSite: _fbKey.currentState.value['webSite'],
+                    biography: _fbKey.currentState.value['biography'],
+                  );
+                  Provider.of<DatabaseServices>(context)
+                      .updateUserData(newUser);
+
+                  Navigator.popAndPushNamed(context, 'userPage',
+                      arguments: newUser);
                 }
-
-                var newUser = User(
-                  uid: widget.user.uid,
-                  displayName: _fbKey.currentState.value['name'],
-                  photoURL: imageUrl ?? widget.user.photoURL,
-                  webSite: _fbKey.currentState.value['webSite'],
-                  biography: _fbKey.currentState.value['biography'],
-                );
-                Provider.of<DatabaseServices>(context)
-                    .updateUserData(newUser);
-
-                Navigator.popAndPushNamed(context, 'userPage',
-                    arguments: newUser);
-              }
-            },
+              },
+            ),
           )
         ],
         title: Text('Tekel'),

@@ -81,7 +81,15 @@ class _VideoLayaoutState extends State<VideoLayaout>
 
   Container buildSuccessContainer() {
     return Container(
-      color: Colors.yellow,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.yellow[600], Colors.orange[400]],
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(1, 0.0),
+          stops: [0.0, 1.0],
+          tileMode: TileMode.clamp,
+        ),
+      ),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

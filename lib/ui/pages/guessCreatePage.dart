@@ -129,70 +129,83 @@ class GuessCreate extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : FlatButton(
-                                color: Colors.yellow,
-                                child: Text(
-                                  "Submit",
-                                  style: TextStyle(color: Colors.black),
+                            : Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.yellow[600],
+                                      Colors.orange[400]
+                                    ],
+                                    begin: const FractionalOffset(0.0, 0.0),
+                                    end: const FractionalOffset(1, 0.0),
+                                    stops: [0.0, 1.0],
+                                    tileMode: TileMode.clamp,
+                                  ),
                                 ),
-                                onPressed: () async {
-                                 
-                                  if (_formCreateKey.currentState.saveAndValidate()) {
-                                    model.getFile(_multiMedia['video'],
-                                        _multiMedia['image']);
+                                child: FlatButton(
+                                  child: Text(
+                                    "Submit",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () async {
+                                    if (_formCreateKey.currentState
+                                        .saveAndValidate()) {
+                                      model.getFile(_multiMedia['video'],
+                                          _multiMedia['image']);
 
-                                    //? I think that the thumbnail is not needed for now
-                                    /*  var _fileThumbnail = _multiMedia[
+                                      //? I think that the thumbnail is not needed for now
+                                      /*  var _fileThumbnail = _multiMedia[
                                                     'imageThumbnail'] ??
                                                 _multiMedia['videoThumbnail']; */
 
-                                    /* var _urlThumbnail =
+                                      /* var _urlThumbnail =
                                                 await model.uploadFireStore(
                                                     file: _fileThumbnail
                                                     ); */
 
-                                    //Set the map with the form text value
+                                      //Set the map with the form text value
 
-                                    var _userDb =
-                                        await Provider.of<DatabaseServices>(
-                                                context)
-                                            .getUser();
+                                      var _userDb =
+                                          await Provider.of<DatabaseServices>(
+                                                  context)
+                                              .getUser();
 
-                                    if (_formCreateKey
-                                            .currentState.value['answer'] !=
-                                        '') {
-                                      model.ridlle['answer'] = _formCreateKey
-                                          .currentState.value['answer'];
+                                      if (_formCreateKey
+                                              .currentState.value['answer'] !=
+                                          '') {
+                                        model.ridlle['answer'] = _formCreateKey
+                                            .currentState.value['answer'];
+                                      }
+
+                                      if (_formCreateKey.currentState
+                                              .value['description'] !=
+                                          '') {
+                                        model.ridlle['description'] =
+                                            _formCreateKey.currentState
+                                                .value['description'];
+                                      }
+
+                                      model.ridlle['user'] = {
+                                        'uid': _user.uid,
+                                        'displayName': _user.displayName,
+                                        'photoURL': _userDb.photoURL,
+                                      };
+
+                                      var _ridlleLocation =
+                                          await CustomGeoPoint().addGeoPoint();
+                                      if (_ridlleLocation != null) {
+                                        model.ridlle['location'] =
+                                            _ridlleLocation;
+                                      }
+
+                                      // _ridlle['thumbnail'] = _urlThumbnail;
+                                      model.ridlle['creationDate'] =
+                                          DateTime.now();
+
+                                      model.upload(_context);
                                     }
-
-                                    if (_formCreateKey.currentState
-                                            .value['description'] !=
-                                        '') {
-                                      model.ridlle['description'] =
-                                          _formCreateKey.currentState
-                                              .value['description'];
-                                    }
-
-                                    model.ridlle['user'] = {
-                                      'uid': _user.uid,
-                                      'displayName': _user.displayName,
-                                      'photoURL': _userDb.photoURL,
-                                    };
-
-                                    var _ridlleLocation =
-                                        await CustomGeoPoint().addGeoPoint();
-                                    if (_ridlleLocation != null) {
-                                      model.ridlle['location'] =
-                                          _ridlleLocation;
-                                    }
-
-                                    // _ridlle['thumbnail'] = _urlThumbnail;
-                                    model.ridlle['creationDate'] =
-                                        DateTime.now();
-
-                                    model.upload(_context);
-                                  }
-                                },
+                                  },
+                                ),
                               );
                       },
                     ),

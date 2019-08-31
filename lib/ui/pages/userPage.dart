@@ -105,15 +105,26 @@ class UserPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        RaisedButton.icon(
-                          icon:
-                              Icon(SimpleLineIcons.getIconData('user-follow')),
-                          color: Colors.yellow,
-                          label: Text(
-                            'Join',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.yellow[600], Colors.orange[400]],
+                              begin: const FractionalOffset(0.0, 0.0),
+                              end: const FractionalOffset(1, 0.0),
+                              stops: [0.0, 1.0],
+                              tileMode: TileMode.clamp,
+                            ),
                           ),
-                          onPressed: () {},
+                          child: FlatButton.icon(
+                            icon: Icon(
+                                SimpleLineIcons.getIconData('user-follow')),
+                            //color: Colors.yellow,
+                            label: Text(
+                              'Join',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: () {},
+                          ),
                         ),
                         RaisedButton.icon(
                           icon: Icon(SimpleLineIcons.getIconData('trophy')),
