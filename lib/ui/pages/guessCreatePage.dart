@@ -136,8 +136,8 @@ class GuessCreate extends StatelessWidget {
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 onPressed: () async {
-                                  _formCreateKey.currentState.save();
-                                  if (_formCreateKey.currentState.validate()) {
+                                 
+                                  if (_formCreateKey.currentState.saveAndValidate()) {
                                     model.getFile(_multiMedia['video'],
                                         _multiMedia['image']);
 

@@ -75,7 +75,7 @@ class _SupportPageState extends State<SupportPage> {
   Widget textBuilder = Text(
     'Message Send',
     textAlign: TextAlign.center,
-    style: TextStyle(color: Colors.white),
+    style: TextStyle(color: Colors.black),
   );
 }
 
@@ -106,6 +106,7 @@ class SupportForm extends StatelessWidget {
         FormBuilderTextField(
           attribute: "message",
           maxLines: 10,
+          //autofocus: true,
           decoration: InputDecoration(
             labelText: "Message",
             labelStyle: TextStyle(color: Colors.black),
@@ -121,7 +122,7 @@ class SupportForm extends StatelessWidget {
           maxLength: 500,
           autocorrect: false,
           validators: [
-            FormBuilderValidators.min(10),
+            FormBuilderValidators.required(),
             FormBuilderValidators.max(500),
           ],
         ),
@@ -135,8 +136,7 @@ class SupportForm extends StatelessWidget {
             style: TextStyle(color: Colors.black),
           ),
           onPressed: () async {
-            SupportPage._formCreateKey.currentState.save();
-            if (SupportPage._formCreateKey.currentState.validate()) {
+            if (SupportPage._formCreateKey.currentState.saveAndValidate()) {
               SupportContact support = SupportContact(
                   userId: user.uid,
                   userEmail: user.email,

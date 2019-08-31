@@ -146,7 +146,7 @@ class SingInLayout extends StatelessWidget {
           ),
           child: ListTile(
             leading: Icon(
-              SimpleLineIcons.getIconData('pencil'),
+              SimpleLineIcons.getIconData('note'),
             ),
             title: Text(
               'Create a Ridlle',

@@ -1,12 +1,40 @@
+import 'dart:io';
+
 import 'package:Tekel/core/model/user.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
-class EditUserPage extends StatelessWidget {
+//TODO: The validation is not working, also i need to update all instance that have the user image
+// when the upload is done i want to navegate back
+
+class EditUserPage extends StatefulWidget {
   final User user;
-  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
   EditUserPage({this.user});
+
+  @override
+  _EditUserPageState createState() => _EditUserPageState();
+}
+
+class _EditUserPageState extends State<EditUserPage> {
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  Widget imageWidget;
+  File file;
+  bool imageChanged = false;
+
+  @override
+  void initState() {
+    imageWidget = FadeInImage.assetNetwork(
+      placeholder: 'assets/images/noiseTv.gif',
+      image: '${widget.user.photoURL}',
+      fit: BoxFit.cover,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +52,24 @@ class EditUserPage extends StatelessWidget {
               'Save',
               style: TextStyle(color: Colors.black),
             ),
-            onPressed: () {
-              //TODO: Implement upload
+            onPressed: () async {
+              if (_fbKey.currentState.saveAndValidate()) {
+                if (imageChanged) {
+                  imageChanged = false;
+                  var imageUrl = await Provider.of<DatabaseServices>(context)
+                      .uploadToFireStore(file);
+
+                  var newUser = User(
+                    uid: widget.user.uid,
+                    displayName: _fbKey.currentState.value['name'],
+                    photoURL: imageUrl,
+                    webSite: _fbKey.currentState.value['webSite'],
+                    biography: _fbKey.currentState.value['biography'],
+                  );
+                  Provider.of<DatabaseServices>(context)
+                      .updateUserData(newUser);
+                }
+              }
             },
           )
         ],
@@ -40,27 +84,88 @@ class EditUserPage extends StatelessWidget {
               Container(
                 height: 100,
                 width: 100,
-                child: FadeInImage.assetNetwork(
-                  placeholder: 'assets/images/noiseTv.gif',
-                  image: '${user.photoURL}',
-                  fit: BoxFit.cover,
-                ),
+                child: imageWidget,
               ),
               RaisedButton(
                 child: Text('Change profile image'),
                 onPressed: () {
-                  //TODO: Implemented select image
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: Colors.yellow[100],
+                        title: Text(
+                          'Select Image',
+                          style: TextStyle(),
+                        ),
+                        actions: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              RaisedButton(
+                                  color: Colors.white,
+                                  child: Text(
+                                    'Gallery',
+                                    style: TextStyle(
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                    file = await ImagePicker.pickImage(
+                                        source: ImageSource.gallery);
+                                    if (file != null) {
+                                      imageChanged = true;
+                                      setState(() {
+                                        imageWidget = Image.file(file);
+                                      });
+                                    }
+                                  }),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              RaisedButton(
+                                  color: Colors.white,
+                                  child: Text(
+                                    'Camera',
+                                    style: TextStyle(
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                    file = await ImagePicker.pickImage(
+                                        source: ImageSource.camera);
+                                    if (file != null) {
+                                      imageChanged = true;
+                                      setState(() {
+                                        imageWidget = Image.file(file);
+                                      });
+                                    }
+                                  })
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
               ),
               Divider(),
               FormBuilder(
                 key: _fbKey,
+                autovalidate: true,
                 child: Expanded(
                   child: ListView(
                     children: <Widget>[
                       FormBuilderTextField(
                         attribute: 'name',
-                        initialValue: '${user.displayName}',
+                        autovalidate: true,
+                        //initialValue: '${widget.user.displayName}',
+                        validators: [
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.maxLength(15)
+                        ],
                         decoration: InputDecoration(
                           labelText: "Name",
                           labelStyle: TextStyle(color: Colors.black),
@@ -79,7 +184,7 @@ class EditUserPage extends StatelessWidget {
                       ),
                       FormBuilderTextField(
                         attribute: 'webSite',
-                        initialValue: '${user.webSite}',
+                        initialValue: '${widget.user.webSite}',
                         decoration: InputDecoration(
                           labelText: "Web Site",
                           labelStyle: TextStyle(color: Colors.black),
@@ -98,7 +203,7 @@ class EditUserPage extends StatelessWidget {
                       ),
                       FormBuilderTextField(
                         attribute: 'biography',
-                        initialValue: '${user.biography}',
+                        initialValue: '${widget.user.biography}',
                         maxLines: 5,
                         decoration: InputDecoration(
                           labelText: "Biography",

@@ -44,7 +44,7 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> map = Map<String, dynamic>();
     map['uid'] = this.uid;
-    map['email'] = this.email;
+    if (this.email != null) map['email'] = this.email;
     map['photoURL'] = this.photoURL;
     map['displayName'] = this.displayName;
     map['webSite'] = this.webSite;

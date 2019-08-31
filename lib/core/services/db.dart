@@ -139,7 +139,7 @@ class DatabaseServices {
       final String url = (await downloadUrl.ref.getDownloadURL());
       return url;
     } catch (e) {
-      print('$e');
+      print('Error uploadToFireStore. Error: $e');
       return null;
     }
   }
