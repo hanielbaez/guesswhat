@@ -46,7 +46,7 @@ class AuthenticationServices {
               FacebookAuthProvider.getCredential(accessToken: myToken.token);
           var user = await _auth.signInWithCredential(credential);
 
-          updateUser(user.user);
+          createUserData(user.user);
           requestingPermission();
           return 'Signed in Successfully';
           break;
@@ -68,7 +68,7 @@ class AuthenticationServices {
       final AuthCredential credential = GoogleAuthProvider.getCredential(
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
       var user = await _auth.signInWithCredential(credential);
-      updateUser(user.user);
+      createUserData(user.user);
       requestingPermission();
       return 'Signed in Successfully';
     } catch (e) {
@@ -77,7 +77,7 @@ class AuthenticationServices {
   }
 
   ///Update user record at Firebase
-  void updateUser(FirebaseUser userData) {
+  void createUserData(FirebaseUser userData) {
     var user = User(
         uid: userData.uid,
         email: userData.email,
@@ -85,7 +85,7 @@ class AuthenticationServices {
         photoURL: userData.photoUrl,
         lastSeen: Timestamp.now());
 
-    _dataBase.updateUserData(user);
+    _dataBase.createUser(user);
   }
 
   void singOut() {
@@ -98,7 +98,7 @@ class AuthenticationServices {
 
   ///Getting the devices permission and save thse device token
   void requestingPermission() async {
-  //Getting the device Toke
+    //Getting the device Toke
     saveDeviceToken();
 
     await PermissionHandler().requestPermissions([

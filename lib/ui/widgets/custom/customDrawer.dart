@@ -1,5 +1,4 @@
 //Flutter and Dart import
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -12,10 +11,19 @@ import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/services/auth.dart';
 import 'package:Tekel/core/services/db.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({
     Key key,
   }) : super(key: key);
+
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  void updateState() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +31,27 @@ class CustomDrawer extends StatelessWidget {
       child: Container(
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: StreamBuilder<FirebaseUser>(
-            stream: Provider.of<AuthenticationServices>(context).user(),
+          child: FutureBuilder(
+            future: Provider.of<DatabaseServices>(context).getUser(),
             builder: (context, snapshot) {
-              if (snapshot.data == null) {
+              /* if (snapshot.data == null) {
                 return SingOutLayout();
               }
               if (snapshot.hasError) {
                 return Text('${snapshot.error}');
-              }
+             } */
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
-                  return SingOutLayout();
+                //return SingOutLayout();
                 case ConnectionState.waiting:
                   return Text('Wating');
                 case ConnectionState.active:
                 case ConnectionState.done:
-                  return SingInLayout(snapshot: snapshot);
+                  if (snapshot.hasData) if (!snapshot.hasError) {
+                    return SingInLayout(
+                        user: snapshot.data, setState: updateState);
+                  }
+                  return SingOutLayout(setState: updateState);
                   break;
               }
               return Container(); //unreachable
@@ -52,17 +64,18 @@ class CustomDrawer extends StatelessWidget {
 }
 
 class SingInLayout extends StatelessWidget {
-  final AsyncSnapshot<FirebaseUser> snapshot;
+  final User user;
+  final Function setState;
 
-  const SingInLayout({Key key, this.snapshot}) : super(key: key);
+  const SingInLayout({Key key, this.user, this.setState}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, 'userPage',
-              arguments: User.fromFirebaseUser(user: snapshot.data)),
+          onTap: () =>
+              Navigator.pushNamed(context, 'userPage', arguments: user),
           child: Container(
             height: 150.0,
             decoration: BoxDecoration(
@@ -80,32 +93,14 @@ class SingInLayout extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 10.0),
                   width: 50,
                   height: 50,
-                  child: FutureBuilder<User>(
-                    future: Provider.of<DatabaseServices>(context)
-                        .getUser(),
-                    builder: (context, imageSnap) {
-                      switch (imageSnap.connectionState) {
-                        case ConnectionState.none:
-                        case ConnectionState.active:
-                        case ConnectionState.waiting:
-                          return Icon(
-                            SimpleLineIcons.getIconData('user'),
-                          );
-                        case ConnectionState.done:
-                          if (imageSnap.hasError)
-                            return Text('Error: ${snapshot.error}');
-                          return FadeInImage.assetNetwork(
-                            placeholder: 'assets/images/noiseTv.gif',
-                            image: imageSnap.data.photoURL,
-                            fit: BoxFit.cover,
-                          );
-                      }
-                      return Container();
-                    },
+                  child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/noiseTv.gif',
+                    image: user.photoURL,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Text(
-                  snapshot.data.displayName,
+                  user.displayName,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
@@ -171,8 +166,7 @@ class SingInLayout extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, 'lovePage',
-                  arguments: snapshot.data.uid);
+              Navigator.pushNamed(context, 'lovePage', arguments: user.uid);
             },
           ),
         ),
@@ -209,7 +203,7 @@ class SingInLayout extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.popAndPushNamed(context, 'supportPage',
-                    arguments: snapshot.data);
+                    arguments: user);
               }),
         ),
         Expanded(
@@ -264,7 +258,9 @@ class SingInLayout extends StatelessWidget {
                                         Provider.of<AuthenticationServices>(
                                                 context)
                                             .singOut();
+
                                         Navigator.pop(context);
+                                        setState();
                                       })
                                 ],
                               ),
@@ -284,8 +280,10 @@ class SingInLayout extends StatelessWidget {
 
 //Show this layaout when the user is SingOut
 class SingOutLayout extends StatelessWidget {
+  final Function setState;
   const SingOutLayout({
     Key key,
+    this.setState,
   }) : super(key: key);
 
   @override
@@ -310,6 +308,7 @@ class SingOutLayout extends StatelessWidget {
               .then(
             (response) {
               //Navigator.pop(context);
+              setState();
               Scaffold.of(context).showSnackBar(
                 new SnackBar(
                   content: new Text("$response"),
@@ -327,6 +326,7 @@ class SingOutLayout extends StatelessWidget {
               .then(
             (response) {
               Navigator.pop(context);
+              setState();
               Scaffold.of(context).showSnackBar(
                 new SnackBar(
                   content: new Text("$response"),
