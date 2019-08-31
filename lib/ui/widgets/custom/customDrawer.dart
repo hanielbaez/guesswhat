@@ -68,7 +68,7 @@ class SingInLayout extends StatelessWidget {
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 gradient: LinearGradient(
-                  colors: [Colors.yellow[600], Colors.white],
+                  colors: [Colors.yellow[600], Colors.orange[400]],
                   begin: const FractionalOffset(0.0, 0.0),
                   end: const FractionalOffset(1, 0.0),
                   stops: [0.0, 1.0],
@@ -82,7 +82,7 @@ class SingInLayout extends StatelessWidget {
                   height: 50,
                   child: FutureBuilder<User>(
                     future: Provider.of<DatabaseServices>(context)
-                        .getUser(snapshot.data),
+                        .getUser(),
                     builder: (context, imageSnap) {
                       switch (imageSnap.connectionState) {
                         case ConnectionState.none:

@@ -42,7 +42,7 @@ class LovePage extends StatelessWidget {
                   children: <Widget>[
                     Text('Please wait...'),
                     SpinKitThreeBounce(
-                      color: Colors.white,
+                      color: Colors.black,
                       size: 50.0,
                     ),
                   ],

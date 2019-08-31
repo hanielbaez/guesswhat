@@ -27,7 +27,7 @@ class CustomListRidlle extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SpinKitThreeBounce(
-                    color: Colors.white,
+                    color: Colors.black,
                     size: 50.0,
                   ),
                   Text('Please wait...'),

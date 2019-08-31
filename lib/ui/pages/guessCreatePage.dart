@@ -156,7 +156,7 @@ class GuessCreate extends StatelessWidget {
                                     var _userDb =
                                         await Provider.of<DatabaseServices>(
                                                 context)
-                                            .getUser(_user);
+                                            .getUser();
 
                                     if (_formCreateKey
                                             .currentState.value['answer'] !=

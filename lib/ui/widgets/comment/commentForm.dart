@@ -71,7 +71,7 @@ class CommentForm extends StatelessWidget {
                 ),
                 onPressed: () async {
                   var _user = await Provider.of<DatabaseServices>(context)
-                      .getUser(snapshot.data);
+                      .getUser();
                   if (_fbKey.currentState.saveAndValidate()) {
                     Comment newComment = Comment(
                       text: _fbKey.currentState.value['comment'],

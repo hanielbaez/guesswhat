@@ -54,21 +54,25 @@ class _EditUserPageState extends State<EditUserPage> {
             ),
             onPressed: () async {
               if (_fbKey.currentState.saveAndValidate()) {
+                var imageUrl;
                 if (imageChanged) {
                   imageChanged = false;
-                  var imageUrl = await Provider.of<DatabaseServices>(context)
+                  imageUrl = await Provider.of<DatabaseServices>(context)
                       .uploadToFireStore(file);
-
-                  var newUser = User(
-                    uid: widget.user.uid,
-                    displayName: _fbKey.currentState.value['name'],
-                    photoURL: imageUrl,
-                    webSite: _fbKey.currentState.value['webSite'],
-                    biography: _fbKey.currentState.value['biography'],
-                  );
-                  Provider.of<DatabaseServices>(context)
-                      .updateUserData(newUser);
                 }
+
+                var newUser = User(
+                  uid: widget.user.uid,
+                  displayName: _fbKey.currentState.value['name'],
+                  photoURL: imageUrl ?? widget.user.photoURL,
+                  webSite: _fbKey.currentState.value['webSite'],
+                  biography: _fbKey.currentState.value['biography'],
+                );
+                Provider.of<DatabaseServices>(context)
+                    .updateUserData(newUser);
+
+                Navigator.popAndPushNamed(context, 'userPage',
+                    arguments: newUser);
               }
             },
           )
@@ -161,10 +165,11 @@ class _EditUserPageState extends State<EditUserPage> {
                       FormBuilderTextField(
                         attribute: 'name',
                         autovalidate: true,
-                        //initialValue: '${widget.user.displayName}',
+                        initialValue: '${widget.user.displayName}',
                         validators: [
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.maxLength(15)
+                          FormBuilderValidators.maxLength(20,
+                              errorText: 'Try a shorter name.')
                         ],
                         decoration: InputDecoration(
                           labelText: "Name",

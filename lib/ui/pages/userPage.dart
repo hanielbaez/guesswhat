@@ -32,7 +32,7 @@ class UserPage extends StatelessWidget {
                   icon: Icon(SimpleLineIcons.getIconData('pencil')),
                   label: Text('Edit'),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'editUserPage',
+                    Navigator.popAndPushNamed(context, 'editUserPage',
                         arguments: user);
                   },
                 );
@@ -93,11 +93,15 @@ class UserPage extends StatelessWidget {
                     SizedBox(
                       height: 10.0,
                     ),
-                    Text(
-                      '${user.biography}',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                    ),
+                    if (user.biography.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${user.biography}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        ),
+                      ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[

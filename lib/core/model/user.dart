@@ -14,7 +14,7 @@ class User {
   User(
       {@required this.uid,
       this.email,
-      @required this.photoURL,
+      this.photoURL,
       @required this.displayName,
       this.webSite = '',
       this.biography = '',
