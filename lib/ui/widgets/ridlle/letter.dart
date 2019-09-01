@@ -25,12 +25,12 @@ class CustomLetter extends StatelessWidget {
         //If correct aswear TRUE do nothing
         if (model.correctAnswer == false) {
           SidekickTeamBuilder.of<Item>(context).move(item);
-        }
 
-        //Delete or add letter base on isSource
-        isSource
-            ? model.setLetter(selectedItem: item)
-            : model.deleteLetter(selectedItem: item);
+          //Delete or add letter base on isSource
+          isSource
+              ? model.setLetter(selectedItem: item)
+              : model.deleteLetter(selectedItem: item);
+        }
       },
       child: Opacity(
         opacity: isSource ? 0.5 : 1,
