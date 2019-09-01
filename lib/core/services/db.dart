@@ -67,10 +67,7 @@ class DatabaseServices {
         biography: userData.biography,
         lastSeen: Timestamp.now(),
       );
-      _db
-          .collection('users')
-          .document(user.uid)
-          .setData(user.toJson(), merge: true);
+      _db.collection('users').document(user.uid).updateData(user.toJson());
     } catch (e) {
       print('$e');
       return null;

@@ -77,3 +77,27 @@ exports.manageCommentCounter = functions.firestore.document('ridlles/{ridlleId}/
 
     });
 
+//* USER *//
+//Listen to the User photo update, in order to update each ridlles with the new user photo
+exports.updateUserImage = functions.firestore.document('users/{userId}').onUpdate((change, context) => {
+    //Get updated data
+    const newPhoto = change.after.data().photoURL;
+    var userId = context.params.userId;
+
+    if (newPhoto !== null) {
+        const firestore = admin.firestore();
+        firestore.collection('ridlles').where('user.uid', '==', userId).get().then(querySnapshot => {
+            var promises = []
+
+            //Update each photo
+            querySnapshot.docs.forEach(documentSnapshot => {
+                promises.join(documentSnapshot.ref.update({ 'user.photoURL': newPhoto }));
+            })
+
+            return Promise.all(promises);
+        }).catch(error => console.log('Error trying to update: ', error));
+    }
+
+    return null;
+});
+
