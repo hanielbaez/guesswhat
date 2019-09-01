@@ -35,9 +35,9 @@ class CustomLetter extends StatelessWidget {
       child: Opacity(
         opacity: isSource ? 0.5 : 1,
         child: Container(
-          width: 35,
-          height: 40,
-          margin: EdgeInsets.all(isSource ? 7 : 2),
+          width: (isSource ? 45 : 35),
+          height: (isSource ? 45 : 35),
+          margin: EdgeInsets.all(isSource ? 2 : 3),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
           ),
@@ -49,7 +49,7 @@ class CustomLetter extends StatelessWidget {
                 item.letter,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 15,
+                  fontSize: (isSource ? 20 : 15),
                   color: model.letterColor(isSource),
                 ),
               ),

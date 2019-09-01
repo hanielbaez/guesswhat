@@ -61,6 +61,14 @@ class _CustomSidekickState extends State<CustomSidekick> {
                   ),
                 ],
               ),
+              //Small space between
+              targetBuilderDelegates.isNotEmpty
+                  ? SizedBox(
+                      height: 20.0,
+                      child: Divider(),
+                    )
+                  : Container(),
+
               Container(
                 child: AnimatedSwitcher(
                   duration: Duration(milliseconds: 600),
