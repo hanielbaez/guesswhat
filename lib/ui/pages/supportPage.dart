@@ -1,16 +1,16 @@
 //Flutter and dart import
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
 //Self import
+import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/model/supportContact.dart';
 import 'package:Tekel/core/services/db.dart';
 
 class SupportPage extends StatefulWidget {
-  final FirebaseUser user;
+  final User user;
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
 
@@ -89,7 +89,7 @@ class SupportForm extends StatelessWidget {
         super(key: key);
 
   final GlobalKey<FormBuilderState> _formCreateKey;
-  final FirebaseUser user;
+  final User user;
   final Function function;
 
   @override
@@ -112,41 +112,50 @@ class SupportForm extends StatelessWidget {
             labelStyle: TextStyle(color: Colors.black),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.horizontal(right: Radius.zero),
-              //borderSide: BorderSide(color: Colors.white, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.horizontal(right: Radius.zero),
-              //borderSide: BorderSide(color: Colors.white, width: 2.5),
             ),
           ),
           maxLength: 500,
           autocorrect: false,
           validators: [
-            FormBuilderValidators.required(),
+            FormBuilderValidators.minLength(25,
+                errorText: 'Your message should be longer.'),
             FormBuilderValidators.max(500),
           ],
         ),
         SizedBox(
           height: 30.0,
         ),
-        FlatButton(
-          color: Colors.yellow,
-          child: Text(
-            "Submit",
-            style: TextStyle(color: Colors.black),
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.yellow[600], Colors.orange[400]],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp,
+            ),
           ),
-          onPressed: () async {
-            if (SupportPage._formCreateKey.currentState.saveAndValidate()) {
-              SupportContact support = SupportContact(
-                  userId: user.uid,
-                  userEmail: user.email,
-                  description:
-                      SupportPage._formCreateKey.currentState.value['message']);
-              Provider.of<DatabaseServices>(context)
-                  .supportContact(support: support);
-              function();
-            }
-          },
+          child: FlatButton(
+            child: Text(
+              "Submit",
+              style: TextStyle(color: Colors.black),
+            ),
+            onPressed: () async {
+              if (SupportPage._formCreateKey.currentState.saveAndValidate()) {
+                SupportContact support = SupportContact(
+                    userId: user.uid,
+                    userEmail: user.email,
+                    description: SupportPage
+                        ._formCreateKey.currentState.value['message']);
+                Provider.of<DatabaseServices>(context)
+                    .supportContact(support: support);
+                function();
+              }
+            },
+          ),
         ),
       ],
     );
