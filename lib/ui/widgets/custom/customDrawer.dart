@@ -32,7 +32,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       child: Container(
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: FutureBuilder(
+          child: FutureBuilder<User>(
             future: Provider.of<DatabaseServices>(context).getUser(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {

@@ -31,7 +31,7 @@ class User {
   factory User.fromFireStore(DocumentSnapshot snap) {
     Map<String, dynamic> map = snap.data;
     return User(
-      uid: map['uid'],
+      uid: snap.documentID,
       email: map['email'],
       photoURL: map['photoURL'],
       displayName: map['displayName'],
