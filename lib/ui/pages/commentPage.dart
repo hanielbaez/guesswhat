@@ -56,7 +56,6 @@ class _CommentPageState extends State<CommentPage> {
                   if (snapshot.hasData) {
                     if (snapshot.hasError)
                       return Text('Error: Please try later');
-                    print('Snapshot data ${snapshot.hasData}');
                     if (snapshot.data.documents.length > 0) {
                       return ListViewBuilder(snapshot: snapshot);
                     } else {

@@ -38,24 +38,6 @@ class DatabaseServices {
   }
 
   ///Update the user data at firestore
-  void createUser(User userData) {
-    //! If the user has already data, it will be DELETE and channged for the data provide
-    try {
-      var user = User(
-        uid: userData.uid,
-        email: userData.email,
-        displayName: userData.displayName,
-        photoURL: userData.photoURL,
-        lastSeen: Timestamp.now(),
-      );
-      _db.collection('users').document(user.uid).setData(user.toJson());
-    } catch (e) {
-      print('$e');
-      return null;
-    }
-  }
-
-  ///Update the user data at firestore
   void updateUserData(User userData) {
     try {
       var user = User(

@@ -29,12 +29,8 @@ void onButtonPressed(context) {
                   'Deseas registarte',
                   style: TextStyle(color: Colors.black),
                 ),
-                //TODO: SingIn opciones
               ],
             );
-          }
-          if (userSnap.hasError) {
-            print('${userSnap.error}');
           }
           if (userSnap.hasData) {
             return Column(

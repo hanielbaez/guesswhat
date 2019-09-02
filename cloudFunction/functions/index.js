@@ -50,7 +50,6 @@ exports.notifyLove = functions.firestore.document('loveRidlles/{docId}')
                 query.forEach(doc => {
                     tokens.push(doc.id);
                 });
-                console.log(tokens);
 
                 const payload = {
                     notification: {
@@ -78,6 +77,31 @@ exports.manageCommentCounter = functions.firestore.document('ridlles/{ridlleId}/
     });
 
 //* USER *//
+
+//TODO: Send email, when a user is created.
+
+//Listen to create user event of Firebase Auth
+exports.createUser = functions.auth.user().onCreate((user) => {
+    const newUser = {
+        'displayName': user.displayName,
+        'biography': '',
+        'photoURL': user.photoURL,
+        'webSite': '',
+        'createdAt': user.metadata.creationTime,
+    }
+    const private = {
+        'email': user.email,
+        'sex': '',
+    }
+
+    var firestore = admin.firestore();
+    return firestore.collection('users').doc(user.uid).set(newUser).then(response => {
+        console.log('Response ', response);
+        return firestore.collection('users').doc(user.uid).collection('privates').doc().set(private);
+    }).catch(error => console.log('Error trying to create a user: ', error));
+
+});
+
 //Listen to the User photo update, in order to update each ridlles with the new user photo
 exports.updateUserImage = functions.firestore.document('users/{userId}').onUpdate((change, context) => {
     //Get updated data

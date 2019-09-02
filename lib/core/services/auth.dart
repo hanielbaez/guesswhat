@@ -1,5 +1,4 @@
 //Flutter and Dart import
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,16 +6,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
 //Self import
-import 'package:Tekel/core/model/user.dart';
-import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/custom/customGetToken.dart';
 
 ///User authentication from Firebase
 class AuthenticationServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final DatabaseServices _dataBase;
-
-  AuthenticationServices({DatabaseServices dataBase}) : _dataBase = dataBase;
 
   Observable<FirebaseUser> user() {
     return Observable(FirebaseAuth.instance.onAuthStateChanged);
@@ -44,9 +38,8 @@ class AuthenticationServices {
           FacebookAccessToken myToken = result.accessToken;
           AuthCredential credential =
               FacebookAuthProvider.getCredential(accessToken: myToken.token);
-          var user = await _auth.signInWithCredential(credential);
+          await _auth.signInWithCredential(credential);
 
-          createUserData(user.user);
           requestingPermission();
           return 'Signed in Successfully';
           break;
@@ -67,25 +60,13 @@ class AuthenticationServices {
 
       final AuthCredential credential = GoogleAuthProvider.getCredential(
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-      var user = await _auth.signInWithCredential(credential);
-      createUserData(user.user);
+      await _auth.signInWithCredential(credential);
+
       requestingPermission();
       return 'Signed in Successfully';
     } catch (e) {
       return e.message;
     }
-  }
-
-  ///Update user record at Firebase
-  void createUserData(FirebaseUser userData) {
-    var user = User(
-        uid: userData.uid,
-        email: userData.email,
-        displayName: userData.displayName,
-        photoURL: userData.photoUrl,
-        lastSeen: Timestamp.now());
-
-    _dataBase.createUser(user);
   }
 
   void singOut() {

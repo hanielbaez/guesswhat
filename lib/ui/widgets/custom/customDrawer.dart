@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
@@ -34,17 +35,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
           child: FutureBuilder(
             future: Provider.of<DatabaseServices>(context).getUser(),
             builder: (context, snapshot) {
-              /* if (snapshot.data == null) {
-                return SingOutLayout();
-              }
-              if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-             } */
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
-                //return SingOutLayout();
                 case ConnectionState.waiting:
-                  return Text('Wating');
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Please wait...'),
+                        SpinKitThreeBounce(
+                          color: Colors.black,
+                          size: 50.0,
+                        ),
+                      ],
+                    ),
+                  );
                 case ConnectionState.active:
                 case ConnectionState.done:
                   if (snapshot.hasData) if (!snapshot.hasError) {
@@ -318,8 +324,7 @@ class SingOutLayout extends StatelessWidget {
               .loginWithFacebook()
               .then(
             (response) {
-              //Navigator.pop(context);
-              setState();
+              Navigator.pop(context);
               Scaffold.of(context).showSnackBar(
                 new SnackBar(
                   content: new Text("$response"),
@@ -337,7 +342,6 @@ class SingOutLayout extends StatelessWidget {
               .then(
             (response) {
               Navigator.pop(context);
-              setState();
               Scaffold.of(context).showSnackBar(
                 new SnackBar(
                   content: new Text("$response"),

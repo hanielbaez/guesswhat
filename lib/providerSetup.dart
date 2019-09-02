@@ -9,12 +9,9 @@ List<SingleChildCloneableWidget> providers = [
 
 List<SingleChildCloneableWidget> independentServices = [
   Provider.value(value: DatabaseServices()),
+  Provider.value(value: AuthenticationServices()),
 ];
 List<SingleChildCloneableWidget> dependentServices = [
-  ProxyProvider<DatabaseServices, AuthenticationServices>(
-    builder: (context, dataBase, authenticationServices) =>
-        AuthenticationServices(dataBase: dataBase),
-  )
 ];
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [
