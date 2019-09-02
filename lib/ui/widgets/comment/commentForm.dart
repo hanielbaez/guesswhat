@@ -71,7 +71,6 @@ class CommentForm extends StatelessWidget {
                 ),
               ),
               margin: EdgeInsets.all(2.0),
-              //color: Colors.yellow,
               child: IconButton(
                 icon: Icon(
                   SimpleLineIcons.getIconData('arrow-up'),
