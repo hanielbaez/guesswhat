@@ -61,8 +61,17 @@ class CommentForm extends StatelessWidget {
               ),
             ),
             Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.yellow[600], Colors.orange[400]],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(1, 0.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp,
+                ),
+              ),
               margin: EdgeInsets.all(2.0),
-              color: Colors.yellow,
+              //color: Colors.yellow,
               child: IconButton(
                 icon: Icon(
                   SimpleLineIcons.getIconData('arrow-up'),
@@ -70,8 +79,8 @@ class CommentForm extends StatelessWidget {
                   size: 30.0,
                 ),
                 onPressed: () async {
-                  var _user = await Provider.of<DatabaseServices>(context)
-                      .getUser();
+                  var _user =
+                      await Provider.of<DatabaseServices>(context).getUser();
                   if (_fbKey.currentState.saveAndValidate()) {
                     Comment newComment = Comment(
                       text: _fbKey.currentState.value['comment'],
