@@ -67,7 +67,7 @@ exports.notifyLove = functions.firestore.document('loveRidlles/{docId}')
 
 //Listen to Comment create and increase the counter of /ridlles/::ridlleId/commentCounter
 exports.manageCommentCounter = functions.firestore.document('ridlles/{ridlleId}/comments/{commentId}')
-    .onWrite((snapshot, context) => {
+    .onCreate((snapshot, context) => {
 
         const firestore = admin.firestore();
         var docRef = firestore.collection('ridlles').doc(context.params.ridlleId);
