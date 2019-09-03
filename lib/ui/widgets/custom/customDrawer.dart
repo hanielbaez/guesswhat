@@ -164,7 +164,7 @@ class SingInLayout extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                onButtonPressed(context);
+                onButtonPressed(context: context, user: user);
               },
             ),
           ),

@@ -1,10 +1,12 @@
 //Flutter and Dart import
+import 'package:Tekel/core/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/custom/customListRidlle.dart';
+import 'package:provider/provider.dart';
 import '../widgets/custom/buttonPress.dart';
 
 class HomePage extends StatelessWidget {
@@ -22,8 +24,6 @@ class HomePage extends StatelessWidget {
         ),
         actions: <Widget>[
           Card(
-            //color: Colors.yellow,
-
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -35,13 +35,22 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               child: IconButton(
-                icon: Icon(
-                  SimpleLineIcons.getIconData('plus'),
-                  color: Colors.black,
-                  semanticLabel: 'Create a ridlle',
-                ),
-                onPressed: () => onButtonPressed(context), //Add multimedia
-              ),
+                  icon: Icon(
+                    SimpleLineIcons.getIconData('plus'),
+                    color: Colors.black,
+                    semanticLabel: 'Create a ridlle',
+                  ),
+                  onPressed: () => Provider.of<DatabaseServices>(context)
+                          .getUser()
+                          .then((userSnap) {
+                        if (userSnap != null) {
+                          onButtonPressed(
+                              context: context,
+                              user: userSnap); //Add multimedia
+                        } else {
+                          _scaffoldKey.currentState.openDrawer();
+                        }
+                      })),
             ),
           )
         ],

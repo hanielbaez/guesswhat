@@ -1,73 +1,56 @@
 //Flutter and dart import
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 //Self import
-import 'package:Tekel/core/services/auth.dart';
 import 'package:Tekel/core/viewModel/SourceMediaViewModel.dart';
 
 /* Handle the user actions, when trying to add new content,
 if the user is not singIn him will be redirected to the singIng buttons */
 
-void onButtonPressed(context) {
+void onButtonPressed({context, user}) {
   SourceImageOption _sourceOption = SourceImageOption();
   showModalBottomSheet(
     context: context,
     builder: (context) {
       Map _multiMedia = {};
 
-      return StreamBuilder<FirebaseUser>(
-        stream: Provider.of<AuthenticationServices>(context).user(),
-        builder: (context, userSnap) {
-          if (userSnap.data == null) {
-            return Column(
-              children: <Widget>[
-                Text(
-                  'Deseas registarte',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
-            );
-          }
-          if (userSnap.hasData) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Create a Ridlle',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Card(
-                  child: ListTile(
-                    title: Text('Capture Image'),
-                    leading: Icon(
-                      SimpleLineIcons.getIconData('camera'),
-                    ),
-                    onTap: () async {
-                      try {
-                        _multiMedia['image'] = await _sourceOption.getImage(
-                            ImageSource.camera, context);
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Create a Ridlle',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('Capture Image'),
+              leading: Icon(
+                SimpleLineIcons.getIconData('camera'),
+              ),
+              onTap: () async {
+                try {
+                  _multiMedia['image'] =
+                      await _sourceOption.getImage(ImageSource.camera, context);
 
-                        _sourceOption.navigateToCreate(
-                            context: context,
-                            multiMedia: _multiMedia,
-                            user: userSnap.data);
-                      } catch (error) {
-                        print('Error: $error');
-                      }
-                    },
-                  ),
-                ),
-                /* ListTile(
+                  _sourceOption.navigateToCreate(
+                      context: context,
+                      multiMedia: _multiMedia,
+                      user: user);
+                } catch (error) {
+                  print('Error: $error');
+                }
+              },
+            ),
+          ),
+          /* ListTile(
                 title: Text('Capture Video'),
                 leading: Icon(SimpleLineIcons.getIconData('camrecorder')),
                 onTap: () async {
@@ -83,28 +66,28 @@ void onButtonPressed(context) {
                   }
                 },
               ), */
-                Card(
-                  child: ListTile(
-                    title: Text('Image from Gallery'),
-                    leading: Icon(
-                      SimpleLineIcons.getIconData('picture'),
-                    ),
-                    onTap: () async {
-                      try {
-                        _multiMedia['image'] = await _sourceOption.getImage(
-                            ImageSource.gallery, context);
+          Card(
+            child: ListTile(
+              title: Text('Image from Gallery'),
+              leading: Icon(
+                SimpleLineIcons.getIconData('picture'),
+              ),
+              onTap: () async {
+                try {
+                  _multiMedia['image'] = await _sourceOption.getImage(
+                      ImageSource.gallery, context);
 
-                        _sourceOption.navigateToCreate(
-                            context: context,
-                            multiMedia: _multiMedia,
-                            user: userSnap.data);
-                      } catch (error) {
-                        print('Error: ' + error.toString());
-                      }
-                    },
-                  ),
-                ),
-                /* ListTile(
+                  _sourceOption.navigateToCreate(
+                      context: context,
+                      multiMedia: _multiMedia,
+                      user: user);
+                } catch (error) {
+                  print('Error: ' + error.toString());
+                }
+              },
+            ),
+          ),
+          /* ListTile(
                 title: Text('Video from Gallery'),
                 leading: Icon(SimpleLineIcons.getIconData('film')),
                 onTap: () async {
@@ -120,12 +103,7 @@ void onButtonPressed(context) {
                   }
                 },
               ), */
-              ],
-            );
-          }
-
-          return Container(); //Unattainable
-        },
+        ],
       );
     },
   );

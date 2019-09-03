@@ -1,11 +1,11 @@
 //Flutter and Dart import
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter_video_compress/flutter_video_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 //Self import
+import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/ui/pages/guessCreatePage.dart';
 
 //Pick the image or video from different sources as gallery or camera
@@ -32,7 +32,7 @@ class SourceImageOption {
   }
 
   void navigateToCreate(
-      {BuildContext context, Map multiMedia, FirebaseUser user}) {
+      {BuildContext context, Map multiMedia, User user}) {
     if (multiMedia['image'] != null) {
       Navigator.of(context).pop();
       Navigator.of(context).push(

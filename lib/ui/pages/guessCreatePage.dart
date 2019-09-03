@@ -1,5 +1,5 @@
 //Flutter and dart import
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Tekel/core/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -13,7 +13,7 @@ import 'package:Tekel/core/custom/customGeoPoint.dart';
 
 class GuessCreate extends StatelessWidget {
   final Map _multiMedia;
-  final FirebaseUser _user;
+  final User _user;
   final BuildContext _context;
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();

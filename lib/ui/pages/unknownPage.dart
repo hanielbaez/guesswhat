@@ -25,12 +25,11 @@ class UnknownPage extends StatelessWidget {
               SimpleLineIcons.getIconData('plus'),
               color: Colors.yellow,
             ),
-            onPressed: () => onButtonPressed(context), //Add multimedia
+            onPressed: () => onButtonPressed(context: context), //Add multimedia
           )
         ],
         title: Text(
           'Tekel',
-          //style: TextStyle(color: Colors.yellowAccent),
         ),
         centerTitle: true,
       ),
