@@ -67,29 +67,6 @@ class DatabaseServices {
 
   //* RIDLLE *//
 
-  //Fectch all ridlles and order it by date
-  Future<List<Ridlle>> fectchRidlle() async {
-    try {
-      //Use to fech all Ridlles
-      final List<Ridlle> allRidlle = [];
-      var snap = await _db
-          .collection('ridlles')
-          .orderBy('creationDate', descending: true)
-          .getDocuments();
-      snap.documents.forEach(
-        (document) {
-          allRidlle.add(
-            Ridlle.fromFireStore(document),
-          );
-        },
-      );
-      return allRidlle;
-    } catch (e) {
-      print('$e');
-      return null;
-    }
-  }
-
   //Return a list of user Ridlles
   Future<List> fectchUserRidlle({String userId}) async {
     try {

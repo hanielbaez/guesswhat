@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'package:Tekel/core/services/db.dart';
+import 'package:Tekel/core/viewModel/paginationViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
@@ -61,7 +62,12 @@ class HomePage extends StatelessWidget {
       ),
       drawer: CustomDrawer(),
       backgroundColor: Colors.white,
-      body: CustomListRidlle(),
+      body: ChangeNotifierProvider<PaginationViewModel>.value(
+        value: PaginationViewModel(),
+        child: Consumer<PaginationViewModel>(
+          builder: (context, model, child) => CustomListRidlle(model: model),
+        ),
+      ),
     );
   }
 }

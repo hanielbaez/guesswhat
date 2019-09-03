@@ -58,6 +58,6 @@ class RidlleCreateViewModel extends ChangeNotifier {
     //Upload a new Ridlle to DataBase
     await Provider.of<DatabaseServices>(context).uploadRidlle(ridlle);
 
-    Navigator.pop(context);
+    Navigator.pushNamed(context, '/');
   }
 }
