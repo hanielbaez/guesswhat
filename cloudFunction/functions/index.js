@@ -102,26 +102,61 @@ exports.createUser = functions.auth.user().onCreate((user) => {
 
 });
 
-//Listen to the User photo update, in order to update each ridlles with the new user photo
-exports.updateUserImage = functions.firestore.document('users/{userId}').onUpdate((change, context) => {
-    //Get updated data
-    const newPhoto = change.after.data().photoURL;
+//Listen to the User update, in order to update each ridlles and comments (photosURL and displayName)
+exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((change, context) => {
+    const firestore = admin.firestore();
+    //Get new/old user data
+    const newData = change.after.data();
+    const oldData = change.before.data();
+
+    //Get the userId
     var userId = context.params.userId;
 
-    if (newPhoto !== null) {
-        const firestore = admin.firestore();
-        firestore.collection('ridlles').where('user.uid', '==', userId).get().then(querySnapshot => {
-            var promises = []
+    //User OBJ to be update if their property channged
+    var newUser = {
+        'user': {
+            'displayName': oldData.displayName,
+            'photoURL': oldData.photoURL,
+            'uid': userId,
+        }
+    };
 
-            //Update each photo
+    if (newData.displayName !== null) {
+        newUser.user.displayName = newData.displayName;
+    }
+    if (newData.photoURL !== null) {
+        newUser.user.photoURL = newData.photoURL;
+    }
+
+    if (oldData.displayName !== newData.displayName || oldData.photoURL !== newData.photoURL) {
+        var promises = []
+
+        //Get all ridlles where user.uid == userId
+        var userRidlles = firestore.collection('ridlles').where('user.uid', '==', userId).get();
+        userRidlles.then(querySnapshot => {
+            //Update each ridlle photo
             querySnapshot.docs.forEach(documentSnapshot => {
-                promises.join(documentSnapshot.ref.update({ 'user.photoURL': newPhoto }));
+                promises.join(documentSnapshot.ref.update(newUser));
             })
-
-            return Promise.all(promises);
+            return null;
         }).catch(error => console.log('Error trying to update: ', error));
+
+
+        //Get all comments where user.uid == userId
+        var userComments = firestore.collectionGroup('comments').where('user.uid', '==', userId).get();
+        userComments.then(querySnapshot => {
+            querySnapshot.docs.forEach(document => {
+                //Update each comment by user
+                promises.join(document.ref.update(newUser));
+            });
+            return null;
+        }).catch(error => console.log('Error trying to update: ', error));
+
+        return Promise.all(promises);
+
     }
 
     return null;
 });
+
 
