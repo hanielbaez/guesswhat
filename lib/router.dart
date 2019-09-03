@@ -1,4 +1,5 @@
 //Flutter and Dart import
+import 'package:Tekel/ui/pages/commentPage.dart';
 import 'package:flutter/material.dart';
 
 //Self import
@@ -31,6 +32,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case 'supportPage':
       return MaterialPageRoute(
         builder: (context) => SupportPage(user: settings.arguments),
+      );
+    case 'commentsPage':
+      return MaterialPageRoute(
+        builder: (context) => CommentPage(ridlle: settings.arguments),
       );
     case 'editUserPage':
       return MaterialPageRoute(

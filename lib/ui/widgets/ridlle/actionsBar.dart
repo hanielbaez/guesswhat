@@ -80,19 +80,13 @@ class ActionBar extends StatelessWidget {
                       'Comment',
                     ),
                     onPressed: () {
+                      //?This is not working
                       if (userSnap.data == null) {
                         Scaffold.of(context).openDrawer();
                         return null;
                       }
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return CommentPage(
-                              ridlle: ridlle,
-                            );
-                          },
-                        ),
-                      );
+                      Navigator.of(context)
+                          .pushNamed('commentsPage', arguments: ridlle);
                     },
                   ),
                   FlatButton.icon(
@@ -132,11 +126,15 @@ class ActionBar extends StatelessWidget {
             ridlle.commentCounter.isNotEmpty
                 ? Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      '${ridlle.commentCounter} Comments',
-                      style: TextStyle(
-                          color: Colors.black.withOpacity(0.5),
-                          fontWeight: FontWeight.bold),
+                    child: GestureDetector(
+                      onTap: () => Navigator.of(context)
+                          .pushNamed('commentsPage', arguments: ridlle),
+                      child: Text(
+                        '${ridlle.commentCounter} Comments',
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   )
                 : Container(),
