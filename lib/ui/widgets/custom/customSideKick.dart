@@ -1,4 +1,5 @@
 //Flutter and Dart
+import 'package:Tekel/ui/widgets/custom/customHitBox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
 
@@ -31,7 +32,7 @@ class _CustomSidekickState extends State<CustomSidekick> {
     return SidekickTeamBuilder<Item>(
       animationDuration: Duration(milliseconds: 500),
       initialTargetList: _model.targetList,
-      initialSourceList: widget.model.sourceList,
+      initialSourceList: _model.sourceList,
       builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
         return Container(
           child: Column(
@@ -39,65 +40,58 @@ class _CustomSidekickState extends State<CustomSidekick> {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    child: Wrap(
-                      children: targetBuilderDelegates
-                          .map(
-                            (builderDelegate) => builderDelegate.build(
-                              context,
-                              CustomLetter(
-                                  item: builderDelegate.message,
-                                  isSource: false,
-                                  model: widget.model),
-                              animationBuilder: (animation) => CurvedAnimation(
-                                parent: animation,
-                                curve: FlippedCurve(Curves.ease),
-                              ),
+                  CustomHitBox(list: _model.targetHitList),
+                  Wrap(
+                    children: targetBuilderDelegates
+                        .map(
+                          (builderDelegate) => builderDelegate.build(
+                            context,
+                            CustomLetter(
+                                item: builderDelegate.message,
+                                isSource: false,
+                                model: _model),
+                            animationBuilder: (animation) => CurvedAnimation(
+                              parent: animation,
+                              curve: FlippedCurve(Curves.ease),
                             ),
-                          )
-                          .toList(),
-                    ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ],
               ),
               //Small space between
-              targetBuilderDelegates.isNotEmpty
-                  ? SizedBox(
-                      height: 20.0,
-                      child: Divider(),
-                    )
-                  : Container(),
+              SizedBox(
+                height: 20.0,
+              ),
 
-              Container(
-                child: AnimatedSwitcher(
-                  duration: Duration(milliseconds: 600),
-                  child: _model.correctAnswer
-                      ? Container()
-                      : Wrap(
-                          children: sourceBuilderDelegates.isEmpty
-                              ? [
-                                  Container(),
-                                ]
-                              : sourceBuilderDelegates
-                                  .map(
-                                    (builderDelegate) => builderDelegate.build(
-                                      context,
-                                      CustomLetter(
-                                          item: builderDelegate.message,
-                                          isSource: true,
-                                          model: widget.model),
-                                      animationBuilder: (animation) {
-                                        return CurvedAnimation(
-                                          parent: animation,
-                                          curve: Curves.ease,
-                                        );
-                                      },
-                                    ),
-                                  )
-                                  .toList(),
-                        ),
-                ),
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 600),
+                child: _model.correctAnswer
+                    ? Container()
+                    : Wrap(
+                        children: sourceBuilderDelegates.isEmpty
+                            ? [
+                                Container(),
+                              ]
+                            : sourceBuilderDelegates
+                                .map(
+                                  (builderDelegate) => builderDelegate.build(
+                                    context,
+                                    CustomLetter(
+                                        item: builderDelegate.message,
+                                        isSource: true,
+                                        model: _model),
+                                    animationBuilder: (animation) {
+                                      return CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.ease,
+                                      );
+                                    },
+                                  ),
+                                )
+                                .toList(),
+                      ),
               ),
             ],
           ),

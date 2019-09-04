@@ -16,6 +16,7 @@ class LettersViewModel extends ChangeNotifier {
   List<Item> selectedItems = [];
   List<Item> sourceList = [];
   List<Item> targetList = [];
+  List<Item> targetHitList = [];
   bool correctAnswer = false;
   bool wronganswer = false;
 
@@ -59,6 +60,7 @@ class LettersViewModel extends ChangeNotifier {
   ///Generate a list of character for the source (SidedKick)
   generateItemList() {
     if (sourceList.isEmpty) {
+      generateTargetHit();
       String _word = randomCharacters();
 
       List<Item> _list;
@@ -74,6 +76,17 @@ class LettersViewModel extends ChangeNotifier {
       sourceList = _list;
       Future.delayed(Duration.zero, () => notifyListeners());
     }
+  }
+
+  ///Generate the Target Hit List
+  generateTargetHit() {
+    List.generate(
+        _ridlle.answer.length,
+        (index) => {
+              targetHitList.add(
+                Item(id: index, letter: _ridlle.answer[index]),
+              )
+            });
   }
 
   String getWord(List<Item> items) {
@@ -132,8 +145,7 @@ class LettersViewModel extends ChangeNotifier {
     if (_selectedWord == _ridlle.answer.toUpperCase()) {
       if (_user != null)
         _db.setRidlleDone(
-            customID: _ridlle.id + _user.uid,
-            ridlleId: _ridlle.id);
+            customID: _ridlle.id + _user.uid, ridlleId: _ridlle.id);
       correctAnswer = true;
       player.play(successAudioPath);
       _changeNotifier.sink.add(true);
