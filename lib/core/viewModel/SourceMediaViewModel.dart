@@ -35,7 +35,7 @@ class SourceImageOption {
       {BuildContext context, Map multiMedia, User user}) {
     if (multiMedia['image'] != null) {
       Navigator.of(context).pop();
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => GuessCreate(
             multiMedia: multiMedia,
