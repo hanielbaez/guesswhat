@@ -6,9 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:Tekel/costumTheme.dart';
 import 'package:Tekel/providerSetup.dart';
 import './ui/pages/homePage.dart';
+import 'package:Tekel/core/custom/customMobileOrientation.dart';
 import './router.dart' as router;
 
-void main() => runApp(MyApp());
+void main() {
+  setPortraitOrientation();
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
