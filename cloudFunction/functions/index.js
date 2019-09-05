@@ -4,14 +4,8 @@ admin.initializeApp();
 
 const fcm = admin.messaging();
 
-
-
-//TODO: Delete all functions at Cloud Functions
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
 // Listens for Love(Likes) state added to /loveRidlles/:loveId/original and 
-// increase/decrease the counter of /ridlles/:ridlleId/lovesCounter
+// increase/decrease the counter of /ridlles/:ridlleId/loves
 exports.manageLoveCounter = functions.firestore.document('loveRidlles/{loveId}')
     .onWrite((snapshot, context) => {
         const newValue = snapshot.after.data();
@@ -28,22 +22,22 @@ exports.manageLoveCounter = functions.firestore.document('loveRidlles/{loveId}')
 
         if (state === true) {
             //Increment the value of the referent Ridlle by 1
-            return docRef.update({ 'counter.loveCounter': admin.firestore.FieldValue.increment(1) });
+            return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(1) });
 
         } else {
             //Decrement the value of the referent Ridlle by -1
-            return docRef.update({ 'counter.loveCounter': admin.firestore.FieldValue.increment(-1) });
+            return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(-1) });
         }
     });
 
-//Listen to Comment create and increase the counter of /ridlles/::ridlleId/commentCounter
+//Listen to Comment create and increase the counter of /ridlles/::ridlleId/comments
 exports.manageCommentCounter = functions.firestore.document('ridlles/{ridlleId}/comments/{commentId}')
     .onCreate((snapshot, context) => {
 
         const firestore = admin.firestore();
         var docRef = firestore.collection('ridlles').doc(context.params.ridlleId);
 
-        return docRef.update({ 'counter.commentCounter': admin.firestore.FieldValue.increment(1) });
+        return docRef.update({ 'counter.comments': admin.firestore.FieldValue.increment(1) });
 
     });
 

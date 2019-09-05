@@ -11,8 +11,8 @@ class Ridlle {
   String thumbnailUrl;
   String address;
   Map<dynamic, dynamic> user;
-  String loveCounter;
-  String commentCounter;
+  String loves;
+  String comments;
   Timestamp creationDate;
 
   Ridlle({
@@ -25,26 +25,26 @@ class Ridlle {
     this.thumbnailUrl,
     this.address,
     @required this.user,
-    this.loveCounter,
-    this.commentCounter,
+    this.loves,
+    this.comments,
     @required this.creationDate,
   });
 
   ///Return a Ridlle Object
   factory Ridlle.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data;
-    String _loveCounter = '';
-    String _commentCounter = '';
+    String _loves = '';
+    String _comments = '';
 
     // The values of the counters can not be null o equal to 0
     if (data.containsKey('counter')) {
-      if ((data['counter']['loveCounter'].toString() != 'null') &&
-          (data['counter']['loveCounter'].toString() != '0')) {
-        _loveCounter = data['counter']['loveCounter'].toString();
+      if ((data['counter']['loves'].toString() != 'null') &&
+          (data['counter']['loves'].toString() != '0')) {
+        _loves = data['counter']['loves'].toString();
       }
-      if ((data['counter']['commentCounter'].toString() != 'null') &&
-          (data['counter']['commentCounter'].toString() != '0')) {
-        _commentCounter = data['counter']['commentCounter'].toString();
+      if ((data['counter']['comments'].toString() != 'null') &&
+          (data['counter']['comments'].toString() != '0')) {
+        _comments = data['counter']['comments'].toString();
       }
     }
 
@@ -60,8 +60,8 @@ class Ridlle {
             ? (data['location']['address']) ?? ''
             : '',
         user: data['user'],
-        loveCounter: _loveCounter,
-        commentCounter: _commentCounter,
+        loves: _loves,
+        comments: _comments,
         creationDate: data['creationDate']);
   }
 }

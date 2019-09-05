@@ -10,7 +10,6 @@ import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
 import 'package:Tekel/core/model/ridlle.dart';
-import 'package:Tekel/ui/pages/commentPage.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:Tekel/core/custom/customCacheManager.dart';
 import 'package:Tekel/core/services/auth.dart';
@@ -111,11 +110,11 @@ class ActionBar extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            ridlle.loveCounter.isNotEmpty
+            ridlle.loves.isNotEmpty
                 ? Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '${ridlle.loveCounter} Loves',
+                      '${ridlle.loves} Loves',
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.5),
                         fontWeight: FontWeight.bold,
@@ -123,14 +122,14 @@ class ActionBar extends StatelessWidget {
                     ),
                   )
                 : Container(),
-            ridlle.commentCounter.isNotEmpty
+            ridlle.comments.isNotEmpty
                 ? Align(
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () => Navigator.of(context)
                           .pushNamed('commentsPage', arguments: ridlle),
                       child: Text(
-                        '${ridlle.commentCounter} Comments',
+                        '${ridlle.comments} Comments',
                         style: TextStyle(
                             color: Colors.black.withOpacity(0.5),
                             fontWeight: FontWeight.bold),
