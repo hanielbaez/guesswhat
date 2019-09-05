@@ -133,7 +133,7 @@ class DatabaseServices {
 
   ///* RIDLLE SOLVED BY*//
   ///Set the data at Firebase
-  void setSolvedBy({String ridlleId}) async {
+  void setSolvedBy({String ridlleId, String ownerId}) async {
     try {
       _db
           .collection('ridlles')
@@ -144,6 +144,7 @@ class DatabaseServices {
         {
           'ridlleId': ridlleId,
           'userId': await _uid(),
+          'ownerId': ownerId,
           'creationDate': Timestamp.now(),
         },
       );

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Ridlle {
   String id;
+  String ownerId;
   String answer;
   String description;
   String videoUrl;
@@ -16,6 +17,7 @@ class Ridlle {
 
   Ridlle({
     @required this.id,
+    @required this.ownerId,
     @required this.answer,
     @required this.description,
     this.videoUrl,
@@ -48,6 +50,7 @@ class Ridlle {
 
     return Ridlle(
         id: doc.documentID,
+        ownerId: data['user']['uid'],
         answer: data['answer'] ?? '',
         description: data['description'] ?? '',
         videoUrl: data['videoUrl'],

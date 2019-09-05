@@ -143,7 +143,8 @@ class LettersViewModel extends ChangeNotifier {
     var _selectedWord = getWord(selectedItems);
 
     if (_selectedWord == _ridlle.answer.toUpperCase()) {
-      if (_user != null) _db.setSolvedBy(ridlleId: _ridlle.id);
+      if (_user != null)
+        _db.setSolvedBy(ridlleId: _ridlle.id, ownerId: _ridlle.ownerId);
       correctAnswer = true;
       player.play(successAudioPath);
       _changeNotifier.sink.add(true);

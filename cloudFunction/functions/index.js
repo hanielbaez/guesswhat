@@ -47,13 +47,73 @@ exports.manageCommentCounter = functions.firestore.document('ridlles/{ridlleId}/
 
     });
 
-//Listen to solved by subcollection update to increment the solve by counter by 1
-exports.solvedByCounter = functions.firestore.document('ridlles/{ridlleId}/solvedBy/{solvedById}').onCreate((snapshot, context) => {
-    const firestore = admin.firestore();
+//* SOLVED BY*//
+//Listen to solvedby subcollection CREATE to increment the solveby RIDLLE counter by 1
+//Also, assign the corresponding score for the user at the owner of the riddle
+exports.manageSolvedBy = functions.firestore.document('ridlles/{ridlleId}/solvedBy/{solvedById}').onCreate((snapshot, context) => {
+    //ID of the user that solved the ridlle
+    const userSolved = context.params.solvedById
+    //ID of the riddle owner
+    const ownerId = snapshot.data().ownerId;
 
+    const firestore = admin.firestore();
     var ref = firestore.collection('ridlles').doc(context.params.ridlleId);
 
-    return ref.update({ 'counter.solvedBy': admin.firestore.FieldValue.increment(1) });
+    //Increment the solvedBy counter
+    return ref.update({ 'counter.solvedBy': admin.firestore.FieldValue.increment(1) })
+        .then(_ => {
+            return ref.get();
+        })
+        .then(result => {
+
+            //Get the number of users that has solved it.
+            var solvedBy = result.data().counter.solvedBy;
+
+            var score = 1;
+            console.log('Solved by value: ', solvedBy);
+            //Assign a score depending on the number of the user who already solved the riddle
+            switch (solvedBy) {
+                case 1:
+                    score = 10;
+                    break;
+                case 2:
+                    score = 9;
+                    break;
+                case 3:
+                    score = 8;
+                    break;
+                case 4:
+                    score = 7;
+                    break;
+                case 5:
+                    score = 6;
+                    break;
+                case 6:
+                    score = 5;
+                    break;
+                case 7:
+                    score = 4;
+                    break;
+                case 8:
+                    score = 3;
+                    break;
+                case 9:
+                    score = 2;
+                    break;
+                default:
+                    score = 1;
+            }
+
+            var ref = firestore.collection('users').doc(ownerId).collection('rankings').doc(userSolved);
+            return ref.update({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
+                .catch(_ => {
+                    //? I do not think this is the best approach for this task.
+                    return ref.set({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
+                });
+        }).catch(error => console.log('Error: ', error));
+
+
+
 });
 
 //* USER *//
