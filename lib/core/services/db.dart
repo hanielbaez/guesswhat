@@ -6,6 +6,7 @@ import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart';
 
 //Self import
 import 'package:Tekel/core/model/comment.dart';
@@ -13,7 +14,6 @@ import 'package:Tekel/core/model/love.dart';
 import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/model/supportContact.dart';
-import 'package:uuid/uuid.dart';
 
 ///Networks request
 class DatabaseServices {
@@ -178,9 +178,14 @@ class DatabaseServices {
   /* The customID is make out of the RidleId and the Authenticated UserId */
 
   ///Update the love data to FireStore
-  void updateLoveState({String customID, Love love}) {
+  void updateLoveState({String riddleId, Love love}) async {
     try {
-      _db.collection('loveRiddles').document(customID).setData(love.toJson());
+      _db
+          .collection('riddles')
+          .document(riddleId)
+          .collection('lovedBy')
+          .document(await _uid())
+          .setData(love.toJson());
     } catch (e) {
       print('$e');
       return null;
@@ -193,7 +198,7 @@ class DatabaseServices {
       final List loveList = [];
 
       var snap = await _db
-          .collection('loveRiddles')
+          .collectionGroup('lovedBy')
           .where('userId', isEqualTo: await _uid())
           .where('state', isEqualTo: true)
           .orderBy('updateDate', descending: true)
@@ -213,9 +218,15 @@ class DatabaseServices {
   }
 
   ///Return a Love obj
-  Stream<Love> loveStream({String customID}) {
+  Stream<Love> loveStream({String riddleId, String userId}) {
     try {
-      return _db.collection('loveRiddles').document(customID).snapshots().map(
+      return _db
+          .collection('riddles')
+          .document(riddleId)
+          .collection('lovedBy')
+          .document(userId)
+          .snapshots()
+          .map(
         (doc) {
           return Love.fromFireStore(doc.data);
         },

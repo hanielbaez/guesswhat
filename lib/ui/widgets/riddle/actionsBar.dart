@@ -34,8 +34,8 @@ class ActionBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   StreamBuilder<Love>(
-                    stream: Provider.of<DatabaseServices>(context)
-                        .loveStream(customID: riddle.id + userSnap.data.uid),
+                    stream: Provider.of<DatabaseServices>(context).loveStream(
+                        riddleId: riddle.id, userId: userSnap.data.uid),
                     builder: (context, loveSnap) {
                       var loveState = loveSnap?.data?.state ?? false;
 
@@ -59,7 +59,7 @@ class ActionBar extends StatelessWidget {
 
                           Provider.of<DatabaseServices>(context)
                               .updateLoveState(
-                            customID: riddle.id + userSnap.data.uid,
+                            riddleId: riddle.id,
                             love: Love(
                               state: !loveState,
                               userId: userSnap.data.uid,

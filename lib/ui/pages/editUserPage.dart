@@ -8,9 +8,6 @@ import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-//TODO: The validation is not working, also i need to update all instance that have the user image
-// when the upload is done i want to navegate back
-
 class EditUserPage extends StatefulWidget {
   final User user;
 

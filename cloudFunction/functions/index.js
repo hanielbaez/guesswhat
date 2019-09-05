@@ -64,7 +64,6 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
             var solvedBy = result.data().counter.solvedBy;
 
             var score = 1;
-            console.log('Solved by value: ', solvedBy);
             //Assign a score depending on the number of the user who already solved the riddle
             switch (solvedBy) {
                 case 1:
@@ -99,12 +98,13 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
             }
 
             var ref = firestore.collection('users').doc(ownerId).collection('rankings').doc(userSolved);
-            return ref.update({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
-                .catch(_ => {
-                    //? I do not think this is the best approach for this task.
-                    return ref.set({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
-                });
-        }).catch(error => console.log('Error: ', error));
+            return ref.update({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) });
+
+        }).catch(_ => {
+            //? I do not think this is the best approach for this task.
+            return ref.set({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
+        })
+        .catch(error => console.log('Error: ', error));
 
 
 

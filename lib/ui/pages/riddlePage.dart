@@ -6,7 +6,6 @@ import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/riddle/riddle.dart';
 import 'package:Tekel/core/model/riddle.dart';
-import '../widgets/custom/buttonPress.dart';
 
 class RiddlePage extends StatefulWidget {
   final Riddle riddle;
