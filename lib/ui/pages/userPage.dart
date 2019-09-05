@@ -102,57 +102,63 @@ class UserPage extends StatelessWidget {
                           maxLines: 3,
                         ),
                       ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.yellow[600], Colors.orange[400]],
-                              begin: const FractionalOffset(0.0, 0.0),
-                              end: const FractionalOffset(1, 0.0),
-                              stops: [0.0, 1.0],
-                              tileMode: TileMode.clamp,
-                            ),
-                          ),
-                          child: FlatButton.icon(
-                            icon: Icon(
-                                SimpleLineIcons.getIconData('user-follow')),
-                            //color: Colors.yellow,
-                            label: Text(
-                              'Join',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
-                        RaisedButton.icon(
-                          icon: Icon(SimpleLineIcons.getIconData('trophy')),
-                          label: Text(
-                            'Leaderboard',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
             ),
           ),
-          FutureBuilder(
-            future: Provider.of<DatabaseServices>(context)
-                .fectchUserRidlle(userId: user.uid),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) //return Text('${snapshot.data}');
-                return Expanded(
-                  child: CustomGridView(
-                    list: snapshot.data,
+          Divider(
+            //Some separation
+            color: Colors.black.withOpacity(0.3),
+          ),
+          DefaultTabController(
+            length: 2,
+            child: Expanded(
+              child: Column(
+                children: <Widget>[
+                  TabBar(
+                    indicatorColor: Colors.yellow[600],
+                    labelColor: Colors.yellow[600],
+                    unselectedLabelColor: Colors.black.withOpacity(0.5),
+                    tabs: <Widget>[
+                      Tab(
+                        icon: Icon(
+                          SimpleLineIcons.getIconData('puzzle'),
+                        ),
+                      ),
+                      Tab(
+                        icon: Icon(
+                          SimpleLineIcons.getIconData('trophy'),
+                        ),
+                      )
+                    ],
                   ),
-                );
-              return Container();
-            },
+                  Expanded(
+                    child: TabBarView(
+                      children: <Widget>[
+                        FutureBuilder(
+                          future: Provider.of<DatabaseServices>(context)
+                              .fectchUserRidlle(userId: user.uid),
+                          builder: (context, snapshot) {
+                            if (snapshot
+                                .hasData) //return Text('${snapshot.data}');
+                              return CustomGridView(
+                                list: snapshot.data,
+                              );
+                            return Container();
+                          },
+                        ),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          color: Colors.blue,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
