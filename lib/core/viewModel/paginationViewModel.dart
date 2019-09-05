@@ -21,7 +21,6 @@ class PaginationViewModel extends ChangeNotifier {
 
   getRidlles() async {
     if (!hasMore) {
-      print('No More Products');
       return;
     }
     if (isLoading) {
@@ -54,7 +53,6 @@ class PaginationViewModel extends ChangeNotifier {
 
     if (querySnapshot.documents.length < documentLimit) {
       hasMore = false;
-      print('NO MORE DATA');
     } else {
       //! Error: RangeError (RangeError (index): Invalid value: Valid value range is empty: -1)
       lastDocument =

@@ -131,11 +131,16 @@ class DatabaseServices {
         );
   }
 
-  ///* RIDLLE DONE*//
+  ///* RIDLLE SOLVED BY*//
   ///Set the data at Firebase
-  void setRidlleDone({String customID, String ridlleId}) async {
+  void setSolvedBy({String ridlleId}) async {
     try {
-      _db.collection('ridllesDone').document(customID).setData(
+      _db
+          .collection('ridlles')
+          .document(ridlleId)
+          .collection('solvedBy')
+          .document(await _uid())
+          .setData(
         {
           'ridlleId': ridlleId,
           'userId': await _uid(),
@@ -149,11 +154,13 @@ class DatabaseServices {
   }
 
   ///Return NULL is the user have not completed the Ridlle yet
-  Future<DocumentSnapshot> getRidlleDone({String customID}) async {
+  Future<DocumentSnapshot> getSolvedBy({String ridlleId}) async {
     try {
       return await _db
-          .collection('ridllesDone')
-          .document(customID)
+          .collection('ridlles')
+          .document(ridlleId)
+          .collection('solvedBy')
+          .document(await _uid())
           .get()
           .catchError(
         (error) {

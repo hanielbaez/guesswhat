@@ -102,7 +102,7 @@ class LettersViewModel extends ChangeNotifier {
 
   ///Get a list for the target list only if the user has previously solved it.
   getTargetList() async {
-    var response = await _db.getRidlleDone(customID: _ridlle.id + _user.uid);
+    var response = await _db.getSolvedBy(ridlleId: _ridlle.id);
     if (response?.data != null) {
       var list = List.generate(
         _ridlle.answer.length,
@@ -143,9 +143,7 @@ class LettersViewModel extends ChangeNotifier {
     var _selectedWord = getWord(selectedItems);
 
     if (_selectedWord == _ridlle.answer.toUpperCase()) {
-      if (_user != null)
-        _db.setRidlleDone(
-            customID: _ridlle.id + _user.uid, ridlleId: _ridlle.id);
+      if (_user != null) _db.setSolvedBy(ridlleId: _ridlle.id);
       correctAnswer = true;
       player.play(successAudioPath);
       _changeNotifier.sink.add(true);
