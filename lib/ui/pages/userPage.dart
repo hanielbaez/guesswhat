@@ -1,10 +1,11 @@
 //Flutter and Dart import
-import 'package:Tekel/core/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 //Self import
+import 'package:Tekel/core/services/auth.dart';
 import 'package:Tekel/ui/widgets/custom/customGridView.dart';
 import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/services/db.dart';
@@ -41,7 +42,7 @@ class UserPage extends StatelessWidget {
             },
           ),
         ],
-        title: Text('Tekel'),
+        title: Text('${user.displayName}'),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
@@ -72,36 +73,19 @@ class UserPage extends StatelessWidget {
                         SizedBox(
                           width: 10.0,
                         ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              '${user.displayName}',
-                              style: TextStyle(
-                                  fontSize: 17.0, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Text(
-                              '1.000.000 Members',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 220),
+                          child: AutoSizeText(
+                            '${user.biography}',
+                            style: TextStyle(fontSize: 17, color: Colors.black),
+                            maxLines: 5,
+                          ),
                         ),
                       ],
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
-                    if (user.biography.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${user.biography}',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                        ),
-                      ),
                   ],
                 ),
               ),

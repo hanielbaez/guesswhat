@@ -83,7 +83,7 @@ class SingInLayout extends StatelessWidget {
           onTap: () =>
               Navigator.pushNamed(context, 'userPage', arguments: user),
           child: Container(
-            height: 150.0,
+            height: 100.0,
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 gradient: LinearGradient(

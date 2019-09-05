@@ -32,7 +32,7 @@ class GuessCreate extends StatelessWidget {
         leading: IconButton(
           //Costum Back Button
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pushReplacementNamed(context, '/'),
         ),
         centerTitle: true,
         elevation: 0.0,
