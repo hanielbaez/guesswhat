@@ -138,7 +138,7 @@ class UserPage extends StatelessWidget {
                       children: <Widget>[
                         FutureBuilder(
                           future: Provider.of<DatabaseServices>(context)
-                              .fectchUserRidlle(userId: user.uid),
+                              .fectchUserRiddle(userId: user.uid),
                           builder: (context, snapshot) {
                             if (snapshot
                                 .hasData) //return Text('${snapshot.data}');

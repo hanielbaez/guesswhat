@@ -1,4 +1,4 @@
-import 'package:Tekel/ui/widgets/ridlle/letter.dart';
+import 'package:Tekel/ui/widgets/riddle/letter.dart';
 import 'package:flutter/material.dart';
 
 //? I was trying to track the position of this widget

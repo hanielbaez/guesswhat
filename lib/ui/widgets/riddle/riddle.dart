@@ -5,26 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/services/auth.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 import 'package:Tekel/core/viewModel/videoViewModel.dart';
 import 'package:Tekel/ui/widgets/custom/customSideKick.dart';
 import 'package:Tekel/ui/widgets/custom/userBar.dart';
-import 'package:Tekel/ui/widgets/ridlle/actionsBar.dart';
-import 'package:Tekel/ui/widgets/ridlle/description.dart';
-import 'package:Tekel/ui/widgets/ridlle/video.dart';
+import 'package:Tekel/ui/widgets/riddle/actionsBar.dart';
+import 'package:Tekel/ui/widgets/riddle/description.dart';
+import 'package:Tekel/ui/widgets/riddle/video.dart';
 
-class RidlleLayaout extends StatefulWidget {
-  final Ridlle ridlle;
+class RiddleLayaout extends StatefulWidget {
+  final Riddle riddle;
 
-  RidlleLayaout({this.ridlle});
+  RiddleLayaout({this.riddle});
 
   @override
-  _RidlleLayaoutState createState() => _RidlleLayaoutState();
+  _RiddleLayaoutState createState() => _RiddleLayaoutState();
 }
 
-class _RidlleLayaoutState extends State<RidlleLayaout> {
+class _RiddleLayaoutState extends State<RiddleLayaout> {
   final changeNotifier = new StreamController.broadcast();
 
   @override
@@ -45,20 +45,20 @@ class _RidlleLayaoutState extends State<RidlleLayaout> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: UserBar(
-              userData: widget.ridlle.user,
-              timeStamp: widget.ridlle.creationDate,
-              address: widget.ridlle.address,
+              userData: widget.riddle.user,
+              timeStamp: widget.riddle.creationDate,
+              address: widget.riddle.address,
             ),
           ),
           Hero(
-            tag: widget.ridlle.id,
+            tag: widget.riddle.id,
             child: ChangeNotifierProvider<VideoViewModel>.value(
-              value: VideoViewModel(ridlle: widget.ridlle),
+              value: VideoViewModel(riddle: widget.riddle),
               child: Consumer<VideoViewModel>(
                 builder: (context, model, child) {
                   return SizedBox.fromSize(
                     child: VideoLayaout(
-                        ridlle: widget.ridlle,
+                        riddle: widget.riddle,
                         model: model,
                         shouldTriggerChange: changeNotifier.stream),
                   );
@@ -66,21 +66,21 @@ class _RidlleLayaoutState extends State<RidlleLayaout> {
               ),
             ),
           ),
-          if (widget.ridlle.answer.isNotEmpty)
+          if (widget.riddle.answer.isNotEmpty)
             StreamBuilder<FirebaseUser>(
               stream: Provider.of<AuthenticationServices>(context).user(),
               builder: (context, userSnap) {
                 if (userSnap.hasData) {
                   return ChangeNotifierProvider<LettersViewModel>.value(
                     value: LettersViewModel(
-                        ridlle: widget.ridlle,
+                        riddle: widget.riddle,
                         db: Provider.of(context),
                         user: userSnap.data,
                         changeNotifier: changeNotifier),
                     child: Consumer<LettersViewModel>(
                       builder: (context, model, child) {
                         return CustomSidekick(
-                          ridlle: widget.ridlle,
+                          riddle: widget.riddle,
                           model: model,
                         );
                       },
@@ -90,15 +90,15 @@ class _RidlleLayaoutState extends State<RidlleLayaout> {
                 return Container();
               },
             ),
-          if (widget.ridlle.description.isNotEmpty)
+          if (widget.riddle.description.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: CustomDescription(text: '${widget.ridlle.description}'),
+                child: CustomDescription(text: '${widget.riddle.description}'),
               ),
             ),
-          ActionBar(ridlle: widget.ridlle),
+          ActionBar(riddle: widget.riddle),
           SizedBox(
             height: 15.0,
           ),

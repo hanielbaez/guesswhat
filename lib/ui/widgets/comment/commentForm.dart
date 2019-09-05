@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/core/model/comment.dart';
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/services/auth.dart';
 import 'package:Tekel/core/services/db.dart';
 
@@ -16,12 +16,12 @@ class CommentForm extends StatelessWidget {
   const CommentForm({
     Key key,
     @required GlobalKey<FormBuilderState> fbKey,
-    @required this.ridlle,
+    @required this.riddle,
   })  : _fbKey = fbKey,
         super(key: key);
 
   final GlobalKey<FormBuilderState> _fbKey;
-  final Ridlle ridlle;
+  final Riddle riddle;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class CommentForm extends StatelessWidget {
 
                     //Save the new comment at the database
                     Provider.of<DatabaseServices>(context).uploadComment(
-                        comment: newComment, ridlleId: ridlle.id);
+                        comment: newComment, riddleId: riddle.id);
                     FocusScope.of(context)
                         .requestFocus(new FocusNode()); //Hide the keyboard
                     _fbKey.currentState.reset();

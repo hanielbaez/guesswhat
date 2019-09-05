@@ -8,7 +8,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 //Self import
 import 'package:Tekel/core/services/db.dart';
-import 'package:Tekel/core/viewModel/ridlleCreateModelView.dart';
+import 'package:Tekel/core/viewModel/riddleCreateModelView.dart';
 import 'package:Tekel/core/custom/customGeoPoint.dart';
 
 class GuessCreate extends StatelessWidget {
@@ -115,9 +115,9 @@ class GuessCreate extends StatelessWidget {
                       FormBuilderValidators.max(350),
                     ],
                   ),
-                  ChangeNotifierProvider<RidlleCreateViewModel>.value(
-                    value: RidlleCreateViewModel(),
-                    child: Consumer<RidlleCreateViewModel>(
+                  ChangeNotifierProvider<RiddleCreateViewModel>.value(
+                    value: RiddleCreateViewModel(),
+                    child: Consumer<RiddleCreateViewModel>(
                       builder: (context, model, child) {
                         return model.loading
                             ? Center(
@@ -173,33 +173,33 @@ class GuessCreate extends StatelessWidget {
                                       if (_formCreateKey
                                               .currentState.value['answer'] !=
                                           '') {
-                                        model.ridlle['answer'] = _formCreateKey
+                                        model.riddle['answer'] = _formCreateKey
                                             .currentState.value['answer'];
                                       }
 
                                       if (_formCreateKey.currentState
                                               .value['description'] !=
                                           '') {
-                                        model.ridlle['description'] =
+                                        model.riddle['description'] =
                                             _formCreateKey.currentState
                                                 .value['description'];
                                       }
 
-                                      model.ridlle['user'] = {
+                                      model.riddle['user'] = {
                                         'uid': _user.uid,
                                         'displayName': _user.displayName,
                                         'photoURL': _userDb.photoURL,
                                       };
 
-                                      var _ridlleLocation =
+                                      var _riddleLocation =
                                           await CustomGeoPoint().addGeoPoint();
-                                      if (_ridlleLocation != null) {
-                                        model.ridlle['location'] =
-                                            _ridlleLocation;
+                                      if (_riddleLocation != null) {
+                                        model.riddle['location'] =
+                                            _riddleLocation;
                                       }
 
-                                      // _ridlle['thumbnail'] = _urlThumbnail;
-                                      model.ridlle['creationDate'] =
+                                      // _riddle['thumbnail'] = _urlThumbnail;
+                                      model.riddle['creationDate'] =
                                           DateTime.now();
 
                                       model.upload(_context);

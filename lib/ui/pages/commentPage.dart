@@ -5,16 +5,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/ui/widgets/comment/commentForm.dart';
 import 'package:Tekel/ui/widgets/custom/userBar.dart';
 import 'package:provider/provider.dart';
 
 class CommentPage extends StatefulWidget {
-  final Ridlle ridlle;
+  final Riddle riddle;
 
-  CommentPage({this.ridlle});
+  CommentPage({this.riddle});
 
   @override
   _CommentPageState createState() => _CommentPageState();
@@ -23,11 +23,11 @@ class CommentPage extends StatefulWidget {
 class _CommentPageState extends State<CommentPage> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
-  Ridlle ridlle;
+  Riddle riddle;
 
   @override
   void initState() {
-    ridlle = widget.ridlle;
+    riddle = widget.riddle;
     super.initState();
   }
 
@@ -51,7 +51,7 @@ class _CommentPageState extends State<CommentPage> {
             Expanded(
               child: StreamBuilder(
                 stream: Provider.of<DatabaseServices>(context)
-                    .getAllComments(ridlle.id),
+                    .getAllComments(riddle.id),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.hasError)
@@ -86,7 +86,7 @@ class _CommentPageState extends State<CommentPage> {
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: CommentForm(fbKey: _fbKey, ridlle: ridlle),
+              child: CommentForm(fbKey: _fbKey, riddle: riddle),
             )
           ],
         ),

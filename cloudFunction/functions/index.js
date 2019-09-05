@@ -4,54 +4,54 @@ admin.initializeApp();
 
 const fcm = admin.messaging();
 
-// Listens for Love(Likes) state added to /loveRidlles/:loveId/original and 
-// increase/decrease the counter of /ridlles/:ridlleId/loves
-exports.manageLoveCounter = functions.firestore.document('loveRidlles/{loveId}')
+// Listens for Love(Likes) state added to /loveRiddles/:loveId/original and 
+// increase/decrease the counter of /riddles/:riddleId/loves
+exports.manageLoveCounter = functions.firestore.document('loveRiddles/{loveId}')
     .onWrite((snapshot, context) => {
         const newValue = snapshot.after.data();
 
-        //Grab the ridlleId of the created loveRidlles
-        const ridlleId = newValue.ridlleId;
+        //Grab the riddleId of the created loveRiddles
+        const riddleId = newValue.riddleId;
 
-        //Document referent of the current Love(Like) ridlle
+        //Document referent of the current Love(Like) riddle
         const firestore = admin.firestore();
-        var docRef = firestore.collection('ridlles').doc(ridlleId);
+        var docRef = firestore.collection('riddles').doc(riddleId);
 
-        //Get the LoveRidlles state field value
+        //Get the LoveRiddles state field value
         const state = newValue.state;
 
         if (state === true) {
-            //Increment the value of the referent Ridlle by 1
+            //Increment the value of the referent Riddle by 1
             return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(1) });
 
         } else {
-            //Decrement the value of the referent Ridlle by -1
+            //Decrement the value of the referent Riddle by -1
             return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(-1) });
         }
     });
 
-//Listen to Comment create and increase the counter of /ridlles/::ridlleId/comments
-exports.manageCommentCounter = functions.firestore.document('ridlles/{ridlleId}/comments/{commentId}')
+//Listen to Comment create and increase the counter of /riddles/::riddleId/comments
+exports.manageCommentCounter = functions.firestore.document('riddles/{riddleId}/comments/{commentId}')
     .onCreate((snapshot, context) => {
 
         const firestore = admin.firestore();
-        var docRef = firestore.collection('ridlles').doc(context.params.ridlleId);
+        var docRef = firestore.collection('riddles').doc(context.params.riddleId);
 
         return docRef.update({ 'counter.comments': admin.firestore.FieldValue.increment(1) });
 
     });
 
 //* SOLVED BY*//
-//Listen to solvedby subcollection CREATE to increment the solveby RIDLLE counter by 1
+//Listen to solvedby subcollection CREATE to increment the solveby RIDDLE counter by 1
 //Also, assign the corresponding score for the user at the owner of the riddle
-exports.manageSolvedBy = functions.firestore.document('ridlles/{ridlleId}/solvedBy/{solvedById}').onCreate((snapshot, context) => {
-    //ID of the user that solved the ridlle
+exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solvedBy/{solvedById}').onCreate((snapshot, context) => {
+    //ID of the user that solved the riddle
     const userSolved = context.params.solvedById
     //ID of the riddle owner
     const ownerId = snapshot.data().ownerId;
 
     const firestore = admin.firestore();
-    var ref = firestore.collection('ridlles').doc(context.params.ridlleId);
+    var ref = firestore.collection('riddles').doc(context.params.riddleId);
 
     //Increment the solvedBy counter
     return ref.update({ 'counter.solvedBy': admin.firestore.FieldValue.increment(1) })
@@ -136,7 +136,7 @@ exports.createUser = functions.auth.user().onCreate((user) => {
 
 });
 
-//Listen to the User update, in order to update each ridlles and comments (photosURL and displayName)
+//Listen to the User update, in order to update each riddles and comments (photosURL and displayName)
 exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((change, context) => {
     const firestore = admin.firestore();
     //Get new/old user data
@@ -165,10 +165,10 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
     if (oldData.displayName !== newData.displayName || oldData.photoURL !== newData.photoURL) {
         var promises = []
 
-        //Get all ridlles where user.uid == userId
-        var userRidlles = firestore.collection('ridlles').where('user.uid', '==', userId).get();
-        userRidlles.then(querySnapshot => {
-            //Update each ridlle photo
+        //Get all riddles where user.uid == userId
+        var userRiddles = firestore.collection('riddles').where('user.uid', '==', userId).get();
+        userRiddles.then(querySnapshot => {
+            //Update each riddle photo
             querySnapshot.docs.forEach(documentSnapshot => {
                 promises.join(documentSnapshot.ref.update(newUser));
             })
@@ -196,11 +196,11 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
 //* FCM *//
 
 //Listen to love(Likes) to notificate a user
-exports.notifyLove = functions.firestore.document('loveRidlles/{docId}')
+exports.notifyLove = functions.firestore.document('loveRiddles/{docId}')
     .onCreate((snapshot, context) => {
 
         const document = snapshot.data();
-        //Document referent of the current Love(Like) ridlle
+        //Document referent of the current Love(Like) riddle
         const firestore = admin.firestore();
 
         //Get the tokes of the corresponding user

@@ -11,7 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:Tekel/core/model/comment.dart';
 import 'package:Tekel/core/model/love.dart';
 import 'package:Tekel/core/model/user.dart';
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/model/supportContact.dart';
 import 'package:uuid/uuid.dart';
 
@@ -65,36 +65,36 @@ class DatabaseServices {
     ref.setData(await support.toJson());
   }
 
-  //* RIDLLE *//
+  //* RIDLDLE *//
 
-  //Return a list of user Ridlles
-  Future<List> fectchUserRidlle({String userId}) async {
+  //Return a list of user Riddles
+  Future<List> fectchUserRiddle({String userId}) async {
     try {
-      final List ridlleList = [];
+      final List riddleList = [];
       var snap = await _db
-          .collection('ridlles')
+          .collection('riddles')
           .where('user.uid', isEqualTo: userId)
           .orderBy('creationDate', descending: true)
           .getDocuments();
       snap.documents.forEach(
         (document) {
-          ridlleList.add({
-            'ridlleId': document.documentID,
+          riddleList.add({
+            'riddleId': document.documentID,
             'thumbnailUrl': document.data['thumbnailUrl'],
           });
         },
       );
-      return ridlleList;
+      return riddleList;
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
 
-  ///Retur a ridlle by the given ID
-  Future<Ridlle> getRidlle({String ridlleId}) async {
-    var snap = await _db.collection('ridlles').document(ridlleId).get();
-    return Ridlle.fromFireStore(snap);
+  ///Retur a riddle by the given ID
+  Future<Riddle> getRiddle({String riddleId}) async {
+    var snap = await _db.collection('riddles').document(riddleId).get();
+    return Riddle.fromFireStore(snap);
   }
 
   ///Upload media to Firebase Storage and return a Dowload URL
@@ -118,11 +118,11 @@ class DatabaseServices {
     }
   }
 
-  ///Return TRUE if upload new ridlle to FireStore success
-  Future<void> uploadRidlle(Map<String, dynamic> ridlle) async {
-    DocumentReference _ref = _db.collection('ridlles').document();
+  ///Return TRUE if upload new riddle to FireStore success
+  Future<void> uploadRiddle(Map<String, dynamic> riddle) async {
+    DocumentReference _ref = _db.collection('riddles').document();
     _ref
-        .setData(ridlle)
+        .setData(riddle)
         .catchError(
           (error) => print('FireBase ERROR: $error'),
         )
@@ -131,18 +131,18 @@ class DatabaseServices {
         );
   }
 
-  ///* RIDLLE SOLVED BY*//
+  ///* RIDDLE SOLVED BY*//
   ///Set the data at Firebase
-  void setSolvedBy({String ridlleId, String ownerId}) async {
+  void setSolvedBy({String riddleId, String ownerId}) async {
     try {
       _db
-          .collection('ridlles')
-          .document(ridlleId)
+          .collection('riddles')
+          .document(riddleId)
           .collection('solvedBy')
           .document(await _uid())
           .setData(
         {
-          'ridlleId': ridlleId,
+          'riddleId': riddleId,
           'userId': await _uid(),
           'ownerId': ownerId,
           'creationDate': Timestamp.now(),
@@ -154,12 +154,12 @@ class DatabaseServices {
     }
   }
 
-  ///Return NULL is the user have not completed the Ridlle yet
-  Future<DocumentSnapshot> getSolvedBy({String ridlleId}) async {
+  ///Return NULL is the user have not completed the Riddle yet
+  Future<DocumentSnapshot> getSolvedBy({String riddleId}) async {
     try {
       return await _db
-          .collection('ridlles')
-          .document(ridlleId)
+          .collection('riddles')
+          .document(riddleId)
           .collection('solvedBy')
           .document(await _uid())
           .get()
@@ -180,20 +180,20 @@ class DatabaseServices {
   ///Update the love data to FireStore
   void updateLoveState({String customID, Love love}) {
     try {
-      _db.collection('loveRidlles').document(customID).setData(love.toJson());
+      _db.collection('loveRiddles').document(customID).setData(love.toJson());
     } catch (e) {
       print('$e');
       return null;
     }
   }
 
-  ///Return a List of theloveRidlle by user
-  Future<List> loveRidlle() async {
+  ///Return a List of theloveRiddle by user
+  Future<List> loveRiddle() async {
     try {
       final List loveList = [];
 
       var snap = await _db
-          .collection('loveRidlles')
+          .collection('loveRiddles')
           .where('userId', isEqualTo: await _uid())
           .where('state', isEqualTo: true)
           .orderBy('updateDate', descending: true)
@@ -215,7 +215,7 @@ class DatabaseServices {
   ///Return a Love obj
   Stream<Love> loveStream({String customID}) {
     try {
-      return _db.collection('loveRidlles').document(customID).snapshots().map(
+      return _db.collection('loveRiddles').document(customID).snapshots().map(
         (doc) {
           return Love.fromFireStore(doc.data);
         },
@@ -228,13 +228,13 @@ class DatabaseServices {
 
   //* COMMENT *//
 
-  ///Fech all Comments availables by specifict ridlle
-  Stream<QuerySnapshot> getAllComments(String ridlleId) {
+  ///Fech all Comments availables by specifict riddle
+  Stream<QuerySnapshot> getAllComments(String riddleId) {
     try {
       //Use to fech all Comments
       return _db
-          .collection('ridlles')
-          .document(ridlleId)
+          .collection('riddles')
+          .document(riddleId)
           .collection('comments')
           .snapshots();
     } catch (e) {
@@ -243,12 +243,12 @@ class DatabaseServices {
     }
   }
 
-  Future<bool> uploadComment({Comment comment, String ridlleId}) {
+  Future<bool> uploadComment({Comment comment, String riddleId}) {
     try {
       var _result;
       DocumentReference _ref = _db
-          .collection('ridlles')
-          .document(ridlleId)
+          .collection('riddles')
+          .document(riddleId)
           .collection('comments')
           .document();
       _ref.setData(comment.toJson());

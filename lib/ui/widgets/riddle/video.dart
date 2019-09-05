@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/viewModel/videoViewModel.dart';
 
 class VideoLayaout extends StatefulWidget {
-  final Ridlle ridlle;
+  final Riddle riddle;
   final VideoViewModel model;
   final Stream shouldTriggerChange;
 
-  VideoLayaout({this.ridlle, this.model, this.shouldTriggerChange});
+  VideoLayaout({this.riddle, this.model, this.shouldTriggerChange});
 
   @override
   _VideoLayaoutState createState() => _VideoLayaoutState();

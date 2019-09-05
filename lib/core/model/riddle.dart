@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Ridlle {
+class Riddle {
   String id;
   String ownerId;
   String answer;
@@ -15,7 +15,7 @@ class Ridlle {
   String comments;
   Timestamp creationDate;
 
-  Ridlle({
+  Riddle({
     @required this.id,
     @required this.ownerId,
     @required this.answer,
@@ -30,8 +30,8 @@ class Ridlle {
     @required this.creationDate,
   });
 
-  ///Return a Ridlle Object
-  factory Ridlle.fromFireStore(DocumentSnapshot doc) {
+  ///Return a Riddle Object
+  factory Riddle.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data;
     String _loves = '';
     String _comments = '';
@@ -48,7 +48,7 @@ class Ridlle {
       }
     }
 
-    return Ridlle(
+    return Riddle(
         id: doc.documentID,
         ownerId: data['user']['uid'],
         answer: data['answer'] ?? '',

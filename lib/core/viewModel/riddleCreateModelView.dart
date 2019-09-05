@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 //Self import
 import 'package:Tekel/core/services/db.dart';
 
-class RidlleCreateViewModel extends ChangeNotifier {
-  Map<String, dynamic> ridlle = {
+class RiddleCreateViewModel extends ChangeNotifier {
+  Map<String, dynamic> riddle = {
     'answer': '',
     'description': '',
     'user': '',
@@ -47,16 +47,16 @@ class RidlleCreateViewModel extends ChangeNotifier {
     var _thumbnailUrl = await Provider.of<DatabaseServices>(context)
         .uploadToFireStore(thumbnailFaile);
 
-    ridlle['thumbnailUrl'] = _thumbnailUrl;
+    riddle['thumbnailUrl'] = _thumbnailUrl;
 
     //Get the media Type video/image
     var listSplit = lookupMimeType(file.path).split('/');
     listSplit[0] == 'image'
-        ? ridlle['imageUrl'] = _url
-        : ridlle['videoUrl'] = _url;
+        ? riddle['imageUrl'] = _url
+        : riddle['videoUrl'] = _url;
 
-    //Upload a new Ridlle to DataBase
-    await Provider.of<DatabaseServices>(context).uploadRidlle(ridlle);
+    //Upload a new Riddle to DataBase
+    await Provider.of<DatabaseServices>(context).uploadRiddle(riddle);
 
     Navigator.pushNamed(context, '/');
   }

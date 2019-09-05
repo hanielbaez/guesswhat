@@ -22,7 +22,7 @@ void onButtonPressed({context, user}) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Create a Ridlle',
+              'Create a Riddle',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 17.0,

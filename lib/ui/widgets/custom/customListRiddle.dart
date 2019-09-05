@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 
 //Self import
 
-import 'package:Tekel/ui/widgets/ridlle/ridlle.dart';
+import 'package:Tekel/ui/widgets/riddle/riddle.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class CustomListRidlle extends StatefulWidget {
+class CustomListRiddle extends StatefulWidget {
   final PaginationViewModel model;
 
-  CustomListRidlle({Key key, this.model}) : super(key: key);
+  CustomListRiddle({Key key, this.model}) : super(key: key);
 
   @override
-  _CustomListRidlleState createState() => _CustomListRidlleState();
+  _CustomListRiddleState createState() => _CustomListRiddleState();
 }
 
-class _CustomListRidlleState extends State<CustomListRidlle> {
+class _CustomListRiddleState extends State<CustomListRiddle> {
   PaginationViewModel model;
   ScrollController _scrollController =
       ScrollController(); // listener for listview scrolling
@@ -24,13 +24,13 @@ class _CustomListRidlleState extends State<CustomListRidlle> {
   @override
   void initState() {
     model = widget.model;
-    model.getRidlles();
+    model.getRiddles();
     _scrollController.addListener(() {
       double maxScroll = _scrollController.position.maxScrollExtent;
       double currentScroll = _scrollController.position.pixels;
       double delta = MediaQuery.of(context).size.height * 0.20;
       if (maxScroll - currentScroll <= delta) {
-        model.getRidlles();
+        model.getRiddles();
       }
     });
     super.initState();
@@ -40,11 +40,11 @@ class _CustomListRidlleState extends State<CustomListRidlle> {
   Widget build(BuildContext context) {
     return ListView.builder(
       controller: _scrollController,
-      itemCount: widget.model.ridlles.length,
+      itemCount: widget.model.riddles.length,
       itemBuilder: (BuildContext context, int index) {
         return Column(
           children: <Widget>[
-            RidlleLayaout(ridlle: model.ridlles[index]),
+            RiddleLayaout(riddle: model.riddles[index]),
             model.isLoading
                 ? Center(
                     child: SpinKitThreeBounce(

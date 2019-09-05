@@ -4,19 +4,19 @@ import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
-import 'package:Tekel/ui/widgets/ridlle/ridlle.dart';
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/ui/widgets/riddle/riddle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import '../widgets/custom/buttonPress.dart';
 
-class RidllePage extends StatefulWidget {
-  final Ridlle ridlle;
-  RidllePage(this.ridlle);
+class RiddlePage extends StatefulWidget {
+  final Riddle riddle;
+  RiddlePage(this.riddle);
 
   @override
-  _RidllePageState createState() => _RidllePageState();
+  _RiddlePageState createState() => _RiddlePageState();
 }
 
-class _RidllePageState extends State<RidllePage> {
+class _RiddlePageState extends State<RiddlePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -35,8 +35,8 @@ class _RidllePageState extends State<RidllePage> {
       //backgroundColor: Color.fromARGB(1, 191, 191, 191),
       body: ListView(
         children: <Widget>[
-          RidlleLayaout(
-            ridlle: widget.ridlle,
+          RiddleLayaout(
+            riddle: widget.riddle,
           ),
         ],
       ),

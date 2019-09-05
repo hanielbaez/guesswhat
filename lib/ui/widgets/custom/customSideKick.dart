@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
 
 //Self import
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
-import 'package:Tekel/ui/widgets/ridlle/letter.dart';
+import 'package:Tekel/ui/widgets/riddle/letter.dart';
 
 class CustomSidekick extends StatefulWidget {
-  final Ridlle ridlle;
+  final Riddle riddle;
   final LettersViewModel model;
-  CustomSidekick({this.ridlle, this.model});
+  CustomSidekick({this.riddle, this.model});
 
   @override
   _CustomSidekickState createState() => _CustomSidekickState();

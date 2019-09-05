@@ -1,5 +1,5 @@
 //Flutter and Dart import
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,7 +8,7 @@ class PaginationViewModel extends ChangeNotifier {
 
   Firestore firestore = Firestore.instance;
 
-  List<Ridlle> ridlles = []; // stores fetched products
+  List<Riddle> riddles = []; // stores fetched products
 
   bool isLoading = false; // track if products fetching
 
@@ -19,7 +19,7 @@ class PaginationViewModel extends ChangeNotifier {
   DocumentSnapshot
       lastDocument; // flag for last document from where next 10 records to be fetched
 
-  getRidlles() async {
+  getRiddles() async {
     if (!hasMore) {
       return;
     }
@@ -34,13 +34,13 @@ class PaginationViewModel extends ChangeNotifier {
     try {
       if (lastDocument == null) {
         querySnapshot = await firestore
-            .collection('ridlles')
+            .collection('riddles')
             .orderBy('creationDate', descending: true)
             .limit(documentLimit)
             .getDocuments();
       } else {
         querySnapshot = await firestore
-            .collection('ridlles')
+            .collection('riddles')
             .orderBy('creationDate', descending: true)
             .startAfterDocument(lastDocument)
             .limit(documentLimit)
@@ -60,7 +60,7 @@ class PaginationViewModel extends ChangeNotifier {
     }
 
     querySnapshot.documents.forEach((doc) {
-      ridlles.add(Ridlle.fromFireStore(doc));
+      riddles.add(Riddle.fromFireStore(doc));
     });
 
     notifyListeners();

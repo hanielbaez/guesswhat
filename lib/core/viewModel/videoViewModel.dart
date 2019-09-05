@@ -3,13 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:Tekel/core/custom/customCacheManager.dart';
-import 'package:Tekel/core/model/ridlle.dart';
+import 'package:Tekel/core/model/riddle.dart';
 import 'package:mime/mime.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewModel extends ChangeNotifier {
-  final Ridlle ridlle;
+  final Riddle riddle;
 
   File mediaFeche;
   VideoPlayerController videoController;
@@ -19,7 +19,7 @@ class VideoViewModel extends ChangeNotifier {
 
   Future<dynamic> future;
 
-  VideoViewModel({this.ridlle});
+  VideoViewModel({this.riddle});
 
   Future getMedia() async {
     if (mediaFeche == null) {
@@ -36,7 +36,7 @@ class VideoViewModel extends ChangeNotifier {
 
   //Return video or image
   Future<String> mediaType() async {
-    var mediaUrl = this.ridlle.imageUrl ?? this.ridlle.videoUrl;
+    var mediaUrl = this.riddle.imageUrl ?? this.riddle.videoUrl;
     try {
       mediaFeche = await CustomCacheManager()
           .getSingleFile('$mediaUrl'); //Check cache for media
@@ -70,7 +70,7 @@ class VideoViewModel extends ChangeNotifier {
   PhotoView buildImage() {
     //?I can not user the zoon property, do i still need this widget?
     return PhotoView(
-      imageProvider: NetworkImage('${ridlle.imageUrl}'),
+      imageProvider: NetworkImage('${riddle.imageUrl}'),
       backgroundDecoration: BoxDecoration(color: Colors.transparent),
       loadingChild: Stack(
         children: <Widget>[

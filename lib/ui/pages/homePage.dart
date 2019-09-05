@@ -6,7 +6,7 @@ import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
-import 'package:Tekel/ui/widgets/custom/customListRidlle.dart';
+import 'package:Tekel/ui/widgets/custom/customListRiddle.dart';
 import 'package:provider/provider.dart';
 import '../widgets/custom/buttonPress.dart';
 
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
                   icon: Icon(
                     SimpleLineIcons.getIconData('plus'),
                     color: Colors.black,
-                    semanticLabel: 'Create a ridlle',
+                    semanticLabel: 'Create a riddle',
                   ),
                   onPressed: () => Provider.of<DatabaseServices>(context)
                           .getUser()
@@ -65,7 +65,7 @@ class HomePage extends StatelessWidget {
       body: ChangeNotifierProvider<PaginationViewModel>.value(
         value: PaginationViewModel(),
         child: Consumer<PaginationViewModel>(
-          builder: (context, model, child) => CustomListRidlle(model: model),
+          builder: (context, model, child) => CustomListRiddle(model: model),
         ),
       ),
     );

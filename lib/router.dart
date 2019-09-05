@@ -3,7 +3,7 @@ import 'package:Tekel/ui/pages/commentPage.dart';
 import 'package:flutter/material.dart';
 
 //Self import
-import 'package:Tekel/ui/pages/ridllePage.dart';
+import 'package:Tekel/ui/pages/riddlePage.dart';
 import 'package:Tekel/ui/pages/homePage.dart';
 import 'package:Tekel/ui/pages/lovePage.dart';
 import 'package:Tekel/ui/pages/supportPage.dart';
@@ -21,9 +21,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => LovePage(),
       );
-    case 'ridllePage':
+    case 'riddlePage':
       return MaterialPageRoute(
-        builder: (context) => RidllePage(settings.arguments),
+        builder: (context) => RiddlePage(settings.arguments),
       );
     case 'userPage':
       return MaterialPageRoute(
@@ -35,7 +35,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case 'commentsPage':
       return MaterialPageRoute(
-        builder: (context) => CommentPage(ridlle: settings.arguments),
+        builder: (context) => CommentPage(riddle: settings.arguments),
       );
     case 'editUserPage':
       return MaterialPageRoute(

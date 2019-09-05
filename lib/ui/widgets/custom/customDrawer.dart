@@ -160,7 +160,7 @@ class SingInLayout extends StatelessWidget {
                 SimpleLineIcons.getIconData('note'),
               ),
               title: Text(
-                'Create a Ridlle',
+                'Create a Riddle',
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -179,7 +179,7 @@ class SingInLayout extends StatelessWidget {
               SimpleLineIcons.getIconData('heart'),
             ),
             title: Text(
-              'Loved Ridlles',
+              'Loved Riddles',
             ),
             onTap: () {
               Navigator.pop(context);

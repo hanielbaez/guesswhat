@@ -17,9 +17,9 @@ class CustomGridView extends StatelessWidget {
       itemBuilder: (BuildContext contex, int index) => InkWell(
         onTap: () async {
           var guess = await Provider.of<DatabaseServices>(context)
-              .getRidlle(ridlleId: list[index]['ridlleId']);
+              .getRiddle(riddleId: list[index]['riddleId']);
 
-          Navigator.of(context).pushNamed('ridllePage', arguments: guess);
+          Navigator.of(context).pushNamed('riddlePage', arguments: guess);
         },
         child: Hero(
           tag: list[index],
