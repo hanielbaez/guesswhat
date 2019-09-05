@@ -36,35 +36,6 @@ exports.manageLoveCounter = functions.firestore.document('loveRidlles/{loveId}')
         }
     });
 
-exports.notifyLove = functions.firestore.document('loveRidlles/{docId}')
-    .onCreate((snapshot, context) => {
-
-        const document = snapshot.data();
-        //Document referent of the current Love(Like) ridlle
-        const firestore = admin.firestore();
-
-        //Get the tokes of the corresponding user
-        firestore.collection('users').doc(document.userId)
-            .collection('tokens').get().then(query => {
-                const tokens = [];
-                query.forEach(doc => {
-                    tokens.push(doc.id);
-                });
-
-                const payload = {
-                    notification: {
-                        title: 'Someone love you riddle ♥️',
-                        body: `Tap here to check it out!`,
-                        click_action: 'FLUTTER_NOTIFICATION_CLICK'
-                    }
-                };
-
-                return fcm.sendToDevice(tokens, payload);
-
-            }).catch(error => console.log('Error sending notification: ', error));
-        return null;
-    });
-
 //Listen to Comment create and increase the counter of /ridlles/::ridlleId/commentCounter
 exports.manageCommentCounter = functions.firestore.document('ridlles/{ridlleId}/comments/{commentId}')
     .onCreate((snapshot, context) => {
@@ -75,6 +46,15 @@ exports.manageCommentCounter = functions.firestore.document('ridlles/{ridlleId}/
         return docRef.update({ 'counter.commentCounter': admin.firestore.FieldValue.increment(1) });
 
     });
+
+//Listen to solved by subcollection update to increment the solve by counter by 1
+exports.solvedByCounter = functions.firestore.document('ridlles/{ridlleId}/solvedBy/{solvedById}').onCreate((snapshot, context) => {
+    const firestore = admin.firestore();
+
+    var ref = firestore.collection('ridlles').doc(context.params.ridlleId);
+
+    return ref.update({ 'counter.solvedBy': admin.firestore.FieldValue.increment(1) });
+});
 
 //* USER *//
 
@@ -159,4 +139,35 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
     return null;
 });
 
+//* FCM *//
+
+//Listen to love(Likes) to notificate a user
+exports.notifyLove = functions.firestore.document('loveRidlles/{docId}')
+    .onCreate((snapshot, context) => {
+
+        const document = snapshot.data();
+        //Document referent of the current Love(Like) ridlle
+        const firestore = admin.firestore();
+
+        //Get the tokes of the corresponding user
+        firestore.collection('users').doc(document.userId)
+            .collection('tokens').get().then(query => {
+                const tokens = [];
+                query.forEach(doc => {
+                    tokens.push(doc.id);
+                });
+
+                const payload = {
+                    notification: {
+                        title: 'Someone love you riddle ♥️',
+                        body: `Tap here to check it out!`,
+                        click_action: 'FLUTTER_NOTIFICATION_CLICK'
+                    }
+                };
+
+                return fcm.sendToDevice(tokens, payload);
+
+            }).catch(error => console.log('Error sending notification: ', error));
+        return null;
+    });
 
