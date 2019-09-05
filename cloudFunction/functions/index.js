@@ -6,7 +6,7 @@ const fcm = admin.messaging();
 
 // Listens for Love(Likes) state added to /loveRiddles/:loveId/original and 
 // increase/decrease the counter of /riddles/:riddleId/loves
-exports.manageLoveCounter = functions.firestore.document('loveRiddles/{loveId}')
+exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lovedBy/{loveId}')
     .onWrite((snapshot, context) => {
         const newValue = snapshot.after.data();
 
@@ -196,7 +196,7 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
 //* FCM *//
 
 //Listen to love(Likes) to notificate a user
-exports.notifyLove = functions.firestore.document('loveRiddles/{docId}')
+exports.notifyLove = functions.firestore.document('riddles/{riddleId}/lovedBy/{docId}')
     .onCreate((snapshot, context) => {
 
         const document = snapshot.data();
