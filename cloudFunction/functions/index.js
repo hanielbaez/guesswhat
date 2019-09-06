@@ -149,9 +149,10 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
     //User OBJ to be update if their property channged
     var newUser = {
         'user': {
+            'uid': userId,
             'displayName': oldData.displayName,
             'photoURL': oldData.photoURL,
-            'uid': userId,
+            'biography': oldData.biography,
         }
     };
 
@@ -161,8 +162,11 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
     if (newData.photoURL !== null) {
         newUser.user.photoURL = newData.photoURL;
     }
+    if (newData.biography !== null) {
+        newUser.user.biography = newData.biography;
+    }
 
-    if (oldData.displayName !== newData.displayName || oldData.photoURL !== newData.photoURL) {
+    if (oldData.displayName !== newData.displayName || oldData.photoURL !== newData.photoURL || oldData.biography !== newData.biography) {
         var promises = []
 
         //Get all riddles where user.uid == userId
