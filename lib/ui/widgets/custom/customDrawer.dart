@@ -308,12 +308,16 @@ class SingOutLayout extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "You must register to continue, it's FREE",
-          style: TextStyle(
-            fontSize: 20,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Register to be able to create and share your riddles",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
         SizedBox(
           height: 50.0,

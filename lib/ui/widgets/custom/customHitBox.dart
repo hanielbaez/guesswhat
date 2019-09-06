@@ -25,7 +25,7 @@ class _CustomHitBoxState extends State<CustomHitBox> {
             width: 45,
             height: 40,
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.15),
             ),
           );
         }).toList(),

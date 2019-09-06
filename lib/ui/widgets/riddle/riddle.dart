@@ -1,12 +1,11 @@
 //Flutter import
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/core/model/riddle.dart';
-import 'package:Tekel/core/services/auth.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 import 'package:Tekel/core/viewModel/videoViewModel.dart';
 import 'package:Tekel/ui/widgets/custom/customSideKick.dart';
@@ -67,28 +66,20 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
             ),
           ),
           if (widget.riddle.answer.isNotEmpty)
-            StreamBuilder<FirebaseUser>(
-              stream: Provider.of<AuthenticationServices>(context).user(),
-              builder: (context, userSnap) {
-                if (userSnap.hasData) {
-                  return ChangeNotifierProvider<LettersViewModel>.value(
-                    value: LettersViewModel(
-                        riddle: widget.riddle,
-                        db: Provider.of(context),
-                        user: userSnap.data,
-                        changeNotifier: changeNotifier),
-                    child: Consumer<LettersViewModel>(
-                      builder: (context, model, child) {
-                        return CustomSidekick(
-                          riddle: widget.riddle,
-                          model: model,
-                        );
-                      },
-                    ),
+            ChangeNotifierProvider<LettersViewModel>.value(
+              value: LettersViewModel(
+                  riddle: widget.riddle,
+                  db: Provider.of(context),
+                  user: Provider.of<DatabaseServices>(context).getUser(),
+                  changeNotifier: changeNotifier),
+              child: Consumer<LettersViewModel>(
+                builder: (context, model, child) {
+                  return CustomSidekick(
+                    riddle: widget.riddle,
+                    model: model,
                   );
-                }
-                return Container();
-              },
+                },
+              ),
             ),
           if (widget.riddle.description.isNotEmpty)
             Padding(

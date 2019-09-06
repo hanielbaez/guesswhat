@@ -37,6 +37,9 @@ class _CustomSidekickState extends State<CustomSidekick> {
         return Container(
           child: Column(
             children: <Widget>[
+              SizedBox(
+                height: 10.0,
+              ),
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [

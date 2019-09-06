@@ -125,7 +125,7 @@ class UserPage extends StatelessWidget {
                               .fectchUserRiddle(userId: user.uid),
                           builder: (context, snapshot) {
                             if (snapshot
-                                .hasData) //return Text('${snapshot.data}');
+                                .hasData) 
                               return CustomGridView(
                                 list: snapshot.data,
                               );

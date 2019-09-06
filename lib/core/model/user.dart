@@ -28,7 +28,9 @@ class User {
         photoURL: user.photoUrl);
   }
 
+  ///Retur a User object, if the DocumentSnapshot equal to null, return  null
   factory User.fromFireStore(DocumentSnapshot snap) {
+    if (snap == null) return null;
     Map<String, dynamic> map = snap.data;
     return User(
       uid: snap.documentID,

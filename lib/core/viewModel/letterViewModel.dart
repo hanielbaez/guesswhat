@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:Tekel/core/model/user.dart';
 import 'package:audioplayers/audio_cache.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/services/db.dart';
@@ -9,7 +9,7 @@ import 'package:Tekel/ui/widgets/riddle/letter.dart';
 
 class LettersViewModel extends ChangeNotifier {
   final DatabaseServices _db;
-  final FirebaseUser _user;
+  final Future<User> _user;
   final Riddle _riddle;
   final StreamController _changeNotifier;
   static AudioCache player = new AudioCache();
@@ -23,7 +23,7 @@ class LettersViewModel extends ChangeNotifier {
   LettersViewModel(
       {Riddle riddle,
       DatabaseServices db,
-      FirebaseUser user,
+      Future<User> user,
       StreamController changeNotifier})
       : _riddle = riddle,
         _db = db,
@@ -134,7 +134,7 @@ class LettersViewModel extends ChangeNotifier {
 
   ///Add letter to the target
   ///If it is equal to the riddle.word it get a color yellow
-  void setLetter({Item selectedItem}) {
+  void setLetter({Item selectedItem}) async {
     const tapAudioPath = 'audios/fingerTap.wav';
     const wrongChoiceAudioPath = 'audios/wrongChoice.wav';
     const successAudioPath = 'audios/success.wav';
@@ -143,7 +143,7 @@ class LettersViewModel extends ChangeNotifier {
     var _selectedWord = getWord(selectedItems);
 
     if (_selectedWord == _riddle.answer.toUpperCase()) {
-      if (_user != null)
+      if (await _user != null)
         _db.setSolvedBy(riddleId: _riddle.id, ownerId: _riddle.ownerId);
       correctAnswer = true;
       player.play(successAudioPath);
