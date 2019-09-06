@@ -5,6 +5,7 @@ import 'package:Tekel/core/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ class _EditUserPageState extends State<EditUserPage> {
   Widget imageWidget;
   File file;
   bool imageChanged = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -55,19 +57,29 @@ class _EditUserPageState extends State<EditUserPage> {
             child: FlatButton.icon(
               icon: Icon(SimpleLineIcons.getIconData('cloud-upload')),
               //color: Colors.yellow,
-              label: Text(
-                'Save',
-                style: TextStyle(color: Colors.black),
-              ),
+              label: !isLoading
+                  ? Text(
+                      'Save',
+                      style: TextStyle(color: Colors.black),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: SpinKitThreeBounce(
+                        color: Colors.black,
+                        size: 20.0,
+                      ),
+                    ),
               onPressed: () async {
                 if (_fbKey.currentState.saveAndValidate()) {
                   var imageUrl;
                   if (imageChanged) {
+                    setState(() {
+                      isLoading = true;
+                    });
                     imageChanged = false;
                     imageUrl = await Provider.of<DatabaseServices>(context)
                         .uploadToFireStore(file);
                   }
-
                   var newUser = User(
                     uid: widget.user.uid,
                     displayName: _fbKey.currentState.value['name'],
@@ -75,6 +87,8 @@ class _EditUserPageState extends State<EditUserPage> {
                     webSite: _fbKey.currentState.value['webSite'],
                     biography: _fbKey.currentState.value['biography'],
                   );
+
+                  //!Firestore should not be updated if any user data has not changed
                   Provider.of<DatabaseServices>(context)
                       .updateUserData(newUser);
 
