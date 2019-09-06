@@ -1,15 +1,16 @@
 //Flutter Dart import
+import 'package:Tekel/core/model/user.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/ui/widgets/comment/commentForm.dart';
 import 'package:Tekel/ui/widgets/custom/userBar.dart';
-import 'package:provider/provider.dart';
 
 class CommentPage extends StatefulWidget {
   final Riddle riddle;
@@ -111,14 +112,16 @@ class ListViewBuilder extends StatelessWidget {
       //controller: model.scrollController,
       itemCount: snapshot.data.documents.length,
       itemBuilder: (BuildContext context, int index) {
-        var userData = {
+        User user = User.fromFireStore(snapshot.data.documents[index]);
+        //Comment comment = Comment.fromFireStore(snapshot.data.documents[index]);
+        /*   var userData = {
           'displayName': snapshot.data.documents[index]['user']['displayName'],
           'uid': snapshot.data.documents[index]['user']['uid'],
           'photoURL': snapshot.data.documents[index]['user']['photoURL'],
-        };
+          'biography': snapshot.data.documents[index]['user']['biography'],
+        }; */
 
         return Card(
-          //color: Colors.white12,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
@@ -128,7 +131,7 @@ class ListViewBuilder extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 UserBar(
-                  userData: userData,
+                  user: user,
                   timeStamp: snapshot.data.documents[index]['creationDate'],
                 ),
                 SizedBox(height: 10.0),

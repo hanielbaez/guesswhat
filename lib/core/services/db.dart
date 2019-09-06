@@ -47,7 +47,6 @@ class DatabaseServices {
         photoURL: userData.photoURL,
         webSite: userData.webSite,
         biography: userData.biography,
-        lastSeen: Timestamp.now(),
       );
       _db.collection('users').document(user.uid).updateData(user.toJson());
     } catch (e) {

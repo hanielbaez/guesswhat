@@ -1,5 +1,6 @@
 //Flutter import
 import 'dart:async';
+import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: UserBar(
-              userData: widget.riddle.user,
+              user: User.fromMap(widget.riddle.user),
               timeStamp: widget.riddle.creationDate,
               address: widget.riddle.address,
             ),

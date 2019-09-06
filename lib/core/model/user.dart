@@ -9,7 +9,6 @@ class User {
   String displayName;
   String webSite;
   String biography;
-  Timestamp lastSeen;
 
   User(
       {@required this.uid,
@@ -17,8 +16,7 @@ class User {
       this.photoURL,
       @required this.displayName,
       this.webSite = '',
-      this.biography = '',
-      this.lastSeen});
+      this.biography = ''});
 
   factory User.fromFirebaseUser({FirebaseUser user}) {
     return User(
@@ -39,7 +37,17 @@ class User {
       displayName: map['displayName'],
       webSite: map['webSite'] ?? '',
       biography: map['biography'] ?? '',
-      lastSeen: map['lastSeen'],
+    );
+  }
+
+  factory User.fromMap(Map map) {
+    return User(
+      uid: map['uid'],
+      email: map['email'],
+      photoURL: map['photoURL'],
+      displayName: map['displayName'],
+      webSite: map['webSite'] ?? '',
+      biography: map['biography'] ?? '',
     );
   }
 
@@ -51,7 +59,6 @@ class User {
     map['displayName'] = this.displayName;
     map['webSite'] = this.webSite;
     map['biography'] = this.biography;
-    map['lastSeen'] = lastSeen;
 
     return map;
   }

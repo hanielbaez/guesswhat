@@ -5,23 +5,16 @@ import 'package:Tekel/core/model/user.dart';
 import 'package:time_ago_provider/time_ago_provider.dart';
 
 class UserBar extends StatelessWidget {
-  final Map<dynamic, dynamic> userData;
+  final User user;
   final Timestamp timeStamp;
   final String address;
 
-  UserBar({this.userData, this.timeStamp, this.address});
+  UserBar({this.user, this.timeStamp, this.address});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
-        'userPage',
-        arguments: User(
-            uid: userData['uid'],
-            displayName: userData['displayName'],
-            photoURL: userData['photoURL']),
-      ),
+      onTap: () => Navigator.pushNamed(context, 'userPage', arguments: user),
       child: Row(
         children: <Widget>[
           SizedBox(
@@ -36,7 +29,7 @@ class UserBar extends StatelessWidget {
             ),
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/noiseTv.gif',
-              image: userData['photoURL'],
+              image: user.photoURL,
               fit: BoxFit.cover,
             ),
           ),
@@ -47,7 +40,7 @@ class UserBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '${userData['displayName']}'.split(' ')[0],
+                '${user.displayName}'.split(' ')[0],
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(

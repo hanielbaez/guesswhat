@@ -7,6 +7,7 @@ import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:provider/provider.dart';
 
 //Self import
+import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/model/comment.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/services/auth.dart';
@@ -83,11 +84,12 @@ class CommentForm extends StatelessWidget {
                   if (_fbKey.currentState.saveAndValidate() && _user != null) {
                     Comment newComment = Comment(
                       text: _fbKey.currentState.value['comment'],
-                      user: {
-                        'displayName': snapshot.data.displayName,
-                        'uid': snapshot.data.uid,
-                        'photoURL': _user.photoURL,
-                      },
+                      user: User(
+                        uid: snapshot.data.uid,
+                        displayName: snapshot.data.displayName,
+                        photoURL: _user.photoURL,
+                        biography: _user.biography,
+                      ),
                       creationDate: Timestamp.now(),
                     );
 
