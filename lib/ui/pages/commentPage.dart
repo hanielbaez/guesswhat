@@ -99,27 +99,22 @@ class _CommentPageState extends State<CommentPage> {
 class ListViewBuilder extends StatelessWidget {
   const ListViewBuilder({
     Key key,
-    //@required this.model,
     @required this.snapshot,
   }) : super(key: key);
 
-  //final CommentViewModel model;
   final AsyncSnapshot<dynamic> snapshot;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      //controller: model.scrollController,
       itemCount: snapshot.data.documents.length,
       itemBuilder: (BuildContext context, int index) {
-        User user = User.fromFireStore(snapshot.data.documents[index]);
-        //Comment comment = Comment.fromFireStore(snapshot.data.documents[index]);
-        /*   var userData = {
-          'displayName': snapshot.data.documents[index]['user']['displayName'],
-          'uid': snapshot.data.documents[index]['user']['uid'],
-          'photoURL': snapshot.data.documents[index]['user']['photoURL'],
-          'biography': snapshot.data.documents[index]['user']['biography'],
-        }; */
+        User user = User(
+          uid: snapshot.data.documents[index]['user']['uid'],
+          displayName: snapshot.data.documents[index]['user']['displayName'],
+          photoURL: snapshot.data.documents[index]['user']['photoURL'],
+          biography: snapshot.data.documents[index]['user']['biography'],
+        );
 
         return Card(
           shape: BeveledRectangleBorder(
