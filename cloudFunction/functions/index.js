@@ -99,10 +99,10 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
 
             var ref = firestore.collection('users').doc(ownerId).collection('rankings').doc(userSolved);
             return ref.update({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
-            .catch(_ => {
-                //? I do not think this is the best approach for this task.
-                return ref.set({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
-            });
+                .catch(_ => {
+                    //? I do not think this is the best approach for this task.
+                    return ref.set({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
+                });
         })
         .catch(error => console.log('Error: ', error));
 
@@ -152,7 +152,6 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
             'uid': userId,
             'displayName': oldData.displayName,
             'photoURL': oldData.photoURL,
-            'biography': oldData.biography,
         }
     };
 
@@ -162,11 +161,8 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
     if (newData.photoURL !== null) {
         newUser.user.photoURL = newData.photoURL;
     }
-    if (newData.biography !== null) {
-        newUser.user.biography = newData.biography;
-    }
 
-    if (oldData.displayName !== newData.displayName || oldData.photoURL !== newData.photoURL || oldData.biography !== newData.biography) {
+    if (oldData.displayName !== newData.displayName || oldData.photoURL !== newData.photoURL) {
         var promises = []
 
         //Get all riddles where user.uid == userId
@@ -191,7 +187,6 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
         }).catch(error => console.log('Error trying to update: ', error));
 
         return Promise.all(promises);
-
     }
 
     return null;
