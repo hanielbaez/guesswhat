@@ -18,6 +18,7 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userData;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -35,7 +36,7 @@ class UserPage extends StatelessWidget {
                   label: Text('Edit'),
                   onPressed: () {
                     Navigator.popAndPushNamed(context, 'editUserPage',
-                        arguments: user);
+                        arguments: userData);
                   },
                 );
               }
@@ -69,6 +70,7 @@ class UserPage extends StatelessWidget {
                   case ConnectionState.done:
                     if (snapshot.hasError)
                       return Text('Error: Please try later');
+                    userData = snapshot.data;
                     return ConstrainedBox(
                       constraints: BoxConstraints(
                         maxHeight: MediaQuery.of(context).size.height / 2.7,
