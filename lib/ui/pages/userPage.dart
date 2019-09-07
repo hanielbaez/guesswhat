@@ -50,8 +50,8 @@ class UserPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           FutureBuilder<User>(
-              future: Provider.of<DatabaseServices>(context)
-                  .getUser(uid: user.uid),
+              future:
+                  Provider.of<DatabaseServices>(context).getUser(uid: user.uid),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -75,16 +75,17 @@ class UserPage extends StatelessWidget {
                       ),
                       child: Container(
                         child: Padding(
-                          padding: const EdgeInsets.all(4.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Container(
-                                    height: 100,
-                                    width: 100,
+                                    height: 75,
+                                    width: 75,
                                     child: FadeInImage.assetNetwork(
                                       placeholder: 'assets/images/noiseTv.gif',
                                       image: snapshot.data.photoURL,
@@ -94,19 +95,46 @@ class UserPage extends StatelessWidget {
                                   SizedBox(
                                     width: 10.0,
                                   ),
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: 220),
-                                    child: AutoSizeText(
-                                      '${snapshot.data.biography}',
-                                      style: TextStyle(
-                                          fontSize: 17, color: Colors.black),
-                                      maxLines: 5,
+                                  Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                            '${snapshot.data.counter['solved'] ?? 0}'),
+                                        Text(
+                                          'Solved',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                            //TODO: Get number of riddles
+                                            '${snapshot.data.counter['riddle'] ?? 0}'),
+                                        Text(
+                                          'Riddles',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                               SizedBox(
                                 height: 10.0,
+                              ),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(maxHeight: 100),
+                                child: AutoSizeText(
+                                  '${snapshot.data.biography}',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.black),
+                                  maxLines: 3,
+                                ),
                               ),
                             ],
                           ),

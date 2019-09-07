@@ -9,6 +9,7 @@ class User {
   String displayName;
   String webSite;
   String biography;
+  Map<dynamic, dynamic> counter;
 
   User(
       {@required this.uid,
@@ -16,7 +17,8 @@ class User {
       this.photoURL,
       @required this.displayName,
       this.webSite = '',
-      this.biography = ''});
+      this.biography = '',
+      this.counter});
 
   factory User.fromFirebaseUser({FirebaseUser user}) {
     return User(
@@ -31,13 +33,13 @@ class User {
     if (snap == null) return null;
     Map<String, dynamic> map = snap.data;
     return User(
-      uid: snap.documentID,
-      email: map['email'],
-      photoURL: map['photoURL'],
-      displayName: map['displayName'],
-      webSite: map['webSite'] ?? '',
-      biography: map['biography'] ?? '',
-    );
+        uid: snap.documentID,
+        email: map['email'],
+        photoURL: map['photoURL'],
+        displayName: map['displayName'],
+        webSite: map['webSite'] ?? '',
+        biography: map['biography'] ?? '',
+        counter: map['counter'] ?? {'solved': 0});
   }
 
   factory User.fromMap(Map map) {
