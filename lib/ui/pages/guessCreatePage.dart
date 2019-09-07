@@ -189,7 +189,6 @@ class GuessCreate extends StatelessWidget {
                                         'uid': _user.uid,
                                         'displayName': _user.displayName,
                                         'photoURL': _userDb.photoURL,
-                                        'biography': _user.biography,
                                       };
 
                                       var _riddleLocation =

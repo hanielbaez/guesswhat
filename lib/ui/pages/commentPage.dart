@@ -113,7 +113,6 @@ class ListViewBuilder extends StatelessWidget {
           uid: snapshot.data.documents[index]['user']['uid'],
           displayName: snapshot.data.documents[index]['user']['displayName'],
           photoURL: snapshot.data.documents[index]['user']['photoURL'],
-          biography: snapshot.data.documents[index]['user']['biography'],
         );
 
         return Card(

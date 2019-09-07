@@ -27,9 +27,10 @@ class DatabaseServices {
 //*USER*//
 
   ///Return a User object
-  Future<User> getUser({FirebaseUser user}) async {
+  Future<User> getUser({String uid}) async {
     try {
-      var snap = await _db.collection('users').document(await _uid()).get();
+      var snap =
+          await _db.collection('users').document(uid ?? await _uid()).get();
       return User.fromFireStore(snap);
     } catch (e) {
       print('$e');
