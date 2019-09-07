@@ -1,9 +1,9 @@
 //Flutter and Dart import
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 //Self import
 import 'package:Tekel/core/services/auth.dart';
@@ -32,7 +32,10 @@ class UserPage extends StatelessWidget {
               if (snapshot.hasData) if (!snapshot.hasError &&
                   snapshot.data.uid == user.uid) {
                 return FlatButton.icon(
-                  icon: Icon(SimpleLineIcons.getIconData('pencil')),
+                  icon: Icon(
+                    SimpleLineIcons.getIconData('pencil'),
+                    size: 15.0,
+                  ),
                   label: Text('Edit'),
                   onPressed: () {
                     Navigator.popAndPushNamed(context, 'editUserPage',
@@ -115,7 +118,7 @@ class UserPage extends StatelessWidget {
                                       children: <Widget>[
                                         Text(
                                             //TODO: Get number of riddles
-                                            '${snapshot.data.counter['riddle'] ?? 0}'),
+                                            '${snapshot.data.counter['riddles'] ?? 0}'),
                                         Text(
                                           'Riddles',
                                           style: TextStyle(
@@ -129,14 +132,21 @@ class UserPage extends StatelessWidget {
                               SizedBox(
                                 height: 10.0,
                               ),
-                              ConstrainedBox(
-                                constraints: BoxConstraints(maxHeight: 100),
-                                child: AutoSizeText(
+                              ExpandablePanel(
+                                collapsed: Text(
                                   '${snapshot.data.biography}',
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.black),
-                                  maxLines: 3,
+                                  softWrap: true,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
+                                expanded: Text(
+                                  '${snapshot.data.biography}',
+                                  softWrap: true,
+                                  maxLines: 5,
+                                ),
+                                tapHeaderToExpand: true,
+                                tapBodyToCollapse: true,
+                                hasIcon: false,
                               ),
                             ],
                           ),
