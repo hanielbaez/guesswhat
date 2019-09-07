@@ -4,6 +4,7 @@ admin.initializeApp();
 
 const fcm = admin.messaging();
 
+//* LOVE *//
 // Listens for Love(Likes) state added to /loveRiddles/:loveId/original and 
 // increase/decrease the counter of /riddles/:riddleId/loves
 exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lovedBy/{loveId}')
@@ -29,6 +30,8 @@ exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lov
             return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(-1) });
         }
     });
+
+//* COMMENT *//
 
 //Listen to Comment create and increase the counter of /riddles/::riddleId/comments
 exports.manageCommentCounter = functions.firestore.document('riddles/{riddleId}/comments/{commentId}')
@@ -111,6 +114,7 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
         .catch(error => console.log('Error: ', error));
 });
 
+
 //* USER *//
 
 //TODO: Send email, when a user is created.
@@ -191,6 +195,15 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
     }
 
     return null;
+});
+
+//Listen to riddles create to increase the user.riddle counter by 1
+exports.manageRiddleCounter = functions.firestore.document('riddles/{riddlesId}').onCreate((snapshot, context) => {
+    const firestore = admin.firestore();
+    const userId = snapshot.data().user.uid;
+
+    var ref = firestore.collection('users').doc(userId);
+    return ref.update({ 'counter.riddles': admin.firestore.FieldValue.increment(1) });
 });
 
 //* FCM *//
