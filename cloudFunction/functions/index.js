@@ -53,8 +53,6 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
     //Increment the solved user counter
     return ref.update({ 'counter.solved': admin.firestore.FieldValue.increment(1) })
         .then(_ => {
-            //ID of the riddle owner
-            const ownerId = snapshot.data().ownerId;
             var ref = firestore.collection('riddles').doc(context.params.riddleId);
 
             //Increment the solvedBy's riddle counter
@@ -100,12 +98,15 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
                 default:
                     score = 1;
             }
+            //ID of the riddle owner
+            const ownerId = snapshot.data().ownerId;
+
             var ref = firestore.collection('users').doc(ownerId).collection('rankings').doc(userSolved);
             return ref.update({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
                 .catch(_ => {
-                //? I do not think this is the best approach for this task.
-                return ref.set({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
-            });
+                    //? I do not think this is the best approach for this task.
+                    return ref.set({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score) })
+                });
         })
         .catch(error => console.log('Error: ', error));
 });
