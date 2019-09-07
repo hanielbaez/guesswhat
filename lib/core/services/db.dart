@@ -133,7 +133,8 @@ class DatabaseServices {
 
   ///* RIDDLE SOLVED BY*//
   ///Set the data at Firebase
-  void setSolvedBy({String riddleId, String ownerId}) async {
+  void setSolvedBy(
+      {String riddleId, String ownerId, String thumbnailURL}) async {
     try {
       _db
           .collection('riddles')
@@ -145,6 +146,7 @@ class DatabaseServices {
           'riddleId': riddleId,
           'userId': await _uid(),
           'ownerId': ownerId,
+          'thumbnailURL': thumbnailURL,
           'creationDate': Timestamp.now(),
         },
       );

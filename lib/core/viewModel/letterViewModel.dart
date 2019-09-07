@@ -144,7 +144,12 @@ class LettersViewModel extends ChangeNotifier {
 
     if (_selectedWord == _riddle.answer.toUpperCase()) {
       if (await _user != null)
-        _db.setSolvedBy(riddleId: _riddle.id, ownerId: _riddle.ownerId);
+        _db.setSolvedBy(
+            riddleId: _riddle.id,
+            ownerId: _riddle.ownerId,
+            thumbnailURL: _riddle.thumbnailUrl);
+
+      //TODO: SHOW THE AMOUNT OF RIDDLES SOLVED BY USER
       correctAnswer = true;
       player.play(successAudioPath);
       _changeNotifier.sink.add(true);
