@@ -29,26 +29,31 @@ void onButtonPressed({context, user}) {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          Card(
-            child: ListTile(
-              title: Text('Capture Image'),
-              leading: Icon(
-                SimpleLineIcons.getIconData('camera'),
-              ),
-              onTap: () async {
-                try {
-                  _multiMedia['image'] =
-                      await _sourceOption.getImage(ImageSource.camera, context);
-
-                  _sourceOption.navigateToCreate(
-                      context: context,
-                      multiMedia: _multiMedia,
-                      user: user);
-                } catch (error) {
-                  print('Error: $error');
-                }
-              },
+          ListTile(
+            title: Text('Write it'),
+            leading: Icon(
+              SimpleLineIcons.getIconData('note'),
             ),
+            onTap: () async {
+              //TODO: Implemente the navigate to write riddle page
+            },
+          ),
+          ListTile(
+            title: Text('Capture Image'),
+            leading: Icon(
+              SimpleLineIcons.getIconData('camera'),
+            ),
+            onTap: () async {
+              try {
+                _multiMedia['image'] =
+                    await _sourceOption.getImage(ImageSource.camera, context);
+
+                _sourceOption.navigateToCreate(
+                    context: context, multiMedia: _multiMedia, user: user);
+              } catch (error) {
+                print('Error: $error');
+              }
+            },
           ),
           /* ListTile(
                 title: Text('Capture Video'),
@@ -66,26 +71,22 @@ void onButtonPressed({context, user}) {
                   }
                 },
               ), */
-          Card(
-            child: ListTile(
-              title: Text('Image from Gallery'),
-              leading: Icon(
-                SimpleLineIcons.getIconData('picture'),
-              ),
-              onTap: () async {
-                try {
-                  _multiMedia['image'] = await _sourceOption.getImage(
-                      ImageSource.gallery, context);
-
-                  _sourceOption.navigateToCreate(
-                      context: context,
-                      multiMedia: _multiMedia,
-                      user: user);
-                } catch (error) {
-                  print('Error: ' + error.toString());
-                }
-              },
+          ListTile(
+            title: Text('Image from Gallery'),
+            leading: Icon(
+              SimpleLineIcons.getIconData('picture'),
             ),
+            onTap: () async {
+              try {
+                _multiMedia['image'] =
+                    await _sourceOption.getImage(ImageSource.gallery, context);
+
+                _sourceOption.navigateToCreate(
+                    context: context, multiMedia: _multiMedia, user: user);
+              } catch (error) {
+                print('Error: ' + error.toString());
+              }
+            },
           ),
           /* ListTile(
                 title: Text('Video from Gallery'),

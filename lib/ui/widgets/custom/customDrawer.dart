@@ -141,32 +141,20 @@ class SingInLayout extends StatelessWidget {
           ),
         ),
         Card(
-          color: Colors.yellow,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.yellow[600], Colors.orange[400]],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp,
-              ),
+          child: ListTile(
+            leading: Icon(
+              SimpleLineIcons.getIconData('puzzle'),
             ),
-            child: ListTile(
-              leading: Icon(
-                SimpleLineIcons.getIconData('note'),
-              ),
-              title: Text(
-                'Create a Riddle',
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                onButtonPressed(context: context, user: user);
-              },
+            title: Text(
+              'Create a Riddle',
             ),
+            onTap: () {
+              Navigator.pop(context);
+              onButtonPressed(context: context, user: user);
+            },
           ),
         ),
         Card(
