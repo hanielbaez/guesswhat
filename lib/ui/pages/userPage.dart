@@ -85,8 +85,7 @@ class UserPage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
                                     height: 75,
@@ -100,31 +99,46 @@ class UserPage extends StatelessWidget {
                                   SizedBox(
                                     width: 10.0,
                                   ),
-                                  Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                            '${snapshot.data.counter['solved'] ?? 0}'),
-                                        Text(
-                                          'Solved',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                            //TODO: Get number of riddles
-                                            '${snapshot.data.counter['riddles'] ?? 0}'),
-                                        Text(
-                                          'Riddles',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
+                                  Expanded(
+                                    child: Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          Container(
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  '${snapshot.data.counter['solved'] ?? 0}',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20.0),
+                                                ),
+                                                Text(
+                                                  'Solved',
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  '${snapshot.data.counter['riddles'] ?? 0}',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20.0),
+                                                ),
+                                                Text(
+                                                  'Riddles',
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -156,11 +170,7 @@ class UserPage extends StatelessWidget {
                 }
                 return Container();
               }),
-          Divider(
-            //Some separation
-            color: Colors.black.withOpacity(0.3),
-          ),
-          new UserTabs(user: user),
+          UserTabs(user: user),
         ],
       ),
     );
