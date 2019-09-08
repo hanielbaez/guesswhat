@@ -244,6 +244,11 @@ class _EditUserPageState extends State<EditUserPage> {
                                 BorderRadius.horizontal(right: Radius.zero),
                           ),
                         ),
+                        validators: [
+                          FormBuilderValidators.maxLength(200,
+                              errorText:
+                                  'Must have a maximum of 200 characters'),
+                        ],
                       ),
                     ],
                   ),
