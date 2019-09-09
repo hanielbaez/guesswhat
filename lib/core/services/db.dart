@@ -45,7 +45,7 @@ class DatabaseServices {
         uid: userData.uid,
         email: userData.email,
         displayName: userData.displayName,
-        photoURL: userData.photoURL,
+        photoUrl: userData.photoUrl,
         webSite: userData.webSite,
         biography: userData.biography,
       );
@@ -97,7 +97,7 @@ class DatabaseServices {
     return Riddle.fromFireStore(snap);
   }
 
-  ///Upload media to Firebase Storage and return a Dowload URL
+  ///Upload media to Firebase Storage and return a Dowload Url
   Future<String> uploadToFireStore(File file) async {
     try {
       // Generate a v4 (random) id
@@ -134,7 +134,7 @@ class DatabaseServices {
   ///* RIDDLE SOLVED BY*//
   ///Set the data at Firebase
   void setSolvedBy(
-      {String riddleId, String ownerId, String thumbnailURL}) async {
+      {String riddleId, String ownerId, String thumbnailUrl}) async {
     try {
       _db
           .collection('riddles')
@@ -146,7 +146,7 @@ class DatabaseServices {
           'riddleId': riddleId,
           'userId': await _uid(),
           'ownerId': ownerId,
-          'thumbnailURL': thumbnailURL,
+          'thumbnailUrl': thumbnailUrl,
           'creationDate': Timestamp.now(),
         },
       );

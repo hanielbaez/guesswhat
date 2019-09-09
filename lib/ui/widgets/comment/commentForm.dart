@@ -87,7 +87,7 @@ class CommentForm extends StatelessWidget {
                       user: User(
                         uid: snapshot.data.uid,
                         displayName: snapshot.data.displayName,
-                        photoURL: _user.photoURL,
+                        photoUrl: _user.photoUrl,
                       ),
                       creationDate: Timestamp.now(),
                     );

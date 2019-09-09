@@ -40,7 +40,7 @@ class RiddleCreateViewModel extends ChangeNotifier {
     var thumbnailFaile = File(tempPath)
       ..writeAsBytesSync(img.encodePng(thumbnail));
 
-    //Upload media to FireStore and return a Dowload URL
+    //Upload media to FireStore and return a Dowload Url
     var _url =
         await Provider.of<DatabaseServices>(context).uploadToFireStore(file);
 

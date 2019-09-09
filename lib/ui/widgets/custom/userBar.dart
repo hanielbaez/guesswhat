@@ -29,7 +29,7 @@ class UserBar extends StatelessWidget {
             ),
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/noiseTv.gif',
-              image: user.photoURL,
+              image: user.photoUrl,
               fit: BoxFit.cover,
             ),
           ),

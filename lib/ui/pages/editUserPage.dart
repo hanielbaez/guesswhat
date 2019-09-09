@@ -29,7 +29,7 @@ class _EditUserPageState extends State<EditUserPage> {
   void initState() {
     imageWidget = FadeInImage.assetNetwork(
       placeholder: 'assets/images/noiseTv.gif',
-      image: '${widget.user.photoURL}',
+      image: '${widget.user.photoUrl}',
       fit: BoxFit.cover,
     );
     super.initState();
@@ -83,7 +83,7 @@ class _EditUserPageState extends State<EditUserPage> {
                   var newUser = User(
                     uid: widget.user.uid,
                     displayName: _fbKey.currentState.value['name'],
-                    photoURL: imageUrl ?? widget.user.photoURL,
+                    photoUrl: imageUrl ?? widget.user.photoUrl,
                     webSite: _fbKey.currentState.value['webSite'],
                     biography: _fbKey.currentState.value['biography'],
                   );

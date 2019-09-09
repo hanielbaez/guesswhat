@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class User {
   String uid;
   String email;
-  String photoURL;
+  String photoUrl;
   String displayName;
   String webSite;
   String biography;
@@ -14,7 +14,7 @@ class User {
   User(
       {@required this.uid,
       this.email,
-      this.photoURL,
+      this.photoUrl,
       @required this.displayName,
       this.webSite = '',
       this.biography = '',
@@ -25,7 +25,7 @@ class User {
         uid: user.uid,
         displayName: user.displayName,
         email: user.email,
-        photoURL: user.photoUrl);
+        photoUrl: user.photoUrl);
   }
 
   ///Retur a User object, if the DocumentSnapshot equal to null, return  null
@@ -35,7 +35,7 @@ class User {
     return User(
         uid: snap.documentID,
         email: map['email'],
-        photoURL: map['photoURL'],
+        photoUrl: map['photoUrl'],
         displayName: map['displayName'],
         webSite: map['webSite'] ?? '',
         biography: map['biography'] ?? '',
@@ -46,7 +46,7 @@ class User {
     return User(
       uid: map['uid'],
       email: map['email'],
-      photoURL: map['photoURL'],
+      photoUrl: map['photoUrl'],
       displayName: map['displayName'],
       webSite: map['webSite'] ?? '',
       biography: map['biography'] ?? '',
@@ -57,7 +57,7 @@ class User {
     final Map<String, dynamic> map = Map<String, dynamic>();
     map['uid'] = this.uid;
     if (this.email != null) map['email'] = this.email;
-    map['photoURL'] = this.photoURL;
+    map['photoUrl'] = this.photoUrl;
     map['displayName'] = this.displayName;
     map['webSite'] = this.webSite;
     map['biography'] = this.biography;

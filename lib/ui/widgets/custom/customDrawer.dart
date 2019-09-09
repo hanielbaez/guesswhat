@@ -101,7 +101,7 @@ class SingInLayout extends StatelessWidget {
                   height: 50,
                   child: FadeInImage.assetNetwork(
                     placeholder: 'assets/images/noiseTv.gif',
-                    image: user.photoURL,
+                    image: user.photoUrl,
                     fit: BoxFit.cover,
                   ),
                 ),

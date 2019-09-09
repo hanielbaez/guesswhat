@@ -74,7 +74,7 @@ exports.createUser = functions.auth.user().onCreate((user) => {
     const newUser = {
         'displayName': user.displayName,
         'biography': '',
-        'photoURL': user.photoURL,
+        'photoUrl': user.photoUrl,
         'webSite': '',
         'createdAt': user.metadata.creationTime,
     }
@@ -91,7 +91,7 @@ exports.createUser = functions.auth.user().onCreate((user) => {
 
 });
 
-//Listen to the User update, in order to update each riddles and comments (photosURL and displayName)
+//Listen to the User update, in order to update each riddles and comments (photosUrl and displayName)
 exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((change, context) => {
     const firestore = admin.firestore();
     //Get new/old user data
@@ -106,18 +106,18 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
         'user': {
             'uid': userId,
             'displayName': oldData.displayName,
-            'photoURL': oldData.photoURL,
+            'photoUrl': oldData.photoUrl,
         }
     };
 
     if (newData.displayName !== null) {
         newUser.user.displayName = newData.displayName;
     }
-    if (newData.photoURL !== null) {
-        newUser.user.photoURL = newData.photoURL;
+    if (newData.photoUrl !== null) {
+        newUser.user.photoUrl = newData.photoUrl;
     }
 
-    if (oldData.displayName !== newData.displayName || oldData.photoURL !== newData.photoURL) {
+    if (oldData.displayName !== newData.displayName || oldData.photoUrl !== newData.photoUrl) {
         var promises = []
 
         //Get all riddles where user.uid == userId

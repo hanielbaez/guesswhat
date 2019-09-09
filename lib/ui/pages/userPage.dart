@@ -92,7 +92,7 @@ class UserPage extends StatelessWidget {
                                     width: 75,
                                     child: FadeInImage.assetNetwork(
                                       placeholder: 'assets/images/noiseTv.gif',
-                                      image: snapshot.data.photoURL,
+                                      image: snapshot.data.photoUrl,
                                       fit: BoxFit.cover,
                                     ),
                                   ),

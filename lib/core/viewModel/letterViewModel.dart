@@ -147,7 +147,7 @@ class LettersViewModel extends ChangeNotifier {
         _db.setSolvedBy(
             riddleId: _riddle.id,
             ownerId: _riddle.ownerId,
-            thumbnailURL: _riddle.thumbnailUrl);
+            thumbnailUrl: _riddle.thumbnailUrl);
 
       //TODO: SHOW THE AMOUNT OF RIDDLES SOLVED BY USER
       correctAnswer = true;
