@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'package:Tekel/ui/pages/commentPage.dart';
+import 'package:Tekel/ui/pages/solvedByUserPage.dart';
 import 'package:flutter/material.dart';
 
 //Self import
@@ -40,6 +41,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case 'editUserPage':
       return MaterialPageRoute(
         builder: (context) => EditUserPage(user: settings.arguments),
+      );
+    case 'solvedByPage':
+      return MaterialPageRoute(
+        builder: (context) => SolvedByPage(user: settings.arguments),
       );
     default:
       return MaterialPageRoute(

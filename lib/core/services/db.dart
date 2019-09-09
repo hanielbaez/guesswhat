@@ -179,7 +179,7 @@ class DatabaseServices {
   ///Return a list of all Riddles solve by user
   Future<List> getAllSolvedBy({String userId}) async {
     var documents = await _db
-        .collectionGroup('riddles/{riddlesID}.solvedBy')
+        .collectionGroup('solvedBy')
         .where('userId', isEqualTo: userId)
         .getDocuments();
     return documents.documents.toList();

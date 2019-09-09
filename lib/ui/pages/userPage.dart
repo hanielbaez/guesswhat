@@ -105,20 +105,25 @@ class UserPage extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: <Widget>[
-                                          Container(
-                                            child: Column(
-                                              children: <Widget>[
-                                                Text(
-                                                  '${snapshot.data.counter['solved'] ?? 0}',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20.0),
-                                                ),
-                                                Text(
-                                                  'Solved',
-                                                )
-                                              ],
+                                          GestureDetector(
+                                            onTap: () => Navigator.pushNamed(
+                                                context, 'solvedByPage',
+                                                arguments: user),
+                                            child: Container(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Text(
+                                                    '${snapshot.data.counter['solved'] ?? 0}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20.0),
+                                                  ),
+                                                  Text(
+                                                    'Solved',
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                           Container(
