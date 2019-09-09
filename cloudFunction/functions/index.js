@@ -53,69 +53,14 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
     //ID of the user that solved the riddle
     const userSolved = context.params.solvedById
     var userSolvedRef = firestore.collection('users').doc(userSolved);
-
     //Increment the solved user counter
     var promise1 = userSolvedRef.update({ 'counter.solved': admin.firestore.FieldValue.increment(1) });
-    var promise2 = await userSolvedRef.get();
-
-    //The photoURL of the user that solved the riddle
-    const userSolvedPhoto = promise2.data().photoURL;
-    const userSolvedName = promise2.data().displayName;
 
     var riddleRef = firestore.collection('riddles').doc(context.params.riddleId);
-
     //Increment the solvedBy's riddle counter
-    var promise3 = await riddleRef.update({ 'counter.solvedBy': admin.firestore.FieldValue.increment(1) });
-    var promise4 = await riddleRef.get();
+    var promise2 = await riddleRef.update({ 'counter.solvedBy': admin.firestore.FieldValue.increment(1) });
 
-    //Get the number of users that has solved it.
-    const solvedBy = promise4.data().counter.solvedBy;
-
-    var score = 1;
-    //Assign a score depending on the number of the user who already solved the riddle
-    switch (solvedBy) {
-        case 1:
-            score = 10;
-            break;
-        case 2:
-            score = 9;
-            break;
-        case 3:
-            score = 8;
-            break;
-        case 4:
-            score = 7;
-            break;
-        case 5:
-            score = 6;
-            break;
-        case 6:
-            score = 5;
-            break;
-        case 7:
-            score = 4;
-            break;
-        case 8:
-            score = 3;
-            break;
-        case 9:
-            score = 2;
-            break;
-        default:
-            score = 1;
-    }
-
-    //ID of the riddle owner
-    const ownerId = snapshot.data().ownerId;
-
-    var rankingRef = firestore.collection('users').doc(ownerId).collection('rankings').doc(userSolved);
-    var promise5 = rankingRef.update({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score), 'photoURL': userSolvedPhoto, 'displayName': userSolvedName })
-        .catch(_ => {
-            //? I do not think this is the best approach for this task.
-            return rankingRef.set({ 'updateDate': context.timestamp, 'score': admin.firestore.FieldValue.increment(score), 'photoURL': userSolvedPhoto, 'displayName': userSolvedName })
-        });
-
-    return Promise.all([promise1, promise2, promise3, promise4, promise5]);
+    return Promise.all([promise1, promise2]);
 
 });
 
