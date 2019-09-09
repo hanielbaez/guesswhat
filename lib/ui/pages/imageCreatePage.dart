@@ -11,13 +11,13 @@ import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/viewModel/riddleCreateModelView.dart';
 import 'package:Tekel/core/custom/customGeoPoint.dart';
 
-class GuessCreate extends StatelessWidget {
+class ImageCreatePage extends StatelessWidget {
   final Map _multiMedia;
   final User _user;
   final BuildContext _context;
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
-  GuessCreate({multiMedia, user, context})
+  ImageCreatePage({multiMedia, user, context})
       : _multiMedia = multiMedia,
         _user = user,
         _context = context;

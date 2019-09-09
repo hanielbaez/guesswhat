@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 //Self import
 import 'package:Tekel/core/model/user.dart';
-import 'package:Tekel/ui/pages/guessCreatePage.dart';
+import 'package:Tekel/ui/pages/imageCreatePage.dart';
 
 //Pick the image or video from different sources as gallery or camera
 class SourceImageOption {
@@ -37,7 +37,7 @@ class SourceImageOption {
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => GuessCreate(
+          builder: (context) => ImageCreatePage(
             multiMedia: multiMedia,
             user: user,
             context: context,
