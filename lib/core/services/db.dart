@@ -157,7 +157,7 @@ class DatabaseServices {
   }
 
   ///Return NULL is the user have not completed the Riddle yet
-  Future<DocumentSnapshot> getSolvedBy({String riddleId}) async {
+  Future<DocumentSnapshot> isSolvedBy({String riddleId}) async {
     try {
       return await _db
           .collection('riddles')

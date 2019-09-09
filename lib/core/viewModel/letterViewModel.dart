@@ -100,9 +100,9 @@ class LettersViewModel extends ChangeNotifier {
     return _word;
   }
 
-  ///Get a list for the target list only if the user has previously solved it.
+  ///Get a list for the target, only if the user has previously solved it.
   getTargetList() async {
-    var response = await _db.getSolvedBy(riddleId: _riddle.id);
+    var response = await _db.isSolvedBy(riddleId: _riddle.id);
     if (response?.data != null) {
       var list = List.generate(
         _riddle.answer.length,
