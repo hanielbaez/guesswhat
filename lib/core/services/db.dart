@@ -176,6 +176,15 @@ class DatabaseServices {
     }
   }
 
+  ///Return a list of all Riddles solve by user
+  Future<List> getAllSolvedBy({String userId}) async {
+    var documents = await _db
+        .collectionGroup('riddles/{riddlesID}.solvedBy')
+        .where('userId', isEqualTo: userId)
+        .getDocuments();
+    return documents.documents.toList();
+  }
+
   //* LOVE(Favorite) *//
   /* The customID is make out of the RidleId and the Authenticated UserId */
 
@@ -197,22 +206,14 @@ class DatabaseServices {
   ///Return a List of theloveRiddle by user
   Future<List> loveRiddle() async {
     try {
-      final List loveList = [];
-
-      var snap = await _db
+      var documents = await _db
           .collectionGroup('lovedBy')
           .where('userId', isEqualTo: await _uid())
           .where('state', isEqualTo: true)
           .orderBy('updateDate', descending: true)
           .getDocuments();
 
-      snap.documents.forEach(
-        (document) {
-          loveList.add(document.data);
-        },
-      );
-
-      return loveList.isNotEmpty ? loveList : null;
+      return documents.documents.toList();
     } catch (e) {
       print('$e');
       return null;
