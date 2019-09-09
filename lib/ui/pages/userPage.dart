@@ -170,69 +170,21 @@ class UserPage extends StatelessWidget {
                 }
                 return Container();
               }),
-          UserTabs(user: user),
+          SizedBox(height: 10.0),
+          FutureBuilder(
+            future: Provider.of<DatabaseServices>(context)
+                .fectchUserRiddle(userId: user.uid),
+            builder: (context, snapshot) {
+              if (snapshot.hasData)
+                return Expanded(
+                  child: CustomGridView(
+                    list: snapshot.data,
+                  ),
+                );
+              return Container();
+            },
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class UserTabs extends StatelessWidget {
-  const UserTabs({
-    Key key,
-    @required this.user,
-  }) : super(key: key);
-
-  final User user;
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Expanded(
-        child: Column(
-          children: <Widget>[
-            TabBar(
-              indicatorColor: Colors.yellow[600],
-              labelColor: Colors.yellow[600],
-              unselectedLabelColor: Colors.black.withOpacity(0.5),
-              tabs: <Widget>[
-                Tab(
-                  icon: Icon(
-                    SimpleLineIcons.getIconData('puzzle'),
-                  ),
-                ),
-                Tab(
-                  icon: Icon(
-                    SimpleLineIcons.getIconData('trophy'),
-                  ),
-                )
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                children: <Widget>[
-                  FutureBuilder(
-                    future: Provider.of<DatabaseServices>(context)
-                        .fectchUserRiddle(userId: user.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData)
-                        return CustomGridView(
-                          list: snapshot.data,
-                        );
-                      return Container();
-                    },
-                  ),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    color: Colors.blue,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
