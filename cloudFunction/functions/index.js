@@ -74,7 +74,7 @@ exports.createUser = functions.auth.user().onCreate((user) => {
     const newUser = {
         'displayName': user.displayName,
         'biography': '',
-        'photoUrl': user.photoUrl,
+        'photoUrl': user.photoURL,
         'webSite': '',
         'createdAt': user.metadata.creationTime,
     }
@@ -97,6 +97,8 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
     //Get new/old user data
     const newData = change.after.data();
     const oldData = change.before.data();
+
+    //!No working propertly
 
     //Get the userId
     var userId = context.params.userId;
