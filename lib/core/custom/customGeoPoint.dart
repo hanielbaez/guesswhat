@@ -32,7 +32,7 @@ class CustomGeoPoint {
   }
 
   ///Return a Map with the user curren address and geoPoints
-  Future<Map<dynamic, dynamic>> addGeoPoint() async {
+  Future<Map<String, dynamic>> addGeoPoint() async {
     var _locationData = await getCurrentLocation();
     if (_locationData == null) return null;
     var address = await getAddress(

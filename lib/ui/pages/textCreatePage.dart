@@ -1,12 +1,16 @@
+import 'package:Tekel/core/services/db.dart';
+import 'package:Tekel/core/viewModel/createTextViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:provider/provider.dart';
 
 class TextCreatePage extends StatelessWidget {
-  static GlobalKey _formKey = GlobalKey();
-
+  static GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
+    final CreateTextViewModel model =
+        CreateTextViewModel(db: Provider.of<DatabaseServices>(context));
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -30,7 +34,7 @@ class TextCreatePage extends StatelessWidget {
                 child: ListView(
                   children: <Widget>[
                     FormBuilderTextField(
-                      attribute: "riddle",
+                      attribute: "text",
                       maxLines: 5,
                       autofocus: true,
                       decoration: InputDecoration(
@@ -49,7 +53,7 @@ class TextCreatePage extends StatelessWidget {
                       ),
                       autocorrect: false,
                       validators: [
-                        FormBuilderValidators.minLength(25,
+                        FormBuilderValidators.minLength(3,
                             errorText: 'Your message should be longer.'),
                         FormBuilderValidators.max(200),
                       ],
@@ -123,7 +127,20 @@ class TextCreatePage extends StatelessWidget {
                           "Submit",
                           style: TextStyle(color: Colors.black),
                         ),
-                        onPressed: () async {},
+                        onPressed: () async {
+                          if (_formKey.currentState.saveAndValidate()) {
+                            final Map<String, dynamic> riddle =
+                                Map<String, dynamic>();
+                            riddle['text'] =
+                                _formKey.currentState.value['text'];
+                            riddle['answer'] =
+                                _formKey.currentState.value['answer'];
+                            riddle['description'] =
+                                _formKey.currentState.value['description'];
+
+                            model.upload(riddle);
+                          }
+                        },
                       ),
                     ),
                   ],

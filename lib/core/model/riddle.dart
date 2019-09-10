@@ -9,6 +9,7 @@ class Riddle {
   String videoUrl;
   String imageUrl;
   String thumbnailUrl;
+  String text;
   String address;
   Map<dynamic, dynamic> user;
   String loves;
@@ -23,6 +24,7 @@ class Riddle {
     this.videoUrl,
     this.imageUrl,
     this.thumbnailUrl,
+    this.text,
     this.address,
     @required this.user,
     this.loves,
@@ -55,6 +57,7 @@ class Riddle {
         description: data['description'] ?? '',
         videoUrl: data['videoUrl'],
         imageUrl: data['imageUrl'],
+        text: data['text'],
         thumbnailUrl: data['thumbnailUrl'] ?? null,
         address: data.containsKey('location')
             ? (data['location']['address']) ?? ''

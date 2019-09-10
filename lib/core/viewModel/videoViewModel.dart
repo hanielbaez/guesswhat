@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:Tekel/core/custom/customCacheManager.dart';
@@ -30,16 +31,23 @@ class VideoViewModel extends ChangeNotifier {
         case 'video':
           return await getVideoController();
           break;
+        case 'text':
+          await buildText();
+          break;
       }
     }
   }
 
-  //Return video or image
+  //Return video, image or text
   Future<String> mediaType() async {
     var mediaUrl = this.riddle.imageUrl ?? this.riddle.videoUrl;
     try {
-      mediaFeche = await CustomCacheManager()
-          .getSingleFile('$mediaUrl'); //Check cache for media
+      if (mediaUrl != null) {
+        mediaFeche = await CustomCacheManager()
+            .getSingleFile('$mediaUrl'); //Check cache for media
+      } else {
+        return 'text';
+      }
     } catch (e) {
       print(e);
       return null;
@@ -91,6 +99,19 @@ class VideoViewModel extends ChangeNotifier {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  buildText() {
+    widget = Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: AutoSizeText(
+        '${riddle.text}',
+        style: TextStyle(fontSize: 45),
+        minFontSize: 14,
+        maxLines: 12,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

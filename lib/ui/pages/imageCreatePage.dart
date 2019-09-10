@@ -152,19 +152,6 @@ class ImageCreatePage extends StatelessWidget {
                                         .saveAndValidate()) {
                                       model.getFile(_multiMedia['video'],
                                           _multiMedia['image']);
-
-                                      //? I think that the thumbnail is not needed for now
-                                      /*  var _fileThumbnail = _multiMedia[
-                                                    'imageThumbnail'] ??
-                                                _multiMedia['videoThumbnail']; */
-
-                                      /* var _urlThumbnail =
-                                                await model.uploadFireStore(
-                                                    file: _fileThumbnail
-                                                    ); */
-
-                                      //Set the map with the form text value
-
                                       var _userDb =
                                           await Provider.of<DatabaseServices>(
                                                   context)
