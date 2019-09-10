@@ -6,7 +6,7 @@ class CreateTextViewModel {
 
   CreateTextViewModel({db}) : _db = db;
 
-  void upload(Map<String, dynamic> riddle) async {
+  Future upload(Map<String, dynamic> riddle) async {
     //Get the current user information
     var user = await _db.getUser();
     Map<String, dynamic> userMap = {
@@ -27,6 +27,7 @@ class CreateTextViewModel {
 
     riddle.addAll({'creationDate': DateTime.now()});
 
-    _db.uploadRiddle(riddle);
+    await _db.uploadRiddle(riddle);
+    return true;
   }
 }

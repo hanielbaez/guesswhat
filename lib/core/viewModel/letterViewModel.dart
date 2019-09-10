@@ -147,9 +147,9 @@ class LettersViewModel extends ChangeNotifier {
         _db.setSolvedBy(
             riddleId: _riddle.id,
             ownerId: _riddle.ownerId,
-            thumbnailUrl: _riddle.thumbnailUrl);
+            thumbnailUrl: _riddle.thumbnailUrl,
+            text: _riddle.text);
 
-      //TODO: SHOW THE AMOUNT OF RIDDLES SOLVED BY USER
       correctAnswer = true;
       player.play(successAudioPath);
       _changeNotifier.sink.add(true);

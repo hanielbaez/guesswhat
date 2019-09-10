@@ -35,8 +35,8 @@ class CustomLetter extends StatelessWidget {
       child: Opacity(
         opacity: isSource ? 0.5 : 1,
         child: Container(
-          width: (isSource ? 45 : 35),
-          height: (isSource ? 45 : 35),
+          width: (isSource ? 45 : 30),
+          height: (isSource ? 45 : 30),
           margin: EdgeInsets.all(isSource ? 2 : 3),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,

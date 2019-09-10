@@ -3,10 +3,19 @@ import 'package:Tekel/core/viewModel/createTextViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-class TextCreatePage extends StatelessWidget {
+class TextCreatePage extends StatefulWidget {
   static GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+
+  @override
+  _TextCreatePageState createState() => _TextCreatePageState();
+}
+
+class _TextCreatePageState extends State<TextCreatePage> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final CreateTextViewModel model =
@@ -29,7 +38,7 @@ class TextCreatePage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             FormBuilder(
-              key: _formKey,
+              key: TextCreatePage._formKey,
               child: Expanded(
                 child: ListView(
                   children: <Widget>[
@@ -55,7 +64,7 @@ class TextCreatePage extends StatelessWidget {
                       autocorrect: false,
                       validators: [
                         FormBuilderValidators.minLength(3,
-                            errorText: 'Your message should be longer.'),
+                            errorText: 'Your riddle should be longer.'),
                         FormBuilderValidators.max(200),
                       ],
                     ),
@@ -77,7 +86,6 @@ class TextCreatePage extends StatelessWidget {
                               BorderRadius.horizontal(right: Radius.zero),
                         ),
                       ),
-
                       keyboardType: TextInputType.text,
                       maxLength: 10,
                       validators: [
@@ -124,27 +132,43 @@ class TextCreatePage extends StatelessWidget {
                           tileMode: TileMode.clamp,
                         ),
                       ),
-                      child: FlatButton(
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        onPressed: () async {
-                          if (_formKey.currentState.saveAndValidate()) {
-                            final Map<String, dynamic> riddle =
-                                Map<String, dynamic>();
-                            riddle['text'] =
-                                _formKey.currentState.value['text'];
-                            riddle['answer'] =
-                                _formKey.currentState.value['answer'];
-                            riddle['description'] =
-                                _formKey.currentState.value['description'];
+                      child: isLoading == true
+                          ? Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: SpinKitThreeBounce(
+                                  color: Colors.black,
+                                  size: 25.0,
+                                ),
+                              ),
+                            )
+                          : FlatButton(
+                              child: Text(
+                                "Submit",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              onPressed: () async {
+                                if (TextCreatePage._formKey.currentState
+                                    .saveAndValidate()) {
+                                  final Map<String, dynamic> riddle =
+                                      Map<String, dynamic>();
+                                  riddle['text'] = TextCreatePage
+                                      ._formKey.currentState.value['text'];
+                                  riddle['answer'] = TextCreatePage
+                                      ._formKey.currentState.value['answer'];
+                                  riddle['description'] = TextCreatePage
+                                      ._formKey
+                                      .currentState
+                                      .value['description'];
 
-                            model.upload(riddle);
-                            Navigator.pushReplacementNamed(context, '/');
-                          }
-                        },
-                      ),
+                                  await model.upload(riddle);
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  Navigator.pushReplacementNamed(context, '/');
+                                }
+                              },
+                            ),
                     ),
                   ],
                 ),

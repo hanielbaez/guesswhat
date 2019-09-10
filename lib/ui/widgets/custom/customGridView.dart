@@ -24,22 +24,26 @@ class CustomGridView extends StatelessWidget {
         child: Hero(
           tag: list[index],
           child: Card(
-            color: Colors.transparent,
+            color: Colors.white,
             margin: EdgeInsets.all(2.0),
             child: Container(
               width: 100.0,
               height: 100.0,
-              child: Image.network(
-                list[index]['thumbnailUrl'],
-                fit: BoxFit.cover,
-                loadingBuilder: (BuildContext contex, Widget child,
-                    ImageChunkEvent loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Image.asset(
-                    'assets/images/noiseTv.gif',
-                    fit: BoxFit.cover,
-                  );
-                },
+              child: Center(
+                child: list[index]['thumbnailUrl'] == null
+                    ? Text("${list[index]['text']}")
+                    : Image.network(
+                        list[index]['thumbnailUrl'],
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext contex, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Image.asset(
+                            'assets/images/noiseTv.gif',
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
               ),
             ),
           ),

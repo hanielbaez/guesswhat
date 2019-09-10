@@ -81,6 +81,7 @@ class DatabaseServices {
           riddleList.add({
             'riddleId': document.documentID,
             'thumbnailUrl': document.data['thumbnailUrl'],
+            'text': document.data['text']
           });
         },
       );
@@ -134,7 +135,10 @@ class DatabaseServices {
   ///* RIDDLE SOLVED BY*//
   ///Set the data at Firebase
   void setSolvedBy(
-      {String riddleId, String ownerId, String thumbnailUrl}) async {
+      {String riddleId,
+      String ownerId,
+      String thumbnailUrl,
+      String text}) async {
     try {
       _db
           .collection('riddles')
@@ -147,6 +151,7 @@ class DatabaseServices {
           'userId': await _uid(),
           'ownerId': ownerId,
           'thumbnailUrl': thumbnailUrl,
+          'text': text,
           'creationDate': Timestamp.now(),
         },
       );
