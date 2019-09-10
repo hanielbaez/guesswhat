@@ -34,8 +34,9 @@ void onButtonPressed({context, user}) {
             leading: Icon(
               SimpleLineIcons.getIconData('note'),
             ),
-            onTap: () async {
-              //TODO: Implemente the navigate to write riddle page
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, 'createTextRiddle');
             },
           ),
           ListTile(

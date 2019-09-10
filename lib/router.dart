@@ -1,6 +1,4 @@
 //Flutter and Dart import
-import 'package:Tekel/ui/pages/commentPage.dart';
-import 'package:Tekel/ui/pages/solvedByUserPage.dart';
 import 'package:flutter/material.dart';
 
 //Self import
@@ -11,6 +9,9 @@ import 'package:Tekel/ui/pages/supportPage.dart';
 import 'package:Tekel/ui/pages/unknownPage.dart';
 import 'package:Tekel/ui/pages/userPage.dart';
 import 'package:Tekel/ui/pages/editUserPage.dart';
+import 'package:Tekel/ui/pages/commentPage.dart';
+import 'package:Tekel/ui/pages/solvedByUserPage.dart';
+import 'package:Tekel/ui/pages/textCreatePage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -45,6 +46,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case 'solvedByPage':
       return MaterialPageRoute(
         builder: (context) => SolvedByPage(user: settings.arguments),
+      );
+    case 'createTextRiddle':
+      return MaterialPageRoute(
+        builder: (context) => TextCreatePage(),
       );
     default:
       return MaterialPageRoute(
