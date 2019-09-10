@@ -18,7 +18,7 @@ class TextCreatePage extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pushReplacementNamed(context, '/'),
         ),
         centerTitle: true,
         elevation: 0.0,
@@ -35,7 +35,7 @@ class TextCreatePage extends StatelessWidget {
                   children: <Widget>[
                     FormBuilderTextField(
                       attribute: "text",
-                      maxLines: 5,
+                      maxLines: 4,
                       autofocus: true,
                       decoration: InputDecoration(
                         labelText: "Riddle",
@@ -51,6 +51,7 @@ class TextCreatePage extends StatelessWidget {
                               BorderRadius.horizontal(right: Radius.zero),
                         ),
                       ),
+                      maxLength: 200,
                       autocorrect: false,
                       validators: [
                         FormBuilderValidators.minLength(3,
@@ -76,6 +77,7 @@ class TextCreatePage extends StatelessWidget {
                               BorderRadius.horizontal(right: Radius.zero),
                         ),
                       ),
+
                       keyboardType: TextInputType.text,
                       maxLength: 10,
                       validators: [
@@ -139,6 +141,7 @@ class TextCreatePage extends StatelessWidget {
                                 _formKey.currentState.value['description'];
 
                             model.upload(riddle);
+                            Navigator.pushReplacementNamed(context, '/');
                           }
                         },
                       ),

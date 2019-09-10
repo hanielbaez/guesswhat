@@ -36,7 +36,7 @@ void onButtonPressed({context, user}) {
             ),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, 'createTextRiddle');
+              Navigator.pushReplacementNamed(context, 'createTextRiddle');
             },
           ),
           ListTile(
