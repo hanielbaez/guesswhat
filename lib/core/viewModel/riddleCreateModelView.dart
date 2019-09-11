@@ -15,7 +15,7 @@ class RiddleCreateViewModel extends ChangeNotifier {
     'description': '',
     'user': '',
     'location': '',
-    'creationDate': ''
+    'createdAt': ''
   };
   File file;
   bool loading = false;

@@ -6,7 +6,7 @@ class SupportContact {
   final String userEmail;
   final String description;
   //static Map<String, dynamic> deviceInfo;
-  final Timestamp creationDate = Timestamp.now();
+  final Timestamp createdAt = Timestamp.now();
 
   SupportContact({this.userId, this.description, this.userEmail});
 
@@ -36,7 +36,7 @@ class SupportContact {
     _map['userEmail'] = this.userEmail;
     _map['description'] = this.description;
     _map['deviceInfo'] = await getDeviceInfo();
-    _map['creationDate'] = this.creationDate;
+    _map['createdAt'] = this.createdAt;
     return _map;
   }
 }

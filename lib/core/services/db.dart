@@ -75,7 +75,7 @@ class DatabaseServices {
       var snap = await _db
           .collection('riddles')
           .where('user.uid', isEqualTo: userId)
-          .orderBy('creationDate', descending: true)
+          .orderBy('createdAt', descending: true)
           .getDocuments();
       snap.documents.forEach(
         (document) {
@@ -164,7 +164,7 @@ class DatabaseServices {
           'ownerId': ownerId,
           'thumbnailUrl': thumbnailUrl,
           'text': text,
-          'creationDate': Timestamp.now(),
+          'createdAt': Timestamp.now(),
         },
       );
     } catch (e) {

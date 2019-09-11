@@ -25,7 +25,7 @@ class CreateTextViewModel {
       riddle.addAll({'location': riddleLocation});
     }
 
-    riddle.addAll({'creationDate': DateTime.now()});
+    riddle.addAll({'createdAt': DateTime.now()});
 
     await _db.uploadRiddle(riddle);
     return true;

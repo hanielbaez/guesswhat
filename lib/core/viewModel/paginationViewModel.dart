@@ -35,13 +35,13 @@ class PaginationViewModel extends ChangeNotifier {
       if (lastDocument == null) {
         querySnapshot = await firestore
             .collection('riddles')
-            .orderBy('creationDate', descending: true)
+            .orderBy('createdAt', descending: true)
             .limit(documentLimit)
             .getDocuments();
       } else {
         querySnapshot = await firestore
             .collection('riddles')
-            .orderBy('creationDate', descending: true)
+            .orderBy('createdAt', descending: true)
             .startAfterDocument(lastDocument)
             .limit(documentLimit)
             .getDocuments();

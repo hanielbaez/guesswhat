@@ -14,7 +14,7 @@ class Riddle {
   Map<dynamic, dynamic> user;
   String loves;
   String comments;
-  Timestamp creationDate;
+  Timestamp createdAt;
 
   Riddle({
     @required this.id,
@@ -29,7 +29,7 @@ class Riddle {
     @required this.user,
     this.loves,
     this.comments,
-    @required this.creationDate,
+    @required this.createdAt,
   });
 
   ///Return a Riddle Object
@@ -65,6 +65,6 @@ class Riddle {
         user: data['user'],
         loves: _loves,
         comments: _comments,
-        creationDate: data['createdAt']);
+        createdAt: data['createdAt']);
   }
 }

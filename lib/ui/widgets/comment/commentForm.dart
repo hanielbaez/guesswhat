@@ -89,7 +89,7 @@ class CommentForm extends StatelessWidget {
                         displayName: snapshot.data.displayName,
                         photoUrl: _user.photoUrl,
                       ),
-                      creationDate: Timestamp.now(),
+                      createdAt: Timestamp.now(),
                     );
 
                     //Save the new comment at the database

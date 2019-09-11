@@ -126,7 +126,7 @@ class ListViewBuilder extends StatelessWidget {
               children: <Widget>[
                 UserBar(
                   user: user,
-                  timeStamp: snapshot.data.documents[index]['creationDate'],
+                  timeStamp: snapshot.data.documents[index]['createdAt'],
                 ),
                 SizedBox(height: 10.0),
                 ExpandablePanel(

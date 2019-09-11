@@ -9,12 +9,12 @@ class Comment {
   String id;
   String text;
   User user;
-  Timestamp creationDate;
+  Timestamp createdAt;
   Comment(
       {this.id,
       @required this.text,
       @required this.user,
-      @required this.creationDate});
+      @required this.createdAt});
 
   factory Comment.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data;
@@ -22,14 +22,14 @@ class Comment {
         id: doc.documentID,
         text: data['text'],
         user: User.fromFireStore(data['user']),
-        creationDate: data['creationDate']);
+        createdAt: data['createdAt']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['text'] = this.text;
     data['user'] = this.user.toJson();
-    data['creationDate'] = this.creationDate;
+    data['createdAt'] = this.createdAt;
     return data;
   }
 }

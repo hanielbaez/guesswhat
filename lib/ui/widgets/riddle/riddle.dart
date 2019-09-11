@@ -46,7 +46,7 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: UserBar(
               user: User.fromMap(widget.riddle.user),
-              timeStamp: widget.riddle.creationDate,
+              timeStamp: widget.riddle.createdAt,
               address: widget.riddle.address,
             ),
           ),
