@@ -178,17 +178,6 @@ class ImageCreatePage extends StatelessWidget {
                                         'photoUrl': _userDb.photoUrl,
                                       };
 
-                                      var _riddleLocation =
-                                          await CustomGeoPoint().addGeoPoint();
-                                      if (_riddleLocation != null) {
-                                        model.riddle['location'] =
-                                            _riddleLocation;
-                                      }
-
-                                      // _riddle['thumbnail'] = _urlThumbnail;
-                                      model.riddle['creationDate'] =
-                                          DateTime.now();
-
                                       model.upload(_context);
                                     }
                                   },

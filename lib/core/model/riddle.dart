@@ -65,6 +65,6 @@ class Riddle {
         user: data['user'],
         loves: _loves,
         comments: _comments,
-        creationDate: data['creationDate']);
+        creationDate: data['createdAt']);
   }
 }

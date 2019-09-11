@@ -1,6 +1,7 @@
 //Flutter and Dart import
 import 'dart:io';
 import 'dart:async';
+import 'package:Tekel/core/custom/customGeoPoint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
@@ -122,6 +123,16 @@ class DatabaseServices {
   ///Return TRUE if upload new riddle to FireStore success
   Future<void> uploadRiddle(Map<String, dynamic> riddle) async {
     DocumentReference _ref = _db.collection('riddles').document();
+
+    //Add location
+    var _riddleLocation = await CustomGeoPoint().addGeoPoint();
+    if (_riddleLocation != null) {
+      riddle.addAll(_riddleLocation);
+    }
+
+    //Add Creation date
+    riddle['createdAt'] = DateTime.now();
+
     _ref
         .setData(riddle)
         .catchError(
@@ -132,7 +143,8 @@ class DatabaseServices {
         );
   }
 
-  ///* RIDDLE SOLVED BY*//
+  //* RIDDLE SOLVED BY*//
+
   ///Set the data at Firebase
   void setSolvedBy(
       {String riddleId,

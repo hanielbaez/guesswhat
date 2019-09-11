@@ -1,11 +1,10 @@
 //Flutter and Dart import
 import 'package:geocoder/geocoder.dart' as geoCoder;
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart';
 
 class CustomGeoPoint {
-  final Geoflutterfire _geo = Geoflutterfire();
+  // final Geoflutterfire _geo = Geoflutterfire();
   final Location _location = Location();
 
   ///Return the LocatioData by the phone
@@ -19,26 +18,30 @@ class CustomGeoPoint {
     return null;
   }
 
-  ///Return the subLocality of a given coordinate
+  ///return Map Location
   Future getAddress({double latitude, double longitude}) async {
     try {
       final coordinates = new geoCoder.Coordinates(latitude, longitude);
       var listAddresses = await geoCoder.Geocoder.local
           .findAddressesFromCoordinates(coordinates);
-      return listAddresses.first.subLocality;
+      return {
+        'location': {
+          'country': listAddresses.first.countryName,
+          'address': listAddresses.first.subLocality
+        }
+      };
     } catch (e) {
       print(e.toString());
     }
   }
 
-  ///Return a Map with the user curren address and geoPoints
+  ///Return a Location Map with the user curren country and address
   Future<Map<String, dynamic>> addGeoPoint() async {
     var _locationData = await getCurrentLocation();
     if (_locationData == null) return null;
-    var address = await getAddress(
+    var location = await getAddress(
         latitude: _locationData.latitude, longitude: _locationData.longitude);
-    var geoLocation = _geo.point(
-        latitude: _locationData.latitude, longitude: _locationData.longitude);
-    return {'address': address, 'position': geoLocation.data};
+
+    return location;
   }
 }
