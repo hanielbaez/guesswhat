@@ -9,7 +9,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 //Self import
 import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/viewModel/riddleCreateModelView.dart';
-import 'package:Tekel/core/custom/customGeoPoint.dart';
 
 class ImageCreatePage extends StatelessWidget {
   final Map _multiMedia;
@@ -172,6 +171,7 @@ class ImageCreatePage extends StatelessWidget {
                                                 .value['description'];
                                       }
 
+                                      //TODO: I can get the user information at the db
                                       model.riddle['user'] = {
                                         'uid': _user.uid,
                                         'displayName': _user.displayName,

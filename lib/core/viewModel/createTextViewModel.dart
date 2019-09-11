@@ -1,4 +1,3 @@
-import 'package:Tekel/core/custom/customGeoPoint.dart';
 import 'package:Tekel/core/services/db.dart';
 
 class CreateTextViewModel {
@@ -18,15 +17,6 @@ class CreateTextViewModel {
     };
 
     riddle.addAll(userMap);
-
-    //Add the user location
-    var riddleLocation = await CustomGeoPoint().addGeoPoint();
-    if (riddleLocation != null) {
-      riddle.addAll({'location': riddleLocation});
-    }
-
-    riddle.addAll({'createdAt': DateTime.now()});
-
     await _db.uploadRiddle(riddle);
     return true;
   }
