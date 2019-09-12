@@ -1,13 +1,15 @@
+//Fluter and Dart mport
+import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:ui';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
+import 'package:mime/mime.dart';
+import 'package:video_player/video_player.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+//Self import
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:Tekel/core/custom/customCacheManager.dart';
 import 'package:Tekel/core/model/riddle.dart';
-import 'package:mime/mime.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:video_player/video_player.dart';
 
 class VideoViewModel extends ChangeNotifier {
   final Riddle riddle;
@@ -16,7 +18,7 @@ class VideoViewModel extends ChangeNotifier {
   VideoPlayerController videoController;
   File imageFile;
   File thumbnailFile;
-  dynamic widget;
+  Widget widget;
 
   Future<dynamic> future;
 
@@ -75,30 +77,38 @@ class VideoViewModel extends ChangeNotifier {
   }
 
 //Costum image widgets
-  PhotoView buildImage() {
+  Container buildImage() {
     //?I can not user the zoon property, do i still need this widget?
-    return PhotoView(
-      imageProvider: NetworkImage('${riddle.imageUrl}'),
-      backgroundDecoration: BoxDecoration(color: Colors.transparent),
-      loadingChild: Stack(
-        children: <Widget>[
-          Center(
-            child: Image.asset(
-              'assets/images/noiseTv.gif',
-              fit: BoxFit.fitWidth,
-              key: ValueKey('thumbnail'),
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: SpinKitThreeBounce(
-                color: Colors.white,
-                size: 50.0,
+    return Container(
+      constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 350),
+      child: Image.network(
+        '${riddle.imageUrl}',
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          }
+          return Stack(
+            children: <Widget>[
+              Center(
+                child: Image.asset(
+                  'assets/images/noiseTv.gif',
+                  fit: BoxFit.fitWidth,
+                  key: ValueKey('thumbnail'),
+                ),
               ),
-            ),
-          )
-        ],
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SpinKitThreeBounce(
+                    color: Colors.white,
+                    size: 50.0,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

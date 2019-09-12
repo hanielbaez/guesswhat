@@ -1,11 +1,11 @@
 //Flutter import
 import 'dart:async';
-import 'package:Tekel/core/model/user.dart';
-import 'package:Tekel/core/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
+import 'package:Tekel/core/model/user.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 import 'package:Tekel/core/viewModel/videoViewModel.dart';
@@ -41,6 +41,7 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
         borderRadius: BorderRadius.zero,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),

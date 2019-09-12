@@ -51,31 +51,26 @@ class _VideoLayaoutState extends State<VideoLayaout>
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints:
-          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          FutureBuilder(
-            future: widget.model.getMedia(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  return Text('Check your network connection.');
-                case ConnectionState.active:
-                case ConnectionState.waiting:
-                case ConnectionState.done:
-                  if (snapshot.hasError)
-                    return Text('Error: try later, please');
-                  return Center(child: widget.model.widget);
-              }
-              return Text('Unreachable.');
-            },
-          ),
-          FadeTransition(opacity: fadeAnimation, child: buildSuccessContainer())
-        ],
-      ),
+    return Stack(
+      fit: StackFit.loose,
+      children: <Widget>[
+        FutureBuilder(
+          future: widget.model.getMedia(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return Text('Check your network connection.');
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+              case ConnectionState.done:
+                if (snapshot.hasError) return Text('Error: try later, please');
+                return Center(child: widget.model.widget);
+            }
+            return Text('Unreachable.');
+          },
+        ),
+        FadeTransition(opacity: fadeAnimation, child: buildSuccessContainer())
+      ],
     );
   }
 
