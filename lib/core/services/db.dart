@@ -20,10 +20,13 @@ import 'package:Tekel/core/model/supportContact.dart';
 class DatabaseServices {
   final Firestore _db = Firestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  static Future<String> _uid() async =>
-      await FirebaseAuth.instance.currentUser().then((user) {
-        return user.uid;
-      });
+  static Future<String> _userId;
+
+  DatabaseServices() {
+    _userId = FirebaseAuth.instance.currentUser().then((user) {
+      return user.uid;
+    });
+  }
 
 //*USER*//
 
@@ -31,7 +34,7 @@ class DatabaseServices {
   Future<User> getUser({String uid}) async {
     try {
       var snap =
-          await _db.collection('users').document(uid ?? await _uid()).get();
+          await _db.collection('users').document(uid ?? await _userId).get();
       return User.fromFireStore(snap);
     } catch (e) {
       print('$e');
@@ -60,7 +63,7 @@ class DatabaseServices {
   void supportContact({SupportContact support}) async {
     var ref = _db
         .collection('users')
-        .document(await _uid())
+        .document(await _userId)
         .collection('supportContacts')
         .document();
     ref.setData(await support.toJson());
@@ -74,7 +77,7 @@ class DatabaseServices {
       final List riddleList = [];
       var snap = await _db
           .collection('riddles')
-          .where('user.uid', isEqualTo: userId)
+          .where('user.uid', isEqualTo: await _userId)
           .orderBy('createdAt', descending: true)
           .getDocuments();
       snap.documents.forEach(
@@ -156,11 +159,11 @@ class DatabaseServices {
           .collection('riddles')
           .document(riddleId)
           .collection('solvedBy')
-          .document(await _uid())
+          .document(await _userId)
           .setData(
         {
           'riddleId': riddleId,
-          'userId': await _uid(),
+          'userId': await _userId,
           'ownerId': ownerId,
           'thumbnailUrl': thumbnailUrl,
           'text': text,
@@ -180,7 +183,7 @@ class DatabaseServices {
           .collection('riddles')
           .document(riddleId)
           .collection('solvedBy')
-          .document(await _uid())
+          .document(await _userId)
           .get()
           .catchError(
         (error) {
@@ -197,7 +200,7 @@ class DatabaseServices {
   Future<List> getAllSolvedBy({String userId}) async {
     var documents = await _db
         .collectionGroup('solvedBy')
-        .where('userId', isEqualTo: userId)
+        .where('userId', isEqualTo: await _userId)
         .getDocuments();
     return documents.documents.toList();
   }
@@ -212,7 +215,7 @@ class DatabaseServices {
           .collection('riddles')
           .document(riddleId)
           .collection('lovedBy')
-          .document(await _uid())
+          .document(await _userId)
           .setData(love.toJson());
     } catch (e) {
       print('$e');
@@ -225,7 +228,7 @@ class DatabaseServices {
     try {
       var documents = await _db
           .collectionGroup('lovedBy')
-          .where('userId', isEqualTo: await _uid())
+          .where('userId', isEqualTo: await _userId)
           .where('state', isEqualTo: true)
           .orderBy('updateDate', descending: true)
           .getDocuments();
