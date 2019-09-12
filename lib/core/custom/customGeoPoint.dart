@@ -26,7 +26,7 @@ class CustomGeoPoint {
           .findAddressesFromCoordinates(coordinates);
       return {
         'location': {
-          'country': listAddresses.first.countryName,
+          'countryCode': listAddresses.first.countryCode,
           'address': listAddresses.first.subLocality
         }
       };

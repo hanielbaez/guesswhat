@@ -35,12 +35,14 @@ class PaginationViewModel extends ChangeNotifier {
       if (lastDocument == null) {
         querySnapshot = await firestore
             .collection('riddles')
+            .where('location.countryCode', isEqualTo: 'DO')
             .orderBy('createdAt', descending: true)
             .limit(documentLimit)
             .getDocuments();
       } else {
         querySnapshot = await firestore
             .collection('riddles')
+            .where('location.countryCode', isEqualTo: 'DO')
             .orderBy('createdAt', descending: true)
             .startAfterDocument(lastDocument)
             .limit(documentLimit)
@@ -50,18 +52,18 @@ class PaginationViewModel extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    if (querySnapshot != null) {
+      if (querySnapshot.documents.length < documentLimit) {
+        hasMore = false;
+      } else {
+        lastDocument =
+            querySnapshot?.documents[querySnapshot.documents.length - 1];
+      }
 
-    if (querySnapshot.documents.length < documentLimit) {
-      hasMore = false;
-    } else {
-      //! Error: RangeError (RangeError (index): Invalid value: Valid value range is empty: -1)
-      lastDocument =
-          querySnapshot?.documents[querySnapshot.documents.length - 1];
+      querySnapshot.documents.forEach((doc) {
+        riddles.add(Riddle.fromFireStore(doc));
+      });
     }
-
-    querySnapshot.documents.forEach((doc) {
-      riddles.add(Riddle.fromFireStore(doc));
-    });
 
     notifyListeners();
     isLoading = false;
