@@ -1,8 +1,11 @@
+//Flutter and Dart import
 import 'dart:async';
 import 'dart:math';
-import 'package:Tekel/core/model/user.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
+
+//Self import
+import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/ui/widgets/riddle/letter.dart';
@@ -46,7 +49,7 @@ class LettersViewModel extends ChangeNotifier {
     }
 
     // Add ulti 14 characters
-    while (_word.length < 14) {
+    while (_word.length < 12) {
       _word += _newCharacter[_random.nextInt(_newCharacter.length)];
     }
 

@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 import 'package:Tekel/core/viewModel/videoViewModel.dart';
 import 'package:Tekel/ui/widgets/custom/customSideKick.dart';
-import 'package:Tekel/ui/widgets/custom/userBar.dart';
 import 'package:Tekel/ui/widgets/riddle/actionsBar.dart';
 import 'package:Tekel/ui/widgets/riddle/description.dart';
 import 'package:Tekel/ui/widgets/riddle/video.dart';
@@ -36,35 +34,23 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white,
+      //color: Colors.white,
       shape: BeveledRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: UserBar(
-              user: User.fromMap(widget.riddle.user),
-              timeStamp: widget.riddle.createdAt,
-              address: widget.riddle.address,
-            ),
-          ),
-          Hero(
-            tag: widget.riddle.id,
-            child: ChangeNotifierProvider<VideoViewModel>.value(
-              value: VideoViewModel(riddle: widget.riddle),
-              child: Consumer<VideoViewModel>(
-                builder: (context, model, child) {
-                  return SizedBox.fromSize(
-                    child: VideoLayaout(
-                        riddle: widget.riddle,
-                        model: model,
-                        shouldTriggerChange: changeNotifier.stream),
-                  );
-                },
-              ),
+          ChangeNotifierProvider<VideoViewModel>.value(
+            value: VideoViewModel(riddle: widget.riddle),
+            child: Consumer<VideoViewModel>(
+              builder: (context, model, child) {
+                return SizedBox.fromSize(
+                  child: VideoLayaout(
+                      riddle: widget.riddle,
+                      model: model,
+                      shouldTriggerChange: changeNotifier.stream),
+                );
+              },
             ),
           ),
           if (widget.riddle.answer.isNotEmpty)

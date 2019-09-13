@@ -5,9 +5,9 @@ import 'dart:ui';
 import 'package:mime/mime.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 //Self import
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:Tekel/core/custom/customCacheManager.dart';
 import 'package:Tekel/core/model/riddle.dart';
 
@@ -83,7 +83,7 @@ class VideoViewModel extends ChangeNotifier {
       constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 350),
       child: Image.network(
         '${riddle.imageUrl}',
-        fit: BoxFit.cover,
+        fit: BoxFit.fitWidth,
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) {
             return child;

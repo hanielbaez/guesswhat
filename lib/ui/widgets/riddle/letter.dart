@@ -1,5 +1,8 @@
+//Flutter and Dart import
 import 'package:flutter/material.dart';
 import 'package:flutter_sidekick/flutter_sidekick.dart';
+
+//Self import
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 
 class Item {
@@ -36,7 +39,7 @@ class CustomLetter extends StatelessWidget {
         opacity: isSource ? 0.5 : 1,
         child: Container(
           width: (isSource ? 45 : 30),
-          height: (isSource ? 45 : 30),
+          height: (isSource ? 35 : 30),
           margin: EdgeInsets.all(isSource ? 2 : 3),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,

@@ -1,7 +1,9 @@
 //Flutter and Dart import
-import 'package:Tekel/core/model/riddle.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+//Selft import
+import 'package:Tekel/core/model/riddle.dart';
 
 class PaginationViewModel extends ChangeNotifier {
   //? Probably this pagination class can be improve by adding a stream
@@ -14,19 +16,24 @@ class PaginationViewModel extends ChangeNotifier {
 
   bool hasMore = true; // flag for more products available or not
 
+  int index = 0; // index for Swiper
+
   int documentLimit = 20; // documents to be fetched per request
 
   DocumentSnapshot
       lastDocument; // flag for last document from where next 10 records to be fetched
 
+  //TODO: Refactopr this function
   getRiddles() async {
-    if (!hasMore) {
-      return;
+    /* if (!hasMore) {
+      print('null hasMore');
+      return null;
     }
     if (isLoading) {
-      return;
+      print('null');
+      return null;
     }
-    Future.delayed(Duration.zero, () => notifyListeners());
+    Future.delayed(Duration.zero, () => notifyListeners()); */
 
     isLoading = true;
 
@@ -47,7 +54,7 @@ class PaginationViewModel extends ChangeNotifier {
             .startAfterDocument(lastDocument)
             .limit(documentLimit)
             .getDocuments();
-        print(1);
+        index = riddles.length - 1;
       }
     } catch (e) {
       print(e);
@@ -65,8 +72,9 @@ class PaginationViewModel extends ChangeNotifier {
       });
     }
 
-    notifyListeners();
+    //notifyListeners();
     isLoading = false;
+    return riddles;
   }
 }
 

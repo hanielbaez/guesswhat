@@ -1,8 +1,10 @@
 //Flutter and Dart import
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:Tekel/core/services/db.dart';
 import 'package:provider/provider.dart';
+
+//Selft import
+import 'package:Tekel/core/services/db.dart';
 
 class CustomGridView extends StatelessWidget {
   final List list;
@@ -21,30 +23,27 @@ class CustomGridView extends StatelessWidget {
 
           Navigator.of(context).pushNamed('riddlePage', arguments: guess);
         },
-        child: Hero(
-          tag: list[index],
-          child: Card(
-            color: Colors.white,
-            margin: EdgeInsets.all(2.0),
-            child: Container(
-              width: 100.0,
-              height: 100.0,
-              child: Center(
-                child: list[index]['thumbnailUrl'] == null
-                    ? Text("${list[index]['text']}")
-                    : Image.network(
-                        list[index]['thumbnailUrl'],
-                        fit: BoxFit.cover,
-                        loadingBuilder: (BuildContext contex, Widget child,
-                            ImageChunkEvent loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Image.asset(
-                            'assets/images/noiseTv.gif',
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      ),
-              ),
+        child: Card(
+          color: Colors.white,
+          margin: EdgeInsets.all(2.0),
+          child: Container(
+            width: 100.0,
+            height: 100.0,
+            child: Center(
+              child: list[index]['thumbnailUrl'] == null
+                  ? Text("${list[index]['text']}")
+                  : Image.network(
+                      list[index]['thumbnailUrl'],
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext contex, Widget child,
+                          ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Image.asset(
+                          'assets/images/noiseTv.gif',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
             ),
           ),
         ),

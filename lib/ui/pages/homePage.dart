@@ -1,13 +1,13 @@
 //Flutter and Dart import
-import 'package:Tekel/core/services/db.dart';
-import 'package:Tekel/core/viewModel/paginationViewModel.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/custom/customListRiddle.dart';
-import 'package:provider/provider.dart';
+import 'package:Tekel/core/viewModel/paginationViewModel.dart';
+import 'package:Tekel/core/services/db.dart';
 import '../widgets/custom/buttonPress.dart';
 
 class HomePage extends StatelessWidget {
@@ -36,22 +36,23 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               child: IconButton(
-                  icon: Icon(
-                    SimpleLineIcons.getIconData('plus'),
-                    color: Colors.black,
-                    semanticLabel: 'Create a riddle',
-                  ),
-                  onPressed: () => Provider.of<DatabaseServices>(context)
-                          .getUser()
-                          .then((userSnap) {
-                        if (userSnap != null) {
-                          onButtonPressed(
-                              context: context,
-                              user: userSnap); //Add multimedia
-                        } else {
-                          _scaffoldKey.currentState.openDrawer();
-                        }
-                      })),
+                icon: Icon(
+                  SimpleLineIcons.getIconData('plus'),
+                  color: Colors.black,
+                  semanticLabel: 'Create a riddle',
+                ),
+                onPressed: () =>
+                    Provider.of<DatabaseServices>(context).getUser().then(
+                  (userSnap) {
+                    if (userSnap != null) {
+                      onButtonPressed(
+                          context: context, user: userSnap); //Add multimedia
+                    } else {
+                      _scaffoldKey.currentState.openDrawer();
+                    }
+                  },
+                ),
+              ),
             ),
           )
         ],
