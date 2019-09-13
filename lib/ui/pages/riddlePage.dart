@@ -31,11 +31,15 @@ class _RiddlePageState extends State<RiddlePage> {
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
-      //backgroundColor: Color.fromARGB(1, 191, 191, 191),
       body: ListView(
+        shrinkWrap: true,
         children: <Widget>[
-          RiddleLayaout(
-            riddle: widget.riddle,
+          Container(
+            constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height),
+            child: RiddleLayaout(
+              riddle: widget.riddle,
+            ),
           ),
         ],
       ),
