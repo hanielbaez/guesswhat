@@ -23,23 +23,14 @@ class PaginationViewModel extends ChangeNotifier {
   DocumentSnapshot
       lastDocument; // flag for last document from where next 10 records to be fetched
 
-  //TODO: Refactopr this function
   getRiddles() async {
-    /* if (!hasMore) {
-      print('null hasMore');
-      return null;
-    }
-    if (isLoading) {
-      print('null');
-      return null;
-    }
-    Future.delayed(Duration.zero, () => notifyListeners()); */
 
     isLoading = true;
 
     QuerySnapshot querySnapshot;
     try {
       if (lastDocument == null) {
+        print('NORMAL');
         querySnapshot = await firestore
             .collection('riddles')
             .where('location.countryCode', isEqualTo: 'DO')
@@ -47,6 +38,8 @@ class PaginationViewModel extends ChangeNotifier {
             .limit(documentLimit)
             .getDocuments();
       } else {
+        print('START AT');
+        print('Last document $lastDocument');
         querySnapshot = await firestore
             .collection('riddles')
             .where('location.countryCode', isEqualTo: 'DO')
@@ -59,20 +52,17 @@ class PaginationViewModel extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
-    if (querySnapshot != null) {
-      if (querySnapshot.documents.length < documentLimit) {
-        hasMore = false;
-      } else {
-        lastDocument =
-            querySnapshot?.documents[querySnapshot.documents.length - 1];
-      }
 
-      querySnapshot.documents.forEach((doc) {
-        riddles.add(Riddle.fromFireStore(doc));
-      });
+    if (querySnapshot.documents.isNotEmpty) {
+      lastDocument =
+          querySnapshot?.documents[querySnapshot.documents.length - 1];
+    } else {
+      print('Error: No more data to fetch');
     }
 
-    //notifyListeners();
+    querySnapshot.documents.forEach((doc) {
+      riddles.add(Riddle.fromFireStore(doc));
+    });
     isLoading = false;
     return riddles;
   }
