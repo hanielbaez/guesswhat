@@ -45,7 +45,10 @@ class UserBar extends StatelessWidget {
             children: <Widget>[
               Text(
                 '${user.displayName}'.split(' ')[0],
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 178, 178, 178),
+                ),
               ),
               Text(
                 (address == null ? '' : address + ' ・ ') +
@@ -53,7 +56,7 @@ class UserBar extends StatelessWidget {
                       timeStamp.millisecondsSinceEpoch,
                     ),
                 style: TextStyle(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Color.fromARGB(255, 178, 178, 178),
                   fontSize: 10.0,
                 ),
               ),
