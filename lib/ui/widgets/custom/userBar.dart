@@ -43,12 +43,27 @@ class UserBar extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                '${user.displayName}'.split(' ')[0],
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 178, 178, 178),
-                ),
+              Stack(
+                children: <Widget>[
+                  Text(
+                    '${user.displayName}'.split(' ')[0],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                     
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = .5
+                        ..color = Colors.white,
+                    ),
+                  ),
+                  Text(
+                    '${user.displayName}'.split(' ')[0],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
               Text(
                 (address == null ? '' : address + ' ・ ') +
@@ -56,7 +71,7 @@ class UserBar extends StatelessWidget {
                       timeStamp.millisecondsSinceEpoch,
                     ),
                 style: TextStyle(
-                  color: Color.fromARGB(255, 178, 178, 178),
+                  color: Color.fromARGB(255, 100, 100, 100),
                   fontSize: 10.0,
                 ),
               ),
