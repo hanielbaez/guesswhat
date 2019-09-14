@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'dart:async';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
@@ -8,6 +9,7 @@ import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/ui/widgets/custom/userBar.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/viewModel/videoViewModel.dart';
+import 'package:provider/provider.dart';
 
 class VideoLayaout extends StatefulWidget {
   final Riddle riddle;
@@ -45,9 +47,14 @@ class _VideoLayaoutState extends State<VideoLayaout>
 
   void success(value) async {
     if (value == true) {
-      setState(() {
-        fadeController.forward();
-      });
+      Future.delayed(
+        Duration.zero,
+        () => setState(
+          () {
+            fadeController.forward();
+          },
+        ),
+      );
     }
   }
 
@@ -92,6 +99,9 @@ class _VideoLayaoutState extends State<VideoLayaout>
   }
 
   Container buildSuccessContainer() {
+    fadeController.isAnimating
+        ? Provider.of<ConfettiController>(context).play()
+        : null;
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(

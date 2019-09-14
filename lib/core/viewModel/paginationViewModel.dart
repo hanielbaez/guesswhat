@@ -24,13 +24,11 @@ class PaginationViewModel extends ChangeNotifier {
       lastDocument; // flag for last document from where next 10 records to be fetched
 
   getRiddles() async {
-
     isLoading = true;
 
     QuerySnapshot querySnapshot;
     try {
       if (lastDocument == null) {
-        print('NORMAL');
         querySnapshot = await firestore
             .collection('riddles')
             .where('location.countryCode', isEqualTo: 'DO')
@@ -38,7 +36,6 @@ class PaginationViewModel extends ChangeNotifier {
             .limit(documentLimit)
             .getDocuments();
       } else {
-        print('START AT');
         print('Last document $lastDocument');
         querySnapshot = await firestore
             .collection('riddles')
