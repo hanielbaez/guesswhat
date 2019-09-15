@@ -1,4 +1,5 @@
 //Flutter and Dart import
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,6 +12,27 @@ import 'package:Tekel/core/custom/customGetToken.dart';
 ///User authentication from Firebase
 class AuthenticationServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  Observable<FirebaseUser> userT; // firebase user
+  Observable<Map<String, dynamic>> profile; // custom user data in Firestore
+  final Firestore _db = Firestore.instance;
+
+  AuthenticationServices() {
+    userT = Observable(_auth.onAuthStateChanged);
+
+    profile = userT.switchMap(
+      (FirebaseUser u) {
+        if (u != null) {
+          return _db
+              .collection('users')
+              .document(u.uid)
+              .snapshots()
+              .map((snap) => snap.data);
+        } else {
+          return Observable.just({}); //Observable.just(null);
+        }
+      },
+    );
+  }
 
   Observable<FirebaseUser> user() {
     return Observable(FirebaseAuth.instance.onAuthStateChanged);

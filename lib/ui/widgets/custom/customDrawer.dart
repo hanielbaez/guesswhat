@@ -32,8 +32,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
       child: Container(
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: FutureBuilder<User>(
-            future: Provider.of<DatabaseServices>(context).getUser(),
+          child: StreamBuilder(
+            stream: Provider.of<AuthenticationServices>(context).profile,
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -53,9 +53,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   );
                 case ConnectionState.active:
                 case ConnectionState.done:
-                  if (snapshot.hasData) if (!snapshot.hasError) {
+                  if (snapshot.hasData) if (!snapshot.data.isEmpty) {
                     return SingInLayout(
-                        user: snapshot.data, setState: updateState);
+                        user: User.fromMap(snapshot.data),
+                        setState: updateState);
                   }
                   return SingOutLayout(setState: updateState);
                   break;
@@ -85,14 +86,15 @@ class SingInLayout extends StatelessWidget {
           child: Container(
             height: 100.0,
             decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                gradient: LinearGradient(
-                  colors: [Colors.yellow[600], Colors.orange[400]],
-                  begin: const FractionalOffset(0.0, 0.0),
-                  end: const FractionalOffset(1, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp,
-                )),
+              shape: BoxShape.rectangle,
+              gradient: LinearGradient(
+                colors: [Colors.yellow[600], Colors.orange[400]],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              ),
+            ),
             child: Row(
               children: <Widget>[
                 Container(
@@ -221,59 +223,60 @@ class SingInLayout extends StatelessWidget {
                   color: Colors.white,
                 ),
                 ListTile(
-                    leading: Icon(
-                      SimpleLineIcons.getIconData('logout'),
+                  leading: Icon(
+                    SimpleLineIcons.getIconData('logout'),
+                    color: Colors.black.withOpacity(0.4),
+                  ),
+                  title: Text(
+                    'Log out',
+                    style: TextStyle(
                       color: Colors.black.withOpacity(0.4),
                     ),
-                    title: Text(
-                      'Log out',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.4),
-                      ),
-                    ),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                              'Leave Tekel?',
-                              style: TextStyle(),
-                            ),
-                            actions: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  FlatButton(
-                                    child: Text(
-                                      'Cancel',
-                                      style: TextStyle(
-                                        color: Colors.black.withOpacity(0.5),
-                                      ),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(
+                            'Leave Tekel?',
+                            style: TextStyle(),
+                          ),
+                          actions: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                FlatButton(
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      color: Colors.black.withOpacity(0.5),
                                     ),
-                                    onPressed: () => Navigator.pop(context),
                                   ),
-                                  FlatButton(
-                                      child: Text(
-                                        'Leave',
-                                        style: TextStyle(
-                                          color: Colors.black.withOpacity(0.5),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Provider.of<AuthenticationServices>(
-                                                context)
-                                            .singOut();
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                                FlatButton(
+                                  child: Text(
+                                    'Leave',
+                                    style: TextStyle(
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Provider.of<AuthenticationServices>(context)
+                                        .singOut();
 
-                                        Navigator.pop(context);
-                                        setState();
-                                      })
-                                ],
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }),
+                                    /*  Navigator.pop(context);
+                                    setState(); */
+                                  },
+                                )
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -316,7 +319,6 @@ class SingOutLayout extends StatelessWidget {
               .loginWithFacebook()
               .then(
             (response) {
-              Navigator.pop(context);
               Scaffold.of(context).showSnackBar(
                 new SnackBar(
                   content: new Text("$response"),
