@@ -45,7 +45,6 @@ class CustomDrawer extends StatelessWidget {
                     );
                   }
                   return SingOutLayout();
-                  break;
               }
               return Container(); //unreachable
             },
@@ -284,7 +283,7 @@ class SingOutLayout extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "Register to be able to create and share your riddles",
+            "Register to create and share your riddles",
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,

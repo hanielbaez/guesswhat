@@ -13,7 +13,7 @@ import 'package:Tekel/core/custom/customGetToken.dart';
 class AuthenticationServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Observable<FirebaseUser> userT; // firebase user
-  Observable<Map<String, dynamic>> profile; // custom user data in Firestore
+  Stream<Map> profile; // custom user data in Firestore
   final Firestore _db = Firestore.instance;
 
   AuthenticationServices() {
@@ -26,9 +26,10 @@ class AuthenticationServices {
               .collection('users')
               .document(u.uid)
               .snapshots()
+              .asBroadcastStream()
               .map((snap) => snap.data);
         } else {
-          return Observable.just({}); //Observable.just(null);
+          return Observable.just(null); 
         }
       },
     );

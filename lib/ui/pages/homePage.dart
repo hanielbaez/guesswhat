@@ -1,4 +1,5 @@
 //Flutter and Dart import
+import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -6,18 +7,34 @@ import 'package:flutter_icons/simple_line_icons.dart';
 //Self import
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/custom/customListRiddle.dart';
-import 'package:Tekel/core/services/db.dart';
 import '../widgets/custom/buttonPress.dart';
+import 'package:Tekel/core/model/user.dart';
+import 'package:Tekel/core/services/auth.dart';
 
-class HomePage extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  StreamSubscription subscription;
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(SimpleLineIcons.getIconData('menu')),
+          icon: Icon(
+            SimpleLineIcons.getIconData('menu'),
+          ),
           onPressed: () {
             _scaffoldKey.currentState.openDrawer();
           },
@@ -40,17 +57,23 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                   semanticLabel: 'Create a riddle',
                 ),
-                onPressed: () =>
-                    Provider.of<DatabaseServices>(context).getUser().then(
-                  (userSnap) {
-                    if (userSnap != null) {
-                      onButtonPressed(
-                          context: context, user: userSnap); //Add multimedia
-                    } else {
-                      _scaffoldKey.currentState.openDrawer();
-                    }
-                  },
-                ),
+                onPressed: () {
+                  subscription = Provider.of<AuthenticationServices>(context)
+                      .profile
+                      .listen(
+                    (user) {
+                      if (user != null) {
+                        onButtonPressed(
+                          context: context,
+                          user: User.fromMap(user),
+                        ); //Add multimedia
+                      } else {
+                        _scaffoldKey.currentState.openDrawer();
+                      }
+                      subscription.cancel();
+                    },
+                  );
+                },
               ),
             ),
           )
@@ -62,7 +85,7 @@ class HomePage extends StatelessWidget {
       ),
       drawer: CustomDrawer(),
       backgroundColor: Colors.white,
-      body:  CustomListRiddle(),
+      body: CustomListRiddle(),
     );
   }
 }
