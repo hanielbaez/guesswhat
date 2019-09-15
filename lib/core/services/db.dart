@@ -34,7 +34,7 @@ class DatabaseServices {
   Future<User> getUser({String uid}) async {
     try {
       var snap =
-          await _db.collection('users').document(uid ?? await _userId).get();
+          await _db.collection('users').document(uid).get();
       return User.fromFireStore(snap);
     } catch (e) {
       print('$e');

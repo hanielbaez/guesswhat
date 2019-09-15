@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                       if (user != null) {
                         onButtonPressed(
                           context: context,
-                          user: User.fromMap(user),
+                          user: user,
                         ); //Add multimedia
                       } else {
                         _scaffoldKey.currentState.openDrawer();

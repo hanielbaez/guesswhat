@@ -1,4 +1,5 @@
 //Flutter and Dart import
+import 'package:Tekel/core/model/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -13,7 +14,7 @@ import 'package:Tekel/core/custom/customGetToken.dart';
 class AuthenticationServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Observable<FirebaseUser> userT; // firebase user
-  Stream<Map> profile; // custom user data in Firestore
+  Stream<User> profile; // custom user data in Firestore
   final Firestore _db = Firestore.instance;
 
   AuthenticationServices() {
@@ -27,9 +28,11 @@ class AuthenticationServices {
               .document(u.uid)
               .snapshots()
               .asBroadcastStream()
-              .map((snap) => snap.data);
+              .map(
+                (snap) => User.fromFireStore(snap),
+              );
         } else {
-          return Observable.just(null); 
+          return Observable.just(null);
         }
       },
     );
