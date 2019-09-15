@@ -10,22 +10,8 @@ import 'package:share_extend/share_extend.dart';
 import 'package:Tekel/ui/widgets/custom/buttonPress.dart';
 import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/services/auth.dart';
-import 'package:Tekel/core/services/db.dart';
 
-class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _CustomDrawerState createState() => _CustomDrawerState();
-}
-
-class _CustomDrawerState extends State<CustomDrawer> {
-  void updateState() {
-    setState(() {});
-  }
-
+class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -55,10 +41,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 case ConnectionState.done:
                   if (snapshot.hasData) if (!snapshot.data.isEmpty) {
                     return SingInLayout(
-                        user: User.fromMap(snapshot.data),
-                        setState: updateState);
+                      user: User.fromMap(snapshot.data),
+                    );
                   }
-                  return SingOutLayout(setState: updateState);
+                  return SingOutLayout();
                   break;
               }
               return Container(); //unreachable
@@ -72,9 +58,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
 class SingInLayout extends StatelessWidget {
   final User user;
-  final Function setState;
 
-  const SingInLayout({Key key, this.user, this.setState}) : super(key: key);
+  const SingInLayout({Key key, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -265,8 +250,7 @@ class SingInLayout extends StatelessWidget {
                                     Provider.of<AuthenticationServices>(context)
                                         .singOut();
 
-                                    /*  Navigator.pop(context);
-                                    setState(); */
+                                    Navigator.pop(context);
                                   },
                                 )
                               ],
@@ -288,10 +272,8 @@ class SingInLayout extends StatelessWidget {
 
 //Show this layaout when the user is SingOut
 class SingOutLayout extends StatelessWidget {
-  final Function setState;
   const SingOutLayout({
     Key key,
-    this.setState,
   }) : super(key: key);
 
   @override
