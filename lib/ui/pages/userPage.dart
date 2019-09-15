@@ -178,7 +178,7 @@ class UserPage extends StatelessWidget {
           SizedBox(height: 10.0),
           FutureBuilder(
             future: Provider.of<DatabaseServices>(context)
-                .fectchUserRiddle(userId: user.uid),
+                .fetchUserRiddle(userId: user.uid),
             builder: (context, snapshot) {
               if (snapshot.hasData)
                 return Expanded(
