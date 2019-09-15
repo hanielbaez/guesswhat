@@ -71,7 +71,7 @@ class AuthenticationServices {
           break;
       }
     } catch (e) {
-      print(e.toString());
+      print('loginWithFacebook: $e');
       return e.message.toString();
     }
     return null; //unreachable
@@ -91,6 +91,7 @@ class AuthenticationServices {
       requestingPermission();
       return 'Signed in Successfully';
     } catch (e) {
+      print('sigInWithGoogle $e');
       return e.message;
     }
   }
@@ -99,7 +100,7 @@ class AuthenticationServices {
     try {
       _auth.signOut();
     } catch (e) {
-      print(e.toString());
+      print('singOut: $e');
     }
   }
 
@@ -108,10 +109,12 @@ class AuthenticationServices {
     //Getting the device Toke
     saveDeviceToken();
 
-    await PermissionHandler().requestPermissions([
-      PermissionGroup.location,
-      PermissionGroup.camera,
-      PermissionGroup.storage
-    ]);
+    await PermissionHandler().requestPermissions(
+      [
+        PermissionGroup.location,
+        PermissionGroup.camera,
+        PermissionGroup.storage
+      ],
+    );
   }
 }

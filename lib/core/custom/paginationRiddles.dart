@@ -46,14 +46,14 @@ class PaginationViewModel {
         index = riddles.length - 1;
       }
     } catch (e) {
-      print(e);
+      print('getRiddles: $e');
     }
 
     if (querySnapshot.documents.isNotEmpty) {
       lastDocument =
           querySnapshot?.documents[querySnapshot.documents.length - 1];
     } else {
-      print('Error: No more data to fetch');
+      print('Pagination: No more data to fetch');
     }
 
     querySnapshot.documents.forEach((doc) {

@@ -23,9 +23,11 @@ class DatabaseServices {
   static Future<String> _userId;
 
   DatabaseServices() {
-    _userId = FirebaseAuth.instance.currentUser().then((user) {
-      return user.uid;
-    });
+    _userId = FirebaseAuth.instance.currentUser().then(
+      (user) {
+        return user.uid;
+      },
+    );
   }
 
 //*USER*//
@@ -33,11 +35,13 @@ class DatabaseServices {
   ///Return a User object
   Future<User> getUser({String uid}) async {
     try {
-      var snap =
-          await _db.collection('users').document(uid).get();
+      var snap = await _db
+          .collection('users')
+          .document(uid ?? await _userId ?? 'noUser')
+          .get();
       return User.fromFireStore(snap);
     } catch (e) {
-      print('$e');
+      print('getUser error: $e');
       return null;
     }
   }
@@ -55,18 +59,22 @@ class DatabaseServices {
       );
       _db.collection('users').document(user.uid).updateData(user.toJson());
     } catch (e) {
-      print('$e');
+      print('updateUserData error: $e');
       return null;
     }
   }
 
   void supportContact({SupportContact support}) async {
-    var ref = _db
-        .collection('users')
-        .document(await _userId)
-        .collection('supportContacts')
-        .document();
-    ref.setData(await support.toJson());
+    try {
+      var ref = _db
+          .collection('users')
+          .document(await _userId)
+          .collection('supportContacts')
+          .document();
+      ref.setData(await support.toJson());
+    } catch (e) {
+      print('supportContact error: $e');
+    }
   }
 
   //* RIDLDLE *//
@@ -91,15 +99,20 @@ class DatabaseServices {
       );
       return riddleList;
     } catch (e) {
-      print(e.toString());
+      print('fetchUserRiddle: $e');
       return null;
     }
   }
 
   ///Retur a riddle by the given ID
   Future<Riddle> getRiddle({String riddleId}) async {
-    var snap = await _db.collection('riddles').document(riddleId).get();
-    return Riddle.fromFireStore(snap);
+    try {
+      var snap = await _db.collection('riddles').document(riddleId).get();
+      return Riddle.fromFireStore(snap);
+    } catch (e) {
+      print('getRiddle: $e');
+      return null;
+    }
   }
 
   ///Upload media to Firebase Storage and return a Dowload Url
@@ -118,32 +131,36 @@ class DatabaseServices {
       final String url = (await downloadUrl.ref.getDownloadURL());
       return url;
     } catch (e) {
-      print('Error uploadToFireStore. Error: $e');
+      print('uploadToFireStore: $e');
       return null;
     }
   }
 
   ///Return TRUE if upload new riddle to FireStore success
   Future<void> uploadRiddle(Map<String, dynamic> riddle) async {
-    DocumentReference _ref = _db.collection('riddles').document();
+    try {
+      DocumentReference _ref = _db.collection('riddles').document();
 
-    //Add location
-    var _riddleLocation = await CustomGeoPoint().addGeoPoint();
-    if (_riddleLocation != null) {
-      riddle.addAll(_riddleLocation);
+      //Add location
+      var _riddleLocation = await CustomGeoPoint().addGeoPoint();
+      if (_riddleLocation != null) {
+        riddle.addAll(_riddleLocation);
+      }
+
+      //Add Creation date
+      riddle['createdAt'] = DateTime.now();
+
+      _ref
+          .setData(riddle)
+          .catchError(
+            (error) => print('FireBase ERROR: $error'),
+          )
+          .whenComplete(
+            () => print('FireBase Complete'),
+          );
+    } catch (e) {
+      print('uploadRiddle: $e');
     }
-
-    //Add Creation date
-    riddle['createdAt'] = DateTime.now();
-
-    _ref
-        .setData(riddle)
-        .catchError(
-          (error) => print('FireBase ERROR: $error'),
-        )
-        .whenComplete(
-          () => print('FireBase Complete'),
-        );
   }
 
   //* RIDDLE SOLVED BY*//
@@ -171,7 +188,7 @@ class DatabaseServices {
         },
       );
     } catch (e) {
-      print('$e');
+      print('setSolvedBy: $e');
       return null;
     }
   }
@@ -191,18 +208,23 @@ class DatabaseServices {
         },
       );
     } catch (e) {
-      print('$e');
+      print('isSolvedBy: $e');
       return null;
     }
   }
 
   ///Return a list of all Riddles solve by user
   Future<List> getAllSolvedBy({String userId}) async {
-    var documents = await _db
-        .collectionGroup('solvedBy')
-        .where('userId', isEqualTo: userId ?? await _userId)
-        .getDocuments();
-    return documents.documents.toList();
+    try {
+      var documents = await _db
+          .collectionGroup('solvedBy')
+          .where('userId', isEqualTo: userId ?? await _userId)
+          .getDocuments();
+      return documents.documents.toList();
+    } catch (e) {
+      print('getAllSolvedBy $e');
+      return null;
+    }
   }
 
   //* LOVE(Favorite) *//
@@ -218,7 +240,7 @@ class DatabaseServices {
           .document(await _userId)
           .setData(love.toJson());
     } catch (e) {
-      print('$e');
+      print('updateLoveState: $e');
       return null;
     }
   }
@@ -235,7 +257,7 @@ class DatabaseServices {
 
       return documents.documents.toList();
     } catch (e) {
-      print('$e');
+      print('loveRiddle: $e');
       return null;
     }
   }
@@ -255,7 +277,7 @@ class DatabaseServices {
         },
       );
     } catch (e) {
-      print('$e');
+      print('loveStream: $e');
       return null;
     }
   }
@@ -272,7 +294,7 @@ class DatabaseServices {
           .collection('comments')
           .snapshots();
     } catch (e) {
-      print('$e');
+      print('getAllComments: $e');
       return null;
     }
   }
@@ -288,7 +310,7 @@ class DatabaseServices {
       _ref.setData(comment.toJson());
       return _result;
     } catch (e) {
-      print('$e');
+      print('uploadComment: $e');
       return null;
     }
   }
