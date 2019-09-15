@@ -8,7 +8,6 @@ import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/custom/customListRiddle.dart';
 import '../widgets/custom/buttonPress.dart';
-import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/services/auth.dart';
 
 class HomePage extends StatefulWidget {

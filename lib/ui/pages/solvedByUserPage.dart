@@ -60,7 +60,6 @@ class SolvedByPage extends StatelessWidget {
                   list: snapshot.data,
                 );
               } else {
-                //TODO: This need to be changed accordingly
                 return Align(
                   alignment: Alignment.center,
                   child: Column(

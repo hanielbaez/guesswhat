@@ -62,7 +62,6 @@ class SingInLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('USER ID ${user.uid}');
     return Column(
       children: <Widget>[
         GestureDetector(

@@ -35,7 +35,6 @@ class PaginationViewModel {
             .limit(documentLimit)
             .getDocuments();
       } else {
-        print('Last document $lastDocument');
         querySnapshot = await firestore
             .collection('riddles')
             .where('location.countryCode', isEqualTo: 'DO')
