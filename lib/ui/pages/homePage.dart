@@ -6,7 +6,6 @@ import 'package:flutter_icons/simple_line_icons.dart';
 //Self import
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/custom/customListRiddle.dart';
-import 'package:Tekel/core/viewModel/paginationViewModel.dart';
 import 'package:Tekel/core/services/db.dart';
 import '../widgets/custom/buttonPress.dart';
 
@@ -63,12 +62,7 @@ class HomePage extends StatelessWidget {
       ),
       drawer: CustomDrawer(),
       backgroundColor: Colors.white,
-      body: ChangeNotifierProvider<PaginationViewModel>.value(
-        value: PaginationViewModel(),
-        child: Consumer<PaginationViewModel>(
-          builder: (context, model, child) => CustomListRiddle(model: model),
-        ),
-      ),
+      body:  CustomListRiddle(),
     );
   }
 }

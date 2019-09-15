@@ -1,11 +1,10 @@
 //Flutter and Dart import
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //Selft import
 import 'package:Tekel/core/model/riddle.dart';
 
-class PaginationViewModel extends ChangeNotifier {
+class PaginationViewModel {
   //? Probably this pagination class can be improve by adding a stream
 
   Firestore firestore = Firestore.instance;
