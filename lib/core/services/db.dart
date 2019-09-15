@@ -200,7 +200,7 @@ class DatabaseServices {
   Future<List> getAllSolvedBy({String userId}) async {
     var documents = await _db
         .collectionGroup('solvedBy')
-        .where('userId', isEqualTo: await _userId)
+        .where('userId', isEqualTo: userId ?? await _userId)
         .getDocuments();
     return documents.documents.toList();
   }

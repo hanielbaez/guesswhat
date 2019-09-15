@@ -39,6 +39,7 @@ class CustomDrawer extends StatelessWidget {
                   );
                 case ConnectionState.active:
                 case ConnectionState.done:
+                  print('${snapshot.data}');
                   if (snapshot.hasData) if (!snapshot.data.isEmpty) {
                     return SingInLayout(
                       user: User.fromMap(snapshot.data),
@@ -62,6 +63,7 @@ class SingInLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('${user.displayName}');
     return Column(
       children: <Widget>[
         GestureDetector(

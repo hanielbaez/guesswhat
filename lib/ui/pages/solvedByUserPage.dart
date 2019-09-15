@@ -32,7 +32,8 @@ class SolvedByPage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List>(
-        future: Provider.of<DatabaseServices>(context).getAllSolvedBy(),
+        future: Provider.of<DatabaseServices>(context)
+            .getAllSolvedBy(userId: user.uid),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
