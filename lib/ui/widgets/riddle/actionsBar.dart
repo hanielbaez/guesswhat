@@ -64,6 +64,7 @@ class ActionBar extends StatelessWidget {
                               state: !loveState,
                               userId: userSnap.data.uid,
                               riddleId: riddle.id,
+                              text: riddle.text ?? '',
                               thumbnailUrl: riddle.thumbnailUrl,
                             ),
                           );
