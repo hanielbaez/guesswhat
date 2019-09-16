@@ -29,7 +29,7 @@ class CustomDrawer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text('Please wait...'),
+                      
                         SpinKitThreeBounce(
                           color: Colors.black,
                           size: 50.0,

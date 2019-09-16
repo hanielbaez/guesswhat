@@ -41,16 +41,9 @@ class SolvedByPage extends StatelessWidget {
             case ConnectionState.active:
             case ConnectionState.waiting:
               return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text('Please wait...'),
-                    SpinKitThreeBounce(
-                      color: Colors.black,
-                      size: 50.0,
-                    ),
-                  ],
+                child: SpinKitThreeBounce(
+                  color: Colors.black,
+                  size: 50.0,
                 ),
               );
             case ConnectionState.done:

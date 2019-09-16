@@ -1,5 +1,7 @@
 //Flutter and Dart import
+import 'dart:math';
 import 'dart:async';
+import 'package:confetti/confetti.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -18,6 +20,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   StreamSubscription subscription;
+  ConfettiController controllerTopCenter;
+
+  @override
+  void initState() {
+    controllerTopCenter = ConfettiController(duration: Duration(seconds: 5));
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -84,7 +93,25 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: CustomDrawer(),
       backgroundColor: Colors.white,
-      body: CustomListRiddle(),
+      body: Stack(
+        children: <Widget>[
+          ListenableProvider<ConfettiController>.value(
+            value: controllerTopCenter,
+            child: CustomListRiddle(),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: controllerTopCenter,
+              blastDirection: pi / 2,
+              maxBlastForce: 10,
+              minBlastForce: 2,
+              emissionFrequency: 0.05,
+              numberOfParticles: 5,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
