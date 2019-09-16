@@ -72,7 +72,7 @@ class AuthenticationServices {
       }
     } catch (e) {
       print('loginWithFacebook: $e');
-      return e.message.toString();
+      return 'Error while trying to sing with Facebook';
     }
     return null; //unreachable
   }
@@ -92,7 +92,7 @@ class AuthenticationServices {
       return 'Signed in Successfully';
     } catch (e) {
       print('sigInWithGoogle $e');
-      return e.message;
+      return 'Error while trying to sing with Google';
     }
   }
 
