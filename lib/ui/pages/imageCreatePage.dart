@@ -151,10 +151,6 @@ class ImageCreatePage extends StatelessWidget {
                                         .saveAndValidate()) {
                                       model.getFile(_multiMedia['video'],
                                           _multiMedia['image']);
-                                      var _userDb =
-                                          await Provider.of<DatabaseServices>(
-                                                  context)
-                                              .getUser();
 
                                       if (_formCreateKey
                                               .currentState.value['answer'] !=
@@ -170,13 +166,6 @@ class ImageCreatePage extends StatelessWidget {
                                             _formCreateKey.currentState
                                                 .value['description'];
                                       }
-
-                                      //TODO: I can get the user information at the db
-                                      model.riddle['user'] = {
-                                        'uid': _user.uid,
-                                        'displayName': _user.displayName,
-                                        'photoUrl': _userDb.photoUrl,
-                                      };
 
                                       model.upload(_context);
                                     }
