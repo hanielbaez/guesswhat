@@ -1,5 +1,4 @@
 //Flutter and dart import
-import 'package:Tekel/core/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -7,18 +6,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 //Self import
-import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/viewModel/riddleCreateModelView.dart';
 
 class ImageCreatePage extends StatelessWidget {
   final Map _multiMedia;
-  final User _user;
   final BuildContext _context;
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
   ImageCreatePage({multiMedia, user, context})
       : _multiMedia = multiMedia,
-        _user = user,
         _context = context;
 
   @override

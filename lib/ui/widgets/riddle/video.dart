@@ -42,6 +42,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
   void dispose() {
     widget.model.videoController?.dispose();
     streamSubscription.cancel();
+    fadeController.dispose();
     super.dispose();
   }
 

@@ -23,7 +23,7 @@ class RiddleLayaout extends StatefulWidget {
 }
 
 class _RiddleLayaoutState extends State<RiddleLayaout> {
-  final changeNotifier = new StreamController.broadcast();
+  final changeNotifier = StreamController.broadcast();
 
   @override
   void dispose() {
