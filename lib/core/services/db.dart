@@ -146,6 +146,12 @@ class DatabaseServices {
       if (_riddleLocation != null) {
         riddle.addAll(_riddleLocation);
       }
+
+      if (riddle['answer'] != '') {
+        riddle.addAll({'isRiddle': true});
+      }
+
+      //Add user
       var user = await getUser();
       var userMap = {'user': user.toJson()};
       riddle.addAll(userMap);

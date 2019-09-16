@@ -31,6 +31,7 @@ class PaginationViewModel {
         querySnapshot = await firestore
             .collection('riddles')
             .where('location.countryCode', isEqualTo: 'DO')
+            .where('isRiddle', isEqualTo: true)
             .orderBy('createdAt', descending: true)
             .limit(documentLimit)
             .getDocuments();
@@ -38,6 +39,7 @@ class PaginationViewModel {
         querySnapshot = await firestore
             .collection('riddles')
             .where('location.countryCode', isEqualTo: 'DO')
+            .where('isRiddle', isEqualTo: true)
             .orderBy('createdAt', descending: true)
             .startAfterDocument(lastDocument)
             .limit(documentLimit)
@@ -55,9 +57,11 @@ class PaginationViewModel {
       print('Pagination: No more data to fetch');
     }
 
-    querySnapshot.documents.forEach((doc) {
-      riddles.add(Riddle.fromFireStore(doc));
-    });
+    querySnapshot.documents.forEach(
+      (doc) {
+        riddles.add(Riddle.fromFireStore(doc));
+      },
+    );
     isLoading = false;
     return riddles;
   }
