@@ -12,45 +12,43 @@ import 'package:Tekel/ui/pages/editUserPage.dart';
 import 'package:Tekel/ui/pages/commentPage.dart';
 import 'package:Tekel/ui/pages/solvedByUserPage.dart';
 import 'package:Tekel/ui/pages/textCreatePage.dart';
+import 'package:page_transition/page_transition.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(
-        builder: (context) => HomePage(),
-      );
+      return PageTransition(
+          child: HomePage(), type: PageTransitionType.rightToLeft);
     case 'lovePage':
-      return MaterialPageRoute(
-        builder: (context) => LovePage(),
-      );
+      return PageTransition(
+          child: LovePage(), type: PageTransitionType.leftToRight);
     case 'riddlePage':
-      return MaterialPageRoute(
-        builder: (context) => RiddlePage(settings.arguments),
-      );
+      return PageTransition(
+          child: RiddlePage(settings.arguments),
+          type: PageTransitionType.leftToRight);
     case 'userPage':
-      return MaterialPageRoute(
-        builder: (context) => UserPage(user: settings.arguments),
-      );
+      return PageTransition(
+          child: UserPage(user: settings.arguments),
+          type: PageTransitionType.leftToRight);
     case 'supportPage':
-      return MaterialPageRoute(
-        builder: (context) => SupportPage(user: settings.arguments),
-      );
+      return PageTransition(
+          child: SupportPage(user: settings.arguments),
+          type: PageTransitionType.leftToRight);
     case 'commentsPage':
-      return MaterialPageRoute(
-        builder: (context) => CommentPage(riddle: settings.arguments),
-      );
+      return PageTransition(
+          child: CommentPage(riddle: settings.arguments),
+          type: PageTransitionType.downToUp);
     case 'editUserPage':
-      return MaterialPageRoute(
-        builder: (context) => EditUserPage(user: settings.arguments),
-      );
+      return PageTransition(
+          child: EditUserPage(user: settings.arguments),
+          type: PageTransitionType.leftToRight);
     case 'solvedByPage':
-      return MaterialPageRoute(
-        builder: (context) => SolvedByPage(user: settings.arguments),
-      );
+      return PageTransition(
+          child: SolvedByPage(user: settings.arguments),
+          type: PageTransitionType.leftToRight);
     case 'createTextRiddle':
-      return MaterialPageRoute(
-        builder: (context) => TextCreatePage(),
-      );
+      return PageTransition(
+          child: TextCreatePage(), type: PageTransitionType.leftToRight);
     default:
       return MaterialPageRoute(
         builder: (context) => UnknownPage(),
