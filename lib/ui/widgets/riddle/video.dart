@@ -74,7 +74,10 @@ class _VideoLayaoutState extends State<VideoLayaout>
                 case ConnectionState.done:
                   if (snapshot.hasError)
                     return Text('Error: try later, please');
-                  return Center(child: widget.model.widget);
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Center(child: widget.model.widget),
+                  );
               }
               return Text('Unreachable.');
             },
@@ -91,6 +94,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
         ? Provider.of<ConfettiController>(context).play()
         : null;
     return Container(
+      padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.yellow[600], Colors.orange[400]],
