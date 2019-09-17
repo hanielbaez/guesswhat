@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
-import 'package:Tekel/core/model/user.dart';
-import 'package:Tekel/ui/widgets/custom/userBar.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/viewModel/videoViewModel.dart';
 import 'package:provider/provider.dart';
@@ -62,11 +60,8 @@ class _VideoLayaoutState extends State<VideoLayaout>
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints.expand(
-        height: MediaQuery.of(context).size.height / 2,
-      ),
       child: Stack(
-        fit: StackFit.expand,
+        fit: StackFit.loose,
         children: <Widget>[
           FutureBuilder(
             future: widget.model.getMedia(),
@@ -86,14 +81,6 @@ class _VideoLayaoutState extends State<VideoLayaout>
           ),
           FadeTransition(
               opacity: fadeAnimation, child: buildSuccessContainer()),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: UserBar(
-              user: User.fromMap(widget.riddle.user),
-              timeStamp: widget.riddle.createdAt,
-              address: widget.riddle.address,
-            ),
-          ),
         ],
       ),
     );

@@ -56,8 +56,6 @@ class _CustomListRiddleState extends State<CustomListRiddle> {
                   },
                   index: pagination.index,
                   itemCount: snapshot.data.length,
-                  viewportFraction: 0.85,
-                  scale: 0.9,
                   itemBuilder: (context, index) =>
                       RiddleLayaout(riddle: snapshot.data[index]),
                 );

@@ -80,7 +80,7 @@ class VideoViewModel extends ChangeNotifier {
   Container buildImage() {
     //?I can not user the zoon property, do i still need this widget?
     return Container(
-      constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 350),
+      constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 250),
       child: Image.network(
         '${riddle.imageUrl}',
         fit: BoxFit.fitWidth,
