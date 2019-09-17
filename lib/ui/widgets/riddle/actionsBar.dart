@@ -97,10 +97,15 @@ class ActionBar extends StatelessWidget {
                       '',
                     ),
                     onPressed: () async {
-                      var f = await CustomCacheManager().getSingleFile(
-                          '${riddle.imageUrl ?? riddle.videoUrl}');
-                      var mimeType = lookupMimeType(f.path.split('/').first);
-                      ShareExtend.share(f.path, mimeType);
+                      var url = riddle.imageUrl ?? riddle.videoUrl;
+                      if (url != null) {
+                        var f = await CustomCacheManager().getSingleFile(
+                            '$url');
+                        var mimeType = lookupMimeType(f.path.split('/').first);
+                        ShareExtend.share(f.path, mimeType);
+                      } else {
+                        ShareExtend.share(riddle.text, 'text');
+                      }
                     },
                   ),
                 ],
