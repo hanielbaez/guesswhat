@@ -38,8 +38,8 @@ class CustomLetter extends StatelessWidget {
       child: Opacity(
         opacity: isSource ? 0.5 : 1,
         child: Container(
-          width: (isSource ? 45 : 30),
-          height: (isSource ? 35 : 30),
+          width: (isSource ? 50 : 35),
+          height: (isSource ? 55 : 40),
           margin: EdgeInsets.all(isSource ? 2 : 3),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
@@ -47,12 +47,13 @@ class CustomLetter extends StatelessWidget {
           child: Card(
             color: model.correctAnswer == true ? Colors.yellow : Colors.white,
             margin: EdgeInsets.zero,
+            elevation: 10.0,
             child: Center(
               child: Text(
                 item.letter,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: (isSource ? 20 : 15),
+                  fontSize: (isSource ? 30 : 20),
                   color: model.letterColor(isSource),
                 ),
               ),

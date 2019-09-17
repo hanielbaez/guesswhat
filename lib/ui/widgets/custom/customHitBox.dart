@@ -22,8 +22,8 @@ class _CustomHitBoxState extends State<CustomHitBox> {
         children: widget.list.map((builderDelegate) {
           return Container(
             alignment: Alignment.center,
-            width: 35.5,
-            height: 35,
+            width: 40,
+            height: 45,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.15),
             ),
