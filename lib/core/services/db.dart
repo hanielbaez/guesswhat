@@ -301,6 +301,7 @@ class DatabaseServices {
           .collection('riddles')
           .document(riddleId)
           .collection('comments')
+          .orderBy('createdAt', descending: true)
           .snapshots();
     } catch (e) {
       print('getAllComments: $e');

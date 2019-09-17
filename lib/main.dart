@@ -1,5 +1,7 @@
 //Flutter and Dart import
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:provider/provider.dart';
 
 //Self import
@@ -14,7 +16,26 @@ void main() {
   return runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ConfettiController controllerTopCenter;
+
+  @override
+  void initState() {
+    controllerTopCenter = ConfettiController(duration: Duration(seconds: 10));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controllerTopCenter.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -22,10 +43,27 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Tekel',
         theme: costumTheme,
-        home: HomePage(),
+        home: Stack(
+          children: <Widget>[
+            ListenableProvider<ConfettiController>.value(
+              value: controllerTopCenter,
+              child: HomePage(),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: ConfettiWidget(
+                confettiController: controllerTopCenter,
+                blastDirection: pi / 2,
+                maxBlastForce: 10,
+                minBlastForce: 2,
+                emissionFrequency: 0.05,
+                numberOfParticles: 5,
+              ),
+            ),
+          ],
+        ),
         onGenerateRoute: router.generateRoute,
         initialRoute: '/',
-        //debugShowCheckedModeBanner: false,
       ),
     );
   }
