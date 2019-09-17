@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -54,8 +55,10 @@ class _CustomListRiddleState extends State<CustomListRiddle> {
                       );
                     }
                   },
+                  loop: false,
                   index: pagination.index,
                   itemCount: snapshot.data.length,
+                  control: controlButtons,
                   itemBuilder: (context, index) =>
                       RiddleLayaout(riddle: snapshot.data[index]),
                 );
@@ -67,4 +70,10 @@ class _CustomListRiddleState extends State<CustomListRiddle> {
       ),
     );
   }
+
+  SwiperControl controlButtons = SwiperControl(
+      iconNext: SimpleLineIcons.getIconData('arrow-right'),
+      iconPrevious: SimpleLineIcons.getIconData('arrow-left'),
+      color: Colors.black,
+      disableColor: Colors.black87);
 }
