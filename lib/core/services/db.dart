@@ -152,7 +152,7 @@ class DatabaseServices {
       }
 
       //Add user
-      var user = await getUser();
+      var user = await getUser(uid: await _curentUserId);
       var userMap = {'user': user.toJson()};
       riddle.addAll(userMap);
 
