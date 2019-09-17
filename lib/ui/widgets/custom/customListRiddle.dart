@@ -55,6 +55,7 @@ class _CustomListRiddleState extends State<CustomListRiddle> {
                       );
                     }
                   },
+                  curve: Curves.elasticInOut,
                   loop: false,
                   index: pagination.index,
                   itemCount: snapshot.data.length,
@@ -74,6 +75,8 @@ class _CustomListRiddleState extends State<CustomListRiddle> {
   SwiperControl controlButtons = SwiperControl(
       iconNext: SimpleLineIcons.getIconData('arrow-right'),
       iconPrevious: SimpleLineIcons.getIconData('arrow-left'),
-      color: Colors.black,
-      disableColor: Colors.black87);
+      size: 40.0,
+      padding: EdgeInsets.only(bottom: 300),
+      color: Colors.yellowAccent[700],
+      disableColor: Colors.black12);
 }
