@@ -30,7 +30,7 @@ class _CustomSidekickState extends State<CustomSidekick> {
   @override
   Widget build(BuildContext context) {
     return SidekickTeamBuilder<Item>(
-      animationDuration: Duration(milliseconds: 500),
+      animationDuration: Duration(milliseconds: 600),
       initialTargetList: _model.targetList,
       initialSourceList: _model.sourceList,
       builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
