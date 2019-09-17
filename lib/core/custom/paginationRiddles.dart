@@ -23,6 +23,16 @@ class PaginationViewModel {
       lastDocument; // flag for last document from where next 10 records to be fetched
 
   getRiddles() async {
+    
+    if(hasMore == false){
+      print('No more data to fetch');
+      return riddles;
+    }
+
+    if (isLoading) {
+      return null;
+    }
+
     isLoading = true;
 
     QuerySnapshot querySnapshot;
@@ -48,6 +58,10 @@ class PaginationViewModel {
       }
     } catch (e) {
       print('getRiddles: $e');
+    }
+
+    if (querySnapshot.documents.length < documentLimit) {
+      hasMore = false;
     }
 
     if (querySnapshot.documents.isNotEmpty) {
