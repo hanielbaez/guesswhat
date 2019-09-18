@@ -77,7 +77,7 @@ class LettersViewModel extends ChangeNotifier {
         },
       );
       sourceList.addAll(_list);
-      Future.delayed(Duration.zero, () => notifyListeners());
+      Future.delayed(Duration(seconds: 1), () => notifyListeners());
     }
   }
 
@@ -119,7 +119,7 @@ class LettersViewModel extends ChangeNotifier {
       );
       targetList.addAll(_list);
       correctAnswer = true;
-      Future.delayed(Duration.zero, () => notifyListeners());
+      Future.delayed(Duration(seconds: 1), () => notifyListeners());
     } else {
       generateItemList();
     }

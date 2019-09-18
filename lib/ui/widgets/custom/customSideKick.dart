@@ -29,7 +29,7 @@ class CustomSidekick extends StatelessWidget {
       initialSourceList: model.sourceList,
       builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
         return AnimatedOpacity(
-          duration: Duration(milliseconds: 1500),
+          duration: Duration(seconds: 1),
           opacity: opacity,
           child: Column(
             children: <Widget>[
