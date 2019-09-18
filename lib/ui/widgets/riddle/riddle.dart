@@ -1,5 +1,6 @@
 //Flutter import
 import 'dart:async';
+import 'package:Tekel/core/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,7 +68,7 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
               value: LettersViewModel(
                   riddle: widget.riddle,
                   db: Provider.of(context),
-                  user: Provider.of<DatabaseServices>(context).getUser(),
+                  user: Provider.of<AuthenticationServices>(context).profile,
                   changeNotifier: changeNotifier),
               child: Consumer<LettersViewModel>(
                 builder: (context, model, child) {

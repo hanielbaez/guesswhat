@@ -8,13 +8,8 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:Tekel/ui/widgets/riddle/riddle.dart';
 import 'package:Tekel/core/custom/paginationRiddles.dart';
 
-class CustomListRiddle extends StatefulWidget {
-  @override
-  _CustomListRiddleState createState() => _CustomListRiddleState();
-}
-
-class _CustomListRiddleState extends State<CustomListRiddle> {
-  PaginationViewModel pagination = PaginationViewModel();
+class CustomListRiddle extends StatelessWidget {
+  final PaginationViewModel pagination = PaginationViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -45,18 +40,9 @@ class _CustomListRiddleState extends State<CustomListRiddle> {
             case ConnectionState.done:
               if (snapshot.hasData) {
                 return Swiper(
-                  onIndexChanged: (index) {
-                    if (index == snapshot.data.length - 1) {
-                      Future.delayed(
-                        Duration.zero,
-                        () => setState(
-                          () {},
-                        ),
-                      );
-                    }
-                  },
-                  curve: Curves.elasticInOut,
+                  //onIndexChanged: (index) {},
                   loop: false,
+                  
                   index: pagination.index,
                   itemCount: snapshot.data.length,
                   control: controlButtons,
@@ -72,7 +58,7 @@ class _CustomListRiddleState extends State<CustomListRiddle> {
     );
   }
 
-  SwiperControl controlButtons = SwiperControl(
+  final SwiperControl controlButtons = SwiperControl(
       iconNext: SimpleLineIcons.getIconData('arrow-right'),
       iconPrevious: SimpleLineIcons.getIconData('arrow-left'),
       size: 40.0,

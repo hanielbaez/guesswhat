@@ -12,13 +12,13 @@ import 'package:Tekel/ui/widgets/riddle/letter.dart';
 
 class LettersViewModel extends ChangeNotifier {
   final DatabaseServices _db;
-  final Future<User> _user;
+  final Stream<User> _user;
   final Riddle _riddle;
   final StreamController _changeNotifier;
   static AudioCache player = new AudioCache();
   List<Item> selectedItems = [];
-  List<Item> sourceList = [];
-  List<Item> targetList = [];
+  final List<Item> sourceList = [];
+  final List<Item> targetList = [];
   List<Item> targetHitList = [];
   bool correctAnswer = false;
   bool wronganswer = false;
@@ -26,7 +26,7 @@ class LettersViewModel extends ChangeNotifier {
   LettersViewModel(
       {Riddle riddle,
       DatabaseServices db,
-      Future<User> user,
+      Stream<User> user,
       StreamController changeNotifier})
       : _riddle = riddle,
         _db = db,
@@ -76,20 +76,21 @@ class LettersViewModel extends ChangeNotifier {
           );
         },
       );
-      sourceList = _list;
-      Future.delayed(Duration.zero, () => notifyListeners());
+      sourceList.addAll(_list);
+      notifyListeners();
     }
   }
 
   ///Generate the Target Hit List
   generateTargetHit() {
     List.generate(
-        _riddle.answer.length,
-        (index) => {
-              targetHitList.add(
-                Item(id: index, letter: _riddle.answer[index]),
-              )
-            });
+      _riddle.answer.length,
+      (index) => {
+        targetHitList.add(
+          Item(id: index, letter: _riddle.answer[index]),
+        )
+      },
+    );
   }
 
   String getWord(List<Item> items) {
@@ -107,7 +108,7 @@ class LettersViewModel extends ChangeNotifier {
   getTargetList() async {
     var response = await _db.isSolvedBy(riddleId: _riddle.id);
     if (response?.data != null) {
-      var list = List.generate(
+      var _list = List.generate(
         _riddle.answer.length,
         (i) {
           return Item(
@@ -116,9 +117,9 @@ class LettersViewModel extends ChangeNotifier {
           );
         },
       );
-      targetList = list;
+      targetList.addAll(_list);
       correctAnswer = true;
-      Future.delayed(Duration.zero, () => notifyListeners());
+      notifyListeners();
     } else {
       generateItemList();
     }
@@ -146,7 +147,7 @@ class LettersViewModel extends ChangeNotifier {
     var _selectedWord = getWord(selectedItems);
 
     if (_selectedWord == _riddle.answer.toUpperCase()) {
-      if (await _user != null)
+      if (_user != null)
         _db.setSolvedBy(
             riddleId: _riddle.id,
             ownerId: _riddle.ownerId,

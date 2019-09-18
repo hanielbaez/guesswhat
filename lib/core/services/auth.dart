@@ -13,14 +13,14 @@ import 'package:Tekel/core/custom/customGetToken.dart';
 ///User authentication from Firebase
 class AuthenticationServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Observable<FirebaseUser> userT; // firebase user
+  Observable<FirebaseUser> firebaseUser; // firebase user
   Stream<User> profile; // custom user data in Firestore
   final Firestore _db = Firestore.instance;
 
   AuthenticationServices() {
-    userT = Observable(_auth.onAuthStateChanged);
+    firebaseUser = Observable(_auth.onAuthStateChanged);
 
-    profile = userT.switchMap(
+    profile = firebaseUser.switchMap(
       (FirebaseUser u) {
         if (u != null) {
           return _db
