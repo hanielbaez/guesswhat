@@ -40,9 +40,7 @@ class CustomListRiddle extends StatelessWidget {
             case ConnectionState.done:
               if (snapshot.hasData) {
                 return Swiper(
-                  //onIndexChanged: (index) {},
                   loop: false,
-                  
                   index: pagination.index,
                   itemCount: snapshot.data.length,
                   control: controlButtons,
@@ -62,7 +60,6 @@ class CustomListRiddle extends StatelessWidget {
       iconNext: SimpleLineIcons.getIconData('arrow-right'),
       iconPrevious: SimpleLineIcons.getIconData('arrow-left'),
       size: 40.0,
-      padding: EdgeInsets.only(bottom: 300),
       color: Colors.yellowAccent[700],
       disableColor: Colors.black12);
 }
