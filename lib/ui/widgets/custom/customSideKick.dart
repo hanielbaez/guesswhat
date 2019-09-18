@@ -11,12 +11,16 @@ import 'package:Tekel/ui/widgets/riddle/letter.dart';
 class CustomSidekick extends StatelessWidget {
   final Riddle riddle;
   final LettersViewModel model;
+  static double opacity = 0.0;
   CustomSidekick({this.riddle, this.model});
 
   @override
   Widget build(BuildContext context) {
     if (model.targetList.isEmpty && model.sourceList.isEmpty) {
+      opacity = 0;
       model.getTargetList();
+    } else {
+      opacity = 1;
     }
 
     return SidekickTeamBuilder<Item>(
@@ -24,68 +28,72 @@ class CustomSidekick extends StatelessWidget {
       initialTargetList: model.targetList,
       initialSourceList: model.sourceList,
       builder: (context, sourceBuilderDelegates, targetBuilderDelegates) {
-        return Column(
-          children: <Widget>[
-            SizedBox(
-              height: 10.0,
-            ),
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                CustomHitBox(list: model.targetHitList),
-                Wrap(
-                  children: targetBuilderDelegates
-                      .map(
-                        (builderDelegate) => builderDelegate.build(
-                          context,
-                          CustomLetter(
-                              item: builderDelegate.message,
-                              isSource: false,
-                              model: model),
-                          animationBuilder: (animation) => CurvedAnimation(
-                            parent: animation,
-                            curve: FlippedCurve(Curves.ease),
+        return AnimatedOpacity(
+          duration: Duration(milliseconds: 1500),
+          opacity: opacity,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10.0,
+              ),
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  CustomHitBox(list: model.targetHitList),
+                  Wrap(
+                    children: targetBuilderDelegates
+                        .map(
+                          (builderDelegate) => builderDelegate.build(
+                            context,
+                            CustomLetter(
+                                item: builderDelegate.message,
+                                isSource: false,
+                                model: model),
+                            animationBuilder: (animation) => CurvedAnimation(
+                              parent: animation,
+                              curve: FlippedCurve(Curves.ease),
+                            ),
                           ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ],
-            ),
-            //Small space between
-            SizedBox(
-              height: 20.0,
-            ),
+                        )
+                        .toList(),
+                  ),
+                ],
+              ),
+              //Small space between
+              SizedBox(
+                height: 20.0,
+              ),
 
-            AnimatedSwitcher(
-              duration: Duration(milliseconds: 600),
-              child: model.correctAnswer
-                  ? Container()
-                  : Wrap(
-                      children: sourceBuilderDelegates.isEmpty
-                          ? [
-                              Container(),
-                            ]
-                          : sourceBuilderDelegates
-                              .map(
-                                (builderDelegate) => builderDelegate.build(
-                                  context,
-                                  CustomLetter(
-                                      item: builderDelegate.message,
-                                      isSource: true,
-                                      model: model),
-                                  animationBuilder: (animation) {
-                                    return CurvedAnimation(
-                                      parent: animation,
-                                      curve: Curves.ease,
-                                    );
-                                  },
-                                ),
-                              )
-                              .toList(),
-                    ),
-            ),
-          ],
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 600),
+                child: model.correctAnswer
+                    ? Container()
+                    : Wrap(
+                        children: sourceBuilderDelegates.isEmpty
+                            ? [
+                                Container(),
+                              ]
+                            : sourceBuilderDelegates
+                                .map(
+                                  (builderDelegate) => builderDelegate.build(
+                                    context,
+                                    CustomLetter(
+                                        item: builderDelegate.message,
+                                        isSource: true,
+                                        model: model),
+                                    animationBuilder: (animation) {
+                                      return CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.ease,
+                                      );
+                                    },
+                                  ),
+                                )
+                                .toList(),
+                      ),
+              ),
+            ],
+          ),
         );
       },
     );
