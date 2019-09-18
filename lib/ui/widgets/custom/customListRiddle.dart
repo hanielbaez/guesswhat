@@ -59,7 +59,6 @@ class CustomListRiddle extends StatelessWidget {
   final SwiperControl controlButtons = SwiperControl(
       iconNext: SimpleLineIcons.getIconData('arrow-right'),
       iconPrevious: SimpleLineIcons.getIconData('arrow-left'),
-      size: 40.0,
       color: Colors.yellowAccent[700],
       disableColor: Colors.black12);
 }

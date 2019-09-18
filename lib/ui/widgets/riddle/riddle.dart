@@ -1,13 +1,13 @@
 //Flutter import
 import 'dart:async';
 import 'package:Tekel/core/services/auth.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/ui/widgets/custom/userBar.dart';
-import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 import 'package:Tekel/core/viewModel/videoViewModel.dart';
@@ -56,9 +56,12 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
               builder: (context, model, child) {
                 return SizedBox.fromSize(
                   child: VideoLayaout(
-                      riddle: widget.riddle,
-                      model: model,
-                      shouldTriggerChange: changeNotifier.stream),
+                    riddle: widget.riddle,
+                    model: model,
+                    shouldTriggerChange: changeNotifier.stream,
+                    confettiController:
+                        Provider.of<ConfettiController>(context),
+                  ),
                 );
               },
             ),
