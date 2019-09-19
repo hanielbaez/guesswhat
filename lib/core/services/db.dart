@@ -207,17 +207,20 @@ class DatabaseServices {
   ///Return NULL is the user have not completed the Riddle yet
   Future<DocumentSnapshot> isSolvedBy({String riddleId}) async {
     try {
-      return await _db
-          .collection('riddles')
-          .document(riddleId)
-          .collection('solvedBy')
-          .document(currentUser.uid)
-          .get()
-          .catchError(
-        (error) {
-          print(error.toString());
-        },
-      );
+      if (currentUser != null) {
+        return await _db
+            .collection('riddles')
+            .document(riddleId)
+            .collection('solvedBy')
+            .document(currentUser.uid)
+            .get()
+            .catchError(
+          (error) {
+            print(error.toString());
+          },
+        );
+      }
+      return null;
     } catch (e) {
       print('isSolvedBy: $e');
       return null;
@@ -289,6 +292,7 @@ class DatabaseServices {
           },
         );
       }
+      return null;
     } catch (e) {
       print('loveStream: $e');
       return null;
