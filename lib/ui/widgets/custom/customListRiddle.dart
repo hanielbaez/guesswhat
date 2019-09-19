@@ -13,46 +13,35 @@ class CustomListRiddle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.white, Colors.black38],
-          begin: const FractionalOffset(0.0, 0.0),
-          end: const FractionalOffset(0.0, 1),
-          stops: [0.0, 1.0],
-          tileMode: TileMode.clamp,
-        ),
-      ),
-      child: FutureBuilder(
-        future: pagination.getRiddles(),
-        builder: (contex, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return Center(
-                child: SpinKitThreeBounce(
-                  color: Colors.black,
-                  size: 50.0,
-                ),
+    return FutureBuilder(
+      future: pagination.getRiddles(),
+      builder: (contex, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return Center(
+              child: SpinKitThreeBounce(
+                color: Colors.black,
+                size: 50.0,
+              ),
+            );
+          case ConnectionState.active:
+            break;
+          case ConnectionState.done:
+            if (snapshot.hasData) {
+              return Swiper(
+                loop: false,
+                index: pagination.index,
+                itemCount: snapshot.data.length,
+                //control: controlButtons,
+                itemBuilder: (context, index) =>
+                    RiddleLayaout(riddle: snapshot.data[index]),
               );
-            case ConnectionState.active:
-              break;
-            case ConnectionState.done:
-              if (snapshot.hasData) {
-                return Swiper(
-                  loop: false,
-                  index: pagination.index,
-                  itemCount: snapshot.data.length,
-                  //control: controlButtons,
-                  itemBuilder: (context, index) =>
-                      RiddleLayaout(riddle: snapshot.data[index]),
-                );
-              }
-              break;
-          }
-          return Container();
-        },
-      ),
+            }
+            break;
+        }
+        return Container();
+      },
     );
   }
 
