@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'dart:async';
+import 'package:Tekel/core/services/db.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/custom/customListRiddle.dart';
 import '../widgets/custom/buttonPress.dart';
-import 'package:Tekel/core/services/auth.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -57,21 +57,17 @@ class _HomePageState extends State<HomePage> {
                   semanticLabel: 'Create a riddle',
                 ),
                 onPressed: () {
-                  subscription = Provider.of<AuthenticationServices>(context)
-                      .profile
-                      .listen(
-                    (user) {
-                      if (user != null) {
-                        onButtonPressed(
-                          context: context,
-                          user: user,
-                        ); //Add multimedia
-                      } else {
-                        _scaffoldKey.currentState.openDrawer();
-                      }
-                      subscription.cancel();
-                    },
-                  );
+                  var currentUser =
+                      Provider.of<DatabaseServices>(context).currentUser.uid;
+                  if (currentUser != null) {
+                    //Add multimedia
+                    onButtonPressed(
+                      context: context,
+                      user: currentUser,
+                    );
+                  } else {
+                    _scaffoldKey.currentState.openDrawer();
+                  }
                 },
               ),
             ),

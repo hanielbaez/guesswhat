@@ -1,8 +1,8 @@
 //Flutter and Dart import
+import 'package:Tekel/core/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
@@ -11,44 +11,35 @@ import 'package:Tekel/ui/widgets/custom/buttonPress.dart';
 import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/services/auth.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
+    User _currentUser = Provider.of<DatabaseServices>(context).currentUser;
+    Widget child;
+
+    void refresh() {
+      setState(() {});
+    }
+
+    if (_currentUser != null) {
+      child = SingInLayout(
+        user: _currentUser,
+        refreshUI: refresh,
+      );
+    } else {
+      child = SingOutLayout(refreshUI: refresh);
+    }
+
     return Drawer(
       child: Container(
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: StreamBuilder(
-            stream: Provider.of<AuthenticationServices>(context).profile,
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                case ConnectionState.waiting:
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                      
-                        SpinKitThreeBounce(
-                          color: Colors.black,
-                          size: 50.0,
-                        ),
-                      ],
-                    ),
-                  );
-                case ConnectionState.active:
-                case ConnectionState.done:
-                  if (snapshot.hasData) if (!snapshot.hasError) {
-                    return SingInLayout(
-                      user: snapshot.data,
-                    );
-                  }
-                  return SingOutLayout();
-              }
-              return Container(); //unreachable
-            },
-          ),
+          child: child,
         ),
       ),
     );
@@ -57,8 +48,9 @@ class CustomDrawer extends StatelessWidget {
 
 class SingInLayout extends StatelessWidget {
   final User user;
+  final Function refreshUI;
 
-  const SingInLayout({Key key, this.user}) : super(key: key);
+  const SingInLayout({Key key, this.user, this.refreshUI}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +239,14 @@ class SingInLayout extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     Provider.of<AuthenticationServices>(context)
-                                        .singOut();
+                                        .singOut()
+                                        .then(
+                                      (result) {
+                                        if (result) {
+                                          refreshUI();
+                                        }
+                                      },
+                                    );
 
                                     Navigator.pop(context);
                                   },
@@ -271,9 +270,9 @@ class SingInLayout extends StatelessWidget {
 
 //Show this layaout when the user is SingOut
 class SingOutLayout extends StatelessWidget {
-  const SingOutLayout({
-    Key key,
-  }) : super(key: key);
+  final Function refreshUI;
+
+  const SingOutLayout({Key key, this.refreshUI}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -300,11 +299,16 @@ class SingOutLayout extends StatelessWidget {
               .loginWithFacebook()
               .then(
             (response) {
-              Scaffold.of(context).showSnackBar(
-                new SnackBar(
-                  content: new Text("$response"),
-                ),
-              );
+              if (response) {
+                refreshUI();
+              } else {
+                Scaffold.of(context).showSnackBar(
+                  new SnackBar(
+                    content: new Text(
+                        "There is something wrong with, please try later."),
+                  ),
+                );
+              }
             },
           ),
         ),
@@ -316,12 +320,16 @@ class SingOutLayout extends StatelessWidget {
               .sigInWithGoogle()
               .then(
             (response) {
-              Navigator.pop(context);
-              Scaffold.of(context).showSnackBar(
-                new SnackBar(
-                  content: new Text("$response"),
-                ),
-              );
+              if (response) {
+                refreshUI();
+              } else {
+                Scaffold.of(context).showSnackBar(
+                  new SnackBar(
+                    content: new Text(
+                        "There is something wrong with, please try later."),
+                  ),
+                );
+              }
             },
           ),
         ),

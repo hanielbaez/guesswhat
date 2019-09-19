@@ -18,7 +18,7 @@ class AuthenticationServices {
   final Firestore _db = Firestore.instance;
 
   AuthenticationServices() {
-    firebaseUser = Observable(_auth.onAuthStateChanged);
+    firebaseUser = Observable(_auth.onAuthStateChanged).asBroadcastStream();
 
     profile = firebaseUser.switchMap(
       (FirebaseUser u) {
@@ -47,7 +47,7 @@ class AuthenticationServices {
   }
 
   ///SignIn the user with Facebook and set the firebase user
-  Future<String> loginWithFacebook() async {
+  Future<bool> loginWithFacebook() async {
     try {
       var facebookLoging = FacebookLogin();
       var result = await facebookLoging
@@ -67,17 +67,17 @@ class AuthenticationServices {
           await _auth.signInWithCredential(credential);
 
           requestingPermission();
-          return 'Signed in Successfully';
+          return true;
           break;
       }
     } catch (e) {
       print('loginWithFacebook: $e');
-      return 'Error while trying to sing with Facebook';
+      return false;
     }
     return null; //unreachable
   }
 
-  Future<String> sigInWithGoogle() async {
+  Future<bool> sigInWithGoogle() async {
     try {
       GoogleSignIn _googleSingIn = GoogleSignIn();
       GoogleSignInAccount googleSignInAccount = await _googleSingIn.signIn();
@@ -89,18 +89,20 @@ class AuthenticationServices {
       await _auth.signInWithCredential(credential);
 
       requestingPermission();
-      return 'Signed in Successfully';
+      return true;
     } catch (e) {
       print('sigInWithGoogle $e');
-      return 'Error while trying to sing with Google';
+      return false;
     }
   }
 
-  void singOut() {
+  Future<bool> singOut() async {
     try {
-      _auth.signOut();
+      await _auth.signOut();
+      return true;
     } catch (e) {
       print('singOut: $e');
+      return false;
     }
   }
 
