@@ -13,7 +13,7 @@ class ImageCreatePage extends StatelessWidget {
   final BuildContext _context;
   static GlobalKey<FormBuilderState> _formCreateKey =
       GlobalKey<FormBuilderState>();
-  ImageCreatePage({multiMedia, user, context})
+  ImageCreatePage({multiMedia, context})
       : _multiMedia = multiMedia,
         _context = context;
 

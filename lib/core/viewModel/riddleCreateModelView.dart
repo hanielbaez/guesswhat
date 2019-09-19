@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'dart:io';
+import 'package:Tekel/core/services/location.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
 import 'package:image/image.dart' as img;
@@ -56,7 +57,9 @@ class RiddleCreateViewModel extends ChangeNotifier {
         : riddle['videoUrl'] = _url;
 
     //Upload a new Riddle to DataBase
-    await Provider.of<DatabaseServices>(context).uploadRiddle(riddle);
+    var location = await Provider.of<LocationServices>(context).getGeoPoint();
+    await Provider.of<DatabaseServices>(context)
+        .uploadRiddle(riddle: riddle, location: location);
 
     Navigator.pushReplacementNamed(context, '/');
   }

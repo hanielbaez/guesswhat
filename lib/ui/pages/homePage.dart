@@ -17,13 +17,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  StreamSubscription subscription;
+ /*  StreamSubscription subscription;
 
   @override
   void dispose() {
     subscription.cancel();
     super.dispose();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

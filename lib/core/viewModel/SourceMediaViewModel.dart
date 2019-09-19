@@ -31,15 +31,13 @@ class SourceImageOption {
     return thumbnailFile;
   }
 
-  void navigateToCreate(
-      {BuildContext context, Map multiMedia, User user}) {
+  void navigateToCreate({BuildContext context, Map multiMedia}) {
     if (multiMedia['image'] != null) {
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => ImageCreatePage(
             multiMedia: multiMedia,
-            user: user,
             context: context,
           ),
         ),

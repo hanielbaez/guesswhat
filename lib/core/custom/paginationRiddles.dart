@@ -22,7 +22,7 @@ class PaginationViewModel {
   DocumentSnapshot
       lastDocument; // flag for last document from where next 10 records to be fetched
 
-  getRiddles() async {
+  getRiddles({String countryCode}) async {
     if (hasMore == false) {
       print('No more data to fetch');
       return riddles;
@@ -39,7 +39,7 @@ class PaginationViewModel {
       if (lastDocument == null) {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: 'DO')
+            .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
             .orderBy('createdAt', descending: true)
             .limit(documentLimit)
@@ -47,7 +47,7 @@ class PaginationViewModel {
       } else {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: 'DO')
+            .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
             .orderBy('createdAt', descending: true)
             .startAfterDocument(lastDocument)

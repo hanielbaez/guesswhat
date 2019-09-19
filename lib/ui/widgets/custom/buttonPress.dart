@@ -9,7 +9,7 @@ import 'package:Tekel/core/viewModel/SourceMediaViewModel.dart';
 /* Handle the user actions, when trying to add new content,
 if the user is not singIn him will be redirected to the singIng buttons */
 
-void onButtonPressed({context, user}) {
+void onButtonPressed({BuildContext context, String user}) {
   SourceImageOption _sourceOption = SourceImageOption();
   showModalBottomSheet(
     context: context,
@@ -50,7 +50,7 @@ void onButtonPressed({context, user}) {
                     await _sourceOption.getImage(ImageSource.camera, context);
 
                 _sourceOption.navigateToCreate(
-                    context: context, multiMedia: _multiMedia, user: user);
+                    context: context, multiMedia: _multiMedia);
               } catch (error) {
                 print('Error: $error');
               }
@@ -83,9 +83,9 @@ void onButtonPressed({context, user}) {
                     await _sourceOption.getImage(ImageSource.gallery, context);
 
                 _sourceOption.navigateToCreate(
-                    context: context, multiMedia: _multiMedia, user: user);
+                    context: context, multiMedia: _multiMedia);
               } catch (error) {
-                print('Error: ' + error.toString());
+                print('getImage error: ' + error.toString());
               }
             },
           ),

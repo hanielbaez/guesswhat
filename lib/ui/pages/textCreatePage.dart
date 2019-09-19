@@ -1,5 +1,6 @@
 import 'package:Tekel/core/services/db.dart';
-import 'package:Tekel/core/viewModel/createTextViewModel.dart';
+import 'package:Tekel/core/services/location.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -18,8 +19,6 @@ class _TextCreatePageState extends State<TextCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    final CreateTextViewModel model =
-        CreateTextViewModel(db: Provider.of<DatabaseServices>(context));
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -161,7 +160,13 @@ class _TextCreatePageState extends State<TextCreatePage> {
                                       .currentState
                                       .value['description'];
 
-                                  await model.upload(riddle);
+                                  var location =
+                                      await Provider.of<LocationServices>(
+                                              context)
+                                          .getGeoPoint();
+                                  await Provider.of<DatabaseServices>(context)
+                                      .uploadRiddle(
+                                          riddle: riddle, location: location);
                                   setState(() {
                                     isLoading = true;
                                   });
