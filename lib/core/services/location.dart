@@ -11,7 +11,6 @@ import 'package:Tekel/core/model/userLocation.dart';
 class LocationServices {
   // final Geoflutterfire _geo = Geoflutterfire();
   final Location _location = Location();
-  UserLocation _currentLocation;
   // Continuously emit location updates
   StreamController<UserLocation> _locationController =
       StreamController<UserLocation>.broadcast();

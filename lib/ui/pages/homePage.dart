@@ -1,5 +1,4 @@
 //Flutter and Dart import
-import 'dart:async';
 import 'package:Tekel/core/services/db.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +16,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  /*  StreamSubscription subscription;
-
-  @override
-  void dispose() {
-    subscription.cancel();
-    super.dispose();
-  } */
 
   @override
   Widget build(BuildContext context) {

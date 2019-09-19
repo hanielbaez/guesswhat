@@ -5,7 +5,6 @@ import 'package:flutter_video_compress/flutter_video_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 //Self import
-import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/ui/pages/imageCreatePage.dart';
 
 //Pick the image or video from different sources as gallery or camera
