@@ -9,7 +9,7 @@ import 'package:Tekel/core/viewModel/SourceMediaViewModel.dart';
 /* Handle the user actions, when trying to add new content,
 if the user is not singIn him will be redirected to the singIng buttons */
 
-void onButtonPressed({BuildContext context, String user}) {
+void onButtonPressed({BuildContext context}) {
   SourceImageOption _sourceOption = SourceImageOption();
   showModalBottomSheet(
     context: context,

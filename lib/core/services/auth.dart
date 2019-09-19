@@ -110,7 +110,7 @@ class AuthenticationServices {
   void requestingPermission() async {
     //Getting the device Toke
     saveDeviceToken();
-
+    
     await PermissionHandler().requestPermissions(
       [
         PermissionGroup.location,

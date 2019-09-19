@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
- /*  StreamSubscription subscription;
+  /*  StreamSubscription subscription;
 
   @override
   void dispose() {
@@ -58,12 +58,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () {
                   var currentUser =
-                      Provider.of<DatabaseServices>(context).currentUser.uid;
+                      Provider.of<DatabaseServices>(context).currentUser;
                   if (currentUser != null) {
                     //Add multimedia
                     onButtonPressed(
                       context: context,
-                      user: currentUser,
                     );
                   } else {
                     _scaffoldKey.currentState.openDrawer();
