@@ -43,7 +43,7 @@ class CustomListRiddle extends StatelessWidget {
                   loop: false,
                   index: pagination.index,
                   itemCount: snapshot.data.length,
-                  control: controlButtons,
+                  //control: controlButtons,
                   itemBuilder: (context, index) =>
                       RiddleLayaout(riddle: snapshot.data[index]),
                 );
@@ -56,6 +56,7 @@ class CustomListRiddle extends StatelessWidget {
     );
   }
 
+  //? I need to first find a way to position it.
   final SwiperControl controlButtons = SwiperControl(
       iconNext: SimpleLineIcons.getIconData('arrow-right'),
       iconPrevious: SimpleLineIcons.getIconData('arrow-left'),
