@@ -276,17 +276,19 @@ class DatabaseServices {
   ///Return a Love obj
   Stream<Love> loveStream({String riddleId, String userId}) {
     try {
-      return _db
-          .collection('riddles')
-          .document(riddleId)
-          .collection('lovedBy')
-          .document(userId)
-          .snapshots()
-          .map(
-        (doc) {
-          return Love.fromFireStore(doc.data);
-        },
-      );
+      if (userId != null) {
+        return _db
+            .collection('riddles')
+            .document(riddleId)
+            .collection('lovedBy')
+            .document(userId)
+            .snapshots()
+            .map(
+          (doc) {
+            return Love.fromFireStore(doc.data);
+          },
+        );
+      }
     } catch (e) {
       print('loveStream: $e');
       return null;
