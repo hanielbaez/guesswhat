@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/core/model/user.dart';
-import 'package:Tekel/core/model/supportContact.dart';
 import 'package:Tekel/core/services/db.dart';
 
 class SupportPage extends StatefulWidget {
@@ -97,7 +96,7 @@ class SupportForm extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(
-          'We are here to help you. You will receive a response'
+          'We are here to help you. You will receive a response '
           'if necessary through your email as soon as possible.',
         ),
         SizedBox(
@@ -145,13 +144,8 @@ class SupportForm extends StatelessWidget {
             ),
             onPressed: () async {
               if (SupportPage._formCreateKey.currentState.saveAndValidate()) {
-                SupportContact support = SupportContact(
-                    userId: user.uid,
-                    userEmail: user.email,
-                    description: SupportPage
-                        ._formCreateKey.currentState.value['message']);
                 Provider.of<DatabaseServices>(context)
-                    .supportContact(support: support);
+                    .supportContact(message: _formCreateKey.currentState.value['message']);
                 function();
               }
             },

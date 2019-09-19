@@ -4,11 +4,11 @@ import 'package:device_info/device_info.dart';
 class SupportContact {
   final String userId;
   final String userEmail;
-  final String description;
+  final String message;
   //static Map<String, dynamic> deviceInfo;
   final Timestamp createdAt = Timestamp.now();
 
-  SupportContact({this.userId, this.description, this.userEmail});
+  SupportContact({this.userId, this.message, this.userEmail});
 
   Future<Map> getDeviceInfo() async {
     Map<String, dynamic> map = Map<String, dynamic>();
@@ -34,7 +34,7 @@ class SupportContact {
     Map<String, dynamic> _map = Map<String, dynamic>();
     _map['userId'] = this.userId;
     _map['userEmail'] = this.userEmail;
-    _map['description'] = this.description;
+    _map['message'] = this.message;
     _map['deviceInfo'] = await getDeviceInfo();
     _map['createdAt'] = this.createdAt;
     return _map;
