@@ -31,6 +31,17 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              SimpleLineIcons.getIconData('bell'),
+            ),
+            onPressed: () {
+              //TODO: Inplemente onPressed
+            },
+          ),
+          SizedBox(
+            width: 15.0,
+          ),
           Card(
             child: Container(
               decoration: BoxDecoration(
@@ -62,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-          )
+          ),
         ],
         title: Text(
           'Tekel',
