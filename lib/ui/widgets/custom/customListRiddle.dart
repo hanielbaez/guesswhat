@@ -37,7 +37,11 @@ class CustomListRiddle extends StatelessWidget {
             if (snapshot.hasData) {
               return Swiper(
                 loop: false,
-                index: pagination.index,
+                onIndexChanged: (value) {
+                  print('$value');
+                  PaginationViewModel.index = value;
+                },
+                index: PaginationViewModel.index,
                 itemCount: snapshot.data.length,
                 control: controlButtons,
                 itemBuilder: (context, index) =>

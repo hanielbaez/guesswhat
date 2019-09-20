@@ -15,7 +15,7 @@ class PaginationViewModel {
 
   bool hasMore = true; // flag for more products available or not
 
-  int index = 0; // index for Swiper
+  static int index = 0; // index for Swiper
 
   int documentLimit = 20; // documents to be fetched per request
 
