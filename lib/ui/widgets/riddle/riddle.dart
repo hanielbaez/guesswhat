@@ -54,14 +54,11 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
             value: VideoViewModel(riddle: widget.riddle),
             child: Consumer<VideoViewModel>(
               builder: (context, model, child) {
-                return SizedBox.fromSize(
-                  child: VideoLayaout(
-                    riddle: widget.riddle,
-                    model: model,
-                    shouldTriggerChange: changeNotifier.stream,
-                    confettiController:
-                        Provider.of<ConfettiController>(context),
-                  ),
+                return VideoLayaout(
+                  riddle: widget.riddle,
+                  model: model,
+                  shouldTriggerChange: changeNotifier.stream,
+                  confettiController: Provider.of<ConfettiController>(context),
                 );
               },
             ),
@@ -82,6 +79,7 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
                 },
               ),
             ),
+          ActionBar(riddle: widget.riddle),
           if (widget.riddle.description.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -90,7 +88,6 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
                 child: CustomDescription(text: '${widget.riddle.description}'),
               ),
             ),
-          ActionBar(riddle: widget.riddle),
           SizedBox(
             height: 15.0,
           ),

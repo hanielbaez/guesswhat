@@ -50,6 +50,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height / 2.5,
       child: FutureBuilder(
         future: widget.model.getMedia(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -60,10 +61,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
             case ConnectionState.waiting:
             case ConnectionState.done:
               if (snapshot.hasError) return Text('Error: try later, please');
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Center(child: widget.model.widget),
-              );
+              return  widget.model.widget;
           }
           return Text('Unreachable.');
         },

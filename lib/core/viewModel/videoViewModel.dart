@@ -18,7 +18,7 @@ class VideoViewModel extends ChangeNotifier {
   VideoPlayerController videoController;
   File imageFile;
   File thumbnailFile;
-  Widget widget;
+  Widget widget = Container();
 
   Future<dynamic> future;
 
@@ -77,51 +77,49 @@ class VideoViewModel extends ChangeNotifier {
   }
 
 //Costum image widgets
-  Container buildImage() {
+  Image buildImage() {
     //?I can not user the zoon property, do i still need this widget?
-    return Container(
-      constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 250),
-      child: Image.network(
-        '${riddle.imageUrl}',
-        fit: BoxFit.fitWidth,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) {
-            return child;
-          }
-          return Stack(
-            children: <Widget>[
-              Center(
-                child: Image.asset(
-                  'assets/images/noiseTv.gif',
-                  fit: BoxFit.fitWidth,
-                  key: ValueKey('thumbnail'),
+    return Image.network(
+      '${riddle.imageUrl}',
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        }
+        return Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Image.asset(
+              'assets/images/noiseTv.gif',
+              fit: BoxFit.cover,
+              key: ValueKey('thumbnail'),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: SpinKitThreeBounce(
+                  color: Colors.white,
+                  size: 50.0,
                 ),
               ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SpinKitThreeBounce(
-                    color: Colors.white,
-                    size: 50.0,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
 
   buildText() {
-    widget = Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: AutoSizeText(
-        '${riddle.text}',
-        style: TextStyle(fontSize: 45),
-        minFontSize: 14,
-        maxLines: 12,
-        overflow: TextOverflow.ellipsis,
+    widget = Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: AutoSizeText(
+          '${riddle.text}',
+          style: TextStyle(fontSize: 45),
+          minFontSize: 14,
+          maxLines: 12,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }

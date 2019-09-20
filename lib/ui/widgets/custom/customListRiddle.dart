@@ -39,7 +39,7 @@ class CustomListRiddle extends StatelessWidget {
                 loop: false,
                 index: pagination.index,
                 itemCount: snapshot.data.length,
-                //control: controlButtons,
+                control: controlButtons,
                 itemBuilder: (context, index) =>
                     RiddleLayaout(riddle: snapshot.data[index]),
               );
@@ -55,6 +55,6 @@ class CustomListRiddle extends StatelessWidget {
   final SwiperControl controlButtons = SwiperControl(
       iconNext: SimpleLineIcons.getIconData('arrow-right'),
       iconPrevious: SimpleLineIcons.getIconData('arrow-left'),
-      color: Colors.yellowAccent[700],
+      color: Colors.black,
       disableColor: Colors.black12);
 }
