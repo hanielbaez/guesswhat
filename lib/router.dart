@@ -15,6 +15,7 @@ import 'package:Tekel/ui/pages/textCreatePage.dart';
 import 'package:page_transition/page_transition.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
+  Object argument = settings.arguments;
   switch (settings.name) {
     case '/':
       return PageTransition(
@@ -24,27 +25,26 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           child: LovePage(), type: PageTransitionType.leftToRight);
     case 'riddlePage':
       return PageTransition(
-          child: RiddlePage(settings.arguments),
-          type: PageTransitionType.leftToRight);
+          child: RiddlePage(argument), type: PageTransitionType.leftToRight);
     case 'userPage':
       return PageTransition(
-          child: UserPage(user: settings.arguments),
+          child: UserPage(user: argument),
           type: PageTransitionType.leftToRight);
     case 'supportPage':
       return PageTransition(
-          child: SupportPage(user: settings.arguments),
+          child: SupportPage(user: argument),
           type: PageTransitionType.leftToRight);
     case 'commentsPage':
       return PageTransition(
-          child: CommentPage(riddle: settings.arguments),
+          child: CommentPage(riddle: argument),
           type: PageTransitionType.downToUp);
     case 'editUserPage':
       return PageTransition(
-          child: EditUserPage(user: settings.arguments),
+          child: EditUserPage(user: argument),
           type: PageTransitionType.leftToRight);
     case 'solvedByPage':
       return PageTransition(
-          child: SolvedByPage(user: settings.arguments),
+          child: SolvedByPage(user: argument),
           type: PageTransitionType.leftToRight);
     case 'createTextRiddle':
       return PageTransition(
