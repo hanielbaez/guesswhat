@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'package:Tekel/core/services/location.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,6 +14,8 @@ import 'package:provider/provider.dart';
 class CustomListRiddle extends StatelessWidget {
   final PaginationViewModel pagination = PaginationViewModel();
   static String countryCode;
+  final swingPath = 'audios/swing.wav';
+  final AudioCache player = AudioCache();
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +41,13 @@ class CustomListRiddle extends StatelessWidget {
               return Swiper(
                 loop: false,
                 onIndexChanged: (value) {
-                  print('$value');
                   PaginationViewModel.index = value;
+                  player.play(swingPath, volume: 0.5);
                 },
                 index: PaginationViewModel.index,
                 itemCount: snapshot.data.length,
                 control: controlButtons,
+                curve: Curves.elasticOut,
                 itemBuilder: (context, index) =>
                     RiddleLayaout(riddle: snapshot.data[index]),
               );

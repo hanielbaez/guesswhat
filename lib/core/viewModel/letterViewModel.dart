@@ -15,7 +15,7 @@ class LettersViewModel extends ChangeNotifier {
   final Stream<User> _user;
   final Riddle _riddle;
   final StreamController _changeNotifier;
-  static AudioCache player = new AudioCache();
+  static AudioCache player = AudioCache();
   List<Item> selectedItems = [];
   final List<Item> sourceList = [];
   final List<Item> targetList = [];
