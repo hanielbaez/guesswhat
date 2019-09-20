@@ -192,6 +192,7 @@ class DatabaseServices {
         {
           'riddleId': riddleId,
           'userId': currentUser.uid,
+          'displayName': currentUser.displayName,
           'ownerId': ownerId,
           'thumbnailUrl': thumbnailUrl,
           'text': text,
