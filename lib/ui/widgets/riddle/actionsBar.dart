@@ -54,6 +54,7 @@ class ActionBar extends StatelessWidget {
                   riddleId: riddle.id,
                   love: Love(
                     state: !loveState,
+                    ownerId: riddle.ownerId,
                     userId: _uid,
                     riddleId: riddle.id,
                     text: riddle.text ?? '',

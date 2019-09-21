@@ -14,7 +14,7 @@ class Riddle {
   Map<dynamic, dynamic> user;
   String loves;
   String comments;
-  Timestamp createdAt;
+  Timestamp createdAt = Timestamp.now();
 
   Riddle({
     @required this.id,
@@ -29,7 +29,7 @@ class Riddle {
     @required this.user,
     this.loves,
     this.comments,
-    @required this.createdAt,
+    this.createdAt,
   });
 
   ///Return a Riddle Object

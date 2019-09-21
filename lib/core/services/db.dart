@@ -158,9 +158,6 @@ class DatabaseServices {
       var userMap = {'user': user.toJson()};
       riddle.addAll(userMap);
 
-      //Add Creation date
-      riddle['createdAt'] = DateTime.now();
-
       _ref
           .setData(riddle)
           .catchError(

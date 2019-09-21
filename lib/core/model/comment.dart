@@ -10,13 +10,13 @@ class Comment {
   String ownerId;
   String text;
   User user;
-  Timestamp createdAt;
+  Timestamp createdAt = Timestamp.now();
   Comment(
       {this.id,
       this.ownerId,
       @required this.text,
       @required this.user,
-      @required this.createdAt});
+      this.createdAt});
 
   factory Comment.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data;
