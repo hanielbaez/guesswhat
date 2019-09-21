@@ -245,6 +245,10 @@ class DatabaseServices {
   ///Update the love data to FireStore
   void updateLoveState({String riddleId, Love love}) async {
     try {
+      print('${currentUser.displayName}');
+      love.displayName = currentUser.displayName;
+      love.userId = currentUser.uid;
+
       _db
           .collection('riddles')
           .document(riddleId)

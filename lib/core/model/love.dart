@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class Love {
   final bool state;
   final String ownerId;
-  final String userId;
+  String userId;
+  String displayName;
   final String riddleId;
   final String thumbnailUrl;
   final String text;
@@ -14,6 +15,7 @@ class Love {
       {@required this.state,
       this.ownerId,
       this.userId,
+      this.displayName,
       this.riddleId,
       this.thumbnailUrl,
       this.text});
@@ -25,7 +27,9 @@ class Love {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = Map<String, dynamic>();
     map['state'] = this.state;
+    map['ownerId'] = this.ownerId;
     map['userId'] = this.userId;
+    map['displayName'] = this.displayName;
     map['riddleId'] = this.riddleId;
     map['thumbnailUrl'] = this.thumbnailUrl;
     map['text'] = this.text;

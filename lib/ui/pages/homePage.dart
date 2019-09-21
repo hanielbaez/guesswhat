@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                       .listenNotification(),
                   builder: (context, snapshot) {
                     if (!snapshot
-                        .hasError) if (snapshot.data.documents.length == 1) {
+                        .hasError) if (snapshot.data?.documents?.length == 1) {
                       return Positioned(
                         top: 20.0,
                         left: 25.0,

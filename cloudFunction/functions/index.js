@@ -31,6 +31,27 @@ exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lov
         }
     });
 
+exports.addLoveNotification = functions.firestore.document('riddles/{riddleId}/lovedBy/{loveId}')
+    .onCreate(async (snapshot, context) => {
+        const data = snapshot.data();
+        const loverId = data.userId;
+        const displayName = data.displayName;
+        const riddleId = data.riddleId;
+        const ownerId = data.ownerId;
+
+        var map = {
+            'userId': loverId,
+            'displayName': displayName,
+            'riddleId': riddleId,
+            'viewed': false,
+            'type': 'love',
+            'createdAt': context.timestamp,
+        };
+        var documentRef = firestore.collection('users').doc(ownerId).collection('notifications').doc();
+
+        return await documentRef.set(map);
+    });
+
 //* COMMENT *//
 
 //Listen to Comment create and increase the counter of /riddles/::riddleId/comments
@@ -54,7 +75,7 @@ exports.addCommentNotification = functions.firestore.document('riddles/{riddleId
         var documentRef = firestore.collection('users').doc(ownerId).collection('notifications').doc();
 
         var map = {
-            'commentatorId': commentatorId,
+            'userId': commentatorId,
             'displayName': displayName,
             'riddleId': riddleId,
             'viewed': false,
@@ -97,7 +118,7 @@ exports.addSolvedNotification = functions.firestore.document('riddles/{riddleId}
         var ref = firestore.collection('users').doc(ownerId).collection('notifications');
 
         var map = {
-            'solverId': solverId,
+            'userId': solverId,
             'displayName': displayName,
             'riddleId': riddleId,
             'viewed': false,
