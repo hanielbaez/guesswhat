@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'package:Tekel/core/services/db.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
@@ -31,13 +32,36 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              SimpleLineIcons.getIconData('bell'),
-            ),
-            onPressed: () {
-              //TODO: Inplemente onPressed
-            },
+          Stack(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(
+                  SimpleLineIcons.getIconData('bell'),
+                ),
+                onPressed: () {
+                  //TODO: Inplemente onPressed
+                },
+              ),
+              StreamBuilder<QuerySnapshot>(
+                  stream: Provider.of<DatabaseServices>(context)
+                      .listenNotification(),
+                  builder: (context, snapshot) {
+                    if (!snapshot
+                        .hasError) if (snapshot.data.documents.length == 1) {
+                      return Positioned(
+                        top: 20.0,
+                        left: 25.0,
+                        child: Container(
+                          width: 10.0,
+                          height: 10.0,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.red),
+                        ),
+                      );
+                    }
+                    return Container();
+                  })
+            ],
           ),
           SizedBox(
             width: 15.0,

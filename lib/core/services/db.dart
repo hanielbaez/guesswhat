@@ -333,4 +333,22 @@ class DatabaseServices {
       return null;
     }
   }
+
+  //* Notification *//
+
+  ///Return QuerySnapshot if there are notifications that the user has not seen
+  Stream<QuerySnapshot> listenNotification() {
+    try {
+      return _db
+          .collection('users')
+          .document(currentUser.uid)
+          .collection('notifications')
+          .where('viewed', isEqualTo: false)
+          .limit(1)
+          .snapshots();
+    } catch (e) {
+      print('listenNotification erro: $e');
+      return null;
+    }
+  }
 }
