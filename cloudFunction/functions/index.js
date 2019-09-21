@@ -64,6 +64,26 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
 
 });
 
+exports.addSolvedNotification = functions.firestore.document('riddles/{riddleId}/solvedBy/{solvedById}').onCreate(async (snapshot, context) => {
+    const firestore = admin.firestore();
+
+    const document = snapshot.data();
+    const displayName = document.displayName;
+    const ownerId = document.ownerId;
+    const solverId = document.userId;
+
+    var ref = firestore.collection('users').doc(ownerId).collection('notifications');
+
+    var map = {
+        'solverId': solverId,
+        'displayName': displayName,
+        'viewed': false,
+        'type': 'solved',
+        'createdAt': context.timestamp,
+    };
+
+    return await ref.doc().set(map);
+});
 
 //* USER *//
 
@@ -97,8 +117,6 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
     //Get new/old user data
     const newData = change.after.data();
     const oldData = change.before.data();
-
-    //!No working propertly
 
     //Get the userId
     var userId = context.params.userId;
@@ -189,4 +207,3 @@ exports.notifyLove = functions.firestore.document('riddles/{riddleId}/lovedBy/{d
             }).catch(error => console.log('Error sending notification: ', error));
         return null;
     });
-
