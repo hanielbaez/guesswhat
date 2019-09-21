@@ -11,6 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Provider.of<DatabaseServices>(context).switchViewed();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -28,25 +30,28 @@ class NotificationPage extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: Provider.of<DatabaseServices>(context).streamNotification(),
         builder: (context, snapshot) {
-          var documents = snapshot.data.documents;
-          return ListView.builder(
-            itemCount: documents.length,
-            itemBuilder: (context, index) {
-              var notification =
-                  NotificationModel.fromFirestore(documents[index]);
-              return ListTile(
-                leading: Icon(
-                  notification.icon,
-                ),
-                title: GestureDetector(
-                    onTap: () {
-                      //TODO: Navigate to the user page
-                    },
-                    child: Text('${notification.displayName}')),
-                subtitle: Text('${notification.timeAgo}'),
-              );
-            },
-          );
+          if (snapshot.hasData) if (!snapshot.hasError) {
+            var documents = snapshot.data.documents;
+            return ListView.builder(
+              itemCount: documents.length,
+              itemBuilder: (context, index) {
+                var notification =
+                    NotificationModel.fromFirestore(documents[index]);
+                return ListTile(
+                  leading: Icon(
+                    notification.icon,
+                  ),
+                  title: GestureDetector(
+                      onTap: () {
+                        //TODO: Navigate to the user page
+                      },
+                      child: Text('${notification.displayName}')),
+                  subtitle: Text('${notification.timeAgo}'),
+                );
+              },
+            );
+          }
+          return Container();
         },
       ),
     );

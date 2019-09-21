@@ -353,6 +353,7 @@ class DatabaseServices {
     }
   }
 
+  ///Return a Stream of querySnapshot off notification orde by createdAt
   Stream<QuerySnapshot> streamNotification() {
     try {
       return _db
@@ -365,5 +366,23 @@ class DatabaseServices {
       print('streamNotification error: $e');
       return null;
     }
+  }
+
+  ///Switch the value of viewd to TRUE
+  void switchViewed() async {
+    WriteBatch batch = _db.batch();
+
+    QuerySnapshot ref = await _db
+        .collection('users')
+        .document(currentUser.uid)
+        .collection('notifications')
+        .where('viewed', isEqualTo: false)
+        .getDocuments();
+
+    ref.documents.forEach((doc) {
+      batch.updateData(doc.reference, {'viewed': true});
+    });
+
+    batch.commit();
   }
 }
