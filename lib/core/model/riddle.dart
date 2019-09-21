@@ -29,7 +29,7 @@ class Riddle {
     @required this.user,
     this.loves,
     this.comments,
-    this.createdAt,
+    @required this.createdAt,
   });
 
   ///Return a Riddle Object
