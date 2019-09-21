@@ -352,4 +352,18 @@ class DatabaseServices {
       return null;
     }
   }
+
+  Stream<QuerySnapshot> streamNotification() {
+    try {
+      return _db
+          .collection('users')
+          .document(currentUser.uid)
+          .collection('notifications')
+          .orderBy('createdAt', descending: true)
+          .snapshots();
+    } catch (e) {
+      print('streamNotification error: $e');
+      return null;
+    }
+  }
 }

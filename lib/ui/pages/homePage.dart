@@ -38,9 +38,8 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(
                   SimpleLineIcons.getIconData('bell'),
                 ),
-                onPressed: () {
-                  //TODO: Inplemente onPressed
-                },
+                onPressed: () =>
+                    Navigator.of(context).pushNamed('notificationsPage'),
               ),
               StreamBuilder<QuerySnapshot>(
                   stream: Provider.of<DatabaseServices>(context)

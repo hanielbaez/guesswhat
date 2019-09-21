@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 //Self import
 import 'package:Tekel/ui/pages/riddlePage.dart';
@@ -12,7 +13,7 @@ import 'package:Tekel/ui/pages/editUserPage.dart';
 import 'package:Tekel/ui/pages/commentPage.dart';
 import 'package:Tekel/ui/pages/solvedByUserPage.dart';
 import 'package:Tekel/ui/pages/textCreatePage.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:Tekel/ui/pages/notificationPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   Object argument = settings.arguments;
@@ -46,6 +47,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return PageTransition(
           child: SolvedByPage(user: argument),
           type: PageTransitionType.leftToRight);
+    case 'notificationsPage':
+      return PageTransition(
+          child: NotificationPage(), type: PageTransitionType.leftToRight);
+
     case 'createTextRiddle':
       return PageTransition(
           child: TextCreatePage(), type: PageTransitionType.leftToRight);
