@@ -83,6 +83,7 @@ class CommentForm extends StatelessWidget {
                       await Provider.of<DatabaseServices>(context).getUser();
                   if (_fbKey.currentState.saveAndValidate() && _user != null) {
                     Comment newComment = Comment(
+                      ownerId: riddle.ownerId,
                       text: _fbKey.currentState.value['comment'],
                       user: User(
                         uid: snapshot.data.uid,

@@ -7,11 +7,13 @@ import 'package:Tekel/core/model/user.dart';
 
 class Comment {
   String id;
+  String ownerId;
   String text;
   User user;
   Timestamp createdAt;
   Comment(
       {this.id,
+      this.ownerId,
       @required this.text,
       @required this.user,
       @required this.createdAt});
@@ -27,6 +29,7 @@ class Comment {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
+    data['ownerId'] = this.ownerId;
     data['text'] = this.text;
     data['user'] = this.user.toJson();
     data['createdAt'] = this.createdAt;
