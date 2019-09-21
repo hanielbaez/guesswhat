@@ -45,7 +45,7 @@ exports.addLoveNotification = functions.firestore.document('riddles/{riddleId}/l
             'riddleId': riddleId,
             'viewed': false,
             'type': 'love',
-            'createdAt': context.timestamp,
+            'createdAt': admin.firestore.FieldValue.serverTimestamp(),
         };
         var documentRef = firestore.collection('users').doc(ownerId).collection('notifications').doc();
 
@@ -80,7 +80,7 @@ exports.addCommentNotification = functions.firestore.document('riddles/{riddleId
             'riddleId': riddleId,
             'viewed': false,
             'type': 'comment',
-            'createdAt': context.timestamp,
+            'createdAt': admin.firestore.FieldValue.serverTimestamp(),
         };
 
         return await documentRef.set(map);
@@ -123,7 +123,7 @@ exports.addSolvedNotification = functions.firestore.document('riddles/{riddleId}
             'riddleId': riddleId,
             'viewed': false,
             'type': 'solved',
-            'createdAt': context.timestamp,
+            'createdAt': admin.firestore.FieldValue.serverTimestamp(),
         };
 
         return await ref.doc().set(map);
@@ -140,7 +140,7 @@ exports.createUser = functions.auth.user().onCreate((user) => {
         'biography': '',
         'photoUrl': user.photoURL,
         'webSite': '',
-        'createdAt': user.metadata.creationTime,
+        'createdAt': admin.firestore.FieldValue.serverTimestamp(),
     }
     const private = {
         'email': user.email,
