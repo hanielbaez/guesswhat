@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+const firestore = admin.firestore();
 const fcm = admin.messaging();
 
 //* LOVE *//
@@ -15,7 +16,6 @@ exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lov
         const riddleId = newValue.riddleId;
 
         //Document referent of the current Love(Like) riddle
-        const firestore = admin.firestore();
         var docRef = firestore.collection('riddles').doc(riddleId);
 
         //Get the LoveRiddles state field value
@@ -36,19 +36,39 @@ exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lov
 //Listen to Comment create and increase the counter of /riddles/::riddleId/comments
 exports.manageCommentCounter = functions.firestore.document('riddles/{riddleId}/comments/{commentId}')
     .onCreate((snapshot, context) => {
-
-        const firestore = admin.firestore();
         var docRef = firestore.collection('riddles').doc(context.params.riddleId);
 
         return docRef.update({ 'counter.comments': admin.firestore.FieldValue.increment(1) });
 
     });
 
+exports.addCommentNotification = functions.firestore.document('riddles/{riddleId}/comments/{commentId}')
+    .onCreate(async (snapshot, context) => {
+        const riddleId = context.params.riddleId;
+
+        const document = snapshot.data();
+        const displayName = document.user.displayName;
+        const ownerId = document.ownerId;
+        const commentatorId = document.user.uid;
+
+        var documentRef = firestore.collection('users').doc(ownerId).collection('notifications').doc();
+
+        var map = {
+            'commentatorId': commentatorId,
+            'displayName': displayName,
+            'riddleId': riddleId,
+            'viewed': false,
+            'type': 'comment',
+            'createdAt': context.timestamp,
+        };
+
+        return await documentRef.set(map);
+    });
+
 //* SOLVED BY*//
 //Listen to solvedby subcollection CREATE to increment the solveby RIDDLE counter by 1
 //Also, assign the corresponding score for the user 
 exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solvedBy/{solvedById}').onCreate(async (snapshot, context) => {
-    const firestore = admin.firestore();
 
     //ID of the user that solved the riddle
     const userSolved = context.params.solvedById
@@ -64,26 +84,29 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
 
 });
 
-exports.addSolvedNotification = functions.firestore.document('riddles/{riddleId}/solvedBy/{solvedById}').onCreate(async (snapshot, context) => {
-    const firestore = admin.firestore();
+exports.addSolvedNotification = functions.firestore.document('riddles/{riddleId}/solvedBy/{solvedById}')
+    .onCreate(async (snapshot, context) => {
 
-    const document = snapshot.data();
-    const displayName = document.displayName;
-    const ownerId = document.ownerId;
-    const solverId = document.userId;
+        const riddleId = context.params.riddleId;
 
-    var ref = firestore.collection('users').doc(ownerId).collection('notifications');
+        const document = snapshot.data();
+        const displayName = document.displayName;
+        const ownerId = document.ownerId;
+        const solverId = document.userId;
 
-    var map = {
-        'solverId': solverId,
-        'displayName': displayName,
-        'viewed': false,
-        'type': 'solved',
-        'createdAt': context.timestamp,
-    };
+        var ref = firestore.collection('users').doc(ownerId).collection('notifications');
 
-    return await ref.doc().set(map);
-});
+        var map = {
+            'solverId': solverId,
+            'displayName': displayName,
+            'riddleId': riddleId,
+            'viewed': false,
+            'type': 'solved',
+            'createdAt': context.timestamp,
+        };
+
+        return await ref.doc().set(map);
+    });
 
 //* USER *//
 
@@ -103,7 +126,6 @@ exports.createUser = functions.auth.user().onCreate((user) => {
         'sex': '',
     }
 
-    var firestore = admin.firestore();
     return firestore.collection('users').doc(user.uid).set(newUser).then(response => {
         console.log('Response ', response);
         return firestore.collection('users').doc(user.uid).collection('privates').doc().set(private);
@@ -113,7 +135,6 @@ exports.createUser = functions.auth.user().onCreate((user) => {
 
 //Listen to the User update, in order to update each riddles and comments (photosUrl and displayName)
 exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((change, context) => {
-    const firestore = admin.firestore();
     //Get new/old user data
     const newData = change.after.data();
     const oldData = change.before.data();
@@ -169,7 +190,6 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
 
 //Listen to riddles create to increase the user.riddle counter by 1
 exports.manageRiddleCounter = functions.firestore.document('riddles/{riddlesId}').onCreate((snapshot, context) => {
-    const firestore = admin.firestore();
     const userId = snapshot.data().user.uid;
 
     var ref = firestore.collection('users').doc(userId);
@@ -184,7 +204,6 @@ exports.notifyLove = functions.firestore.document('riddles/{riddleId}/lovedBy/{d
 
         const document = snapshot.data();
         //Document referent of the current Love(Like) riddle
-        const firestore = admin.firestore();
 
         //Get the tokes of the corresponding user
         firestore.collection('users').doc(document.userId)
