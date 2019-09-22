@@ -22,14 +22,12 @@ class ActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _uid = Provider.of<DatabaseServices>(context).currentUser?.uid;
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         StreamBuilder<Love>(
           stream: Provider.of<DatabaseServices>(context)
-              .loveStream(riddleId: riddle.id, userId: _uid),
+              .loveStream(riddleId: riddle.id),
           builder: (context, loveSnap) {
             var loveState = loveSnap?.data?.state ?? false;
             return FlatButton.icon(
@@ -45,6 +43,8 @@ class ActionBar extends StatelessWidget {
                 riddle.loves.isNotEmpty ? '${riddle.loves}' : '',
               ),
               onPressed: () {
+                var _uid =
+                    Provider.of<DatabaseServices>(context).currentUser?.uid;
                 if (_uid == null) {
                   Scaffold.of(context).openDrawer();
                   return null;
@@ -72,6 +72,7 @@ class ActionBar extends StatelessWidget {
             riddle.comments.isNotEmpty ? '${riddle.comments}' : '',
           ),
           onPressed: () {
+            var _uid = Provider.of<DatabaseServices>(context).currentUser?.uid;
             if (_uid == null) {
               Scaffold.of(context).openDrawer();
               return null;
