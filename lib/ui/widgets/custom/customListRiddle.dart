@@ -1,15 +1,15 @@
 //Flutter and Dart import
-import 'package:Tekel/core/services/location.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/ui/widgets/riddle/riddle.dart';
 import 'package:Tekel/core/custom/paginationRiddles.dart';
-import 'package:provider/provider.dart';
+import 'package:Tekel/core/services/location.dart';
 
 class CustomListRiddle extends StatelessWidget {
   final PaginationViewModel pagination = PaginationViewModel();
@@ -38,18 +38,27 @@ class CustomListRiddle extends StatelessWidget {
             break;
           case ConnectionState.done:
             if (snapshot.hasData) {
-              return Swiper(
-                loop: false,
-                onIndexChanged: (value) {
-                  PaginationViewModel.index = value;
-                  player.play(swingPath, volume: 0.5);
-                },
-                index: PaginationViewModel.index,
-                itemCount: snapshot.data.length,
-                control: controlButtons,
-                curve: Curves.elasticOut,
-                itemBuilder: (context, index) =>
-                    RiddleLayaout(riddle: snapshot.data[index]),
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  CustomCategory(),
+                  Expanded(
+                    flex: 12,
+                    child: Swiper(
+                      loop: false,
+                      onIndexChanged: (value) {
+                        PaginationViewModel.index = value;
+                        player.play(swingPath, volume: 0.5);
+                      },
+                      index: PaginationViewModel.index,
+                      itemCount: snapshot.data.length,
+                      control: controlButtons,
+                      curve: Curves.elasticOut,
+                      itemBuilder: (context, index) =>
+                          RiddleLayaout(riddle: snapshot.data[index]),
+                    ),
+                  ),
+                ],
               );
             }
             break;
@@ -65,4 +74,44 @@ class CustomListRiddle extends StatelessWidget {
       iconPrevious: SimpleLineIcons.getIconData('arrow-left'),
       color: Colors.black,
       disableColor: Colors.black12);
+}
+
+List categoryList = [
+  '⚽Sport',
+  '🎭Art',
+  '🗺Culture',
+  '🐥Animal',
+  '🎼Music',
+  '💁‍People',
+  '🎬Movie and TV',
+  '🔭Science and Technology',
+  '📁Others'
+];
+
+class CustomCategory extends StatelessWidget {
+  const CustomCategory({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      //flex: 1,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: categoryList.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: EdgeInsets.all(5.0),
+            padding: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              //color: Colors.red,
+              border: Border.all(color: Colors.black),
+            ),
+            child: Text(categoryList[index]),
+          );
+        },
+      ),
+    );
+  }
 }
