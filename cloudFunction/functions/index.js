@@ -11,6 +11,7 @@ const fcm = admin.messaging();
 exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lovedBy/{loveId}')
     .onWrite((snapshot, context) => {
         const newValue = snapshot.after.data();
+        const oldValue = snapshot.before.data()
 
         //Grab the riddleId of the created loveRiddles
         const riddleId = newValue.riddleId;
@@ -21,13 +22,15 @@ exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lov
         //Get the LoveRiddles state field value
         const state = newValue.state;
 
-        if (state === true) {
-            //Increment the value of the referent Riddle by 1
-            return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(1) });
+        console.log('OldValue: ', oldValue);
+        if ((oldValue && oldValue.state) !== newValue.state) {
+            if (state === true) {
+                return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(1) });
 
-        } else {
-            //Decrement the value of the referent Riddle by -1
-            return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(-1) });
+            } else {
+                //Decrement the value of the referent Riddle by -1
+                return docRef.update({ 'counter.loves': admin.firestore.FieldValue.increment(-1) });
+            }
         }
     });
 

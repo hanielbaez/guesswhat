@@ -247,7 +247,6 @@ class DatabaseServices {
   ///Update the love data to FireStore
   void updateLoveState({String riddleId, Love love}) async {
     try {
-      print('${currentUser.displayName}');
       love.displayName = currentUser.displayName;
       love.userId = currentUser.uid;
 
@@ -281,22 +280,19 @@ class DatabaseServices {
   }
 
   ///Return a Love obj
-  Stream<Love> loveStream({String riddleId, String userId}) {
+  Stream<Love> loveStream({String riddleId}) {
     try {
-      if (userId != null) {
-        return _db
-            .collection('riddles')
-            .document(riddleId)
-            .collection('lovedBy')
-            .document(userId)
-            .snapshots()
-            .map(
-          (doc) {
-            return Love.fromFireStore(doc.data);
-          },
-        );
-      }
-      return null;
+      return _db
+          .collection('riddles')
+          .document(riddleId)
+          .collection('lovedBy')
+          .document(currentUser.uid)
+          .snapshots()
+          .map(
+        (doc) {
+          return Love.fromFireStore(doc.data);
+        },
+      );
     } catch (e) {
       print('loveStream: $e');
       return null;
