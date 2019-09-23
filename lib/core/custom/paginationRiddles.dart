@@ -1,31 +1,34 @@
 //Flutter and Dart import
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //Selft import
 import 'package:Tekel/core/model/riddle.dart';
 
-class PaginationViewModel {
-  //? Probably this pagination class can be improve by adding a stream
+class PaginationViewModel extends ChangeNotifier {
+  PaginationViewModel() {
+    getRiddles();
+  }
 
   Firestore firestore = Firestore.instance;
 
-  List<Riddle> riddles = []; // stores fetched products
+  List<Riddle> riddlesList = []; // stores fetched products
 
   bool isLoading = false; // track if products fetching
 
   bool hasMore = true; // flag for more products available or not
 
-  static int index = 0; // index for Swiper
-
-  int documentLimit = 20; // documents to be fetched per request
+  int documentLimit = 2; // documents to be fetched per request
 
   DocumentSnapshot
       lastDocument; // flag for last document from where next 10 records to be fetched
+  QuerySnapshot querySnapshot;
 
   getRiddles({String countryCode}) async {
     if (hasMore == false) {
       print('No more data to fetch');
-      return riddles;
+      //TODO: Return something when there is not more data.
+      return null;
     }
 
     if (isLoading) {
@@ -34,12 +37,11 @@ class PaginationViewModel {
 
     isLoading = true;
 
-    QuerySnapshot querySnapshot;
     try {
       if (lastDocument == null) {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: countryCode)
+            .where('location.countryCode', isEqualTo: 'DO')
             .where('isRiddle', isEqualTo: true)
             .orderBy('createdAt', descending: true)
             .limit(documentLimit)
@@ -47,13 +49,12 @@ class PaginationViewModel {
       } else {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: countryCode)
+            .where('location.countryCode', isEqualTo: 'DO')
             .where('isRiddle', isEqualTo: true)
             .orderBy('createdAt', descending: true)
             .startAfterDocument(lastDocument)
             .limit(documentLimit)
             .getDocuments();
-        index = riddles.length - 1;
       }
     } catch (e) {
       print('getRiddles: $e');
@@ -72,11 +73,11 @@ class PaginationViewModel {
 
     querySnapshot.documents.forEach(
       (doc) {
-        riddles.add(Riddle.fromFireStore(doc));
+        riddlesList.add(Riddle.fromFireStore(doc));
       },
     );
     isLoading = false;
-    return riddles;
+    notifyListeners();
   }
 }
 

@@ -1,4 +1,5 @@
 //Flutter and Dart import
+import 'package:Tekel/core/custom/paginationRiddles.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -105,7 +106,14 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: CustomDrawer(),
       backgroundColor: Colors.white,
-      body: CustomListRiddle(),
+      body: ChangeNotifierProvider<PaginationViewModel>(
+        builder: (context) => PaginationViewModel(),
+        child: Consumer<PaginationViewModel>(
+          builder: (cotext, model, child) => CustomListRiddle(
+            model: model,
+          ),
+        ),
+      ),
     );
   }
 }

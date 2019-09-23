@@ -2,69 +2,51 @@
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/ui/widgets/riddle/riddle.dart';
 import 'package:Tekel/core/custom/paginationRiddles.dart';
-import 'package:Tekel/core/services/location.dart';
 
 class CustomListRiddle extends StatelessWidget {
-  final PaginationViewModel pagination = PaginationViewModel();
-  static String countryCode;
+  //static String countryCode;
+  final PaginationViewModel model;
   final swingPath = 'audios/swing.wav';
   final AudioCache player = AudioCache();
 
+  CustomListRiddle({this.model});
+
   @override
   Widget build(BuildContext context) {
-    Provider.of<LocationServices>(context).getGeoPoint().then((user) {
+    /* Provider.of<LocationServices>(context).getGeoPoint().then((user) {
       countryCode = user['location']['countryCode'];
-    });
-    return FutureBuilder(
-      future: pagination.getRiddles(countryCode: countryCode),
-      builder: (contex, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return Center(
-              child: SpinKitThreeBounce(
-                color: Colors.black,
-                size: 50.0,
-              ),
-            );
-          case ConnectionState.active:
-            break;
-          case ConnectionState.done:
-            if (snapshot.hasData) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  CustomCategory(),
-                  Expanded(
-                    flex: 12,
-                    child: Swiper(
-                      loop: false,
-                      onIndexChanged: (value) {
-                        PaginationViewModel.index = value;
-                        player.play(swingPath, volume: 0.5);
-                      },
-                      index: PaginationViewModel.index,
-                      itemCount: snapshot.data.length,
-                      control: controlButtons,
-                      curve: Curves.elasticOut,
-                      itemBuilder: (context, index) =>
-                          RiddleLayaout(riddle: snapshot.data[index]),
-                    ),
-                  ),
-                ],
-              );
-            }
-            break;
-        }
-        return Container();
-      },
+    }); */
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        CustomCategory(),
+        Expanded(
+          flex: 12,
+          child: Swiper(
+            loop: false,
+            onIndexChanged: (value) {
+              if (value == model.riddlesList.length - 1) {
+                model.getRiddles();
+              }
+              try {
+                player.play(swingPath, volume: 1);
+              } catch (e) {
+                print('Swing sound error: $e');
+              }
+            },
+            itemCount: model.riddlesList.length,
+            control: controlButtons,
+            curve: Curves.elasticOut,
+            itemBuilder: (context, index) =>
+                RiddleLayaout(riddle: model.riddlesList[index]),
+          ),
+        ),
+      ],
     );
   }
 
@@ -96,7 +78,6 @@ class CustomCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      //flex: 1,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: categoryList.length,
@@ -105,7 +86,6 @@ class CustomCategory extends StatelessWidget {
             margin: EdgeInsets.all(5.0),
             padding: EdgeInsets.all(5.0),
             decoration: BoxDecoration(
-              //color: Colors.red,
               border: Border.all(color: Colors.black),
             ),
             child: Text(categoryList[index]),
