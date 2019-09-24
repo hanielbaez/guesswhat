@@ -117,10 +117,13 @@ class LettersViewModel extends ChangeNotifier {
           return Item(
             id: i,
             letter: _riddle.answer[i].toUpperCase(),
+            isSource: false,
           );
         },
       );
-      targetList.addAll(_list);
+      targetHitList.addAll(_list);
+      selectedItems = targetHitList;
+
       correctAnswer = true;
       Future.delayed(Duration.zero, () => notifyListeners());
     } else {

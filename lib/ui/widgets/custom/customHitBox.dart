@@ -17,7 +17,9 @@ class CustomHitBox extends StatelessWidget {
 
           return GestureDetector(
             onTap: () {
-              if (model.selectedItems.isNotEmpty && _isSelected) {
+              if (model.selectedItems.isNotEmpty &&
+                  _isSelected &&
+                  !model.correctAnswer) {
                 model.deleteLetter(
                     sourceItemId: model.selectedItems[item.id].id,
                     targetItemId: item.id);
