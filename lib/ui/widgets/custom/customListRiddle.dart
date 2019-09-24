@@ -60,10 +60,9 @@ class CustomListRiddle extends StatelessWidget {
 
 List categoryList = [
   '⚽Sport',
-  '🎭Art',
   '🗺Culture',
-  '🐥Animal',
-  '🎼Music',
+  '🐥Animals',
+  '🔢Maths',
   '💁‍People',
   '🎬Movie and TV',
   '🔭Science and Technology',
