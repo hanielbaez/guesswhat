@@ -15,22 +15,22 @@ class CustomSidekick extends StatelessWidget {
         return Column(
           children: [
             CustomHitBox(
-              hitList: model.targetHitList,
-              selectedItems: model.selectedItems,
-              deleteLetter: model.deleteLetter,
+              model: model,
             ),
             SizedBox(
               height: 5.0,
             ),
-            Wrap(
-                children: model.sourceList
-                    .map(
-                      (item) => CustomLetter(
-                        item: item,
-                        setLetter: model.setLetter,
-                      ),
-                    )
-                    .toList()),
+            model.correctAnswer
+                ? Container()
+                : Wrap(
+                    children: model.sourceList
+                        .map(
+                          (item) => CustomLetter(
+                            item: item,
+                            model: model,
+                          ),
+                        )
+                        .toList()),
           ],
         );
       },

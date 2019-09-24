@@ -1,27 +1,25 @@
-import 'package:Tekel/ui/widgets/riddle/letter.dart';
+//Flutter and Dart import
 import 'package:flutter/material.dart';
 
-//? I was trying to track the position of this widget
-//? to assign a fit position to the target SideKick
+//Selt import
+import 'package:Tekel/core/viewModel/letterViewModel.dart';
 
 class CustomHitBox extends StatelessWidget {
-  final Function deleteLetter;
-  final List<Item> hitList;
-  final List<Item> selectedItems;
+  final LettersViewModel model;
 
-  CustomHitBox({this.deleteLetter, this.hitList, this.selectedItems});
+  CustomHitBox({this.model});
   Widget build(BuildContext context) {
     return Container(
       child: Wrap(
-        children: hitList.map((item) {
-          bool _isSelected = selectedItems.length - 1 >= item.id ? true : false;
+        children: model.targetHitList.map((item) {
+          bool _isSelected =
+              model.selectedItems.length - 1 >= item.id ? true : false;
 
           return GestureDetector(
             onTap: () {
-              if (selectedItems.isNotEmpty && _isSelected) {
-                print('${selectedItems[item.id].id}');
-                deleteLetter(
-                    sourceItemId: selectedItems[item.id].id,
+              if (model.selectedItems.isNotEmpty && _isSelected) {
+                model.deleteLetter(
+                    sourceItemId: model.selectedItems[item.id].id,
                     targetItemId: item.id);
               }
             },
@@ -34,10 +32,13 @@ class CustomHitBox extends StatelessWidget {
                 color:
                     _isSelected ? Colors.white : Colors.black.withOpacity(0.15),
                 border: Border.all(
-                    color: _isSelected ? Colors.black : Colors.white),
+                    color: _isSelected ? model.letterColor() : Colors.white),
               ),
-              child:
-                  Text(_isSelected ? '${selectedItems[item.id].letter}' : ''),
+              child: Text(
+                _isSelected ? '${model.selectedItems[item.id].letter}' : '',
+                style: TextStyle(
+                    color: model.letterColor(), fontWeight: FontWeight.bold),
+              ),
             ),
           );
         }).toList(),

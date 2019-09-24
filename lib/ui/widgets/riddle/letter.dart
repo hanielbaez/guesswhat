@@ -1,4 +1,5 @@
 //Flutter and Dart import
+import 'package:Tekel/core/viewModel/letterViewModel.dart';
 import 'package:flutter/material.dart';
 
 class Item {
@@ -14,18 +15,18 @@ class Item {
 
 class CustomLetter extends StatelessWidget {
   final Item item;
-  final Function setLetter;
+  final LettersViewModel model;
 
-  CustomLetter({this.item, this.setLetter});
+  CustomLetter({this.item, this.model});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         //If correct aswear TRUE do nothing
-        if (item.isSource) {
-          item.isSource = !item.isSource;
-          setLetter(selectedItem: item);
+        if (item.isSource && !model.correctAnswer) {
+          if (!model.wrongAnswer) item.isSource = !item.isSource;
+          model.setLetter(item: item);
         }
       },
       child: Opacity(

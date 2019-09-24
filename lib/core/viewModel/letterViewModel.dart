@@ -131,9 +131,11 @@ class LettersViewModel extends ChangeNotifier {
   ///Return a color for the target list depending of the target list state
   ///if it is correct it get a color yellow, if it is wrong it get a color red
   ///if it is not correct or wrong it get white
-  Color letterColor(bool isSource) {
-    if (wrongAnswer && !isSource) {
+  Color letterColor() {
+    if (wrongAnswer) {
       return Colors.red[400];
+    } else if (correctAnswer) {
+      return Colors.green;
     } else {
       return Colors.black;
     }
@@ -141,14 +143,15 @@ class LettersViewModel extends ChangeNotifier {
 
   ///Add letter to the target
   ///If it is equal to the riddle.word it get a color yellow
-  void setLetter({Item selectedItem}) async {
+  void setLetter({Item item}) async {
     const tapAudioPath = 'audios/fingerTap.wav';
     const wrongChoiceAudioPath = 'audios/wrongChoice.wav';
     const successAudioPath = 'audios/success.wav';
 
-    var _selectedWord = getWord(selectedItems);
+    selectedItems.add(item);
+    var _userAnswer = getWord(selectedItems);
 
-    if (_selectedWord == _riddle.answer.toUpperCase()) {
+    if (_userAnswer == _riddle.answer.toUpperCase()) {
       if (_user != null)
         _db.setSolvedBy(
             riddleId: _riddle.id,
@@ -159,15 +162,21 @@ class LettersViewModel extends ChangeNotifier {
       correctAnswer = true;
       player.play(successAudioPath);
       _changeNotifier.sink.add(true);
-    } else if (_selectedWord.length >= _riddle.answer.length) {
+      notifyListeners();
+    } else if (_userAnswer.length >= _riddle.answer.length) {
       player.play(wrongChoiceAudioPath);
+
+      //Remove the last Item if it exceeds the limit
+      if (_userAnswer.length > _riddle.answer.length)
+        selectedItems.removeLast();
+
       wrongAnswer = true;
+      notifyListeners();
     } else {
-      selectedItems.add(selectedItem);
       //Play the basic tap sound
       player.play(tapAudioPath);
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   ///Remove letter from the target list,
