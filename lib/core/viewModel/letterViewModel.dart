@@ -21,7 +21,7 @@ class LettersViewModel extends ChangeNotifier {
   final List<Item> targetList = [];
   List<Item> targetHitList = [];
   bool correctAnswer = false;
-  bool wronganswer = false;
+  bool wrongAnswer = false;
 
   LettersViewModel(
       {Riddle riddle,
@@ -31,7 +31,9 @@ class LettersViewModel extends ChangeNotifier {
       : _riddle = riddle,
         _db = db,
         _user = user,
-        _changeNotifier = changeNotifier;
+        _changeNotifier = changeNotifier {
+    getTargetList();
+  }
 
   ///Add randoms characteres(LETTERS AND NUMBERS) to the supply secret word
   String randomCharacters() {
@@ -73,6 +75,7 @@ class LettersViewModel extends ChangeNotifier {
           return Item(
             id: i,
             letter: _word[i],
+            isSource: true,
           );
         },
       );
@@ -129,7 +132,7 @@ class LettersViewModel extends ChangeNotifier {
   ///if it is correct it get a color yellow, if it is wrong it get a color red
   ///if it is not correct or wrong it get white
   Color letterColor(bool isSource) {
-    if (wronganswer && !isSource) {
+    if (wrongAnswer && !isSource) {
       return Colors.red[400];
     } else {
       return Colors.black;
@@ -143,7 +146,6 @@ class LettersViewModel extends ChangeNotifier {
     const wrongChoiceAudioPath = 'audios/wrongChoice.wav';
     const successAudioPath = 'audios/success.wav';
 
-    selectedItems.add(selectedItem);
     var _selectedWord = getWord(selectedItems);
 
     if (_selectedWord == _riddle.answer.toUpperCase()) {
@@ -159,22 +161,27 @@ class LettersViewModel extends ChangeNotifier {
       _changeNotifier.sink.add(true);
     } else if (_selectedWord.length >= _riddle.answer.length) {
       player.play(wrongChoiceAudioPath);
-      wronganswer = true;
+      wrongAnswer = true;
     } else {
+      selectedItems.add(selectedItem);
       //Play the basic tap sound
       player.play(tapAudioPath);
     }
+    notifyListeners();
   }
 
-  ///Remove letter from the target list
+  ///Remove letter from the target list,
   ///If it is longer that the answer it get a red color
-  void deleteLetter({Item selectedItem}) {
+  void deleteLetter({int sourceItemId, int targetItemId}) {
     const tapAudioPath = 'audios/fingerTap.wav';
-    int _letterID = selectedItem.id;
-    selectedItems.removeWhere((item) => item.id == _letterID);
+
+    sourceList[sourceItemId].isSource = true;
+    selectedItems.removeAt(targetItemId);
+
     player.play(tapAudioPath);
     if (selectedItems.length < _riddle.answer.length) {
-      wronganswer = false;
+      wrongAnswer = false;
     }
+    notifyListeners();
   }
 }

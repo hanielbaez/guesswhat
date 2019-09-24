@@ -1,11 +1,11 @@
 //Flutter import
 import 'dart:async';
-import 'package:Tekel/core/services/auth.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
+import 'package:Tekel/core/services/auth.dart';
 import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/ui/widgets/custom/userBar.dart';
 import 'package:Tekel/core/model/riddle.dart';
@@ -70,14 +70,7 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
                   db: Provider.of(context),
                   user: Provider.of<AuthenticationServices>(context).profile,
                   changeNotifier: changeNotifier),
-              child: Consumer<LettersViewModel>(
-                builder: (context, model, child) {
-                  return CustomSidekick(
-                    riddle: widget.riddle,
-                    model: model,
-                  );
-                },
-              ),
+              child: CustomSidekick(),
             ),
           ActionBar(riddle: widget.riddle),
           if (widget.riddle.description.isNotEmpty)

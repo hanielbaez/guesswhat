@@ -1,51 +1,43 @@
 //Flutter and Dart import
 import 'package:flutter/material.dart';
-import 'package:flutter_sidekick/flutter_sidekick.dart';
-
-//Self import
-import 'package:Tekel/core/viewModel/letterViewModel.dart';
 
 class Item {
   Item({
     this.id,
     this.letter,
+    this.isSource,
   });
   final int id;
   final String letter;
+  bool isSource;
 }
 
 class CustomLetter extends StatelessWidget {
   final Item item;
-  final bool isSource;
-  final LettersViewModel model;
+  final Function setLetter;
 
-  CustomLetter({this.item, this.isSource, this.model});
+  CustomLetter({this.item, this.setLetter});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         //If correct aswear TRUE do nothing
-        if (model.correctAnswer == false) {
-          SidekickTeamBuilder.of<Item>(context).move(item);
-
-          //Delete or add letter base on isSource
-          isSource
-              ? model.setLetter(selectedItem: item)
-              : model.deleteLetter(selectedItem: item);
+        if (item.isSource) {
+          item.isSource = !item.isSource;
+          setLetter(selectedItem: item);
         }
       },
       child: Opacity(
-        opacity: isSource ? 0.5 : 1,
+        opacity: item.isSource ? 1 : 0.3,
         child: Container(
-          width: (isSource ? 50 : 40),
-          height: (isSource ? 45 : 35),
-          margin: EdgeInsets.all(isSource ? 4 : 2.5),
+          height: 45,
+          width: 50,
+          margin: EdgeInsets.all(4),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
           ),
           child: Card(
-            color: model.correctAnswer == true ? Colors.yellow : Colors.white,
             margin: EdgeInsets.zero,
             elevation: 10.0,
             child: Center(
@@ -53,8 +45,7 @@ class CustomLetter extends StatelessWidget {
                 item.letter,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: (isSource ? 25 : 20),
-                  color: model.letterColor(isSource),
+                  fontSize: 25,
                 ),
               ),
             ),

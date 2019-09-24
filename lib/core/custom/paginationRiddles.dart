@@ -27,7 +27,6 @@ class PaginationViewModel extends ChangeNotifier {
   getRiddles({String countryCode}) async {
     if (hasMore == false) {
       print('No more data to fetch');
-      //TODO: Return something when there is not more data.
       return null;
     }
 
