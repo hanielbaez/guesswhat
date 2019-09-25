@@ -7,6 +7,7 @@ import 'package:Tekel/ui/widgets/custom/customTargetLetter.dart';
 import 'package:Tekel/ui/widgets/riddle/letter.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 
+//? I should rename this class
 class CustomSidekick extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
