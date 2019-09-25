@@ -109,8 +109,18 @@ class LettersViewModel extends ChangeNotifier {
 
   ///Get a list for the target, only if the user has previously solved it.
   getTargetList() async {
-    var response = await _db.isSolvedBy(riddleId: _riddle.id);
-    if (response?.data != null) {
+    var _response;
+
+    //? I have to delay, cause the first it gets the current user it is not ready.
+    //? There should be a better way to do it.
+    await Future.delayed(
+      Duration(seconds: 1),
+      () async {
+        _response = await _db.isSolvedBy(riddleId: _riddle.id);
+      },
+    );
+
+    if (_response?.data != null) {
       var _list = List.generate(
         _riddle.answer.length,
         (i) {
@@ -125,7 +135,7 @@ class LettersViewModel extends ChangeNotifier {
       selectedItems = targetHitList;
 
       correctAnswer = true;
-      Future.delayed(Duration.zero, () => notifyListeners());
+      notifyListeners();
     } else {
       generateItemList();
     }
