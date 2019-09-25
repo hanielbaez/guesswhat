@@ -6,16 +6,16 @@ import 'package:vector_math/vector_math_64.dart' as v;
 //Selt import
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 
-class CustomHitBox extends StatefulWidget {
+class TargetLetter extends StatefulWidget {
   final LettersViewModel model;
 
-  CustomHitBox({this.model});
+  TargetLetter({this.model});
 
   @override
-  _CustomHitBoxState createState() => _CustomHitBoxState();
+  _TargetLetterState createState() => _TargetLetterState();
 }
 
-class _CustomHitBoxState extends State<CustomHitBox>
+class _TargetLetterState extends State<TargetLetter>
     with SingleTickerProviderStateMixin {
   AnimationController animationController;
   Animation<double> animation;

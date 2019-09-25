@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Self import
-import 'package:Tekel/ui/widgets/custom/customHitBox.dart';
+import 'package:Tekel/ui/widgets/custom/customTargetLetter.dart';
 import 'package:Tekel/ui/widgets/riddle/letter.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 
@@ -14,7 +14,7 @@ class CustomSidekick extends StatelessWidget {
       builder: (context, model, child) {
         return Column(
           children: [
-            CustomHitBox(
+            TargetLetter(
               model: model,
             ),
             SizedBox(
