@@ -22,9 +22,15 @@ class _CustomHitBoxState extends State<CustomHitBox>
 
   @override
   void initState() {
-    super.initState();
     animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   v.Vector3 _shake() {
