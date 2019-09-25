@@ -50,7 +50,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 2.5,
+      height: MediaQuery.of(context).size.height / 2.7,
       child: FutureBuilder(
         future: widget.model.getMedia(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

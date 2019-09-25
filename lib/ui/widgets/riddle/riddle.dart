@@ -72,6 +72,9 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
                   changeNotifier: changeNotifier),
               child: CustomSidekick(),
             ),
+          SizedBox(
+            height: 5.0,
+          ),
           ActionBar(riddle: widget.riddle),
           if (widget.riddle.description.isNotEmpty)
             Padding(
