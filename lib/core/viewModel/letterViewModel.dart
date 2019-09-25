@@ -157,38 +157,42 @@ class LettersViewModel extends ChangeNotifier {
   ///Add letter to the target
   ///If it is equal to the riddle.word it get a color yellow
   void setLetter({Item item}) async {
-    const tapAudioPath = 'audios/fingerTap.wav';
-    const wrongChoiceAudioPath = 'audios/wrongChoice.wav';
-    const successAudioPath = 'audios/success.wav';
+    try {
+      const tapAudioPath = 'audios/fingerTap.wav';
+      const wrongChoiceAudioPath = 'audios/wrongChoice.wav';
+      const successAudioPath = 'audios/success.wav';
 
-    selectedItems.add(item);
-    var _userAnswer = getWord(selectedItems);
+      selectedItems.add(item);
+      var _userAnswer = getWord(selectedItems);
 
-    if (_userAnswer == _riddle.answer.toUpperCase()) {
-      if (_user != null)
-        _db.setSolvedBy(
-            riddleId: _riddle.id,
-            ownerId: _riddle.ownerId,
-            thumbnailUrl: _riddle.thumbnailUrl,
-            text: _riddle.text);
+      if (_userAnswer == _riddle.answer.toUpperCase()) {
+        if (_user != null)
+          _db.setSolvedBy(
+              riddleId: _riddle.id,
+              ownerId: _riddle.ownerId,
+              thumbnailUrl: _riddle.thumbnailUrl,
+              text: _riddle.text);
 
-      correctAnswer = true;
-      player.play(successAudioPath);
-      _changeNotifier.sink.add(true);
-      notifyListeners();
-    } else if (_userAnswer.length >= _riddle.answer.length) {
-      player.play(wrongChoiceAudioPath);
+        correctAnswer = true;
+        player.play(successAudioPath);
+        _changeNotifier.sink.add(true);
+        notifyListeners();
+      } else if (_userAnswer.length >= _riddle.answer.length) {
+        player.play(wrongChoiceAudioPath);
 
-      //Remove the last Item if it exceeds the limit
-      if (_userAnswer.length > _riddle.answer.length)
-        selectedItems.removeLast();
+        //Remove the last Item if it exceeds the limit
+        if (_userAnswer.length > _riddle.answer.length)
+          selectedItems.removeLast();
 
-      wrongAnswer = true;
-      notifyListeners();
-    } else {
-      //Play the basic tap sound
-      player.play(tapAudioPath);
-      notifyListeners();
+        wrongAnswer = true;
+        notifyListeners();
+      } else {
+        //Play the basic tap sound
+        player.play(tapAudioPath);
+        notifyListeners();
+      }
+    } catch (e) {
+      print('setLetter error: $e');
     }
   }
 
