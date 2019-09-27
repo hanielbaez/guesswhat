@@ -40,7 +40,7 @@ class PaginationViewModel extends ChangeNotifier {
       if (lastDocument == null) {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: 'DO')
+            .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
             .orderBy('createdAt', descending: true)
             .limit(documentLimit)
@@ -48,7 +48,7 @@ class PaginationViewModel extends ChangeNotifier {
       } else {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: 'DO')
+            .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
             .orderBy('createdAt', descending: true)
             .startAfterDocument(lastDocument)

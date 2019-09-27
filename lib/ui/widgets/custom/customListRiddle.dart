@@ -1,4 +1,5 @@
 //Flutter and Dart import
+import 'package:Tekel/core/services/location.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/easy_localization_provider.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 //Self import
 import 'package:Tekel/ui/widgets/riddle/riddle.dart';
 import 'package:Tekel/core/custom/paginationRiddles.dart';
+import 'package:provider/provider.dart';
 
 class CustomListRiddle extends StatelessWidget {
   //static String countryCode;
@@ -20,9 +22,10 @@ class CustomListRiddle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /* Provider.of<LocationServices>(context).getGeoPoint().then((user) {
+    var countryCode;
+    Provider.of<LocationServices>(context).getGeoPoint().then((user) {
       countryCode = user['location']['countryCode'];
-    }); */
+    });
     var data = EasyLocalizationProvider.of(context).data;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -34,7 +37,7 @@ class CustomListRiddle extends StatelessWidget {
             loop: false,
             onIndexChanged: (value) {
               if (value == model.riddlesList.length - 1) {
-                model.getRiddles();
+                model.getRiddles(countryCode: countryCode);
               }
               try {
                 player.play(swingPath, volume: 1);
