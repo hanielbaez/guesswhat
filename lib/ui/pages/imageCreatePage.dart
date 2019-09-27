@@ -114,10 +114,10 @@ class ImageCreatePage extends StatelessWidget {
                               BorderRadius.horizontal(right: Radius.zero),
                         ),
                       ),
-                      maxLength: 350,
+                      maxLength: 500,
                       maxLengthEnforced: true,
                       validators: [
-                        FormBuilderValidators.max(350),
+                        FormBuilderValidators.max(500),
                       ],
                     ),
                     ChangeNotifierProvider<RiddleCreateViewModel>.value(

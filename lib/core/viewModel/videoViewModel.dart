@@ -116,8 +116,9 @@ class VideoViewModel extends ChangeNotifier {
         child: AutoSizeText(
           '${riddle.text}',
           style: TextStyle(fontSize: 45),
-          minFontSize: 14,
-          maxLines: 12,
+          textAlign: TextAlign.center,
+          minFontSize: 10,
+          maxLines: 10,
           overflow: TextOverflow.ellipsis,
         ),
       ),

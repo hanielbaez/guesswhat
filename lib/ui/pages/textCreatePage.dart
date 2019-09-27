@@ -48,7 +48,7 @@ class _TextCreatePageState extends State<TextCreatePage> {
                     children: <Widget>[
                       FormBuilderTextField(
                         attribute: "text",
-                        maxLines: 2,
+                        maxLines: 3,
                         autofocus: true,
                         decoration: InputDecoration(
                           labelText: AppLocalizations.of(context)
@@ -65,15 +65,19 @@ class _TextCreatePageState extends State<TextCreatePage> {
                                 BorderRadius.horizontal(right: Radius.zero),
                           ),
                         ),
-                        maxLength: 200,
+                        maxLength: 500,
                         autocorrect: false,
                         validators: [
                           FormBuilderValidators.minLength(
                             3,
                             errorText: AppLocalizations.of(context)
-                                .tr("textCreatePage.riddleErrorText"),
+                                .tr("textCreatePage.riddleErrorMinLength"),
                           ),
-                          FormBuilderValidators.max(200),
+                          FormBuilderValidators.max(
+                            500,
+                            errorText: AppLocalizations.of(context)
+                                .tr("textCreatePage.riddleErrorMax"),
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -128,10 +132,10 @@ class _TextCreatePageState extends State<TextCreatePage> {
                                 BorderRadius.horizontal(right: Radius.zero),
                           ),
                         ),
-                        maxLength: 350,
+                        maxLength: 500,
                         maxLengthEnforced: true,
                         validators: [
-                          FormBuilderValidators.max(350),
+                          FormBuilderValidators.max(500),
                         ],
                       ),
                       FormBuilderDropdown(
