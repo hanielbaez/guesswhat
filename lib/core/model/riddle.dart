@@ -14,6 +14,7 @@ class Riddle {
   Map<dynamic, dynamic> user;
   String loves;
   String comments;
+  String solvedBy;
   Timestamp createdAt = Timestamp.now();
 
   Riddle({
@@ -29,6 +30,7 @@ class Riddle {
     @required this.user,
     this.loves,
     this.comments,
+    this.solvedBy,
     @required this.createdAt,
   });
 
@@ -37,6 +39,7 @@ class Riddle {
     Map data = doc.data;
     String _loves = '';
     String _comments = '';
+    String _solvedBy = '';
 
     // The values of the counters can not be null o equal to 0
     if (data.containsKey('counter')) {
@@ -47,6 +50,10 @@ class Riddle {
       if ((data['counter']['comments'].toString() != 'null') &&
           (data['counter']['comments'].toString() != '0')) {
         _comments = data['counter']['comments'].toString();
+      }
+      if ((data['counter']['solvedBy'].toString() != 'null') &&
+          (data['counter']['solvedBy'].toString() != '0')) {
+        _solvedBy = data['counter']['solvedBy'].toString();
       }
     }
 
@@ -65,6 +72,7 @@ class Riddle {
         user: data['user'],
         loves: _loves,
         comments: _comments,
+        solvedBy: _solvedBy,
         createdAt: data['createdAt']);
   }
 }

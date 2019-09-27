@@ -40,7 +40,7 @@ class ActionBar extends StatelessWidget {
                       SimpleLineIcons.getIconData('heart'),
                     ),
               label: Text(
-                riddle.loves.isNotEmpty ? '${riddle.loves}' : '',
+                '${riddle.loves}',
               ),
               onPressed: () {
                 var _uid =
@@ -70,7 +70,7 @@ class ActionBar extends StatelessWidget {
             SimpleLineIcons.getIconData('bubbles'),
           ),
           label: Text(
-            riddle.comments.isNotEmpty ? '${riddle.comments}' : '',
+            '${riddle.comments}',
           ),
           onPressed: () {
             var _uid = Provider.of<DatabaseServices>(context).currentUser?.uid;
@@ -83,20 +83,21 @@ class ActionBar extends StatelessWidget {
         ),
         FlatButton.icon(
           icon: Icon(
-            SimpleLineIcons.getIconData('share'),
+            SimpleLineIcons.getIconData('trophy'),
           ),
           label: Text(
-            '',
+            '${riddle.solvedBy}',
           ),
           onPressed: () async {
-            var url = riddle.imageUrl ?? riddle.videoUrl;
+            //TODO: Navigate to the leaderboard
+            /* var url = riddle.imageUrl ?? riddle.videoUrl;
             if (url != null) {
               var f = await CustomCacheManager().getSingleFile('$url');
               var mimeType = lookupMimeType(f.path.split('/').first);
               ShareExtend.share(f.path, mimeType);
             } else {
               ShareExtend.share(riddle.text, 'text');
-            }
+            } */
           },
         ),
       ],
