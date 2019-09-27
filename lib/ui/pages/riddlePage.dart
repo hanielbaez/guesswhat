@@ -40,7 +40,6 @@ class _RiddlePageState extends State<RiddlePage> {
           icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Tekel'),
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
