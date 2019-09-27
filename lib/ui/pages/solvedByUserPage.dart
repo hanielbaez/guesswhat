@@ -1,4 +1,6 @@
 //Flutter and Dart import
+import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,65 +18,73 @@ class SolvedByPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Solved",
+    var data = EasyLocalizationProvider.of(context).data;
+    return EasyLocalizationProvider(
+      data: data,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            AppLocalizations.of(context).tr("solvedPage.title"),
+          ),
+          leading: IconButton(
+            //Costum Back Button
+            icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
+            onPressed: () => Navigator.pop(context),
+          ),
+          centerTitle: true,
+          elevation: 0.0,
+          backgroundColor: Colors.white,
         ),
-        leading: IconButton(
-          //Costum Back Button
-          icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
-          onPressed: () => Navigator.pop(context),
-        ),
-        centerTitle: true,
-        elevation: 0.0,
         backgroundColor: Colors.white,
-      ),
-      backgroundColor: Colors.white,
-      body: FutureBuilder<List>(
-        future: Provider.of<DatabaseServices>(context)
-            .getAllSolvedBy(userId: user.uid),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return Center(child: Text('Please try later'));
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return Center(
-                child: SpinKitThreeBounce(
-                  color: Colors.black,
-                  size: 50.0,
-                ),
-              );
-            case ConnectionState.done:
-              if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-              if (snapshot.hasData) {
-                return CustomGridView(
-                  list: snapshot.data,
-                );
-              } else {
-                return Align(
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        SimpleLineIcons.getIconData('heart'),
-                        color: Colors.yellow,
-                        size: 50.0,
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text('You do not love any riddle yet'),
-                    ],
+        body: FutureBuilder<List>(
+          future: Provider.of<DatabaseServices>(context)
+              .getAllSolvedBy(userId: user.uid),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return Center(
+                  child: Text(
+                    AppLocalizations.of(context)
+                        .tr("solvedPage.connectionError"),
                   ),
                 );
-              }
-          }
-          return Text('Unattainable');
-        },
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+                return Center(
+                  child: SpinKitThreeBounce(
+                    color: Colors.black,
+                    size: 50.0,
+                  ),
+                );
+              case ConnectionState.done:
+                if (snapshot.hasError) return Text('Error');
+                if (snapshot.hasData) {
+                  return CustomGridView(
+                    list: snapshot.data,
+                  );
+                } else {
+                  return Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          SimpleLineIcons.getIconData('heart'),
+                          color: Colors.yellow,
+                          size: 50.0,
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+            }
+            return Text('Unattainable');
+          },
+        ),
       ),
     );
   }

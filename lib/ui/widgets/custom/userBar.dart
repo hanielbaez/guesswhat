@@ -1,5 +1,6 @@
 //Flutter and Dart import
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:time_ago_provider/time_ago_provider.dart';
 
@@ -49,7 +50,6 @@ class UserBar extends StatelessWidget {
                     '${user.displayName}'.split(' ')[0],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                     
                       foreground: Paint()
                         ..style = PaintingStyle.stroke
                         ..strokeWidth = .5

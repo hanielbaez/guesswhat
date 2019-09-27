@@ -7,8 +7,9 @@ class NotificationModel {
   final String userId;
   final String displayName;
   final String actionId;
-  final IconData icon;
+  final Icon icon;
   final bool viewed;
+  final String type;
   final String timeAgo;
 
   NotificationModel(
@@ -16,24 +17,25 @@ class NotificationModel {
       @required this.displayName,
       @required this.actionId,
       @required this.icon,
+      @required this.type,
       @required this.viewed,
       this.timeAgo});
 
   factory NotificationModel.fromFirestore(DocumentSnapshot document) {
     Map map = document.data;
-    var iconData;
+    var icon;
     switch (map['type']) {
       case 'comment':
-        iconData = SimpleLineIcons.getIconData('bubbles');
+        icon = Icon(SimpleLineIcons.getIconData('bubbles'), color: Colors.blue);
         break;
       case 'love':
-        iconData = SimpleLineIcons.getIconData('heart');
+        icon = Icon(SimpleLineIcons.getIconData('heart'), color: Colors.red);
         break;
       case 'solved':
-        iconData = SimpleLineIcons.getIconData('check');
+        icon = Icon(SimpleLineIcons.getIconData('check'), color: Colors.green);
         break;
       default:
-        iconData = SimpleLineIcons.getIconData('info');
+        icon = Icon(SimpleLineIcons.getIconData('info'), color: Colors.black);
         break;
     }
 
@@ -41,7 +43,8 @@ class NotificationModel {
       userId: map['userId'],
       displayName: map['displayName'],
       actionId: map['actionId'],
-      icon: iconData,
+      icon: icon,
+      type: map['type'],
       viewed: map['viewed'],
       timeAgo: TimeAgo.getTimeAgo(
         map['createdAt'].millisecondsSinceEpoch,

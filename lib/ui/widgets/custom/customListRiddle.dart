@@ -1,5 +1,7 @@
 //Flutter and Dart import
 import 'package:audioplayers/audio_cache.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -21,10 +23,11 @@ class CustomListRiddle extends StatelessWidget {
     /* Provider.of<LocationServices>(context).getGeoPoint().then((user) {
       countryCode = user['location']['countryCode'];
     }); */
+    var data = EasyLocalizationProvider.of(context).data;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        CustomCategory(),
+        EasyLocalizationProvider(data: data, child: CustomCategory()),
         Expanded(
           flex: 12,
           child: Swiper(
@@ -58,17 +61,6 @@ class CustomListRiddle extends StatelessWidget {
       disableColor: Colors.black12);
 }
 
-List categoryList = [
-  '⚽Sport',
-  '🗺Culture',
-  '🐥Animals',
-  '🔢Maths',
-  '💁‍People',
-  '🎬Movie and TV',
-  '🔭Science and Technology',
-  '📁Others'
-];
-
 class CustomCategory extends StatelessWidget {
   const CustomCategory({
     Key key,
@@ -76,6 +68,17 @@ class CustomCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List categoryList = [
+      AppLocalizations.of(context).tr('category.sport'),
+      AppLocalizations.of(context).tr('category.culture'),
+      AppLocalizations.of(context).tr('category.animal'),
+      AppLocalizations.of(context).tr('category.math'),
+      AppLocalizations.of(context).tr('category.people'),
+      AppLocalizations.of(context).tr('category.movie_and_tv'),
+      AppLocalizations.of(context).tr('category.science_and_technology'),
+      AppLocalizations.of(context).tr('category.others'),
+    ];
+
     return Expanded(
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
