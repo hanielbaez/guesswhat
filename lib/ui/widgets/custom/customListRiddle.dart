@@ -77,8 +77,8 @@ class CustomCategory extends StatelessWidget {
       AppLocalizations.of(context).tr('category.animal'),
       AppLocalizations.of(context).tr('category.math'),
       AppLocalizations.of(context).tr('category.people'),
-      AppLocalizations.of(context).tr('category.movie_and_tv'),
-      AppLocalizations.of(context).tr('category.science_and_technology'),
+      AppLocalizations.of(context).tr('category.movieAndTv'),
+      AppLocalizations.of(context).tr('category.scienceAndTechnology'),
       AppLocalizations.of(context).tr('category.others'),
     ];
 

@@ -5,8 +5,8 @@
         "animal": "🐥Animales",
         "math": "🔢Matemática",
         "people": "💁‍Personas",
-        "movie_and_tv": "🎬Cine y TV",
-        "science_and_technology": "🔭Ciencia y Tecnología",
+        "movieAndTv": "🎬Cine y TV",
+        "scienceAndTechnology": "🔭Ciencia y Tecnología",
         "others": "📁Otros"
     },
     "drawer": {
@@ -22,7 +22,7 @@
         "leave": "Salir"
     },
     "bottomSheet": {
-        "title": "Tu acertijo",
+        "title": "Crea tu acertijo",
         "write_it": "Escribelo",
         "capture_image": "Toma una foto",
         "gallery_image": "Desde la galería de imagenes"
@@ -48,6 +48,11 @@
         "descriptionLabelText": "Descripción",
         "descriptionHitText": "Describe tu acertijo para ayudar a otros usuarios a resolverlo (opcional)",
         "descriptionErrorText": "Has superado los 350 caracteres permitidos",
+        "dropDown": {
+            "labelText": "Categoría",
+            "hintText": "Selecciona categoría",
+            "errorText": "Debes agregar la categoría"
+        },
         "submitButton": "Enviar"
     },
     "imageCreatePage": {

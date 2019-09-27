@@ -48,7 +48,7 @@ class _TextCreatePageState extends State<TextCreatePage> {
                     children: <Widget>[
                       FormBuilderTextField(
                         attribute: "text",
-                        maxLines: 4,
+                        maxLines: 2,
                         autofocus: true,
                         decoration: InputDecoration(
                           labelText: AppLocalizations.of(context)
@@ -134,6 +134,38 @@ class _TextCreatePageState extends State<TextCreatePage> {
                           FormBuilderValidators.max(350),
                         ],
                       ),
+                      FormBuilderDropdown(
+                        attribute: "category",
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)
+                              .tr("textCreatePage.dropDown.labelText"),
+                        ),
+                        hint: Text(
+                          AppLocalizations.of(context)
+                              .tr("textCreatePage.dropDown.hintText"),
+                        ),
+                        validators: [
+                          FormBuilderValidators.required(
+                            errorText: AppLocalizations.of(context)
+                                .tr("textCreatePage.dropDown.hintText"),
+                          )
+                        ],
+                        items: [
+                          'sport',
+                          'culture',
+                          'animal',
+                          'math',
+                          'people',
+                          'movieAndTv',
+                          'scienceAndTechnology',
+                          'others'
+                        ]
+                            .map((category) => DropdownMenuItem(
+                                value: category,
+                                child: Text(AppLocalizations.of(context)
+                                    .tr("category.$category"))))
+                            .toList(),
+                      ),
                       SizedBox(
                         height: 15.0,
                       ),
@@ -176,6 +208,8 @@ class _TextCreatePageState extends State<TextCreatePage> {
                                         ._formKey
                                         .currentState
                                         .value['description'];
+                                    riddle['category'] = TextCreatePage._formKey
+                                        .currentState.value['category'];
 
                                     var location =
                                         await Provider.of<LocationServices>(
