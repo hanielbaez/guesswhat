@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    controllerTopCenter = ConfettiController(duration: Duration(seconds: 5));
+    controllerTopCenter = ConfettiController(duration: Duration(seconds: 10));
     super.initState();
   }
 
