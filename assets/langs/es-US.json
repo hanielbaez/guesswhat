@@ -1,0 +1,93 @@
+{
+    "category": {
+        "sport": "⚽Deporte",
+        "culture": "🗺Cultura",
+        "animal": "🐥Animales",
+        "math": "🔢Matemática",
+        "people": "💁‍Personas",
+        "movie_and_tv": "🎬Cine y TV",
+        "science_and_technology": "🔭Ciencia y Tecnología",
+        "others": "📁Otros"
+    },
+    "drawer": {
+        "home": "Inicio",
+        "create_your_riddle": "Crea tu acertijo",
+        "your_loves": "Tus Amores",
+        "share_tekel_with_friends": "Comparte Tekel con amigos",
+        "share_text": "Te invito a probar Tekel, una divertida aplicación de palabras, disponible en Google Play. ¡Ve a buscarlo!",
+        "support": "Soporte",
+        "log_out": "Cerrar sesión",
+        "leave_tekel?": "¿Te vas de Tekel?",
+        "cancel": "Cancelar",
+        "leave": "Salir"
+    },
+    "bottomSheet": {
+        "title": "Tu acertijo",
+        "write_it": "Escribelo",
+        "capture_image": "Toma una foto",
+        "gallery_image": "Desde la galería de imagenes"
+    },
+    "lovesPage": {
+        "title": "Amores"
+    },
+    "supportPage": {
+        "title": "Contacto con soporte",
+        "description": "Estamos aquí para ayudarte. Vas a recibir una respuesta de ser necesario en tu email, tan pronto comos sea posible.",
+        "label_message_text": "Tu mensaje",
+        "error_text": "Tu mensaje debería ser más largo",
+        "submit_button": "Enviar"
+    },
+    "textCreatePage": {
+        "title": "Escribe tu acertijo",
+        "riddleLabelText": "Acertijo",
+        "riddleHitText": "Haz que tu acertijo intrigue al mundo",
+        "riddleErrorText": "Tu acertijo debe tener al menos tres caracteres",
+        "answerLabelText": "Respuesta",
+        "answerHitText": "La respuesta a tu acertijo",
+        "answerErrorText": "No se permiten caracteres especiales",
+        "descriptionLabelText": "Descripción",
+        "descriptionHitText": "Describe tu acertijo para ayudar a otros usuarios a resolverlo (opcional)",
+        "descriptionErrorText": "Has superado los 350 caracteres permitidos",
+        "submitButton": "Enviar"
+    },
+    "imageCreatePage": {
+        "title": "Tu acertijo con imagen",
+        "answerLabelText": "Respuesta",
+        "answerHitText": "La respuesta a tu acertijo",
+        "answerErrorText": "No se permiten caracteres especiales",
+        "descriptionLabelText": "Descripción",
+        "descriptionHitText": "Describe tu acertijo para ayudar a otros usuarios a resolverlo (opcional)",
+        "descriptionErrorText": "Has superado los 350 caracteres permitidos",
+        "submitButton": "Enviar"
+    },
+    "userPage": {
+        "edit": "Editar",
+        "solved": "Resueltos",
+        "created": "Creados"
+    },
+    "solvedPage": {
+        "title": "Resueltos",
+        "connectionError": "Hubo un problema con la conexion por favor intentelo mas tarde"
+    },
+    "editUserPage": {
+        "title": "Editar Perfil",
+        "save": "Guardar",
+        "changeProfileImage": "Cambiar foto de perfil",
+        "nameLabelText": "Nombre",
+        "nameErrorText": "No debe ser superior a 20 caracteres",
+        "webSiteLabelText": "Sitio Web",
+        "biographyLabelText": "Biografía",
+        "biographyErrorText": "Debe tener un máximo de 200 caracteres",
+        "alertDialog": {
+            "title": "Selecciona una imágene desde",
+            "gallery": "Galeria",
+            "camera": "Cámara"
+        }
+    },
+    "notificationPage": {
+        "title": "Notificaciones",
+        "solveAction": "{} a resuelto tu acertijo",
+        "loveAction": "{} ama tu acertijo",
+        "commentAction": "{} comento tu acertijo"
+    }
+}
