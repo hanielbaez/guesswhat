@@ -1,6 +1,5 @@
 //Flutter and Dart import
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:time_ago_provider/time_ago_provider.dart';
 
@@ -16,6 +15,18 @@ class UserBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var langCode = Localizations.localeOf(context).languageCode;
+    var language;
+
+    switch (langCode) {
+      case 'es':
+        language = Language.SPANISH;
+        break;
+      default:
+        language = Language.ENGLISH;
+        break;
+    }
+
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, 'userPage', arguments: user),
       child: Row(
@@ -67,9 +78,8 @@ class UserBar extends StatelessWidget {
               ),
               Text(
                 (address == null ? '' : address + ' ・ ') +
-                    TimeAgo.getTimeAgo(
-                      timeStamp.millisecondsSinceEpoch,
-                    ),
+                    TimeAgo.getTimeAgo(timeStamp.millisecondsSinceEpoch,
+                        language: language),
                 style: TextStyle(
                   color: Color.fromARGB(255, 100, 100, 100),
                   fontSize: 10.0,
