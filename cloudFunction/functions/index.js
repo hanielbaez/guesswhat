@@ -8,7 +8,7 @@ const fcm = admin.messaging();
 //* LOVE *//
 // Listens for Love(Likes) state added to /loveRiddles/:loveId/original and 
 // increase/decrease the counter of /riddles/:riddleId/loves
-exports.manageLoveCounter = functions.firestore.document('riddles/{riddleId}/lovedBy/{loveId}')
+exports.loveCounter = functions.firestore.document('riddles/{riddleId}/lovedBy/{loveId}')
     .onWrite((snapshot, context) => {
         const newValue = snapshot.after.data();
         const oldValue = snapshot.before.data()
@@ -58,7 +58,7 @@ exports.addLoveNotification = functions.firestore.document('riddles/{riddleId}/l
 //* COMMENT *//
 
 //Listen to Comment create and increase the counter of /riddles/::riddleId/comments
-exports.manageCommentCounter = functions.firestore.document('riddles/{riddleId}/comments/{commentId}')
+exports.commentCounter = functions.firestore.document('riddles/{riddleId}/comments/{commentId}')
     .onCreate((snapshot, context) => {
         var docRef = firestore.collection('riddles').doc(context.params.riddleId);
 
@@ -94,9 +94,10 @@ exports.addCommentNotification = functions.firestore.document('riddles/{riddleId
 //Also, assign the corresponding score for the user 
 exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solvedBy/{solvedById}').onCreate(async (snapshot, context) => {
 
-    //ID of the user that solved the riddle
+    const promiseList = []
     const userSolved = context.params.solvedById
-    var userSolvedRef = firestore.collection('users').doc(userSolved);
+    const userSolvedRef = firestore.collection('users').doc(userSolved);
+
     //Increment the solved user counter
     var promise1 = userSolvedRef.update({ 'counter.solved': admin.firestore.FieldValue.increment(1) });
 
@@ -104,8 +105,12 @@ exports.manageSolvedBy = functions.firestore.document('riddles/{riddleId}/solved
     //Increment the solvedBy's riddle counter
     var promise2 = await riddleRef.update({ 'counter.solvedBy': admin.firestore.FieldValue.increment(1) });
 
-    return Promise.all([promise1, promise2]);
-
+    promiseList.push([promise1, promise2])
+    return Promise.all(promiseList).then(() => {
+        return true;
+    }).catch(er => {
+        console.error('...', er);
+    });
 });
 
 exports.addSolvedNotification = functions.firestore.document('riddles/{riddleId}/solvedBy/{solvedById}')
@@ -213,7 +218,7 @@ exports.updateUser = functions.firestore.document('users/{userId}').onUpdate((ch
 });
 
 //Listen to riddles create to increase the user.riddle counter by 1
-exports.manageRiddleCounter = functions.firestore.document('riddles/{riddlesId}').onCreate((snapshot, context) => {
+exports.riddleCounter = functions.firestore.document('riddles/{riddlesId}').onCreate((snapshot, context) => {
     const userId = snapshot.data().user.uid;
 
     var ref = firestore.collection('users').doc(userId);
@@ -239,7 +244,7 @@ exports.notifyLove = functions.firestore.document('riddles/{riddleId}/lovedBy/{d
 
                 const payload = {
                     notification: {
-                        title: 'Someone love you riddle ♥️',
+                        title: '♥️ Someone love you riddle',
                         body: `Tap here to check it out!`,
                         click_action: 'FLUTTER_NOTIFICATION_CLICK'
                     }
