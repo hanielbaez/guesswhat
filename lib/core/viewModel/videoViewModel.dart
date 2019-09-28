@@ -78,10 +78,9 @@ class VideoViewModel extends ChangeNotifier {
 
 //Costum image widgets
   Image buildImage() {
-    //?I can not user the zoon property, do i still need this widget?
     return Image.network(
       '${riddle.imageUrl}',
-      fit: BoxFit.cover,
+      fit: BoxFit.contain,
       loadingBuilder: (context, child, loadingProgress) {
         if (loadingProgress == null) {
           return child;
