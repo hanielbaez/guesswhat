@@ -1,16 +1,13 @@
 //Flutter import
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
-import 'package:share_extend/share_extend.dart';
 
 //Self import
 import 'package:Tekel/core/model/love.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/model/riddle.dart';
-import 'package:Tekel/core/custom/customCacheManager.dart';
 
 class ActionBar extends StatelessWidget {
   const ActionBar({
@@ -89,7 +86,8 @@ class ActionBar extends StatelessWidget {
             '${riddle.solvedBy}',
           ),
           onPressed: () async {
-            //TODO: Navigate to the leaderboard
+            Navigator.of(context)
+                .pushNamed('topSolversPage', arguments: riddle.id);
             /* var url = riddle.imageUrl ?? riddle.videoUrl;
             if (url != null) {
               var f = await CustomCacheManager().getSingleFile('$url');
