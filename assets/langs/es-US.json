@@ -28,7 +28,8 @@
         "gallery_image": "Desde la galería de imagenes"
     },
     "lovesPage": {
-        "title": "Amores"
+        "title": "Acertijos que amas",
+        "noLove": "Todavía no amas ningún acertijo"
     },
     "supportPage": {
         "title": "Contacto con soporte",
@@ -73,7 +74,8 @@
     },
     "solvedPage": {
         "title": "Resueltos",
-        "connectionError": "Hubo un problema con la conexion por favor intentelo mas tarde"
+        "connectionError": "Hubo un problema con la conexion por favor intentelo mas tarde",
+        "noSolved": "Se el primero en resolver este acertijo"
     },
     "editUserPage": {
         "title": "Editar Perfil",
