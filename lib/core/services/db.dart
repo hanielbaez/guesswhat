@@ -1,7 +1,6 @@
 //Flutter and Dart import
 import 'dart:io';
 import 'dart:async';
-import 'package:Tekel/core/services/auth.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +13,8 @@ import 'package:Tekel/core/model/love.dart';
 import 'package:Tekel/core/model/user.dart';
 import 'package:Tekel/core/model/riddle.dart';
 import 'package:Tekel/core/model/supportContact.dart';
+import 'package:Tekel/core/model/leaderBoard.dart';
+import 'package:Tekel/core/services/auth.dart';
 
 ///Networks request
 class DatabaseServices {
@@ -227,8 +228,9 @@ class DatabaseServices {
     }
   }
 
-  Future<List> getTopSolvers({String riddleId}) async {
+  Future<List<LeaderBoard>> getTopSolvers({String riddleId}) async {
     try {
+      List<LeaderBoard> _listLeaderBoard = [];
       var querySnapshot = await _db
           .collection('riddles')
           .document(riddleId)
@@ -236,7 +238,10 @@ class DatabaseServices {
           .orderBy('createdAt')
           .limit(10)
           .getDocuments();
-      return querySnapshot.documents;
+      querySnapshot.documents.forEach((document) {
+        _listLeaderBoard.add(LeaderBoard.fromFirestore(document));
+      });
+      return _listLeaderBoard;
     } catch (e) {
       print('getTopSolvers error: $e');
       return null;
