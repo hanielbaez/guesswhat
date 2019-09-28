@@ -1,5 +1,7 @@
 //Flutter Dart import
 import 'package:Tekel/core/model/user.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -34,62 +36,68 @@ class _CommentPageState extends State<CommentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Comments'),
-        centerTitle: true,
-        leading: IconButton(
-          //Custom Back Button
-          icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
-          onPressed: () => Navigator.of(context).pop(),
+    var data = EasyLocalizationProvider.of(context).data;
+    return EasyLocalizationProvider(
+      data: data,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context).tr("commentPage.title")),
+          centerTitle: true,
+          leading: IconButton(
+            //Custom Back Button
+            icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
-      ),
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: StreamBuilder(
-                stream: Provider.of<DatabaseServices>(context)
-                    .getAllComments(riddle.id),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.hasError)
-                      return Text('Error: Please try later');
-                    if (snapshot.data.documents.length > 0) {
-                      return ListViewBuilder(snapshot: snapshot);
-                    } else {
-                      return Align(
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              SimpleLineIcons.getIconData('bubble'),
-                              color: Colors.yellow,
-                              size: 50.0,
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Text('Make the first comment'),
-                          ],
-                        ),
-                      );
+        backgroundColor: Colors.white,
+        body: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: StreamBuilder(
+                  stream: Provider.of<DatabaseServices>(context)
+                      .getAllComments(riddle.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.hasError)
+                        return Text(AppLocalizations.of(context)
+                            .tr("commentPage.errorMessage"));
+                      if (snapshot.data.documents.length > 0) {
+                        return ListViewBuilder(snapshot: snapshot);
+                      } else {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                SimpleLineIcons.getIconData('bubble'),
+                                color: Colors.black,
+                                size: 50.0,
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Text(AppLocalizations.of(context)
+                                  .tr("commentPage.noComments")),
+                            ],
+                          ),
+                        );
+                      }
                     }
-                  }
 
-                  return Container();
-                },
+                    return Container();
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: CommentForm(fbKey: _fbKey, riddle: riddle),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CommentForm(fbKey: _fbKey, riddle: riddle),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -114,13 +122,12 @@ class ListViewBuilder extends StatelessWidget {
           displayName: snapshot.data.documents[index]['user']['displayName'],
           photoUrl: snapshot.data.documents[index]['user']['photoUrl'],
         );
-
         return Card(
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -128,7 +135,6 @@ class ListViewBuilder extends StatelessWidget {
                   user: user,
                   timeStamp: snapshot.data.documents[index]['createdAt'],
                 ),
-                SizedBox(height: 10.0),
                 ExpandablePanel(
                   collapsed: Text(
                     '${snapshot.data.documents[index]['text']}',

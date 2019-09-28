@@ -98,6 +98,12 @@
     },
     "leaderBoardPage": {
         "title": "Los 10 mejores"
+    },
+    "commentPage": {
+        "title": "Comentarios",
+        "errorMessage": "There was an error please try again later",
+        "noComments": "Se el primero en comentar",
+        "hintText": "Introduce tu comentario",
+        "errorText": "Tu comentario no puede estar vacío"
     }
-
 }

@@ -1,5 +1,7 @@
 //Flutter and Dart import
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization_delegate.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,6 +28,7 @@ class CommentForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var data = EasyLocalizationProvider.of(context).data;
     return StreamBuilder<FirebaseUser>(
       stream: Provider.of<AuthenticationServices>(context).user(),
       builder: (context, snapshot) {
@@ -33,31 +36,39 @@ class CommentForm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            FormBuilder(
-              key: _fbKey,
-              child: Flexible(
-                child: FormBuilderTextField(
-                  attribute: "comment",
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10.0),
-                    hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                    hintText: 'Enter a comment',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.horizontal(right: Radius.zero),
-                      borderSide: BorderSide(color: Colors.black, width: 0.0),
+            EasyLocalizationProvider(
+              data: data,
+              child: FormBuilder(
+                key: _fbKey,
+                child: Flexible(
+                  child: FormBuilderTextField(
+                    attribute: "comment",
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(10.0),
+                      hintStyle:
+                          TextStyle(color: Colors.black.withOpacity(0.5)),
+                      hintText: AppLocalizations.of(context)
+                          .tr("commentPage.hintText"),
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.horizontal(right: Radius.zero),
+                        borderSide: BorderSide(color: Colors.black, width: 0.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.horizontal(right: Radius.zero),
+                        borderSide: BorderSide(color: Colors.black, width: 0.0),
+                      ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.horizontal(right: Radius.zero),
-                      borderSide: BorderSide(color: Colors.black, width: 0.0),
-                    ),
+                    maxLengthEnforced: true,
+                    validators: [
+                      FormBuilderValidators.required(
+                          errorText: AppLocalizations.of(context)
+                              .tr("commentPage.errorText")),
+                      FormBuilderValidators.max(350),
+                    ],
                   ),
-                  maxLengthEnforced: true,
-                  validators: [
-                    FormBuilderValidators.required(
-                        errorText: 'Your comment cannot be empty'),
-                    FormBuilderValidators.max(350),
-                  ],
                 ),
               ),
             ),
