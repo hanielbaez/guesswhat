@@ -14,6 +14,7 @@ import 'package:Tekel/ui/pages/commentPage.dart';
 import 'package:Tekel/ui/pages/solvedByUserPage.dart';
 import 'package:Tekel/ui/pages/textCreatePage.dart';
 import 'package:Tekel/ui/pages/notificationPage.dart';
+import 'package:Tekel/ui/pages/riddleTopSolversPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   Object argument = settings.arguments;
@@ -50,10 +51,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case 'notificationsPage':
       return PageTransition(
           child: NotificationPage(), type: PageTransitionType.leftToRight);
-
     case 'createTextRiddle':
       return PageTransition(
           child: TextCreatePage(), type: PageTransitionType.leftToRight);
+    case 'topSolversPage':
+      return PageTransition(
+          child: RiddleTopSolversPage(
+            riddleId: argument,
+          ),
+          type: PageTransitionType.downToUp);
     default:
       return MaterialPageRoute(
         builder: (context) => UnknownPage(),
