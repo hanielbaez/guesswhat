@@ -95,5 +95,9 @@
         "solveAction": "{} a resuelto tu acertijo",
         "loveAction": "{} ama tu acertijo",
         "commentAction": "{} comento tu acertijo"
+    },
+    "leaderBoardPage": {
+        "title": "Los 10 mejores"
     }
+
 }
