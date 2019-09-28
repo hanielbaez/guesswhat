@@ -42,13 +42,11 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
       ),
       child: ListView(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: UserBar(
-              user: User.fromMap(widget.riddle.user),
-              timeStamp: widget.riddle.createdAt,
-              address: widget.riddle.address,
-            ),
+          UserBar(
+            user: User.fromMap(widget.riddle.user),
+            timeStamp: widget.riddle.createdAt,
+            address: widget.riddle.address,
+            riddle: widget.riddle,
           ),
           ChangeNotifierProvider<VideoViewModel>.value(
             value: VideoViewModel(riddle: widget.riddle),
