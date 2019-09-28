@@ -63,23 +63,7 @@ class SolvedByPage extends StatelessWidget {
                     list: snapshot.data,
                   );
                 } else {
-                  return Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          SimpleLineIcons.getIconData('heart'),
-                          color: Colors.yellow,
-                          size: 50.0,
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                      ],
-                    ),
-                  );
+                  return Container();
                 }
             }
             return Text('Unattainable');
