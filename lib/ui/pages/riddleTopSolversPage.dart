@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 
 //Self import
 import 'package:Tekel/core/services/db.dart';
+import 'package:Tekel/core/model/leaderBoard.dart';
+import 'package:time_ago_provider/time_ago_provider.dart';
 
 class RiddleTopSolversPage extends StatelessWidget {
   final String riddleId;
@@ -15,13 +17,25 @@ class RiddleTopSolversPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var langCode = Localizations.localeOf(context).languageCode;
+    var language;
+
+    switch (langCode) {
+      case 'es':
+        language = Language.SPANISH;
+        break;
+      default:
+        language = Language.ENGLISH;
+        break;
+    }
+
     var data = EasyLocalizationProvider.of(context).data;
     return EasyLocalizationProvider(
       data: data,
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            AppLocalizations.of(context).tr("notificationPage.title"),
+            AppLocalizations.of(context).tr("leaderBoardPage.title"),
           ),
           leading: IconButton(
             //Costum Back Button
@@ -32,7 +46,7 @@ class RiddleTopSolversPage extends StatelessWidget {
           elevation: 0.0,
           backgroundColor: Colors.white,
         ),
-        body: FutureBuilder<List>(
+        body: FutureBuilder<List<LeaderBoard>>(
           future: Provider.of<DatabaseServices>(context)
               .getTopSolvers(riddleId: riddleId),
           builder: (context, snapshot) {
@@ -45,7 +59,7 @@ class RiddleTopSolversPage extends StatelessWidget {
                   var _trophyColor = Colors.transparent;
                   switch (index) {
                     case 0:
-                      _trophyColor = Colors.yellow[700];
+                      _trophyColor = Colors.yellow[600];
                       break;
                     case 1:
                       _trophyColor = Colors.black45;
@@ -76,7 +90,7 @@ class RiddleTopSolversPage extends StatelessWidget {
                         onTap: () {
                           //TODO: Navigate to the user page
                         },
-                        child: Text('${documents[index]['displayName']}'),
+                        child: Text('${documents[index].displayName}'),
                       ),
                       trailing: index < 2
                           ? Icon(
@@ -85,7 +99,11 @@ class RiddleTopSolversPage extends StatelessWidget {
                               size: 40.0,
                             )
                           : Container(),
-                      subtitle: Text('${documents[index]['createdAt']}'),
+                      subtitle: Text(
+                        TimeAgo.getTimeAgo(
+                            documents[index].createdAt.millisecondsSinceEpoch,
+                            language: language),
+                      ),
                     ),
                   );
                 },
