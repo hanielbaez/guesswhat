@@ -56,17 +56,18 @@ class AuthenticationServices {
       switch (result.status) {
         case FacebookLoginStatus.cancelledByUser:
           print('Error: Facebook Login calcelled by user');
+          return false;
           break;
         case FacebookLoginStatus.error:
           print('Error: ${result.errorMessage}');
+          return false;
           break;
         case FacebookLoginStatus.loggedIn:
           FacebookAccessToken myToken = result.accessToken;
           AuthCredential credential =
               FacebookAuthProvider.getCredential(accessToken: myToken.token);
           await _auth.signInWithCredential(credential);
-
-          requestingPermission();
+          await requestingPermission();
           return true;
           break;
       }
@@ -74,7 +75,7 @@ class AuthenticationServices {
       print('loginWithFacebook: $e');
       return false;
     }
-    return null; //unreachable
+    return false; //unreachable
   }
 
   Future<bool> sigInWithGoogle() async {
@@ -88,7 +89,7 @@ class AuthenticationServices {
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
       await _auth.signInWithCredential(credential);
 
-      requestingPermission();
+      await requestingPermission();
       return true;
     } catch (e) {
       print('sigInWithGoogle $e');
@@ -107,16 +108,26 @@ class AuthenticationServices {
   }
 
   ///Getting the devices permission and save thse device token
-  void requestingPermission() async {
+  Future requestingPermission() async {
+    List _permissionToAsk = [];
+    List _permissionList = [
+      PermissionGroup.location,
+      PermissionGroup.camera,
+      PermissionGroup.storage
+    ];
+
     //Getting the device Toke
     saveDeviceToken();
-    
-    await PermissionHandler().requestPermissions(
-      [
-        PermissionGroup.location,
-        PermissionGroup.camera,
-        PermissionGroup.storage
-      ],
-    );
+
+    //Check all permission status
+    _permissionList.forEach((permission) async {
+      var status = await PermissionHandler().checkPermissionStatus(permission);
+      if (status != PermissionStatus.granted) {
+        _permissionToAsk.add(permission);
+      }
+    });
+
+    if (_permissionToAsk.isNotEmpty)
+      await PermissionHandler().requestPermissions(_permissionList);
   }
 }

@@ -304,22 +304,20 @@ class SingOutLayout extends StatelessWidget {
         ),
         FacebookSignInButton(
           text: 'Sign in with Facebook',
-          onPressed: () => Provider.of<AuthenticationServices>(context)
-              .loginWithFacebook()
-              .then(
-            (response) {
-              if (response) {
-                refreshUI();
-              } else {
-                Scaffold.of(context).showSnackBar(
-                  new SnackBar(
-                    content: new Text(
-                        "There is something wrong with, please try later."),
-                  ),
-                );
-              }
-            },
-          ),
+          onPressed: () async {
+            var _response = await Provider.of<AuthenticationServices>(context)
+                .loginWithFacebook();
+            if (_response) {
+              refreshUI();
+            } else {
+              Scaffold.of(context).showSnackBar(
+                 SnackBar(
+                  content: Text(
+                      "There is something wrong with, please try later."),
+                ),
+              );
+            }
+          },
         ),
         SizedBox(
           height: 10.0,
