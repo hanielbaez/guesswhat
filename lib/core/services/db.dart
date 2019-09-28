@@ -227,12 +227,28 @@ class DatabaseServices {
     }
   }
 
+  Future<List> getTopSolvers({String riddleId}) async {
+    try {
+      var querySnapshot = await _db
+          .collection('riddles')
+          .document(riddleId)
+          .collection('solvedBy')
+          .orderBy('createdAt')
+          .limit(10)
+          .getDocuments();
+      return querySnapshot.documents;
+    } catch (e) {
+      print('getTopSolvers error: $e');
+      return null;
+    }
+  }
+
   ///Return a list of all Riddles solve by user
   Future<List> getAllSolvedBy({String userId}) async {
     try {
       var documents = await _db
           .collectionGroup('solvedBy')
-          .where('userId', isEqualTo: userId ?? currentUser.uid)
+          .where('u', isEqualTo: userId ?? currentUser.uid)
           .getDocuments();
       return documents.documents.toList();
     } catch (e) {
