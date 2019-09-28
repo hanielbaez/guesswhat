@@ -39,7 +39,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case 'commentsPage':
       return PageTransition(
           child: CommentPage(riddle: argument),
-          type: PageTransitionType.downToUp);
+          type: PageTransitionType.leftToRight);
     case 'editUserPage':
       return PageTransition(
           child: EditUserPage(user: argument),
@@ -59,7 +59,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           child: RiddleTopSolversPage(
             riddleId: argument,
           ),
-          type: PageTransitionType.downToUp);
+          type: PageTransitionType.leftToRight);
     default:
       return MaterialPageRoute(
         builder: (context) => UnknownPage(),
