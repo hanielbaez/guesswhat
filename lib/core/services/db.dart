@@ -241,7 +241,7 @@ class DatabaseServices {
       querySnapshot.documents.forEach((document) {
         _listLeaderBoard.add(LeaderBoard.fromFirestore(document));
       });
-      return _listLeaderBoard;
+      return _listLeaderBoard.isNotEmpty ? _listLeaderBoard : null;
     } catch (e) {
       print('getTopSolvers error: $e');
       return null;
@@ -293,7 +293,9 @@ class DatabaseServices {
           .orderBy('updateDate', descending: true)
           .getDocuments();
 
-      return documents.documents.toList();
+      return documents.documents.isNotEmpty
+          ? documents.documents.toList()
+          : null;
     } catch (e) {
       print('loveRiddle: $e');
       return null;
