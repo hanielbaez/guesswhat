@@ -46,7 +46,7 @@ class LovePage extends StatelessWidget {
                   ),
                 );
               case ConnectionState.done:
-                if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+                if (snapshot.hasError) return Text('Error');
                 if (snapshot.hasData) {
                   return CustomGridView(
                     list: snapshot.data,
@@ -60,13 +60,15 @@ class LovePage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           SimpleLineIcons.getIconData('heart'),
-                          color: Colors.yellow,
+                          color: Colors.black,
                           size: 50.0,
                         ),
                         SizedBox(
                           height: 20.0,
                         ),
-                        Text('You do not love any riddle yet'),
+                        Text(
+                          AppLocalizations.of(context).tr('lovesPage.noLove'),
+                        ),
                       ],
                     ),
                   );
