@@ -101,10 +101,10 @@ class ImageCreatePage extends StatelessWidget {
                       maxLines: 5,
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
-                                .tr("imageCreatePage.descriptionLabelText"),
+                            .tr("imageCreatePage.descriptionLabelText"),
                         labelStyle: TextStyle(color: Colors.black),
-                        hintText:AppLocalizations.of(context)
-                                .tr("imageCreatePage.descriptionHitText"),
+                        hintText: AppLocalizations.of(context)
+                            .tr("imageCreatePage.descriptionHitText"),
                         border: OutlineInputBorder(
                           borderRadius:
                               BorderRadius.horizontal(right: Radius.zero),
@@ -120,67 +120,106 @@ class ImageCreatePage extends StatelessWidget {
                         FormBuilderValidators.max(500),
                       ],
                     ),
-                    ChangeNotifierProvider<RiddleCreateViewModel>.value(
-                      value: RiddleCreateViewModel(),
-                      child: Consumer<RiddleCreateViewModel>(
-                        builder: (context, model, child) {
-                          return model.loading
-                              ? Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: SpinKitThreeBounce(
-                                      color: Colors.black,
-                                      size: 25.0,
+                    FormBuilderDropdown(
+                      attribute: "category",
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)
+                            .tr("textCreatePage.dropDown.labelText"),
+                      ),
+                      hint: Text(
+                        AppLocalizations.of(context)
+                            .tr("textCreatePage.dropDown.hintText"),
+                      ),
+                      validators: [
+                        FormBuilderValidators.required(
+                          errorText: AppLocalizations.of(context)
+                              .tr("textCreatePage.dropDown.hintText"),
+                        )
+                      ],
+                      items: [
+                        'sport',
+                        'culture',
+                        'animal',
+                        'math',
+                        'people',
+                        'movieAndTv',
+                        'scienceAndTechnology',
+                        'others'
+                      ]
+                          .map((category) => DropdownMenuItem(
+                              value: category,
+                              child: Text(AppLocalizations.of(context)
+                                  .tr("category.$category"))))
+                          .toList(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                          ChangeNotifierProvider<RiddleCreateViewModel>.value(
+                        value: RiddleCreateViewModel(),
+                        child: Consumer<RiddleCreateViewModel>(
+                          builder: (context, model, child) {
+                            return model.loading
+                                ? Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: SpinKitThreeBounce(
+                                        color: Colors.black,
+                                        size: 25.0,
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.yellow[600],
-                                        Colors.orange[400]
-                                      ],
-                                      begin: const FractionalOffset(0.0, 0.0),
-                                      end: const FractionalOffset(1, 0.0),
-                                      stops: [0.0, 1.0],
-                                      tileMode: TileMode.clamp,
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.yellow[600],
+                                          Colors.orange[400]
+                                        ],
+                                        begin: const FractionalOffset(0.0, 0.0),
+                                        end: const FractionalOffset(1, 0.0),
+                                        stops: [0.0, 1.0],
+                                        tileMode: TileMode.clamp,
+                                      ),
                                     ),
-                                  ),
-                                  child: FlatButton(
-                                    child: Text(
-                                      AppLocalizations.of(context)
-                                .tr("imageCreatePage.submitButton"),
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                    onPressed: () async {
-                                      if (_formCreateKey.currentState
-                                          .saveAndValidate()) {
-                                        model.getFile(_multiMedia['video'],
-                                            _multiMedia['image']);
-
-                                        if (_formCreateKey
-                                                .currentState.value['answer'] !=
-                                            '') {
-                                          model.riddle['answer'] =
-                                              _formCreateKey
-                                                  .currentState.value['answer'];
-                                        }
-
+                                    child: FlatButton(
+                                      child: Text(
+                                        AppLocalizations.of(context)
+                                            .tr("imageCreatePage.submitButton"),
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      onPressed: () async {
                                         if (_formCreateKey.currentState
-                                                .value['description'] !=
-                                            '') {
-                                          model.riddle['description'] =
-                                              _formCreateKey.currentState
-                                                  .value['description'];
-                                        }
+                                            .saveAndValidate()) {
+                                          model.getFile(_multiMedia['video'],
+                                              _multiMedia['image']);
 
-                                        model.upload(_context);
-                                      }
-                                    },
-                                  ),
-                                );
-                        },
+                                          if (_formCreateKey.currentState
+                                                  .value['answer'] !=
+                                              '') {
+                                            model.riddle['answer'] =
+                                                _formCreateKey.currentState
+                                                    .value['answer'];
+                                          }
+
+                                          if (_formCreateKey.currentState
+                                                  .value['description'] !=
+                                              '') {
+                                            model.riddle['description'] =
+                                                _formCreateKey.currentState
+                                                    .value['description'];
+                                          }
+                                          model.riddle['category'] =
+                                              _formCreateKey.currentState
+                                                  .value['category'];
+
+                                          model.upload(_context);
+                                        }
+                                      },
+                                    ),
+                                  );
+                          },
+                        ),
                       ),
                     ),
                   ],
