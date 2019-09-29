@@ -29,7 +29,7 @@ class AuthenticationServices {
               .snapshots()
               .asBroadcastStream()
               .map(
-                (snap) => User.fromFireStore(snap),
+                (snap) => snap.data != null ? User.fromFireStore(snap) : null,
               );
         } else {
           return Observable.just(null);
@@ -67,7 +67,7 @@ class AuthenticationServices {
           AuthCredential credential =
               FacebookAuthProvider.getCredential(accessToken: myToken.token);
           await _auth.signInWithCredential(credential);
-          await requestingPermission();
+          requestingPermission();
           return true;
           break;
       }
