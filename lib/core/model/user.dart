@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class User {
   String uid;
-  String email;
   String photoUrl;
   String displayName;
   String webSite;
@@ -13,7 +12,6 @@ class User {
 
   User(
       {@required this.uid,
-      this.email,
       this.photoUrl,
       @required this.displayName,
       this.webSite = '',
@@ -24,7 +22,6 @@ class User {
     return User(
         uid: user.uid,
         displayName: user.displayName,
-        email: user.email,
         photoUrl: user.photoUrl);
   }
 
@@ -34,7 +31,6 @@ class User {
     Map<String, dynamic> map = snap.data;
     return User(
         uid: snap.documentID,
-        email: map['email'],
         photoUrl: map['photoUrl'],
         displayName: map['displayName'],
         webSite: map['webSite'] ?? '',
@@ -45,7 +41,6 @@ class User {
   factory User.fromMap(Map map) {
     return User(
       uid: map['uid'],
-      email: map['email'],
       photoUrl: map['photoUrl'],
       displayName: map['displayName'],
       webSite: map['webSite'] ?? '',
@@ -56,7 +51,6 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> map = Map<String, dynamic>();
     map['uid'] = this.uid;
-    if (this.email != null) map['email'] = this.email;
     map['photoUrl'] = this.photoUrl;
     map['displayName'] = this.displayName;
     map['webSite'] = this.webSite;
