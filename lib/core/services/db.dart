@@ -1,8 +1,6 @@
 //Flutter and Dart import
 import 'dart:io';
 import 'dart:async';
-import 'package:mime/mime.dart';
-import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
@@ -49,7 +47,6 @@ class DatabaseServices {
     try {
       var user = User(
         uid: userData.uid,
-        email: userData.email,
         displayName: userData.displayName,
         photoUrl: userData.photoUrl,
         webSite: userData.webSite,
@@ -123,10 +120,7 @@ class DatabaseServices {
     try {
       // Generate a v4 (random) id
       var uuid = new Uuid();
-
-      String baseName = basename(file.path);
-      String fileType = lookupMimeType(baseName) + '/';
-      final String fileName = fileType + uuid.v4() + '$baseName';
+      final String fileName = uuid.v4();
 
       final StorageReference storageRef = _storage.ref().child(fileName);
       final StorageUploadTask uploadTask = storageRef.putFile(file);
