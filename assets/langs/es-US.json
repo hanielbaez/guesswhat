@@ -19,7 +19,13 @@
         "log_out": "Cerrar sesión",
         "leave_tekel?": "¿Te vas de Tekel?",
         "cancel": "Cancelar",
-        "leave": "Salir"
+        "leave": "Salir",
+        "message": "Ingresa para poder crear y compartir tus acertijos",
+        "facebookButtonText": "Continuar con Facebook",
+        "googleButtonText": "Continuar con Google",
+        "guestButtonText": "Continuar como Invitado",
+        "successMessage": "Bienvenido a Tekel",
+        "errorMessage": "Hemos tenido un error, comprueba tu conexion a internet"
     },
     "bottomSheet": {
         "title": "Crea tu acertijo",
