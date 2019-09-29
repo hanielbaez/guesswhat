@@ -1,5 +1,4 @@
 //Flutter and Dart import
-import 'package:Tekel/core/services/db.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:share_extend/share_extend.dart';
 //Self import
 import 'package:Tekel/ui/widgets/custom/buttonPress.dart';
 import 'package:Tekel/core/model/user.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/core/services/auth.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -34,7 +34,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         refreshUI: refresh,
       );
     } else {
-      child = SingOutLayout(refreshUI: refresh);
+      child = SingOutLayout();
     }
 
     return Drawer(
@@ -279,10 +279,6 @@ class SingInLayout extends StatelessWidget {
 
 //Show this layaout when the user is SingOut
 class SingOutLayout extends StatelessWidget {
-  final Function refreshUI;
-
-  const SingOutLayout({Key key, this.refreshUI}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -291,7 +287,7 @@ class SingOutLayout extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "Register to create and share your riddles",
+            AppLocalizations.of(context).tr('drawer.message'),
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
@@ -300,63 +296,61 @@ class SingOutLayout extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 50.0,
+          height: 20.0,
         ),
         FacebookSignInButton(
-          text: 'Sign in with Facebook',
+          text: AppLocalizations.of(context).tr('drawer.facebookButtonText'),
           onPressed: () async {
             var _response = await Provider.of<AuthenticationServices>(context)
                 .loginWithFacebook();
             if (_response) {
-              refreshUI();
-            } else {
+              Navigator.pop(context);
               Scaffold.of(context).showSnackBar(
-                 SnackBar(
+                SnackBar(
                   content: Text(
-                      "There is something wrong with, please try later."),
+                      AppLocalizations.of(context).tr('drawer.successMessage')),
+                ),
+              );
+            } else {
+              Navigator.pop(context);
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                      AppLocalizations.of(context).tr('drawer.errorMessage')),
                 ),
               );
             }
           },
         ),
         SizedBox(
-          height: 10.0,
+          height: 20.0,
         ),
         GoogleSignInButton(
+          text: AppLocalizations.of(context).tr('drawer.googleButtonText'),
           onPressed: () => Provider.of<AuthenticationServices>(context)
               .sigInWithGoogle()
               .then(
             (response) {
               if (response) {
-                refreshUI();
-              } else {
+                Navigator.pop(context);
                 Scaffold.of(context).showSnackBar(
-                  new SnackBar(
-                    content: new Text(
-                        "There is something wrong with, please try later."),
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)
+                        .tr('drawer.successMessage')),
+                  ),
+                );
+              } else {
+                Navigator.pop(context);
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        AppLocalizations.of(context).tr('drawer.errorMessage')),
                   ),
                 );
               }
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Divider(
-            color: Colors.white24,
-          ),
-        ),
-        FlatButton.icon(
-          label: Text('Continue as a Guest'),
-          color: Colors.white,
-          icon: Icon(
-            SimpleLineIcons.getIconData('user'),
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        )
       ],
     );
   }
