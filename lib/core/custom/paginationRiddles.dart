@@ -6,9 +6,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Tekel/core/model/riddle.dart';
 
 class PaginationViewModel extends ChangeNotifier {
-  PaginationViewModel() {
+  final String countryCode;
+  PaginationViewModel({this.countryCode = 'US'}) {
     getRiddles();
   }
+
+  //TODO: Get the user localization at constructor.
 
   Firestore firestore = Firestore.instance;
 
@@ -18,13 +21,15 @@ class PaginationViewModel extends ChangeNotifier {
 
   bool hasMore = true; // flag for more products available or not
 
-  int documentLimit = 2; // documents to be fetched per request
+  int documentLimit = 10; // documents to be fetched per request
+
+  String category; //The type of riddle to be fetch, default (All)
 
   DocumentSnapshot
       lastDocument; // flag for last document from where next 10 records to be fetched
   QuerySnapshot querySnapshot;
 
-  getRiddles({String countryCode}) async {
+  getRiddles() async {
     if (hasMore == false) {
       print('No more data to fetch');
       return null;
@@ -42,6 +47,7 @@ class PaginationViewModel extends ChangeNotifier {
             .collection('riddles')
             .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
+            .where('category', isEqualTo: category)
             .orderBy('createdAt', descending: true)
             .limit(documentLimit)
             .getDocuments();
@@ -50,6 +56,7 @@ class PaginationViewModel extends ChangeNotifier {
             .collection('riddles')
             .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
+            .where('category', isEqualTo: category)
             .orderBy('createdAt', descending: true)
             .startAfterDocument(lastDocument)
             .limit(documentLimit)
@@ -58,25 +65,36 @@ class PaginationViewModel extends ChangeNotifier {
     } catch (e) {
       print('getRiddles: $e');
     }
+    if (querySnapshot != null) {
+      if (querySnapshot.documents.isNotEmpty) {
+        lastDocument =
+            querySnapshot?.documents[querySnapshot.documents.length - 1];
 
-    if (querySnapshot.documents.isNotEmpty) {
-      lastDocument =
-          querySnapshot?.documents[querySnapshot.documents.length - 1];
-
-      if (querySnapshot.documents.length < documentLimit) {
-        hasMore = false;
+        if (querySnapshot.documents.length < documentLimit) {
+          hasMore = false;
+        }
+      } else {
+        print('Pagination: No more data to fetch');
       }
-    } else {
-      print('Pagination: No more data to fetch');
-    }
 
-    querySnapshot.documents.forEach(
-      (doc) {
-        riddlesList.add(Riddle.fromFireStore(doc));
-      },
-    );
-    isLoading = false;
-    notifyListeners();
+      querySnapshot.documents.forEach(
+        (doc) {
+          riddlesList.add(Riddle.fromFireStore(doc));
+        },
+      );
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  selectCategory({String selectedCategory}) {
+    category = selectedCategory;
+    //Reset values
+    riddlesList = [];
+    lastDocument = null;
+    hasMore = true;
+
+    getRiddles();
   }
 }
 
