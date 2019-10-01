@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
+import 'package:Tekel/core/services/location.dart';
 import 'package:Tekel/core/custom/paginationRiddles.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
@@ -21,6 +22,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var countryCode;
+    Provider.of<LocationServices>(context).getGeoPoint().then((user) {
+      var userCountryCode = user['location']['countryCode'];
+      countryCode = userCountryCode ?? 'EU';
+    });
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -114,7 +121,7 @@ class _HomePageState extends State<HomePage> {
       drawer: CustomDrawer(),
       backgroundColor: Colors.white,
       body: ChangeNotifierProvider<PaginationViewModel>(
-        builder: (context) => PaginationViewModel(),
+        builder: (context) => PaginationViewModel(countryCode: countryCode),
         child: Consumer<PaginationViewModel>(
           builder: (cotext, model, child) => CustomListRiddle(
             model: model,
