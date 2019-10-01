@@ -47,15 +47,20 @@ class _HomePageState extends State<HomePage> {
                       .listenNotification(),
                   builder: (context, snapshot) {
                     if (!snapshot
-                        .hasError) if (snapshot.data?.documents?.length == 1) {
+                        .hasError) if (snapshot.data?.documents?.length > 0) {
                       return Positioned(
                         top: 20.0,
                         left: 25.0,
                         child: Container(
-                          width: 10.0,
-                          height: 10.0,
+                          width: 15.5,
+                          height: 15.5,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle, color: Colors.red),
+                          child: Text(
+                            '${snapshot.data?.documents?.length}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 9),
+                          ),
                         ),
                       );
                     }
