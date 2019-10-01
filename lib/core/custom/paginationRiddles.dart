@@ -11,8 +11,6 @@ class PaginationViewModel extends ChangeNotifier {
     getRiddles();
   }
 
-  //TODO: Get the user localization at constructor.
-
   Firestore firestore = Firestore.instance;
 
   List<Riddle> riddlesList = []; // stores fetched products
