@@ -18,7 +18,6 @@ import 'package:Tekel/ui/widgets/riddle/video.dart';
 
 class RiddleLayaout extends StatefulWidget {
   final Riddle riddle;
-
   RiddleLayaout({this.riddle});
 
   @override

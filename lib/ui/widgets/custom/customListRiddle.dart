@@ -1,5 +1,4 @@
 //Flutter and Dart import
-import 'package:Tekel/core/services/location.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/easy_localization_provider.dart';
@@ -10,10 +9,8 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 //Self import
 import 'package:Tekel/ui/widgets/riddle/riddle.dart';
 import 'package:Tekel/core/custom/paginationRiddles.dart';
-import 'package:provider/provider.dart';
 
 class CustomListRiddle extends StatelessWidget {
-  //static String countryCode;
   final PaginationViewModel model;
   final swingPath = 'audios/swing.wav';
   final AudioCache player = AudioCache();
@@ -22,22 +19,20 @@ class CustomListRiddle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var countryCode;
-    Provider.of<LocationServices>(context).getGeoPoint().then((user) {
-      countryCode = user['location']['countryCode'];
-    });
     var data = EasyLocalizationProvider.of(context).data;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        EasyLocalizationProvider(data: data, child: CustomCategory()),
+        EasyLocalizationProvider(
+            data: data, child: CustomCategory(model: model)),
         Expanded(
           flex: 12,
           child: Swiper(
+            key: Key(model.category),
             loop: false,
             onIndexChanged: (value) {
               if (value == model.riddlesList.length - 1) {
-                model.getRiddles(countryCode: countryCode);
+                model.getRiddles();
               }
               try {
                 player.play(swingPath, volume: 1);
@@ -65,21 +60,21 @@ class CustomListRiddle extends StatelessWidget {
 }
 
 class CustomCategory extends StatelessWidget {
-  const CustomCategory({
-    Key key,
-  }) : super(key: key);
+  final PaginationViewModel model;
+
+  const CustomCategory({Key key, this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List categoryList = [
-      AppLocalizations.of(context).tr('category.sport'),
-      AppLocalizations.of(context).tr('category.culture'),
-      AppLocalizations.of(context).tr('category.animal'),
-      AppLocalizations.of(context).tr('category.math'),
-      AppLocalizations.of(context).tr('category.people'),
-      AppLocalizations.of(context).tr('category.movieAndTv'),
-      AppLocalizations.of(context).tr('category.scienceAndTechnology'),
-      AppLocalizations.of(context).tr('category.others'),
+      'sport',
+      'culture',
+      'animal',
+      'math',
+      'people',
+      'movieAndTv',
+      'scienceAndTechnology',
+      'others'
     ];
 
     return Expanded(
@@ -87,13 +82,24 @@ class CustomCategory extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: categoryList.length,
         itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.all(5.0),
-            padding: EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
+          var bordeColor = model.category == categoryList[index]
+              ? Colors.yellow[700]
+              : Colors.transparent;
+          return GestureDetector(
+            onTap: () =>
+                model.selectCategory(selectedCategory: categoryList[index]),
+            child: Container(
+              margin: EdgeInsets.all(5.0),
+              padding: EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                color: bordeColor,
+                border: Border.all(color: Colors.black),
+              ),
+              child: Text(
+                AppLocalizations.of(context)
+                    .tr('category.' + categoryList[index]),
+              ),
             ),
-            child: Text(categoryList[index]),
           );
         },
       ),
