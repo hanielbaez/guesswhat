@@ -1,12 +1,12 @@
 //Flutter and Dart import
-import 'package:Tekel/core/custom/paginationRiddles.dart';
-import 'package:Tekel/core/services/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
+import 'package:Tekel/core/custom/paginationRiddles.dart';
+import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/custom/customListRiddle.dart';
 import '../widgets/custom/buttonPress.dart';
@@ -46,8 +46,9 @@ class _HomePageState extends State<HomePage> {
                   stream: Provider.of<DatabaseServices>(context)
                       .listenNotification(),
                   builder: (context, snapshot) {
-                    if (!snapshot
-                        .hasError) if (snapshot.data?.documents?.length > 0) {
+                    var notificationNumber =
+                        snapshot.data?.documents?.length ?? 0;
+                    if (!snapshot.hasError) if (notificationNumber > 0) {
                       return Positioned(
                         top: 20.0,
                         left: 27.5,
