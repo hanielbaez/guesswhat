@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                         .hasError) if (snapshot.data?.documents?.length > 0) {
                       return Positioned(
                         top: 20.0,
-                        left: 25.0,
+                        left: 27.5,
                         child: Container(
                           width: 15.5,
                           height: 15.5,
@@ -59,7 +59,8 @@ class _HomePageState extends State<HomePage> {
                           child: Text(
                             '${snapshot.data?.documents?.length}',
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 9),
+                            style: TextStyle(
+                                fontSize: 9, fontWeight: FontWeight.bold),
                           ),
                         ),
                       );
