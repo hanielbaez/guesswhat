@@ -65,7 +65,9 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle, color: Colors.red),
                           child: Text(
-                            '${snapshot.data?.documents?.length}',
+                            notificationNumber <= 9
+                                ? '$notificationNumber'
+                                : '9+',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 9, fontWeight: FontWeight.bold),
