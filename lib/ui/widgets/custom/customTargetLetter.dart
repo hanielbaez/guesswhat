@@ -93,7 +93,7 @@ class _TargetLetterState extends State<TargetLetter>
                   alignment: Alignment.center,
                   width: 43.5,
                   height: 40,
-                  margin: EdgeInsets.all(4),
+                  margin: EdgeInsets.only(top: 4.0, left: 2.0, bottom: 4.0),
                   decoration: BoxDecoration(
                     color: _isSelected
                         ? Colors.white
