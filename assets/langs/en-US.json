@@ -1,0 +1,117 @@
+{
+    "category": {
+        "sport": "⚽Sport",
+        "culture": "🗺Culture",
+        "animal": "🐱Animal",
+        "math": "🔢Math",
+        "people": "💁‍People",
+        "movieAndTv": "🎬Movie and TV",
+        "scienceAndTechnology": "🔭Science and Technology",
+        "others": "📁Others"
+    },
+    "drawer": {
+        "home": "Home",
+        "create_your_riddle": "Create your riddle",
+        "your_loves": "Your loves",
+        "share_tekel_with_friends": "Share Tekel with friends",
+        "share_text": "I invite you to try Tekel, a fun word application, available on Google Play. Go get it!",
+        "support": "Support",
+        "log_out": "Sing out",
+        "leave_tekel?": "Are you leaving Tekel?",
+        "cancel": "Cancel",
+        "leave": "Leave",
+        "message": "Login to be able to create and share your riddles",
+        "facebookButtonText": "Continue with Facebook",
+        "googleButtonText": "Continue with Google",
+        "guestButtonText": "Continue as Guest",
+        "successMessage": "Welcome Tekel",
+        "errorMessage": "We had an error, check your internet connection"
+    },
+    "bottomSheet": {
+        "title": "Create your riddle",
+        "write_it": "Write it",
+        "capture_image": "Take a photo",
+        "gallery_image": "From the image gallery"
+    },
+    "lovesPage": {
+        "title": "Riddles you love",
+        "noLove": "You still don't love any riddle"
+    },
+    "supportPage": {
+        "title": "Contact with support",
+        "description": "We are here to help you. You will receive a response if necessary in your email, as soon as possible.",
+        "label_message_text": "Your message",
+        "error_text": "Your message should be longer",
+        "submit_button": "Send"
+    },
+    "textCreatePage": {
+        "title": "Write your riddle",
+        "riddleLabelText": "Riddle",
+        "riddleHitText": "Make your riddle intrigue the world",
+        "riddleMinLength": "Your riddle must have at least three characters",
+        "riddleMaxLength": "It has exceeded the maximum of 500 characters",
+        "answerLabelText": "Answer",
+        "answerHitText": "The answer to your riddle",
+        "answerErrorText": "No special characters allowed",
+        "descriptionLabelText": "Description",
+        "descriptionHitText": "Describe your riddle to help other users solve it (optional)",
+        "descriptionErrorText": "You have exceeded 350 characters allowed",
+        "dropDown": {
+            "labelText": "Category",
+            "hintText": "Select category",
+            "errorText": "You must add the category"
+        },
+        "submitButton": "Send"
+    },
+    "imageCreatePage": {
+        "title": "Your riddle with image",
+        "answerLabelText": "Answer",
+        "answerHitText": "The answer to your riddle",
+        "answerErrorText": "No special characters allowed.",
+        "descriptionLabelText": "Description",
+        "descriptionHitText": "Describe your riddle to help other users solve it (optional)",
+        "descriptionErrorText": "You have exceeded 350 characters allowed",
+        "submitButton": "Send"
+    },
+    "userPage": {
+        "edit": "Edit",
+        "solved": "Resolved",
+        "created": "Created"
+    },
+    "solvedPage": {
+        "title": "Resolved",
+        "connectionError": "There was a problem with the connection please try again later",
+        "noSolved": "Be the first to solve this riddle"
+    },
+    "editUserPage": {
+        "title": "Edit profile",
+        "save": "Save",
+        "changeProfileImage": "Change profile picture",
+        "nameLabelText": "Name",
+        "nameErrorText": "Must not exceed 20 characters",
+        "webSiteLabelText": "Web site",
+        "biographyLabelText": "Biography",
+        "biographyErrorText": "Must have a maximum of 200 characters ",
+        "alertDialog": {
+            "title": "Select an image from",
+            "gallery": "Gallery",
+            "camera": "Camera"
+        }
+    },
+    "notificationPage": {
+        "title": "Notificaciones",
+        "solveAction": "{} has solved your riddle",
+        "loveAction": "{} loves your riddle",
+        "commentAction": "{} commented your riddle"
+    },
+    "leaderBoardPage": {
+        "title": "Top 10"
+    },
+    "commentPage": {
+        "title": "Comments",
+        "errorMessage": "There was an error please try again later",
+        "noComments": "Be the first to comment",
+        "hintText": "Enter your comment",
+        "errorText": "Your comment cannot be empty"
+    }
+}

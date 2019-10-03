@@ -69,12 +69,21 @@ class _MyAppState extends State<MyApp> {
           ),
           onGenerateRoute: router.generateRoute,
           initialRoute: '/',
-          localizationsDelegates: [
+          localizationsDelegates: [  
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            EasylocaLizationDelegate(locale: data.locale, path: 'assets/langs')
+            EasylocaLizationDelegate(locale: data.locale, path: 'assets/langs'),
           ],
-          supportedLocales: [Locale('es', 'US')],
+          supportedLocales: [Locale('en', 'US'), Locale('es', 'US')],
+          localeResolutionCallback: (locale, supportedLocales) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale?.languageCode &&
+                  supportedLocale.countryCode == locale?.countryCode) {
+                return supportedLocale;
+              }
+            }
+            return supportedLocales.first;
+          },
           locale: data.savedLocale,
         ),
       ),
