@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:ui';
 import 'package:mime/mime.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -77,34 +78,33 @@ class VideoViewModel extends ChangeNotifier {
   }
 
 //Costum image widgets
-  Image buildImage() {
-    return Image.network(
-      '${riddle.imageUrl}',
-      fit: BoxFit.contain,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        }
-        return Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Image.asset(
-              'assets/images/noiseTv.gif',
-              fit: BoxFit.cover,
-              key: ValueKey('thumbnail'),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: SpinKitThreeBounce(
-                  color: Colors.white,
-                  size: 50.0,
-                ),
+  buildImage() {
+    return PhotoView(
+      imageProvider: NetworkImage(
+        '${riddle.imageUrl}',
+      ),
+      maxScale: PhotoViewComputedScale.contained,
+      minScale: PhotoViewComputedScale.contained,
+      backgroundDecoration: BoxDecoration(color: Colors.black12),
+      loadingChild: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Image.asset(
+            'assets/images/noiseTv.gif',
+            fit: BoxFit.cover,
+            key: ValueKey('thumbnail'),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: SpinKitThreeBounce(
+                color: Colors.white,
+                size: 50.0,
               ),
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 
