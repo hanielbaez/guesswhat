@@ -45,7 +45,7 @@ class ImageCreatePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
-                  height: 200.0,
+                  height: 150.0,
                   child: _multiMedia['image'] == null
                       ? Icon(
                           SimpleLineIcons.getIconData('plus'),
@@ -98,7 +98,7 @@ class ImageCreatePage extends StatelessWidget {
                     ),
                     FormBuilderTextField(
                       attribute: "description",
-                      maxLines: 5,
+                      maxLines: 3,
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
                             .tr("imageCreatePage.descriptionLabelText"),
@@ -151,6 +151,9 @@ class ImageCreatePage extends StatelessWidget {
                               child: Text(AppLocalizations.of(context)
                                   .tr("category.$category"))))
                           .toList(),
+                    ),
+                    SizedBox(
+                      height: 25.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
