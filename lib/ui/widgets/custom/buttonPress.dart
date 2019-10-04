@@ -20,102 +20,83 @@ void onButtonPressed({BuildContext context}) {
       var data = EasyLocalizationProvider.of(context).data;
       return EasyLocalizationProvider(
         data: data,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                AppLocalizations.of(context).tr('bottomSheet.title'),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  AppLocalizations.of(context).tr('bottomSheet.title'),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            ListTile(
-              title: Text(
-                AppLocalizations.of(context).tr('bottomSheet.write_it'),
+              Divider(
+                color: Colors.black26,
               ),
-              leading: Icon(
-                SimpleLineIcons.getIconData('note'),
+              ListTile(
+                title: Text(
+                  AppLocalizations.of(context).tr('bottomSheet.write_it'),
+                ),
+                dense: false,
+                leading: Icon(
+                  SimpleLineIcons.getIconData('note'),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, 'createTextRiddle');
+                },
               ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushReplacementNamed(context, 'createTextRiddle');
-              },
-            ),
-            ListTile(
-              title: Text(
-                AppLocalizations.of(context).tr('bottomSheet.capture_image'),
+              Divider(
+                color: Colors.black26,
               ),
-              leading: Icon(
-                SimpleLineIcons.getIconData('camera'),
-              ),
-              onTap: () async {
-                try {
-                  _multiMedia['image'] =
-                      await _sourceOption.getImage(ImageSource.camera, context);
+              ListTile(
+                title: Text(
+                  AppLocalizations.of(context).tr('bottomSheet.capture_image'),
+                ),
+                leading: Icon(
+                  SimpleLineIcons.getIconData('camera'),
+                ),
+                onTap: () async {
+                  try {
+                    _multiMedia['image'] = await _sourceOption.getImage(
+                        ImageSource.camera, context);
 
-                  _sourceOption.navigateToCreate(
-                      context: context, multiMedia: _multiMedia);
-                } catch (error) {
-                  print('Error: $error');
-                }
-              },
-            ),
-            /* ListTile(
-                  title: Text('Capture Video'),
-                  leading: Icon(SimpleLineIcons.getIconData('camrecorder')),
-                  onTap: () async {
-                    try {
-                      _multiMedia['video'] =
-                          await _sourceOption.getVideo(ImageSource.camera, context);
-                      _multiMedia['videoThumbnail'] =
-                          await _sourceOption.getThumbnailVideo(_multiMedia['video']);
-                      _sourceOption.navigateToCreate(
-                          context: context, multiMedia: _multiMedia);
-                    } catch (error) {
-                      print('Error: ' + error.toString());
-                    }
-                  },
-                ), */
-            ListTile(
-              title: Text(
-                AppLocalizations.of(context).tr('bottomSheet.gallery_image'),
+                    _sourceOption.navigateToCreate(
+                        context: context, multiMedia: _multiMedia);
+                  } catch (error) {
+                    print('Error: $error');
+                  }
+                },
               ),
-              leading: Icon(
-                SimpleLineIcons.getIconData('picture'),
+              Divider(
+                color: Colors.black26,
               ),
-              onTap: () async {
-                try {
-                  _multiMedia['image'] = await _sourceOption.getImage(
-                      ImageSource.gallery, context);
+              ListTile(
+                title: Text(
+                  AppLocalizations.of(context).tr('bottomSheet.gallery_image'),
+                ),
+                leading: Icon(
+                  SimpleLineIcons.getIconData('picture'),
+                ),
+                onTap: () async {
+                  try {
+                    _multiMedia['image'] = await _sourceOption.getImage(
+                        ImageSource.gallery, context);
 
-                  _sourceOption.navigateToCreate(
-                      context: context, multiMedia: _multiMedia);
-                } catch (error) {
-                  print('getImage error: ' + error.toString());
-                }
-              },
-            ),
-            /* ListTile(
-                  title: Text('Video from Gallery'),
-                  leading: Icon(SimpleLineIcons.getIconData('film')),
-                  onTap: () async {
-                    try {
-                      _multiMedia['video'] =
-                          await _sourceOption.getVideo(ImageSource.gallery, context);
-                      _multiMedia['videoThumbnail'] =
-                          await _sourceOption.getThumbnailVideo(_multiMedia['video']);
-                      _sourceOption.navigateToCreate(
-                          context: context, multiMedia: _multiMedia);
-                    } catch (error) {
-                      print('Error: ' + error.toString());
-                    }
-                  },
-                ), */
-          ],
+                    _sourceOption.navigateToCreate(
+                        context: context, multiMedia: _multiMedia);
+                  } catch (error) {
+                    print('getImage error: ' + error.toString());
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       );
     },
