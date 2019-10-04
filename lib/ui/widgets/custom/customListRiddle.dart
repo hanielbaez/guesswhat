@@ -85,9 +85,10 @@ class CustomCategory extends StatelessWidget {
           var bordeColor = model.category == categoryList[index]
               ? Colors.yellow[700]
               : Colors.transparent;
-          return GestureDetector(
-            onTap: () =>
-                model.selectCategory(selectedCategory: categoryList[index]),
+          return InkWell(
+            onTap: () => categoryList[index] != model.category
+                ? model.selectCategory(selectedCategory: categoryList[index])
+                : null,
             child: Container(
               margin: EdgeInsets.all(5.0),
               padding: EdgeInsets.all(5.0),
