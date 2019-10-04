@@ -24,7 +24,7 @@
         "facebookButtonText": "Continue with Facebook",
         "googleButtonText": "Continue with Google",
         "guestButtonText": "Continue as Guest",
-        "successMessage": "Welcome Tekel",
+        "successMessage": "Welcome to Tekel",
         "errorMessage": "We had an error, check your internet connection"
     },
     "bottomSheet": {
