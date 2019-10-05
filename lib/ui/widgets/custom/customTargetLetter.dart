@@ -79,7 +79,7 @@ class _TargetLetterState extends State<TargetLetter>
                       ? true
                       : false;
 
-              return GestureDetector(
+              return InkWell(
                 onTap: () {
                   if (widget.model.selectedItems.isNotEmpty &&
                       _isSelected &&

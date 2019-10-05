@@ -56,7 +56,7 @@ class RiddleTopSolversPage extends StatelessWidget {
                       break;
                   }
 
-                  return GestureDetector(
+                  return InkWell(
                     onTap: () => Navigator.pushNamed(context, 'userPage',
                         arguments: documents[index].user),
                     child: Container(

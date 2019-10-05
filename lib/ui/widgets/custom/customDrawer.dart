@@ -61,7 +61,7 @@ class SingInLayout extends StatelessWidget {
       data: data,
       child: Column(
         children: <Widget>[
-          GestureDetector(
+          InkWell(
             onTap: () =>
                 Navigator.pushNamed(context, 'userPage', arguments: user),
             child: Container(

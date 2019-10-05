@@ -33,7 +33,7 @@ class UserBar extends StatelessWidget {
         break;
     }
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => Navigator.pushNamed(context, 'userPage', arguments: user),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

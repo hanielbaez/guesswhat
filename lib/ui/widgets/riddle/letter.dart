@@ -21,7 +21,7 @@ class CustomLetter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         //If correct aswear TRUE do nothing
         if (item.isSource && !model.correctAnswer) {

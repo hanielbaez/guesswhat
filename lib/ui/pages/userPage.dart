@@ -112,7 +112,7 @@ class UserPage extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: <Widget>[
-                                            GestureDetector(
+                                            InkWell(
                                               onTap: () => Navigator.pushNamed(
                                                   context, 'solvedByPage',
                                                   arguments: user),
@@ -186,6 +186,7 @@ class UserPage extends StatelessWidget {
                   return Container();
                 }),
             SizedBox(height: 10.0),
+            //TODO: Add pagination
             FutureBuilder(
               future: Provider.of<DatabaseServices>(context)
                   .fetchUserRiddle(userId: user.uid),
