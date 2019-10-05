@@ -21,7 +21,7 @@ class PaginationViewModel extends ChangeNotifier {
 
   int documentLimit = 10; // documents to be fetched per request
 
-  String category; //The type of riddle to be fetch, default (All)
+  String category = 'all'; //The type of riddle to be fetch, default (All)
 
   DocumentSnapshot
       lastDocument; // flag for last document from where next 10 records to be fetched
@@ -45,7 +45,7 @@ class PaginationViewModel extends ChangeNotifier {
             .collection('riddles')
             .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
-            .where('category', isEqualTo: category)
+            .where('category', isEqualTo: category == 'all' ? null : category)
             .orderBy('createdAt', descending: true)
             .limit(documentLimit)
             .getDocuments();
@@ -54,7 +54,7 @@ class PaginationViewModel extends ChangeNotifier {
             .collection('riddles')
             .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
-            .where('category', isEqualTo: category)
+            .where('category', isEqualTo: category == 'all' ? null : category)
             .orderBy('createdAt', descending: true)
             .startAfterDocument(lastDocument)
             .limit(documentLimit)

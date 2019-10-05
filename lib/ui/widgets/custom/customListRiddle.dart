@@ -67,6 +67,7 @@ class CustomCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List categoryList = [
+      'all',
       'sport',
       'culture',
       'animal',
@@ -82,11 +83,10 @@ class CustomCategory extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: categoryList.length,
         itemBuilder: (context, index) {
-          var bordeColor = model.category == categoryList[index]
-              ? Colors.yellow[700]
-              : Colors.transparent;
+          var isSelected = model.category == categoryList[index];
+          var bordeColor = isSelected ? Colors.yellow[700] : Colors.transparent;
           return InkWell(
-            onTap: () => categoryList[index] != model.category
+            onTap: () => !isSelected
                 ? model.selectCategory(selectedCategory: categoryList[index])
                 : null,
             child: Container(
@@ -99,6 +99,9 @@ class CustomCategory extends StatelessWidget {
               child: Text(
                 AppLocalizations.of(context)
                     .tr('category.' + categoryList[index]),
+                style: TextStyle(
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal),
               ),
             ),
           );
