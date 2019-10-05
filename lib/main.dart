@@ -1,7 +1,5 @@
 //Flutter and Dart import
 import 'package:flutter/material.dart';
-import 'package:confetti/confetti.dart';
-import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -18,26 +16,7 @@ void main() {
   return runApp(EasyLocalization(child: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  ConfettiController controllerTopCenter;
-
-  @override
-  void initState() {
-    controllerTopCenter = ConfettiController(duration: Duration(seconds: 10));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controllerTopCenter.dispose();
-    super.dispose();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
@@ -48,28 +27,10 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Tekel',
           theme: costumTheme,
-          home: Stack(
-            children: <Widget>[
-              ListenableProvider<ConfettiController>.value(
-                value: controllerTopCenter,
-                child: HomePage(),
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: ConfettiWidget(
-                  confettiController: controllerTopCenter,
-                  blastDirection: pi / 2,
-                  maxBlastForce: 10,
-                  minBlastForce: 2,
-                  emissionFrequency: 0.05,
-                  numberOfParticles: 5,
-                ),
-              ),
-            ],
-          ),
+          home: HomePage(),
           onGenerateRoute: router.generateRoute,
           initialRoute: '/',
-          localizationsDelegates: [  
+          localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             EasylocaLizationDelegate(locale: data.locale, path: 'assets/langs'),
