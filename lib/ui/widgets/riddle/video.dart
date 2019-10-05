@@ -38,6 +38,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
   void dispose() {
     widget.model.videoController?.dispose();
     streamSubscription.cancel();
+    widget.confettiController.stop();
     super.dispose();
   }
 
@@ -61,7 +62,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
             case ConnectionState.waiting:
             case ConnectionState.done:
               if (snapshot.hasError) return Text('Error: try later, please');
-              return  widget.model.widget;
+              return widget.model.widget;
           }
           return Text('Unreachable.');
         },
