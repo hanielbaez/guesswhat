@@ -1,7 +1,10 @@
 //Flutter and Dart import
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:confetti/confetti.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:flutter_icons/simple_line_icons.dart';
 
 //Self import
@@ -19,6 +22,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ConfettiController controllerTopCenter;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+
+  @override
+  void initState() {
+    controllerTopCenter = ConfettiController(duration: Duration(seconds: 5));
+
+    _fcm.configure(
+      onLaunch: (Map<String, dynamic> message) async {
+        print('onLaunch $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('onResume $message');
+        Navigator.of(context).pushNamed('notificationsPage');
+      },
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controllerTopCenter.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +55,15 @@ class _HomePageState extends State<HomePage> {
       var userCountryCode = user['location']['countryCode'];
       countryCode = userCountryCode ?? 'EU';
     });
+
+    var changeNotifierProvider = ChangeNotifierProvider<PaginationViewModel>(
+      builder: (context) => PaginationViewModel(countryCode: countryCode),
+      child: Consumer<PaginationViewModel>(
+        builder: (cotext, model, child) => CustomListRiddle(
+          model: model,
+        ),
+      ),
+    );
 
     return Scaffold(
       key: _scaffoldKey,
@@ -122,13 +159,24 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: CustomDrawer(),
       backgroundColor: Colors.white,
-      body: ChangeNotifierProvider<PaginationViewModel>(
-        builder: (context) => PaginationViewModel(countryCode: countryCode),
-        child: Consumer<PaginationViewModel>(
-          builder: (cotext, model, child) => CustomListRiddle(
-            model: model,
+      body: Stack(
+        children: <Widget>[
+          ListenableProvider<ConfettiController>.value(
+            value: controllerTopCenter,
+            child: changeNotifierProvider,
           ),
-        ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: controllerTopCenter,
+              blastDirection: pi / 2,
+              maxBlastForce: 10,
+              minBlastForce: 5,
+              emissionFrequency: 0.05,
+              numberOfParticles: 10,
+            ),
+          ),
+        ],
       ),
     );
   }
