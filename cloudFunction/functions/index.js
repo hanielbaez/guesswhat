@@ -227,31 +227,46 @@ exports.riddleCounter = functions.firestore.document('riddles/{riddlesId}').onCr
 
 //* FCM *//
 
-//Listen to love(Likes) to notificate a user
-exports.notifyLove = functions.firestore.document('riddles/{riddleId}/lovedBy/{docId}')
-    .onCreate((snapshot, context) => {
+//Listen to love(Likes) document creation to notificate a user
+exports.notifyLove = functions.firestore.document('riddles/{riddleId}/lovedBy/{docId}').onCreate(async (snapshot) => {
+    const promises = [];
+    const user = snapshot.data();
+    const collectionRef = firestore.collection('users').doc(user.userId).collection('tokens');
 
-        const document = snapshot.data();
-        //Document referent of the current Love(Like) riddle
-
-        //Get the tokes of the corresponding user
-        firestore.collection('users').doc(document.userId)
-            .collection('tokens').get().then(query => {
-                const tokens = [];
-                query.forEach(doc => {
-                    tokens.push(doc.id);
-                });
-
-                const payload = {
-                    notification: {
-                        title: '♥️ Someone love you riddle',
-                        body: `Tap here to check it out!`,
-                        click_action: 'FLUTTER_NOTIFICATION_CLICK'
-                    }
-                };
-
-                return fcm.sendToDevice(tokens, payload);
-
-            }).catch(error => console.log('Error sending notification: ', error));
-        return null;
+    const allTokens = [];
+    const userTokens = await collectionRef.limit(10).get()
+    promises.push(userTokens);
+    userTokens.forEach(doc => {
+        allTokens.push(doc.id);
     });
+
+    const payload = {
+        notification: {
+            title: '♥️ Someone love you riddle',
+            body: `Tap here to check it out!`,
+            click_action: 'FLUTTER_NOTIFICATION_CLICK'
+        }
+    };
+
+    const tokensResponse = await fcm.sendToDevice(allTokens, payload);
+    promises.push(tokensResponse);
+
+    tokensResponse.results.forEach(async (result, index) => {
+        const error = result.error;
+
+        if (error) {
+            console.error('Token error: ', error.message);
+            const deletePromise = await collectionRef.doc(allTokens[index]).delete();
+            promises.push(deletePromise);
+
+        } /* else {
+            var canonicalToken = result.canonicalRegistrationToken;
+            console.log('Canonical Registration Token', canonicalToken);
+            const response = await collectionRef.doc(canonicalToken).set({ 'token': canonicalToken, 'createdAt': admin.firestore.FieldValue.serverTimestamp() });
+            promises.push(response);
+        } */
+    });
+
+    return Promise.all(promises);
+});
+
