@@ -160,7 +160,7 @@ class LettersViewModel extends ChangeNotifier {
     try {
       const tapAudioPath = 'audios/fingerTap.wav';
       const wrongChoiceAudioPath = 'audios/wrongChoice.wav';
-      const successAudioPath = 'audios/success.wav';
+      const successAudioPath = 'audios/success-fanfare-trumpets.mp3';
 
       selectedItems.add(item);
       var _userAnswer = getWord(selectedItems);
