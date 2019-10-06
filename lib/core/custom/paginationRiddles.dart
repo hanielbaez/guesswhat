@@ -1,4 +1,5 @@
 //Flutter and Dart import
+import 'package:Tekel/core/services/location.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,12 +7,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Tekel/core/model/riddle.dart';
 
 class PaginationViewModel extends ChangeNotifier {
-  final String countryCode;
-  PaginationViewModel({this.countryCode = 'US'}) {
-    getRiddles();
+  PaginationViewModel() {
+    getCountryCode().then((_) => getRiddles());
   }
 
   Firestore firestore = Firestore.instance;
+
+  String countryCode;
 
   List<Riddle> riddlesList = []; // stores fetched products
 
@@ -93,6 +95,17 @@ class PaginationViewModel extends ChangeNotifier {
     hasMore = true;
 
     getRiddles();
+  }
+
+  //Return the user countryCode, default EU
+  getCountryCode() async {
+    var location = LocationServices();
+    var locationMap = await location.getGeoPoint();
+    if (locationMap != null) {
+      countryCode = locationMap['location']['countryCode'];
+    } else {
+      countryCode = 'EU';
+    }
   }
 }
 
