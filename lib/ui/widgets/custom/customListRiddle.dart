@@ -1,5 +1,4 @@
 //Flutter and Dart import
-import 'package:audioplayers/audio_cache.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +11,6 @@ import 'package:Tekel/core/custom/paginationRiddles.dart';
 
 class CustomListRiddle extends StatelessWidget {
   final PaginationViewModel model;
-  final swingPath = 'audios/swing.wav';
-  final AudioCache player = AudioCache();
 
   CustomListRiddle({this.model});
 
@@ -33,11 +30,6 @@ class CustomListRiddle extends StatelessWidget {
             onIndexChanged: (value) {
               if (value == model.riddlesList.length - 1) {
                 model.getRiddles();
-              }
-              try {
-                player.play(swingPath, volume: 1);
-              } catch (e) {
-                print('Swing sound error: $e');
               }
             },
             itemCount: model.riddlesList.length,

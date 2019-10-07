@@ -95,7 +95,6 @@ flutter:
     #audios
     - assets/audios/fingerTap.wav
     - assets/audios/wrongChoice.wav
-    - assets/audios/swing.wav
     - assets/audios/success-fanfare-trumpets.mp3
 
     #langs
