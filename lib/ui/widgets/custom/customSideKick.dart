@@ -8,31 +8,7 @@ import 'package:Tekel/ui/widgets/riddle/letter.dart';
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
 
 //? I should rename this class
-class CustomSidekick extends StatefulWidget {
-  @override
-  _CustomSidekickState createState() => _CustomSidekickState();
-}
-
-class _CustomSidekickState extends State<CustomSidekick>
-    with SingleTickerProviderStateMixin {
-  AnimationController _fadeSourceController;
-  Animation<double> _fadeSourceAnimation;
-
-  @override
-  void initState() {
-    _fadeSourceController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _fadeSourceAnimation =
-        Tween(begin: 0.0, end: 1.0).animate(_fadeSourceController);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _fadeSourceController.dispose();
-    super.dispose();
-  }
-
+class CustomSidekick extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LettersViewModel>(
@@ -50,7 +26,6 @@ class _CustomSidekickState extends State<CustomSidekick>
                 )
                 .toList(),
           );
-          _fadeSourceController.forward();
         }
 
         return Column(
@@ -61,12 +36,7 @@ class _CustomSidekickState extends State<CustomSidekick>
             SizedBox(
               height: 5.0,
             ),
-            model.correctAnswer
-                ? Container()
-                : FadeTransition(
-                    opacity: _fadeSourceAnimation,
-                    child: _sourceWidget,
-                  )
+            _sourceWidget,
           ],
         );
       },
