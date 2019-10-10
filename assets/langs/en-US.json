@@ -1,5 +1,11 @@
 {
+    "introPage": {
+        "title": "Enable location",
+        "message": "To show you riddles created by people in your country, Tekel needs your location.",
+        "button_text": "Allow location"
+    },
     "category": {
+        "all": "All",
         "sport": "⚽Sport",
         "culture": "🗺Culture",
         "animal": "🐱Animal",
@@ -100,9 +106,9 @@
     },
     "notificationPage": {
         "title": "Notificaciones",
-        "solveAction": "{} has solved your riddle",
-        "loveAction": "{} loves your riddle",
-        "commentAction": "{} commented your riddle"
+        "solveAction": " has solved your riddle",
+        "loveAction": " loves your riddle",
+        "commentAction": " commented your riddle"
     },
     "leaderBoardPage": {
         "title": "Top 10"

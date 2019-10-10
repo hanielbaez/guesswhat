@@ -1,5 +1,11 @@
 {
+    "introPage": {
+        "title": "Habilitar ubicación",
+        "message": "Para poder mostrarte acertijos creados por personas de tu pais, Tekel necesita de tu localizacion.",
+        "button_text": "Permitir localización"
+    },
     "category": {
+        "all": "Todos",
         "sport": "⚽Deporte",
         "culture": "🗺Cultura",
         "animal": "🐱Animales",
@@ -100,9 +106,9 @@
     },
     "notificationPage": {
         "title": "Notificaciones",
-        "solveAction": "{} a resuelto tu acertijo",
-        "loveAction": "{} ama tu acertijo",
-        "commentAction": "{} comento tu acertijo"
+        "solveAction": " a resuelto tu acertijo",
+        "loveAction": " ama tu acertijo",
+        "commentAction": " comento tu acertijo"
     },
     "leaderBoardPage": {
         "title": "Los 10 mejores"
