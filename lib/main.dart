@@ -17,6 +17,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
     return MultiProvider(
