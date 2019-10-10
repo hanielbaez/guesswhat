@@ -147,10 +147,18 @@ class LettersViewModel extends ChangeNotifier {
   Color letterColor() {
     if (wrongAnswer) {
       return Colors.red[400];
-    } else if (correctAnswer) {
-      return Colors.green;
     } else {
       return Colors.black;
+    }
+  }
+
+  Color targetColor(bool isSelected) {
+    if (correctAnswer) {
+      return Colors.yellow[700];
+    } else if (isSelected) {
+      return Colors.white;
+    } else {
+      return Colors.black.withOpacity(0.15);
     }
   }
 

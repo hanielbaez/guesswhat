@@ -80,9 +80,7 @@ class _TargetLetterState extends State<TargetLetter>
                 height: 40,
                 margin: EdgeInsets.only(top: 4.0, left: 2.0, bottom: 4.0),
                 decoration: BoxDecoration(
-                  color: _isSelected
-                      ? Colors.white
-                      : Colors.black.withOpacity(0.15),
+                  color: widget.model.targetColor(_isSelected),
                   border: Border.all(
                       color: _isSelected
                           ? widget.model.letterColor()
