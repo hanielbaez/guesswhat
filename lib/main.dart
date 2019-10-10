@@ -5,9 +5,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 //Self import
+import 'package:Tekel/ui/pages/loadingPage.dart';
 import 'package:Tekel/costumTheme.dart';
 import 'package:Tekel/providerSetup.dart';
-import './ui/pages/homePage.dart';
 import 'package:Tekel/core/custom/customMobileOrientation.dart';
 import './router.dart' as router;
 
@@ -17,7 +17,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
     return MultiProvider(
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Tekel',
           theme: costumTheme,
-          home: HomePage(),
+          home: LoadingPage(),
           onGenerateRoute: router.generateRoute,
           initialRoute: '/',
           localizationsDelegates: [
