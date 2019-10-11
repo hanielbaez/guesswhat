@@ -45,7 +45,7 @@ class PaginationViewModel extends ChangeNotifier {
       if (lastDocument == null) {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: countryCode)
+            .where('location.countryCode', isEqualTo: countryCode ?? 'DO')
             .where('isRiddle', isEqualTo: true)
             .where('category', isEqualTo: category == 'all' ? null : category)
             .orderBy('createdAt', descending: true)
@@ -54,7 +54,7 @@ class PaginationViewModel extends ChangeNotifier {
       } else {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: countryCode)
+            .where('location.countryCode', isEqualTo: countryCode ?? 'DO')
             .where('isRiddle', isEqualTo: true)
             .where('category', isEqualTo: category == 'all' ? null : category)
             .orderBy('createdAt', descending: true)

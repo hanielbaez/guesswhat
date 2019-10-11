@@ -5,18 +5,15 @@ import 'package:geocoder/geocoder.dart' as geoCoder;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart';
 
-//Self import
-import 'package:Tekel/core/model/userLocation.dart';
-
 class LocationServices {
   // final Geoflutterfire _geo = Geoflutterfire();
   final Location _location = Location();
   // Continuously emit location updates
-  StreamController<UserLocation> _locationController =
+  /* StreamController<UserLocation> _locationController =
       StreamController<UserLocation>.broadcast();
-
+ */
   LocationServices() {
-    _location.requestPermission().then((granted) {
+    /* _location.requestPermission().then((granted) {
       if (granted) {
         _location.onLocationChanged().listen((locationData) {
           if (locationData != null) {
@@ -38,10 +35,10 @@ class LocationServices {
           }
         });
       }
-    });
+    }); */
   }
 
-  Stream<UserLocation> get locationStream => _locationController.stream;
+  //Stream<UserLocation> get locationStream => _locationController.stream;
 
   ///Return the LocatioData by the phone
   Future<LocationData> getCurrentLocation() async {
