@@ -32,7 +32,8 @@ class ImageCreatePage extends StatelessWidget {
           leading: IconButton(
             //Costum Back Button
             icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
-            onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, 'homePage'),
           ),
           centerTitle: true,
           elevation: 0.0,
@@ -80,7 +81,7 @@ class ImageCreatePage extends StatelessWidget {
                         ),
                       ),
                       keyboardType: TextInputType.text,
-                      maxLength: 10,
+                      maxLength: 12,
                       validators: [
                         (val) {
                           RegExp regex = RegExp(r'^[0-9a-zA-Z ]+$');

@@ -61,6 +61,6 @@ class RiddleCreateViewModel extends ChangeNotifier {
     await Provider.of<DatabaseServices>(context)
         .uploadRiddle(riddle: riddle, location: location);
 
-    Navigator.pushReplacementNamed(context, '/');
+    Navigator.pushReplacementNamed(context, 'homePage');
   }
 }

@@ -29,7 +29,8 @@ class _TextCreatePageState extends State<TextCreatePage> {
           title: Text(AppLocalizations.of(context).tr('textCreatePage.title')),
           leading: IconButton(
             icon: Icon(SimpleLineIcons.getIconData('arrow-left')),
-            onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, 'homePage'),
           ),
           centerTitle: true,
           elevation: 0.0,
@@ -101,7 +102,7 @@ class _TextCreatePageState extends State<TextCreatePage> {
                           ),
                         ),
                         keyboardType: TextInputType.text,
-                        maxLength: 10,
+                        maxLength: 12,
                         validators: [
                           (val) {
                             RegExp regex = RegExp(r'^[0-9a-zA-Z ]+$');
@@ -171,7 +172,7 @@ class _TextCreatePageState extends State<TextCreatePage> {
                             .toList(),
                       ),
                       SizedBox(
-                        height: 15.0,
+                        height: 25.0,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -228,7 +229,7 @@ class _TextCreatePageState extends State<TextCreatePage> {
                                       },
                                     );
                                     Navigator.pushReplacementNamed(
-                                        context, '/');
+                                        context, 'homePage');
                                   }
                                 },
                               ),
