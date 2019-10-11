@@ -46,32 +46,23 @@ class NotificationPage extends StatelessWidget {
 
                   switch (documents[index]['type']) {
                     case 'solved':
-                      message = AppLocalizations.of(context).tr(
-                          "notificationPage.solveAction",
-                          args: ['${notification.displayName}']);
+                      message = AppLocalizations.of(context)
+                          .tr("notificationPage.solveAction");
                       break;
                     case 'love':
                       message = AppLocalizations.of(context).tr(
-                          "notificationPage.loveAction",
-                          args: ['${notification.displayName}']);
+                        "notificationPage.loveAction",
+                      );
                       break;
                     case 'comment':
                       message = AppLocalizations.of(context).tr(
-                          "notificationPage.commentAction",
-                          args: ['${notification.displayName}']);
+                        "notificationPage.commentAction",
+                      );
                       break;
                   }
 
-                  return ListTile(
-                    leading: notification.icon,
-                    title: GestureDetector(
-                      onTap: () {
-                        //TODO: Navigate to the user page
-                      },
-                      child: Text(message),
-                    ),
-                    subtitle: Text('${notification.timeAgo}'),
-                  );
+                  return CustomListTile(
+                      notification: notification, message: message);
                 },
               );
             }
@@ -79,6 +70,43 @@ class NotificationPage extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class CustomListTile extends StatelessWidget {
+  const CustomListTile({
+    Key key,
+    @required this.notification,
+    @required this.message,
+  }) : super(key: key);
+
+  final NotificationModel notification;
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: notification.icon,
+      title: RichText(
+        text: TextSpan(
+          style: TextStyle(
+            fontSize: 14.0,
+            color: Colors.black,
+            fontFamily: 'NanumGothic',
+          ),
+          children: <TextSpan>[
+            TextSpan(
+              text: '${notification.displayName}',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(
+              text: message,
+            ),
+          ],
+        ),
+      ),
+      subtitle: Text('${notification.timeAgo}'),
     );
   }
 }
