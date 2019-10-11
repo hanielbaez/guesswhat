@@ -114,8 +114,8 @@ class SingInLayout extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.popUntil(context, (route) {
-                  if (route.settings.name != '/') {
-                    Navigator.popAndPushNamed(context, '/');
+                  if (route.settings.name != 'homePage') {
+                    Navigator.popAndPushNamed(context, 'homePage');
                     return true;
                   }
                   return true;
