@@ -46,7 +46,7 @@ class CustomLetter extends StatelessWidget {
                 item.letter,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 25,
+                  fontSize: 30,
                 ),
               ),
             ),
