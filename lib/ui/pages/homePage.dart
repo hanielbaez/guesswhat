@@ -163,8 +163,8 @@ class _HomePageState extends State<HomePage> {
             child: ConfettiWidget(
               confettiController: controllerTopCenter,
               blastDirection: pi / 2,
-              maxBlastForce: 10,
-              minBlastForce: 5,
+              maxBlastForce: 25,
+              minBlastForce: 15,
               emissionFrequency: 0.05,
               numberOfParticles: 10,
             ),
