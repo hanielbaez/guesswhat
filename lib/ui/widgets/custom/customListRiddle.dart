@@ -17,6 +17,7 @@ class CustomListRiddle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
+    var riddlesLength = model.riddlesList.length ?? 0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -28,11 +29,11 @@ class CustomListRiddle extends StatelessWidget {
             key: Key(model.category),
             loop: false,
             onIndexChanged: (value) {
-              if (value == model.riddlesList.length - 1) {
+              if (value == riddlesLength - 1) {
                 model.getRiddles();
               }
             },
-            itemCount: model.riddlesList.length,
+            itemCount: riddlesLength,
             control: controlButtons,
             curve: Curves.elasticOut,
             itemBuilder: (context, index) =>
