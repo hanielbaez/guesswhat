@@ -75,7 +75,7 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
           ActionBar(riddle: widget.riddle),
           if (widget.riddle.description.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: CustomDescription(text: '${widget.riddle.description}'),
