@@ -89,6 +89,7 @@ class DatabaseServices {
           .collection('riddles')
           .where('user.uid', isEqualTo: userId)
           .orderBy('createdAt', descending: true)
+          .limit(20)
           .getDocuments();
       snap.documents.forEach(
         (document) {
@@ -183,22 +184,24 @@ class DatabaseServices {
       String thumbnailUrl,
       String text}) async {
     try {
-      _db
-          .collection('riddles')
-          .document(riddleId)
-          .collection('solvedBy')
-          .document(currentUser.uid)
-          .setData(
-        {
-          'riddleId': riddleId,
-          'userId': currentUser.uid,
-          'displayName': currentUser.displayName,
-          'ownerId': ownerId,
-          'thumbnailUrl': thumbnailUrl,
-          'text': text,
-          'createdAt': Timestamp.now(),
-        },
-      );
+      if (currentUser?.uid != null) {
+        _db
+            .collection('riddles')
+            .document(riddleId)
+            .collection('solvedBy')
+            .document(currentUser.uid)
+            .setData(
+          {
+            'riddleId': riddleId,
+            'userId': currentUser.uid,
+            'displayName': currentUser.displayName,
+            'ownerId': ownerId,
+            'thumbnailUrl': thumbnailUrl,
+            'text': text,
+            'createdAt': Timestamp.now(),
+          },
+        );
+      }
     } catch (e) {
       print('setSolvedBy: $e');
       return null;
@@ -253,7 +256,8 @@ class DatabaseServices {
     try {
       var documents = await _db
           .collectionGroup('solvedBy')
-          .where('u', isEqualTo: userId ?? currentUser.uid)
+          .where('userId', isEqualTo: userId ?? currentUser.uid)
+          .limit(20)
           .getDocuments();
       return documents.documents.toList();
     } catch (e) {
@@ -283,7 +287,7 @@ class DatabaseServices {
     }
   }
 
-  ///Return a List of theloveRiddle by user
+  ///Return a List of the loveRiddle by user
   Future<List> loveRiddle() async {
     try {
       var documents = await _db
@@ -291,6 +295,7 @@ class DatabaseServices {
           .where('userId', isEqualTo: currentUser.uid)
           .where('state', isEqualTo: true)
           .orderBy('updateDate', descending: true)
+          .limit(30)
           .getDocuments();
 
       return documents.documents.isNotEmpty
@@ -305,17 +310,20 @@ class DatabaseServices {
   ///Return a Love obj
   Stream<Love> loveStream({String riddleId}) {
     try {
-      return _db
-          .collection('riddles')
-          .document(riddleId)
-          .collection('lovedBy')
-          .document(currentUser.uid)
-          .snapshots()
-          .map(
-        (doc) {
-          return Love.fromFireStore(doc.data);
-        },
-      );
+      if (currentUser?.uid != null) {
+        return _db
+            .collection('riddles')
+            .document(riddleId)
+            .collection('lovedBy')
+            .document(currentUser.uid)
+            .snapshots()
+            .map(
+          (doc) {
+            return Love.fromFireStore(doc.data);
+          },
+        );
+      }
+      return null;
     } catch (e) {
       print('loveStream: $e');
       return null;
@@ -361,15 +369,18 @@ class DatabaseServices {
   ///Return QuerySnapshot if there are notifications that the user has not seen
   Stream<QuerySnapshot> listenNotification() {
     try {
-      return _db
-          .collection('users')
-          .document(currentUser.uid)
-          .collection('notifications')
-          .where('viewed', isEqualTo: false)
-          .limit(1)
-          .snapshots();
+      if (currentUser?.uid != null) {
+        return _db
+            .collection('users')
+            .document(currentUser.uid)
+            .collection('notifications')
+            .where('viewed', isEqualTo: false)
+            .limit(10)
+            .snapshots();
+      }
+      return null;
     } catch (e) {
-      print('listenNotification erro: $e');
+      print('listenNotification error: $e');
       return null;
     }
   }
