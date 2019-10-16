@@ -35,78 +35,6 @@ class LettersViewModel extends ChangeNotifier {
     getTargetList();
   }
 
-  ///Add randoms characteres(LETTERS AND NUMBERS) to the supply secret word
-  String randomCharacters() {
-    String _word = _riddle.answer.toUpperCase();
-
-    final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    final String _numbers = '0123456789';
-    String _newCharacter = '';
-    final _random = Random();
-
-    if (_word.contains(RegExp(r'[A-Z]'))) {
-      _newCharacter = _abc;
-    } else if (_word.contains(RegExp(r'[0-9]'))) {
-      _newCharacter = _numbers;
-    }
-
-    // Add ulti 14 characters
-    while (_word.length < 12) {
-      _word += _newCharacter[_random.nextInt(_newCharacter.length)];
-    }
-
-    //Sort the string
-    List<String> _list = _word.split('');
-    _list.sort();
-    _word = _list.join();
-    return _word;
-  }
-
-  ///Generate a list of character for the source (SidedKick)
-  generateItemList() {
-    if (sourceList.isEmpty) {
-      generateTargetHit();
-      String _word = randomCharacters();
-
-      List<Item> _list;
-      _list = List.generate(
-        _word.length,
-        (i) {
-          return Item(
-            id: i,
-            letter: _word[i],
-            isSource: true,
-          );
-        },
-      );
-      sourceList.addAll(_list);
-      Future.delayed(Duration.zero, () => notifyListeners());
-    }
-  }
-
-  ///Generate the Target Hit List
-  generateTargetHit() {
-    List.generate(
-      _riddle.answer.length,
-      (index) => {
-        targetHitList.add(
-          Item(id: index, letter: _riddle.answer[index]),
-        )
-      },
-    );
-  }
-
-  String getWord(List<Item> items) {
-    //From a list of characters get a word
-    String _word = '';
-    items.forEach(
-      (item) {
-        _word += item.letter;
-      },
-    );
-    return _word;
-  }
-
   ///Get a list for the target, only if the user has previously solved it.
   getTargetList() async {
     var _response;
@@ -139,6 +67,98 @@ class LettersViewModel extends ChangeNotifier {
     } else {
       generateItemList();
     }
+  }
+
+  ///Generate a list of character for the source (SidedKick)
+  generateItemList() {
+    if (sourceList.isEmpty) {
+      generateTargetHit();
+      String _word = randomCharacters();
+      bool _isFirst = true;
+
+      List<Item> _list;
+      _list = List.generate(
+        _word.length,
+        (index) {
+          var _isSource = true;
+          if (_riddle.answer.length > 4 &&
+              _word[index] == _riddle.answer[0].toUpperCase() &&
+              _isFirst) {
+            _isSource = false;
+            _isFirst = false;
+          }
+
+          return Item(
+            id: index,
+            letter: _word[index],
+            isSource: _isSource,
+          );
+        },
+      );
+      sourceList.addAll(_list);
+      Future.delayed(Duration.zero, () => notifyListeners());
+    }
+  }
+
+  ///Generate the Target Hit List
+  generateTargetHit() {
+    List.generate(
+      _riddle.answer.length,
+      (index) => {
+        targetHitList.add(
+          Item(
+            id: index,
+            letter: _riddle.answer[index].toUpperCase(),
+          ),
+        )
+      },
+    );
+    //Show the first letter of the answer
+    if (_riddle.answer.length > 4)
+      selectedItems.add(
+        Item(
+          id: 0,
+          letter: _riddle.answer[0].toUpperCase(),
+        ),
+      );
+  }
+
+  ///Add randoms characteres(LETTERS AND NUMBERS) to the supply secret word
+  String randomCharacters() {
+    String _word = _riddle.answer.toUpperCase();
+
+    final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    final String _numbers = '0123456789';
+    String _newCharacter = '';
+    final _random = Random();
+
+    if (_word.contains(RegExp(r'[A-Z]'))) {
+      _newCharacter = _abc;
+    } else if (_word.contains(RegExp(r'[0-9]'))) {
+      _newCharacter = _numbers;
+    }
+
+    // Add ulti 14 characters
+    while (_word.length < 12) {
+      _word += _newCharacter[_random.nextInt(_newCharacter.length)];
+    }
+
+    //Sort the string
+    List<String> _list = _word.split('');
+    _list.sort();
+    _word = _list.join();
+    return _word;
+  }
+
+  String getWord(List<Item> items) {
+    //From a list of characters get a word
+    String _word = '';
+    items.forEach(
+      (item) {
+        _word += item.letter;
+      },
+    );
+    return _word;
   }
 
   ///Return a color for the target list depending of the target list state

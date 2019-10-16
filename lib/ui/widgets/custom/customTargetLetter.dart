@@ -66,9 +66,14 @@ class _TargetLetterState extends State<TargetLetter>
 
             return InkWell(
               onTap: () {
+                bool isNoFirstLetter = widget.model.targetHitList.length <= 4
+                    ? true
+                    : item.id != 0;
+
                 if (widget.model.selectedItems.isNotEmpty &&
                     _isSelected &&
-                    !widget.model.correctAnswer) {
+                    !widget.model.correctAnswer &&
+                    isNoFirstLetter) {
                   widget.model.deleteLetter(
                       sourceItemId: widget.model.selectedItems[item.id].id,
                       targetItemId: item.id);
