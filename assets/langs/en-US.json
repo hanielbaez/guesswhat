@@ -119,5 +119,10 @@
         "noComments": "Be the first to comment",
         "hintText": "Enter your comment",
         "errorText": "Your comment cannot be empty"
+    },
+    "hints": {
+        "title": "Hints",
+        "askFriend": "Ask a friend",
+        "showLastCharacter": "Show last character"
     }
 }

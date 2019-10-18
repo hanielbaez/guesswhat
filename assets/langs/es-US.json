@@ -119,5 +119,10 @@
         "noComments": "Se el primero en comentar",
         "hintText": "Introduce tu comentario",
         "errorText": "Tu comentario no puede estar vacío"
+    },
+    "hints": {
+        "title": "Pistas",
+        "askFriend": "Pregúntale a tu amigo",
+        "showLastCharacter": "Mostrar ultimo caracter"
     }
 }
