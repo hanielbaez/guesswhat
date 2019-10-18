@@ -60,7 +60,7 @@ class _VideoLayaoutState extends State<VideoLayaout>
             case ConnectionState.active:
             case ConnectionState.waiting:
             case ConnectionState.done:
-              if (snapshot.hasError) return Text('Error: try later, please');
+              if (snapshot.hasError) return Text('Network connection error please try again later');
               return widget.model.widget;
           }
           return Text('Unreachable.');
