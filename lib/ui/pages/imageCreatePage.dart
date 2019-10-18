@@ -81,7 +81,7 @@ class ImageCreatePage extends StatelessWidget {
                         ),
                       ),
                       keyboardType: TextInputType.text,
-                      maxLength: 12,
+                      maxLength: 6,
                       validators: [
                         (val) {
                           RegExp regex = RegExp(r'^[0-9a-zA-Z ]+$');
