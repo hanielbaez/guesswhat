@@ -31,7 +31,7 @@ class ActionBar extends StatelessWidget {
               icon: loveState
                   ? Icon(
                       Icons.favorite,
-                      color: Colors.yellow,
+                      color: Colors.yellow[700],
                     )
                   : Icon(
                       SimpleLineIcons.getIconData('heart'),
