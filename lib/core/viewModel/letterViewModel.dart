@@ -59,6 +59,7 @@ class LettersViewModel extends ChangeNotifier {
           );
         },
       );
+
       targetHitList.addAll(_list);
       selectedItems = targetHitList;
 
@@ -95,6 +96,15 @@ class LettersViewModel extends ChangeNotifier {
           );
         },
       );
+
+      _list.add(
+        Item(
+          id: 10,
+          letter: '?',
+          isSource: true,
+        ),
+      );
+
       sourceList.addAll(_list);
       Future.delayed(Duration.zero, () => notifyListeners());
     }
@@ -139,7 +149,7 @@ class LettersViewModel extends ChangeNotifier {
     }
 
     // Add ulti 14 characters
-    while (_word.length < 12) {
+    while (_word.length < 8) {
       _word += _newCharacter[_random.nextInt(_newCharacter.length)];
     }
 
