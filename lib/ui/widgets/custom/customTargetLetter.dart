@@ -5,6 +5,7 @@ import 'package:vector_math/vector_math_64.dart' as v;
 
 //Selt import
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
+import 'package:vibration/vibration.dart';
 
 class TargetLetter extends StatefulWidget {
   final LettersViewModel model;
@@ -39,10 +40,19 @@ class _TargetLetterState extends State<TargetLetter>
     return v.Vector3(offset * 4, 0.0, 0.0);
   }
 
+  void vibrateDevice() async {
+    if (widget.model.wrongAnswer) {
+      if (await Vibration.hasVibrator()) {
+        Vibration.vibrate(duration: 250);
+      }
+    }
+  }
+
   Widget build(BuildContext context) {
     if (widget.model.wrongAnswer) {
       if (!_shakeController.isAnimating) {
         _shakeController.forward();
+        vibrateDevice();
       }
     }
     _shakeAnimation = Tween<double>(
