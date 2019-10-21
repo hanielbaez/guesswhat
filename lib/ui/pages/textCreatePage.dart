@@ -102,7 +102,7 @@ class _TextCreatePageState extends State<TextCreatePage> {
                           ),
                         ),
                         keyboardType: TextInputType.text,
-                        maxLength: 7,
+                        maxLength: 8,
                         validators: [
                           (val) {
                             RegExp regex = RegExp(r'^[0-9a-zA-Z ]+$');
