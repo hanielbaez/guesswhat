@@ -46,13 +46,13 @@ class RiddleTopSolversPage extends StatelessWidget {
                   var _trophyColor = Colors.transparent;
                   switch (index) {
                     case 0:
-                      _trophyColor = Colors.yellow[600];
+                      _trophyColor = Color.fromARGB(255, 212, 175, 55);
                       break;
                     case 1:
-                      _trophyColor = Colors.black45;
+                      _trophyColor = Color.fromARGB(255, 138, 149, 151);
                       break;
                     case 2:
-                      _trophyColor = Colors.brown;
+                      _trophyColor = Color.fromARGB(255, 176, 141, 87);
                       break;
                   }
 
@@ -76,15 +76,18 @@ class RiddleTopSolversPage extends StatelessWidget {
                           style: TextStyle(fontSize: 40.0),
                           textAlign: TextAlign.center,
                         ),
-                        title: Text('${documents[index].user.displayName}',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        trailing: index < 2
+                        title: Text(
+                          '${documents[index].user.displayName}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.clip,
+                        ),
+                        trailing: index < 3
                             ? Icon(
                                 SimpleLineIcons.getIconData('trophy'),
                                 color: _trophyColor,
                                 size: 40.0,
                               )
-                            : Container(),
+                            : SizedBox(),
                         subtitle: Text(documents[index]
                             .createdAt
                             .toDate()
