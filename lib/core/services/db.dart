@@ -388,12 +388,15 @@ class DatabaseServices {
   ///Return a Stream of querySnapshot off notification orde by createdAt
   Stream<QuerySnapshot> streamNotification() {
     try {
-      return _db
-          .collection('users')
-          .document(currentUser.uid)
-          .collection('notifications')
-          .orderBy('createdAt', descending: true)
-          .snapshots();
+      if (currentUser != null) {
+        return _db
+            .collection('users')
+            .document(currentUser?.uid)
+            .collection('notifications')
+            .orderBy('createdAt', descending: true)
+            .snapshots();
+      }
+      return null;
     } catch (e) {
       print('streamNotification error: $e');
       return null;
@@ -402,19 +405,21 @@ class DatabaseServices {
 
   ///Switch the value of viewd to TRUE
   void switchViewed() async {
-    WriteBatch batch = _db.batch();
+    if (currentUser?.uid != null) {
+      WriteBatch batch = _db.batch();
 
-    QuerySnapshot ref = await _db
-        .collection('users')
-        .document(currentUser.uid)
-        .collection('notifications')
-        .where('viewed', isEqualTo: false)
-        .getDocuments();
+      QuerySnapshot ref = await _db
+          .collection('users')
+          .document(currentUser.uid)
+          .collection('notifications')
+          .where('viewed', isEqualTo: false)
+          .getDocuments();
 
-    ref.documents.forEach((doc) {
-      batch.updateData(doc.reference, {'viewed': true});
-    });
+      ref.documents.forEach((doc) {
+        batch.updateData(doc.reference, {'viewed': true});
+      });
 
-    batch.commit();
+      batch.commit();
+    }
   }
 }
