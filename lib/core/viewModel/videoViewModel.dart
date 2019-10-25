@@ -1,7 +1,8 @@
 //Fluter and Dart mport
-import 'package:flutter/material.dart';
+import 'dart:math';
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:video_player/video_player.dart';
@@ -109,16 +110,23 @@ class VideoViewModel extends ChangeNotifier {
   }
 
   buildText() {
-    widget = Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: AutoSizeText(
-          '${riddle.text}',
-          style: TextStyle(fontSize: 45),
-          textAlign: TextAlign.center,
-          minFontSize: 10,
-          maxLines: 10,
-          overflow: TextOverflow.ellipsis,
+    Random random = Random();
+    int r = random.nextInt(255);
+    int g = random.nextInt(255);
+    int b = random.nextInt(255);
+    widget = Container(
+      color: Color.fromARGB(100, r, g, b),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(
+            '${riddle.text}',
+            style: TextStyle(fontSize: 45),
+            textAlign: TextAlign.center,
+            minFontSize: 10,
+            maxLines: 10,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ),
     );
