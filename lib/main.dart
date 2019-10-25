@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 //Self import
 import 'package:Tekel/ui/pages/loadingPage.dart';
@@ -12,6 +13,10 @@ import 'package:Tekel/core/custom/customMobileOrientation.dart';
 import './router.dart' as router;
 
 void main() {
+  Crashlytics.instance.enableInDevMode = true;
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
   setPortraitOrientation();
   return runApp(EasyLocalization(child: MyApp()));
 }
