@@ -1,12 +1,11 @@
 //Flutter and Dart import
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization_provider.dart';
-import 'package:mime/mime.dart';
 
 //Self import
 import 'package:Tekel/core/viewModel/letterViewModel.dart';
-import 'package:Tekel/core/custom/customCacheManager.dart';
 import 'package:Tekel/core/model/riddle.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:share_extend/share_extend.dart';
 
 class Item {
@@ -24,8 +23,9 @@ class CustomLetter extends StatelessWidget {
   final Item item;
   final LettersViewModel model;
   final Riddle riddle;
+  final ScreenshotController screenShot;
 
-  CustomLetter({this.item, this.model, this.riddle});
+  CustomLetter({this.item, this.model, this.riddle, this.screenShot});
 
   void onTapAction(context) async {
     if (item.letter != '?') {
@@ -36,13 +36,12 @@ class CustomLetter extends StatelessWidget {
       }
     } else {
       if (riddle != null) {
-        var url = riddle.imageUrl ?? riddle.videoUrl;
-        if (url != null) {
-          var f = await CustomCacheManager().getSingleFile('$url');
-          var mimeType = lookupMimeType(f.path.split('/').first);
-          ShareExtend.share(f.path, mimeType);
-        } else {
-          ShareExtend.share(riddle.text, 'text');
+        try {
+          var imageFile =
+              await screenShot.capture(delay: Duration(milliseconds: 40));
+          ShareExtend.share(imageFile.path, 'image');
+        } catch (e) {
+          print('Screenshot error: $e');
         }
       }
     }

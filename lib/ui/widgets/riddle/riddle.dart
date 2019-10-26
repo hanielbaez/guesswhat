@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 
 //Self import
 import 'package:Tekel/core/services/auth.dart';
@@ -26,6 +27,8 @@ class RiddleLayaout extends StatefulWidget {
 
 class _RiddleLayaoutState extends State<RiddleLayaout> {
   final changeNotifier = StreamController.broadcast();
+  //Create an instance of ScreenshotController
+  ScreenshotController screenshotController = ScreenshotController();
 
   @override
   void dispose() {
@@ -35,56 +38,62 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: BeveledRectangleBorder(
-        borderRadius: BorderRadius.zero,
-      ),
-      child: ListView(
-        children: <Widget>[
-          UserBar(
-            user: User.fromMap(widget.riddle.user),
-            timeStamp: widget.riddle.createdAt,
-            address: widget.riddle.address,
-            riddle: widget.riddle,
-          ),
-          ChangeNotifierProvider<VideoViewModel>.value(
-            value: VideoViewModel(riddle: widget.riddle),
-            child: Consumer<VideoViewModel>(
-              builder: (context, model, child) {
-                return VideoLayaout(
-                  riddle: widget.riddle,
-                  model: model,
-                  shouldTriggerChange: changeNotifier.stream,
-                  confettiController: Provider.of<ConfettiController>(context),
-                );
-              },
+    return Screenshot(
+      controller: screenshotController,
+      child: Card(
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
+        child: ListView(
+          children: <Widget>[
+            UserBar(
+              user: User.fromMap(widget.riddle.user),
+              timeStamp: widget.riddle.createdAt,
+              address: widget.riddle.address,
+              riddle: widget.riddle,
             ),
-          ),
-          if (widget.riddle.answer.isNotEmpty)
-            ChangeNotifierProvider<LettersViewModel>.value(
-              value: LettersViewModel(
-                  riddle: widget.riddle,
-                  db: Provider.of(context),
-                  user: Provider.of<AuthenticationServices>(context).profile,
-                  changeNotifier: changeNotifier),
-              child: CustomSidekick(),
-            ),
-          SizedBox(
-            height: 5.0,
-          ),
-          ActionBar(riddle: widget.riddle),
-          if (widget.riddle.description.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: CustomDescription(text: '${widget.riddle.description}'),
+            ChangeNotifierProvider<VideoViewModel>.value(
+              value: VideoViewModel(riddle: widget.riddle),
+              child: Consumer<VideoViewModel>(
+                builder: (context, model, child) {
+                  return VideoLayaout(
+                    riddle: widget.riddle,
+                    model: model,
+                    shouldTriggerChange: changeNotifier.stream,
+                    confettiController:
+                        Provider.of<ConfettiController>(context),
+                  );
+                },
               ),
             ),
-          SizedBox(
-            height: 15.0,
-          ),
-        ],
+            if (widget.riddle.answer.isNotEmpty)
+              ChangeNotifierProvider<LettersViewModel>.value(
+                value: LettersViewModel(
+                    riddle: widget.riddle,
+                    db: Provider.of(context),
+                    user: Provider.of<AuthenticationServices>(context).profile,
+                    changeNotifier: changeNotifier),
+                child: CustomSidekick(
+                    riddle: widget.riddle, screenShot: screenshotController),
+              ),
+            SizedBox(
+              height: 5.0,
+            ),
+            ActionBar(riddle: widget.riddle),
+            if (widget.riddle.description.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child:
+                      CustomDescription(text: '${widget.riddle.description}'),
+                ),
+              ),
+            SizedBox(
+              height: 15.0,
+            ),
+          ],
+        ),
       ),
     );
   }
