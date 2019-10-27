@@ -1,14 +1,15 @@
 //Flutter and Dart import
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/easy_localization_provider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/simple_line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 //Self import
 import 'package:Tekel/core/model/notification.dart';
 import 'package:Tekel/core/services/db.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotificationPage extends StatelessWidget {
   @override
@@ -91,18 +92,44 @@ class CustomListTile extends StatelessWidget {
       title: RichText(
         text: TextSpan(
           style: TextStyle(
-            fontSize: 14.0,
+            fontSize: 17.5,
             color: Colors.black,
             fontFamily: 'NanumGothic',
           ),
           children: <TextSpan>[
             TextSpan(
-              text: '${notification.displayName}',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+                text: '${notification.displayName}',
+                style: TextStyle(fontWeight: FontWeight.bold),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    var targetUser =
+                        await Provider.of<DatabaseServices>(context)
+                            .getUser(uid: notification.userId);
+                    if (targetUser != null)
+                      return await Navigator.of(context).pushNamed(
+                        'userPage',
+                        arguments: targetUser,
+                      );
+                    return null;
+                  }),
             TextSpan(
               text: message,
             ),
+            TextSpan(
+                text: ' acertijo',
+                style: TextStyle(fontWeight: FontWeight.bold),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    var targetRiddle =
+                        await Provider.of<DatabaseServices>(context)
+                            .getRiddle(riddleId: notification.riddleId);
+                    if (targetRiddle != null)
+                      return Navigator.of(context).pushNamed(
+                        'riddlePage',
+                        arguments: targetRiddle,
+                      );
+                    return null;
+                  }),
           ],
         ),
       ),
