@@ -20,48 +20,39 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   Object argument = settings.arguments;
   switch (settings.name) {
     case 'homePage':
-      return PageTransition(
-          child: HomePage(), type: PageTransitionType.rightToLeftWithFade);
+      return PageTransition(child: HomePage(), type: PageTransitionType.fade);
     case 'lovePage':
-      return PageTransition(
-          child: LovePage(), type: PageTransitionType.leftToRightWithFade);
+      return PageTransition(child: LovePage(), type: PageTransitionType.fade);
     case 'riddlePage':
       return PageTransition(
-          child: RiddlePage(argument),
-          type: PageTransitionType.leftToRightWithFade);
+          child: RiddlePage(argument), type: PageTransitionType.fade);
     case 'userPage':
       return PageTransition(
-          child: UserPage(user: argument),
-          type: PageTransitionType.leftToRightWithFade);
+          child: UserPage(user: argument), type: PageTransitionType.fade);
     case 'supportPage':
       return PageTransition(
-          child: SupportPage(user: argument),
-          type: PageTransitionType.leftToRightWithFade);
+          child: SupportPage(user: argument), type: PageTransitionType.fade);
     case 'commentsPage':
       return PageTransition(
-          child: CommentPage(riddle: argument),
-          type: PageTransitionType.downToUp);
+          child: CommentPage(riddle: argument), type: PageTransitionType.fade);
     case 'editUserPage':
       return PageTransition(
-          child: EditUserPage(user: argument),
-          type: PageTransitionType.leftToRightWithFade);
+          child: EditUserPage(user: argument), type: PageTransitionType.fade);
     case 'solvedByPage':
       return PageTransition(
-          child: SolvedByPage(user: argument),
-          type: PageTransitionType.leftToRightWithFade);
+          child: SolvedByPage(user: argument), type: PageTransitionType.fade);
     case 'notificationsPage':
       return PageTransition(
-          child: NotificationPage(), type: PageTransitionType.upToDown);
+          child: NotificationPage(), type: PageTransitionType.fade);
     case 'createTextRiddle':
       return PageTransition(
-          child: TextCreatePage(),
-          type: PageTransitionType.leftToRightWithFade);
+          child: TextCreatePage(), type: PageTransitionType.fade);
     case 'topSolversPage':
       return PageTransition(
           child: RiddleTopSolversPage(
             riddleId: argument,
           ),
-          type: PageTransitionType.leftToRightWithFade);
+          type: PageTransitionType.fade);
     default:
       return MaterialPageRoute(
         builder: (context) => UnknownPage(),
