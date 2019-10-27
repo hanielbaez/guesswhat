@@ -6,7 +6,7 @@ import 'package:time_ago_provider/time_ago_provider.dart';
 class NotificationModel {
   final String userId;
   final String displayName;
-  final String actionId;
+  final String riddleId;
   final Icon icon;
   final bool viewed;
   final String type;
@@ -15,7 +15,7 @@ class NotificationModel {
   NotificationModel(
       {@required this.userId,
       @required this.displayName,
-      @required this.actionId,
+      @required this.riddleId,
       @required this.icon,
       @required this.type,
       @required this.viewed,
@@ -42,7 +42,7 @@ class NotificationModel {
     return NotificationModel(
       userId: map['userId'],
       displayName: map['displayName'],
-      actionId: map['actionId'],
+      riddleId: map['riddleId'],
       icon: icon,
       type: map['type'],
       viewed: map['viewed'],
