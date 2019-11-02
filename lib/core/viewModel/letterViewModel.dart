@@ -55,7 +55,7 @@ class LettersViewModel extends ChangeNotifier {
           return Item(
             id: i,
             letter: _riddle.answer[i].toUpperCase(),
-            isSource: false,
+            isSource: true,
           );
         },
       );
@@ -70,7 +70,7 @@ class LettersViewModel extends ChangeNotifier {
     }
   }
 
-  ///Generate a list of character for the source (SidedKick)
+  ///Generate a list of character for the source
   generateItemList() {
     if (sourceList.isEmpty) {
       generateTargetHit();
@@ -97,13 +97,18 @@ class LettersViewModel extends ChangeNotifier {
         },
       );
 
-      _list.add(
+      _list.addAll([
         Item(
           id: 10,
-          letter: '?',
+          letter: 'share',
           isSource: true,
         ),
-      );
+        Item(
+          id: 11,
+          letter: 'trash',
+          isSource: true,
+        ),
+      ]);
 
       sourceList.addAll(_list);
       Future.delayed(Duration.zero, () => notifyListeners());
@@ -113,12 +118,13 @@ class LettersViewModel extends ChangeNotifier {
   ///Generate the Target Hit List
   generateTargetHit() {
     List.generate(
-      _riddle.answer.length,
+      _riddle.answer.trim().length,
       (index) => {
         targetHitList.add(
           Item(
             id: index,
             letter: _riddle.answer[index].toUpperCase(),
+            isSource: false
           ),
         )
       },
@@ -135,7 +141,7 @@ class LettersViewModel extends ChangeNotifier {
 
   ///Add randoms characteres(LETTERS AND NUMBERS) to the supply secret word
   String randomCharacters() {
-    String _word = _riddle.answer.toUpperCase();
+    String _word = _riddle.answer.toUpperCase().trim();
 
     final String _abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     final String _numbers = '0123456789';
@@ -188,7 +194,7 @@ class LettersViewModel extends ChangeNotifier {
     } else if (isSelected) {
       return Colors.white;
     } else {
-      return Colors.black.withOpacity(0.15);
+      return Colors.black.withOpacity(0.50);
     }
   }
 
@@ -203,7 +209,7 @@ class LettersViewModel extends ChangeNotifier {
       selectedItems.add(item);
       var _userAnswer = getWord(selectedItems);
 
-      if (_userAnswer == _riddle.answer.toUpperCase()) {
+      if (_userAnswer == _riddle.answer.trim().toUpperCase()) {
         if (_user != null)
           _db.setSolvedBy(
               riddleId: _riddle.id,
@@ -215,7 +221,7 @@ class LettersViewModel extends ChangeNotifier {
         player.play(successAudioPath);
         _changeNotifier.sink.add(true);
         notifyListeners();
-      } else if (_userAnswer.length >= _riddle.answer.length) {
+      } else if (_userAnswer.length >= _riddle.answer.trim().length) {
         player.play(wrongChoiceAudioPath);
 
         //Remove the last Item if it exceeds the limit
@@ -239,10 +245,20 @@ class LettersViewModel extends ChangeNotifier {
   void deleteLetter({int sourceItemId, int targetItemId}) {
     const tapAudioPath = 'audios/fingerTap.wav';
 
-    sourceList[sourceItemId].isSource = true;
-    selectedItems.removeAt(targetItemId);
+    if (sourceItemId == null) {
+      //Remove ussing the trash buttom
+      sourceList[selectedItems.last.id].isSource = true;
+      if (selectedItems.length > 1) {
+        selectedItems.removeLast();
+        player.play(tapAudioPath);
+      }
+    } else {
+      //Remove by tapping the one of the target letter
+      sourceList[sourceItemId].isSource = true;
+      selectedItems.removeAt(targetItemId);
+      player.play(tapAudioPath);
+    }
 
-    player.play(tapAudioPath);
     if (selectedItems.length < _riddle.answer.length) {
       wrongAnswer = false;
     }
