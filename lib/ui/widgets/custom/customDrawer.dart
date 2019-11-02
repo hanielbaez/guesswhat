@@ -185,7 +185,7 @@ class SingInLayout extends StatelessWidget {
             ),
             child: ListTile(
                 leading: Icon(
-                  SimpleLineIcons.getIconData('question'),
+                  SimpleLineIcons.getIconData('support'),
                 ),
                 title: Text(AppLocalizations.of(context).tr('drawer.support')),
                 onTap: () {
