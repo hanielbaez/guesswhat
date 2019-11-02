@@ -98,15 +98,15 @@ class _TargetLetterState extends State<TargetLetter>
                   color: widget.model.targetColor(_isSelected),
                   border: Border.all(
                       color: _isSelected
-                          ? widget.model.letterColor()
+                          ? Colors.black12
                           : Colors.white),
-                  boxShadow: [
+                 /*  boxShadow: [
                     BoxShadow(
                         color:
                             _isSelected ? Colors.black26 : Colors.transparent,
                         offset: Offset(5, 5),
                         blurRadius: 5.0),
-                  ],
+                  ], */
                 ),
                 child: Text(
                   _isSelected
@@ -114,7 +114,7 @@ class _TargetLetterState extends State<TargetLetter>
                       : '',
                   style: TextStyle(
                       color: widget.model.letterColor(),
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
             );
