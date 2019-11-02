@@ -45,7 +45,7 @@ class PaginationViewModel extends ChangeNotifier {
       if (lastDocument == null) {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: countryCode ?? 'DO')
+            .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
             .where('category', isEqualTo: category == 'all' ? null : category)
             .orderBy('createdAt', descending: true)
@@ -54,7 +54,7 @@ class PaginationViewModel extends ChangeNotifier {
       } else {
         querySnapshot = await firestore
             .collection('riddles')
-            .where('location.countryCode', isEqualTo: countryCode ?? 'DO')
+            .where('location.countryCode', isEqualTo: countryCode)
             .where('isRiddle', isEqualTo: true)
             .where('category', isEqualTo: category == 'all' ? null : category)
             .orderBy('createdAt', descending: true)
@@ -97,14 +97,14 @@ class PaginationViewModel extends ChangeNotifier {
     getRiddles();
   }
 
-  //Return the user countryCode, default EU
+  //Return the user countryCode, default US
   getCountryCode() async {
     var location = LocationServices();
     var locationMap = await location.getGeoPoint();
     if (locationMap != null) {
       countryCode = locationMap['location']['countryCode'];
     } else {
-      countryCode = 'EU';
+      countryCode = 'US';
     }
   }
 }
