@@ -121,7 +121,7 @@ class VideoViewModel extends ChangeNotifier {
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(
             '${riddle.text}',
-            style: TextStyle(fontSize: 45),
+            style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
             minFontSize: 10,
             maxLines: 10,
