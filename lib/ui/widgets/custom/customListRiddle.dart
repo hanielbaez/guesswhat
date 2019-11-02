@@ -93,6 +93,7 @@ class CustomCategory extends StatelessWidget {
                 AppLocalizations.of(context)
                     .tr('category.' + categoryList[index]),
                 style: TextStyle(
+                    fontSize: 17.0,
                     fontWeight:
                         isSelected ? FontWeight.bold : FontWeight.normal),
               ),
