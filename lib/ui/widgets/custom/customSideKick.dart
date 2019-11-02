@@ -25,8 +25,11 @@ class CustomSidekick extends StatelessWidget {
           _sourceWidget = Wrap(
             children: model.sourceList
                 .map(
-                  (item) =>
-                      CustomLetter(item: item, model: model, riddle: riddle, screenShot: screenShot),
+                  (item) => CustomLetter(
+                      item: item,
+                      model: model,
+                      riddle: riddle,
+                      screenShot: screenShot),
                 )
                 .toList(),
           );
@@ -37,8 +40,9 @@ class CustomSidekick extends StatelessWidget {
             TargetLetter(
               model: model,
             ),
-            SizedBox(
+            Divider(
               height: 5.0,
+              color: Colors.black45,
             ),
             _sourceWidget,
           ],
