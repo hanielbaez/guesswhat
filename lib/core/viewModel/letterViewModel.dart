@@ -122,10 +122,9 @@ class LettersViewModel extends ChangeNotifier {
       (index) => {
         targetHitList.add(
           Item(
-            id: index,
-            letter: _riddle.answer[index].toUpperCase(),
-            isSource: false
-          ),
+              id: index,
+              letter: _riddle.answer[index].toUpperCase(),
+              isSource: false),
         )
       },
     );
@@ -244,15 +243,16 @@ class LettersViewModel extends ChangeNotifier {
   ///If it is longer that the answer it get a red color
   void deleteLetter({int sourceItemId, int targetItemId}) {
     const tapAudioPath = 'audios/fingerTap.wav';
-
     if (sourceItemId == null) {
       //Remove ussing the trash buttom
-      sourceList[selectedItems.last.id].isSource = true;
-      if (selectedItems.length > 1) {
+      var hastHit = selectedItems.length == 1 && targetHitList.length > 4;
+
+      if (!hastHit && selectedItems.isNotEmpty) {
+        sourceList[selectedItems.last.id].isSource = true;
         selectedItems.removeLast();
         player.play(tapAudioPath);
       }
-    } else {
+    } else if (selectedItems.length != 1) {
       //Remove by tapping the one of the target letter
       sourceList[sourceItemId].isSource = true;
       selectedItems.removeAt(targetItemId);
