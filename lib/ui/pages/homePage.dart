@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
               maxBlastForce: 25,
               minBlastForce: 15,
               emissionFrequency: 0.05,
-              numberOfParticles: 10,
+              numberOfParticles: 5,
             ),
           ),
         ],
