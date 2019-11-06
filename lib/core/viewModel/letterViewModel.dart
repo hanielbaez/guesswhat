@@ -252,7 +252,7 @@ class LettersViewModel extends ChangeNotifier {
         selectedItems.removeLast();
         player.play(tapAudioPath);
       }
-    } else if (selectedItems.length != 1) {
+    } else if (selectedItems.length != 0) {
       //Remove by tapping the one of the target letter
       sourceList[sourceItemId].isSource = true;
       selectedItems.removeAt(targetItemId);
