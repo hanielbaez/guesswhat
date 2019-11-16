@@ -124,5 +124,8 @@
         "title": "Hints",
         "askFriend": "Ask a friend",
         "showLastCharacter": "Show last character"
+    },
+    "connectionStatusBar": {
+        "title": "Please check your internet connection"
     }
 }
