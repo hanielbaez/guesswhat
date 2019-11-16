@@ -40,10 +40,6 @@ class CustomSidekick extends StatelessWidget {
             TargetLetter(
               model: model,
             ),
-            Divider(
-              height: 5.0,
-              color: Colors.black45,
-            ),
             _sourceWidget,
           ],
         );
