@@ -14,7 +14,7 @@ saveDeviceToken() async {
   // Get the current user
   String uid = await _user.then(
     (value) {
-      return value.uid;
+      return value?.uid;
     },
   );
 
@@ -22,13 +22,13 @@ saveDeviceToken() async {
   String fcmToken = await _fcm.getToken();
 
   // Save it to Firestore
-  if (fcmToken != null) {
+  if (fcmToken != null && uid != null) {
+    //TODO: I need to make sure that this code, only run once per day.
     var tokens = _db
         .collection('users')
         .document(uid)
         .collection('tokens')
         .document(fcmToken);
-
     await tokens.setData({
       'token': fcmToken,
       'createdAt': FieldValue.serverTimestamp(), // optional
