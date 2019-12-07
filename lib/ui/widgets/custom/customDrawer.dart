@@ -303,7 +303,15 @@ class SingOutLayout extends StatelessWidget {
           onPressed: () async {
             var _response = await Provider.of<AuthenticationServices>(context)
                 .loginWithFacebook();
-            if (_response) {
+            /******* */
+            Navigator.pop(context);
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(_response.toString()),
+              ),
+            );
+
+            /* if (_response) {
               Navigator.pop(context);
               Scaffold.of(context).showSnackBar(
                 SnackBar(
@@ -319,7 +327,7 @@ class SingOutLayout extends StatelessWidget {
                       AppLocalizations.of(context).tr('drawer.errorMessage')),
                 ),
               );
-            }
+            } */
           },
         ),
         SizedBox(
@@ -331,7 +339,15 @@ class SingOutLayout extends StatelessWidget {
               .sigInWithGoogle()
               .then(
             (response) {
-              if (response) {
+              Navigator.pop(context);
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(response),
+                ),
+              );
+
+              //TODO: Look for a way to use localization.
+              /*    if (response) {
                 Navigator.pop(context);
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
@@ -347,7 +363,7 @@ class SingOutLayout extends StatelessWidget {
                         AppLocalizations.of(context).tr('drawer.errorMessage')),
                   ),
                 );
-              }
+              } */
             },
           ),
         ),

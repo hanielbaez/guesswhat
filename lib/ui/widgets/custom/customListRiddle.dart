@@ -89,13 +89,15 @@ class CustomCategory extends StatelessWidget {
                 color: bordeColor,
                 border: Border.all(color: Colors.black),
               ),
-              child: Text(
-                AppLocalizations.of(context)
-                    .tr('category.' + categoryList[index]),
-                style: TextStyle(
-                    fontSize: 17.0,
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)
+                      .tr('category.' + categoryList[index]),
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal),
+                ),
               ),
             ),
           );

@@ -51,6 +51,17 @@ class PaginationViewModel extends ChangeNotifier {
             .orderBy('createdAt', descending: true)
             .limit(documentLimit)
             .getDocuments();
+
+        /*  if (querySnapshot.documents.length <= documentLimit / 2 &&
+            category == 'all') {
+          //If there is not enought data(riddles) coming from this countryCode, use insted the default one to get more data.
+          //TODO: I have to make sure it would only run once
+          print(
+              'Pagination: There is not data for $countryCode, use default countryCode US');
+          isLoading = false;
+          countryCode = 'US';
+          getRiddles();
+        } */
       } else {
         querySnapshot = await firestore
             .collection('riddles')
@@ -73,8 +84,13 @@ class PaginationViewModel extends ChangeNotifier {
         if (querySnapshot.documents.length < documentLimit) {
           hasMore = false;
         }
-      } else {
-        print('Pagination: No more data to fetch');
+      } else if (countryCode != 'US') {
+        print(
+            'Pagination: There is not data for $countryCode, use default countryCode US');
+        isLoading = false;
+        //TO FIX
+        countryCode = 'US';
+        getRiddles();
       }
 
       querySnapshot.documents.forEach(
@@ -102,7 +118,7 @@ class PaginationViewModel extends ChangeNotifier {
     var location = LocationServices();
     var locationMap = await location.getGeoPoint();
     if (locationMap != null) {
-      countryCode = locationMap['location']['countryCode'];
+      countryCode = locationMap['location']['countryCode'] ?? 'US';
     } else {
       countryCode = 'US';
     }

@@ -12,6 +12,7 @@ import 'package:Tekel/core/custom/paginationRiddles.dart';
 import 'package:Tekel/core/services/db.dart';
 import 'package:Tekel/ui/widgets/custom/customDrawer.dart';
 import 'package:Tekel/ui/widgets/custom/customListRiddle.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 import '../widgets/custom/buttonPress.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ConfettiController controllerTopCenter;
   final FirebaseMessaging _fcm = FirebaseMessaging();
+  final RateMyApp _rateMyApp = RateMyApp();
 
   @override
   void initState() {
@@ -37,6 +39,23 @@ class _HomePageState extends State<HomePage> {
         Navigator.of(context).pushNamed('notificationsPage');
       },
     );
+
+    _rateMyApp.init().then((_) {
+      //TODO: Relocate this, to use localization
+      if (_rateMyApp.shouldOpenDialog) {
+        _rateMyApp.showRateDialog(
+          context,
+          title: '❤ Rate Tekel',
+          message:
+              'If you like Tekel, please take a little bit of your time to review it!',
+          rateButton: 'RATE',
+          noButton: 'NO THANKS',
+          laterButton: 'LATER',
+          ignoreIOS: false,
+          dialogStyle: DialogStyle(),
+        );
+      }
+    });
 
     super.initState();
   }

@@ -124,8 +124,5 @@
         "title": "Pistas",
         "askFriend": "Pregúntale a tu amigo",
         "showLastCharacter": "Mostrar ultimo caracter"
-    },
-    "connectionStatusBar": {
-        "title": "Por favor revise su conexion a internet"
     }
 }

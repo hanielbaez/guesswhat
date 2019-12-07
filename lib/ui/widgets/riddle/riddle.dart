@@ -1,8 +1,6 @@
 //Flutter import
 import 'dart:async';
 import 'package:confetti/confetti.dart';
-import 'package:connection_status_bar/connection_status_bar.dart';
-import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -101,16 +99,6 @@ class _RiddleLayaoutState extends State<RiddleLayaout> {
                   height: 15.0,
                 ),
               ],
-            ),
-          ),
-        ),
-        //Network connection status
-        EasyLocalizationProvider(
-          data: data,
-          child: ConnectionStatusBar(
-            title: Text(
-              AppLocalizations.of(context).tr('connectionStatusBar.title'),
-              style: TextStyle(color: Colors.white),
             ),
           ),
         ),

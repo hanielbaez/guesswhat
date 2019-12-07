@@ -1,5 +1,4 @@
 //Flutter and Dart import
-import 'package:Tekel/core/model/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -8,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
 //Self import
-import 'package:Tekel/core/custom/customGetToken.dart';
+import 'package:Tekel/core/model/user.dart';
 
 ///User authentication from Firebase
 class AuthenticationServices {
@@ -47,20 +46,17 @@ class AuthenticationServices {
   }
 
   ///SignIn the user with Facebook and set the firebase user
-  Future<bool> loginWithFacebook() async {
+  Future<String> loginWithFacebook() async {
     try {
       var facebookLoging = FacebookLogin();
-      var result = await facebookLoging
-          .logInWithReadPermissions(['email', 'public_profile']);
+      var result = await facebookLoging.logIn(['email', 'public_profile']);
 
       switch (result.status) {
         case FacebookLoginStatus.cancelledByUser:
-          print('Error: Facebook Login calcelled by user');
-          return false;
+          return '❗ ${result.errorMessage}';
           break;
         case FacebookLoginStatus.error:
-          print('Error: ${result.errorMessage}');
-          return false;
+          return '❗ ${result.errorMessage}';
           break;
         case FacebookLoginStatus.loggedIn:
           FacebookAccessToken myToken = result.accessToken;
@@ -68,17 +64,17 @@ class AuthenticationServices {
               FacebookAuthProvider.getCredential(accessToken: myToken.token);
           await _auth.signInWithCredential(credential);
           requestingPermission();
-          return true;
+          return '✅ Welcome Tekel';
           break;
       }
     } catch (e) {
-      print('loginWithFacebook: $e');
-      return false;
+      //!Show errpr message like this, is not a good practice.
+      return '❗ ${e.message}';
     }
-    return false; //unreachable
+    return 'unreachable'; //unreachable
   }
 
-  Future<bool> sigInWithGoogle() async {
+  Future<String> sigInWithGoogle() async {
     try {
       GoogleSignIn _googleSingIn = GoogleSignIn();
       GoogleSignInAccount googleSignInAccount = await _googleSingIn.signIn();
@@ -90,10 +86,11 @@ class AuthenticationServices {
       await _auth.signInWithCredential(credential);
 
       await requestingPermission();
-      return true;
+      return 'Welcome to tekel';
     } catch (e) {
-      print('sigInWithGoogle $e');
-      return false;
+      print(e);
+      //! PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 10: , null)
+      return '❗ Google error, please try with Facebook Loging';
     }
   }
 
@@ -115,9 +112,6 @@ class AuthenticationServices {
       PermissionGroup.camera,
       PermissionGroup.storage
     ];
-
-    //Getting the device Toke
-    saveDeviceToken();
 
     //Check all permission status
     _permissionList.forEach((permission) async {
