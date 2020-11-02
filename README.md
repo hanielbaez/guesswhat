@@ -1,16 +1,12 @@
-# guess_what
+# Teke (guess_what)
+the first riddle social app that allows you to play, create and share riddles
 
-A new Flutter project.
+## Features:
+1. Social: The user interacts with each other by, comment, likes, creating riddles, etc. 
+2. EndLess: The variety and quantity of riddles will be created by the users themselves. 
+3. Location: The riddles are organized by region or country which allows users to have access to a riddle
+related to them.
 
-## Getting Started
+Get a massive boost in memory and processing skill using Tekel. The first riddle social app that allows you to play, create and share riddles with an all community of puzzle lovers.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+![Tekel Trailer](https://github.com/NoobBaez/guesswhat/blob/master/final_5fa04d76e061c40032ff1397_644466.gif)
