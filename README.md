@@ -9,4 +9,7 @@ related to them.
 
 Get a massive boost in memory and processing skill using Tekel. The first riddle social app that allows you to play, create and share riddles with an all community of puzzle lovers.
 
-![Tekel Trailer](https://github.com/NoobBaez/guesswhat/blob/master/final_5fa04d76e061c40032ff1397_644466.gif)
+
+<p align="center">
+  <img src="https://github.com/NoobBaez/guesswhat/blob/master/final_5fa04d76e061c40032ff1397_644466.gif" width="600" title="Reverse Run Trailer">
+</p>
