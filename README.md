@@ -1,5 +1,5 @@
 # Teke (guess_what)
-the first riddle social app that allows you to play, create and share riddles
+The first riddle social app that allows you to play, create and share riddles
 
 ## Features:
 1. Social: The user interacts with each other by, comment, likes, creating riddles, etc. 
