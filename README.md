@@ -1,4 +1,4 @@
-# Teke (guess_what) - Unleash Your Riddle-Solving Prowess!
+# Teke (guess_what)
 
 <p align="center">
   <img src="https://github.com/NoobBaez/guesswhat/blob/master/final_5fa04d76e061c40032ff1397_644466.gif" width="600" title="Reverse Run Trailer">
