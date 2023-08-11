@@ -1,7 +1,7 @@
 # Teke (guess_what) - Unleash Your Riddle-Solving Prowess!
 
 <p align="center">
-  <img src="teke_logo.png" alt="Teke Logo" width="200" />
+  <img src="https://github.com/NoobBaez/guesswhat/blob/master/final_5fa04d76e061c40032ff1397_644466.gif" width="600" title="Reverse Run Trailer">
 </p>
 
 Welcome to Teke, the ultimate riddle social app that takes your puzzle-solving abilities to the next level. Whether you're a riddle enthusiast or a creative mind, Teke provides an immersive platform for playing, crafting, and sharing riddles with a vibrant community.
@@ -21,7 +21,3 @@ Welcome to Teke, the ultimate riddle social app that takes your puzzle-solving a
 ## Contribute:
 
 We believe in the power of collaboration. Join our [GitHub repository](https://github.com/yourusername/teke) to contribute to the Teke project. Help us improve, innovate, and create an even more engaging platform for riddle enthusiasts.
-
-<p align="center">
-  <img src="https://github.com/NoobBaez/guesswhat/blob/master/final_5fa04d76e061c40032ff1397_644466.gif" width="600" title="Reverse Run Trailer">
-</p>
